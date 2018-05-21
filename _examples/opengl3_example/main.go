@@ -41,10 +41,20 @@ func main() {
 	defer impl.Shutdown()
 
 	var clearColor imgui.Vec4
+	showAnotherWindow := true
 
 	for !window.ShouldClose() {
 		glfw.PollEvents()
 		impl.NewFrame()
+
+		if showAnotherWindow {
+			imgui.Begin("Another Window", &showAnotherWindow, 0)
+			imgui.TextUnformatted("Hello from another window!")
+			if imgui.Button("Close Me", imgui.Vec2{}) {
+				showAnotherWindow = false
+			}
+			imgui.End()
+		}
 
 		imgui.ShowDemoWindow(nil)
 

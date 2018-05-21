@@ -49,3 +49,57 @@ func ShowDemoWindow(open *bool) {
 	defer openFin()
 	C.iggShowDemoWindow(openArg)
 }
+
+// ShowUserGuide adds basic help/info block (not a window): how to manipulate ImGui as a end-user (mouse/keyboard controls).
+func ShowUserGuide() {
+	C.iggShowUserGuide()
+}
+
+// Begin pushes a new window to the stack and start appending to it.
+// You may append multiple times to the same window during the same frame.
+// If the open argument is provided, the window can be closed, in which case the value will be false after the call.
+//
+// Returns false if the window is currently not visible.
+// Regardless of the return value, End() must be called for each call to Begin().
+func Begin(id string, open *bool, flags int) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	openArg, openFin := wrapBool(open)
+	defer openFin()
+	return C.iggBegin(idArg, openArg, C.int(flags)) != 0
+}
+
+// End closes the scope for the previously opened window.
+// Every call to Begin() must be matched with a call to End().
+func End() {
+	C.iggEnd()
+}
+
+// BeginChild pushes a new child to the stack and starts appending to it.
+func BeginChild(id string, size Vec2, border bool, flags int) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	sizeArg, _ := size.wrapped()
+	return C.iggBeginChild(idArg, sizeArg, castBool(border), C.int(flags)) != 0
+}
+
+// EndChild closes the scope for the previously opened child.
+// Every call to BeginChild() must be matched with a call to EndChild().
+func EndChild() {
+	C.iggEndChild()
+}
+
+// TextUnformatted adds raw text without formatting.
+func TextUnformatted(text string) {
+	textArg, textFin := wrapString(text)
+	defer textFin()
+	C.iggTextUnformatted(textArg)
+}
+
+// Button returning true if it is pressed.
+func Button(id string, size Vec2) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	sizeArg, _ := size.wrapped()
+	return C.iggButton(idArg, sizeArg) != 0
+}

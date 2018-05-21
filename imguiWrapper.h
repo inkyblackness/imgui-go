@@ -21,6 +21,16 @@ extern void iggEndFrame(void);
 
 extern char const *iggGetVersion(void);
 extern void iggShowDemoWindow(IggBool *open);
+extern void iggShowUserGuide(void);
+
+extern IggBool iggBegin(char const *id, IggBool *open, int flags);
+extern void iggEnd(void);
+extern IggBool iggBeginChild(char const *id, IggVec2 const *size, IggBool border, int flags);
+extern void iggEndChild(void);
+
+extern void iggTextUnformatted(char const *text);
+
+extern IggBool iggButton(char const *label, IggVec2 const *size);
 
 #ifdef __cplusplus
 }

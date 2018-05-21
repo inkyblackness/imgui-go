@@ -64,3 +64,41 @@ void iggShowDemoWindow(IggBool *open)
 
    ImGui::ShowDemoWindow(openArg);
 }
+
+void iggShowUserGuide(void)
+{
+   ImGui::ShowUserGuide();
+}
+
+IggBool iggBegin(char const *id, IggBool *open, int flags)
+{
+   BoolWrapper openArg(open);
+   return ImGui::Begin(id, openArg, flags) ? 1 : 0;
+}
+
+void iggEnd(void)
+{
+   ImGui::End();
+}
+
+IggBool iggBeginChild(char const *id, IggVec2 const *size, IggBool border, int flags)
+{
+   Vec2Wrapper sizeArg(size);
+   return ImGui::BeginChild(id, *sizeArg, border, flags) ? 1 : 0;
+}
+
+void iggEndChild(void)
+{
+   ImGui::EndChild();
+}
+
+void iggTextUnformatted(char const *text)
+{
+   ImGui::TextUnformatted(text);
+}
+
+IggBool iggButton(char const *label, IggVec2 const *size)
+{
+   Vec2Wrapper sizeArg(size);
+   return ImGui::Button(label, *sizeArg) ? 1 : 0;
+}
