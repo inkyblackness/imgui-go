@@ -1,14 +1,18 @@
 package main
 
 import (
+	"runtime"
 	"time"
 
+	"fmt"
 	"github.com/go-gl/gl/v3.2-core/gl"
 	"github.com/go-gl/glfw/v3.2/glfw"
 	"github.com/inkyblackness/imgui-go"
 )
 
 func main() {
+	runtime.LockOSThread()
+
 	err := glfw.Init()
 	if err != nil {
 		panic(err)
@@ -40,13 +44,32 @@ func main() {
 	impl := imguiGlfw3Init(window)
 	defer impl.Shutdown()
 
+	showDemoWindow := false
+	showAnotherWindow := false
+	counter := 0
 	var clearColor imgui.Vec4
-	showAnotherWindow := true
 
 	for !window.ShouldClose() {
 		glfw.PollEvents()
 		impl.NewFrame()
 
+		// 1. Show a simple window.
+		// Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets automatically appears in a window called "Debug".
+		{
+			imgui.TextUnformatted("Hello, world!")
+
+			imgui.Checkbox("Demo Window", &showDemoWindow)
+			imgui.Checkbox("Another Window", &showAnotherWindow)
+
+			if imgui.Button("Button", imgui.Vec2{}) {
+				counter++
+			}
+			imgui.SameLine(0, -1)
+			imgui.TextUnformatted(fmt.Sprintf("counter = %d", counter))
+
+		}
+
+		// 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
 		if showAnotherWindow {
 			imgui.Begin("Another Window", &showAnotherWindow, 0)
 			imgui.TextUnformatted("Hello from another window!")
@@ -56,7 +79,11 @@ func main() {
 			imgui.End()
 		}
 
-		imgui.ShowDemoWindow(nil)
+		// 3. Show the ImGui demo window. Most of the sample code is in imgui.ShowDemoWindow().
+		// Read its code to learn more about Dear ImGui!
+		if showDemoWindow {
+			imgui.ShowDemoWindow(&showDemoWindow)
+		}
 
 		displayWidth, displayHeight := window.GetFramebufferSize()
 		gl.Viewport(0, 0, int32(displayWidth), int32(displayHeight))

@@ -31,6 +31,9 @@ extern void iggEndChild(void);
 extern void iggTextUnformatted(char const *text);
 
 extern IggBool iggButton(char const *label, IggVec2 const *size);
+extern IggBool iggCheckbox(char const *label, IggBool *selected);
+
+extern void iggSameLine(float posX, float spacingW);
 
 #ifdef __cplusplus
 }

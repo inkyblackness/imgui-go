@@ -103,3 +103,18 @@ func Button(id string, size Vec2) bool {
 	sizeArg, _ := size.wrapped()
 	return C.iggButton(idArg, sizeArg) != 0
 }
+
+// Checkbox creates a checkbox in the selected state.
+// The return value indicates if the selected state has changed.
+func Checkbox(id string, selected *bool) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	selectedArg, selectedFin := wrapBool(selected)
+	defer selectedFin()
+	return C.iggCheckbox(idArg, selectedArg) != 0
+}
+
+// SameLine is between widgets or groups to layout them horizontally.
+func SameLine(posX float32, spacingW float32) {
+	C.iggSameLine(C.float(posX), C.float(spacingW))
+}

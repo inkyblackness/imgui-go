@@ -102,3 +102,14 @@ IggBool iggButton(char const *label, IggVec2 const *size)
    Vec2Wrapper sizeArg(size);
    return ImGui::Button(label, *sizeArg) ? 1 : 0;
 }
+
+IggBool iggCheckbox(char const *label, IggBool *selected)
+{
+   BoolWrapper selectedArg(selected);
+   return ImGui::Checkbox(label, selectedArg) ? 1 : 0;
+}
+
+void iggSameLine(float posX, float spacingW)
+{
+   ImGui::SameLine(posX, spacingW);
+}
