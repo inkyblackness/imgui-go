@@ -61,19 +61,19 @@ func main() {
 			imgui.Checkbox("Demo Window", &showDemoWindow)
 			imgui.Checkbox("Another Window", &showAnotherWindow)
 
-			if imgui.Button("Button", imgui.Vec2{}) {
+			if imgui.Button("Button") {
 				counter++
 			}
-			imgui.SameLine(0, -1)
+			imgui.SameLine()
 			imgui.TextUnformatted(fmt.Sprintf("counter = %d", counter))
 
 		}
 
 		// 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
 		if showAnotherWindow {
-			imgui.Begin("Another Window", &showAnotherWindow, 0)
+			imgui.BeginV("Another Window", &showAnotherWindow, 0)
 			imgui.TextUnformatted("Hello from another window!")
-			if imgui.Button("Close Me", imgui.Vec2{}) {
+			if imgui.Button("Close Me") {
 				showAnotherWindow = false
 			}
 			imgui.End()

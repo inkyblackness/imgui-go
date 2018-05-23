@@ -11,6 +11,20 @@ This wrapper is
 * versioned
 * with a ported example using [GLFW3](https://github.com/go-gl/glfw) and [OpenGL3](https://github.com/go-gl/gl).
 
+## API naming
+
+Names of types and functions follow closely those of **Dear ImGui**.
+
+For functions that have optional parameters, the following schema is applied:
+* There is the "verbose" variant, followed by the letter `V`, such as `ButtonV(id string, size Vec2) bool`
+* Next to it there is the "idiomatic" variant, without any optional parameter, such as `Button(id string) bool`.
+* The idiomatic variant calls the verbose variant with the default values for the optional parameters.
+Functions that don't have optional parameters don't come in a verbose variant.
+
+The **Dear ImGui** functions `IO()` and `Style()` have been renamed to be `CurrentIO()` and `CurrentStyle()`.
+This was done because their returned types have the same name, causing a name clash.
+With the `Current` prefix, they also better describe what they return.  
+
 ## Version philosophy
 This library does not mirror the versions of the wrapped ImGui. The semantic versioning of this wrapper is defined as:
 * Major changes: (Breaking) changes in API or behaviour. Typically done through changes in ImGui.
