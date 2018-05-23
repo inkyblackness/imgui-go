@@ -138,3 +138,66 @@ func SameLineV(posX float32, spacingW float32) {
 func SameLine() {
 	SameLineV(0, -1)
 }
+
+// BeginMainMenuBar creates and appends to a full screen menu-bar.
+// If the return value is true, then EndMainMenuBar() must be called!
+func BeginMainMenuBar() bool {
+	return C.iggBeginMainMenuBar() != 0
+}
+
+// EndMainMenuBar finishes a main menu bar.
+// Only call EndMainMenuBar() if BeginMainMenuBar() returns true!
+func EndMainMenuBar() {
+	C.iggEndMainMenuBar()
+}
+
+// BeginMenuBar appends to menu-bar of current window.
+// This requires ImGuiWindowFlags_MenuBar flag set on parent window.
+// If the return value is true, then EndMenuBar() must be called!
+func BeginMenuBar() bool {
+	return C.iggBeginMenuBar() != 0
+}
+
+// EndMenuBar finishes a menu bar.
+// Only call EndMenuBar() if BeginMenuBar() returns true!
+func EndMenuBar() {
+	C.iggEndMenuBar()
+}
+
+// BeginMenuV creates a sub-menu entry.
+// If the return value is true, then EndMenu() must be called!
+func BeginMenuV(label string, enabled bool) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	return C.iggBeginMenu(labelArg, castBool(enabled)) != 0
+}
+
+// BeginMenu calls BeginMenuV(label, true).
+func BeginMenu(label string) bool {
+	return BeginMenuV(label, true)
+}
+
+// EndMenu finishes a sub-menu entry.
+// Only call EndMenu() if BeginMenu() returns true!
+func EndMenu() {
+	C.iggEndMenu()
+}
+
+// MenuItemV adds a menu item with given label.
+// Returns true if the item is selected.
+// If selected is not nil, it will be toggled when true is returned.
+// Shortcuts are displayed for convenience but not processed by ImGui at the moment.
+func MenuItemV(label string, shortcut string, selected *bool, enabled bool) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	shortcutArg, shortcutFin := wrapString(shortcut)
+	defer shortcutFin()
+	selectedArg, selectedFin := wrapBool(selected)
+	defer selectedFin()
+	return C.iggMenuItem(labelArg, shortcutArg, selectedArg, castBool(enabled)) != 0
+}
+
+// MenuItem calls MenuItemV(label, "", nil, true).
+func MenuItem(label string) bool {
+	return MenuItemV(label, "", nil, true)
+}

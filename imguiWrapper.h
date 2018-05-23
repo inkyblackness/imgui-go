@@ -35,6 +35,14 @@ extern IggBool iggCheckbox(char const *label, IggBool *selected);
 
 extern void iggSameLine(float posX, float spacingW);
 
+extern IggBool iggBeginMainMenuBar(void);
+extern void iggEndMainMenuBar(void);
+extern IggBool iggBeginMenuBar(void);
+extern void iggEndMenuBar(void);
+extern IggBool iggBeginMenu(char const *label, IggBool enabled);
+extern void iggEndMenu(void);
+extern IggBool iggMenuItem(char const *label, char const *shortcut, IggBool *selected, IggBool enabled);
+
 #ifdef __cplusplus
 }
 #endif

@@ -113,3 +113,39 @@ void iggSameLine(float posX, float spacingW)
 {
    ImGui::SameLine(posX, spacingW);
 }
+
+IggBool iggBeginMainMenuBar(void)
+{
+   return ImGui::BeginMainMenuBar() ? 1 : 0;
+}
+
+void iggEndMainMenuBar(void)
+{
+   ImGui::EndMainMenuBar();
+}
+
+IggBool iggBeginMenuBar(void)
+{
+   return ImGui::BeginMenuBar() ? 1 : 0;
+}
+
+void iggEndMenuBar(void)
+{
+   ImGui::EndMenuBar();
+}
+
+IggBool iggBeginMenu(char const *label, IggBool enabled)
+{
+   return ImGui::BeginMenu(label, enabled != 0) ? 1 : 0;
+}
+
+void iggEndMenu(void)
+{
+   ImGui::EndMenu();
+}
+
+IggBool iggMenuItem(char const *label, char const *shortcut, IggBool *selected, IggBool enabled)
+{
+   BoolWrapper selectedArg(selected);
+   return ImGui::MenuItem(label, shortcut, selected, enabled != 0) ? 1 : 0;
+}
