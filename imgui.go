@@ -152,7 +152,7 @@ func EndMainMenuBar() {
 }
 
 // BeginMenuBar appends to menu-bar of current window.
-// This requires ImGuiWindowFlags_MenuBar flag set on parent window.
+// This requires WindowFlagsMenuBar flag set on parent window.
 // If the return value is true, then EndMenuBar() must be called!
 func BeginMenuBar() bool {
 	return C.iggBeginMenuBar() != 0
