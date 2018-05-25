@@ -7,6 +7,8 @@ extern "C"
 {
 #endif
 
+extern void iggStyleSetColor(IggGuiStyle handle, int index, IggVec4 const *color);
+
 extern void iggStyleScaleAllSizes(IggGuiStyle handle, float scale);
 
 #ifdef __cplusplus
