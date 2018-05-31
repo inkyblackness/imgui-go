@@ -70,8 +70,8 @@ func BeginV(id string, open *bool, flags int) bool {
 }
 
 // Begin calls BeginV(id, nil, 0).
-func Begin(id string) {
-	BeginV(id, nil, 0)
+func Begin(id string) bool {
+	return BeginV(id, nil, 0)
 }
 
 // End closes the scope for the previously opened window.
@@ -89,8 +89,8 @@ func BeginChildV(id string, size Vec2, border bool, flags int) bool {
 }
 
 // BeginChild calls BeginChildV(id, Vec2{0,0}, false, 0).
-func BeginChild(id string) {
-	BeginChildV(id, Vec2{}, false, 0)
+func BeginChild(id string) bool {
+	return BeginChildV(id, Vec2{}, false, 0)
 }
 
 // EndChild closes the scope for the previously opened child.
