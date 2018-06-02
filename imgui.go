@@ -99,6 +99,31 @@ func EndChild() {
 	C.iggEndChild()
 }
 
+// SetNextWindowPosV sets next window position.
+// Call before Begin(). Use pivot=(0.5,0.5) to center on given point, etc.
+func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2){
+	posArg, _ := pos.wrapped()
+	pivotArg, _ := pivot.wrapped()
+	C.iggSetNextWindowPos(posArg, C.int(cond), pivotArg)
+}
+
+// SetNextWindowPos calls SetNextWindowPosV(pos, 0, Vec{0,0})
+func SetNextWindowPos(pos Vec2) {
+	SetNextWindowPosV(pos, 0, Vec2{})
+}
+
+// SetNextWindowSizeV sets next window size.
+// Set axis to 0.0 to force an auto-fit on this axis. Call before Begin().
+func SetNextWindowSizeV(size Vec2, cond Condition) {
+	sizeArg, _ := size.wrapped()
+	C.iggSetNextWindowSize(sizeArg, C.int(cond))
+}
+
+// SetNextWindowSize calls SetNextWindowSizeV(size, 0)
+func SetNextWindowSize(size Vec2) {
+	SetNextWindowSizeV(size, 0)
+}
+
 // TextUnformatted adds raw text without formatting.
 func TextUnformatted(text string) {
 	textArg, textFin := wrapString(text)
@@ -129,6 +154,11 @@ func Checkbox(id string, selected *bool) bool {
 	return C.iggCheckbox(idArg, selectedArg) != 0
 }
 
+// Separator is generally horizontal. Inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
+func Separator() {
+	C.iggSeparator()
+}
+
 // SameLineV is between widgets or groups to layout them horizontally.
 func SameLineV(posX float32, spacingW float32) {
 	C.iggSameLine(C.float(posX), C.float(spacingW))
@@ -137,6 +167,32 @@ func SameLineV(posX float32, spacingW float32) {
 // SameLine calls SameLineV(0, -1).
 func SameLine() {
 	SameLineV(0, -1)
+}
+
+// BeginGroup locks horizontal starting position + capture group bounding box into one "item"
+// (so you can use IsItemHovered() or layout primitives such as SameLine() on whole group, etc.)
+func BeginGroup() {
+	C.iggBeginGroup()
+}
+
+// EndGroup must be called for each call to BeginGroup().
+func EndGroup() {
+	C.iggEndGroup()
+}
+
+// SelectableV returns true if the user clicked it, so you can modify your selection state.
+// size.x==0.0: use remaining width, size.x>0.0: specify width.
+// size.y==0.0: use label height, size.y>0.0: specify height
+func SelectableV(label string, selected bool, flags int, size Vec2) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	sizeArg, _ := size.wrapped()
+	return C.iggSelectable(labelArg, castBool(selected), C.int(flags), sizeArg) != 0
+}
+
+// Selectable calls SelectableV(label, false, 0, Vec2{0, 0})
+func Selectable(label string) bool {
+	return SelectableV(label, false, 0, Vec2{})
 }
 
 // BeginMainMenuBar creates and appends to a full screen menu-bar.
@@ -187,17 +243,15 @@ func EndMenu() {
 // Returns true if the item is selected.
 // If selected is not nil, it will be toggled when true is returned.
 // Shortcuts are displayed for convenience but not processed by ImGui at the moment.
-func MenuItemV(label string, shortcut string, selected *bool, enabled bool) bool {
+func MenuItemV(label string, shortcut string, selected bool, enabled bool) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	shortcutArg, shortcutFin := wrapString(shortcut)
 	defer shortcutFin()
-	selectedArg, selectedFin := wrapBool(selected)
-	defer selectedFin()
-	return C.iggMenuItem(labelArg, shortcutArg, selectedArg, castBool(enabled)) != 0
+	return C.iggMenuItem(labelArg, shortcutArg, castBool(selected), castBool(enabled)) != 0
 }
 
-// MenuItem calls MenuItemV(label, "", nil, true).
+// MenuItem calls MenuItemV(label, "", false, true).
 func MenuItem(label string) bool {
-	return MenuItemV(label, "", nil, true)
+	return MenuItemV(label, "", false, true)
 }

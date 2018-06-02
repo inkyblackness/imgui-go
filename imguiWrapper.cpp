@@ -92,6 +92,19 @@ void iggEndChild(void)
    ImGui::EndChild();
 }
 
+void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
+{
+   Vec2Wrapper posArg(pos);
+   Vec2Wrapper pivotArg(pivot);
+   ImGui::SetNextWindowPos(*posArg, cond, *pivotArg);
+}
+
+void iggSetNextWindowSize(IggVec2 const *size, int cond)
+{
+   Vec2Wrapper sizeArg(size);
+   ImGui::SetNextWindowSize(*sizeArg, cond);
+}
+
 void iggTextUnformatted(char const *text)
 {
    ImGui::TextUnformatted(text);
@@ -109,9 +122,30 @@ IggBool iggCheckbox(char const *label, IggBool *selected)
    return ImGui::Checkbox(label, selectedArg) ? 1 : 0;
 }
 
+void iggSeparator(void)
+{
+   ImGui::Separator();
+}
+
 void iggSameLine(float posX, float spacingW)
 {
    ImGui::SameLine(posX, spacingW);
+}
+
+void iggBeginGroup(void)
+{
+   ImGui::BeginGroup();
+}
+
+void iggEndGroup(void)
+{
+   ImGui::EndGroup();
+}
+
+IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size)
+{
+   Vec2Wrapper sizeArg(size);
+   return ImGui::Selectable(label, selected != 0, flags, *sizeArg) ? 1 : 0;
 }
 
 IggBool iggBeginMainMenuBar(void)
@@ -144,8 +178,7 @@ void iggEndMenu(void)
    ImGui::EndMenu();
 }
 
-IggBool iggMenuItem(char const *label, char const *shortcut, IggBool *selected, IggBool enabled)
+IggBool iggMenuItem(char const *label, char const *shortcut, IggBool selected, IggBool enabled)
 {
-   BoolWrapper selectedArg(selected);
-   return ImGui::MenuItem(label, shortcut, selected, enabled != 0) ? 1 : 0;
+   return ImGui::MenuItem(label, shortcut, selected != 0, enabled != 0) ? 1 : 0;
 }
