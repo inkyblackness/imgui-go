@@ -124,6 +124,11 @@ func SetNextWindowSize(size Vec2) {
 	SetNextWindowSizeV(size, 0)
 }
 
+// SetNextWindowFocus sets next window to be focused / front-most. Call before Begin().
+func SetNextWindowFocus() {
+	C.iggSetNextWindowFocus()
+}
+
 // TextUnformatted adds raw text without formatting.
 func TextUnformatted(text string) {
 	textArg, textFin := wrapString(text)

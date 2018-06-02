@@ -105,6 +105,11 @@ void iggSetNextWindowSize(IggVec2 const *size, int cond)
    ImGui::SetNextWindowSize(*sizeArg, cond);
 }
 
+void iggSetNextWindowFocus(void)
+{
+   ImGui::SetNextWindowFocus();
+}
+
 void iggTextUnformatted(char const *text)
 {
    ImGui::TextUnformatted(text);

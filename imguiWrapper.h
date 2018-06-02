@@ -30,6 +30,7 @@ extern void iggEndChild(void);
 
 extern void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot);
 extern void iggSetNextWindowSize(IggVec2 const *size, int cond);
+extern void iggSetNextWindowFocus(void);
 
 extern void iggTextUnformatted(char const *text);
 
