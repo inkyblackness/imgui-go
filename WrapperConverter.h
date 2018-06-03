@@ -54,3 +54,4 @@ private:
 
 typedef TypeWrapper<bool, IggBool> BoolWrapper;
 typedef TypeWrapper<ImVec2, IggVec2> Vec2Wrapper;
+typedef TypeWrapper<ImVec4, IggVec4> Vec4Wrapper;

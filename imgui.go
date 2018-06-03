@@ -129,6 +129,23 @@ func SetNextWindowFocus() {
 	C.iggSetNextWindowFocus()
 }
 
+// PushStyleColor pushes the current style color for given ID on a stack and sets the given one.
+// To revert to the previous color, call PopStyleColor().
+func PushStyleColor(id StyleColorID, color Vec4) {
+	colorArg, _ := color.wrapped()
+	C.iggPushStyleColor(C.int(id), colorArg)
+}
+
+// PopStyleColorV reverts the given amount of style color changes.
+func PopStyleColorV(count int) {
+	C.iggPopStyleColor(C.int(count))
+}
+
+// PopStyleColor calls PopStyleColorV(1).
+func PopStyleColor() {
+	PopStyleColorV(1)
+}
+
 // TextUnformatted adds raw text without formatting.
 func TextUnformatted(text string) {
 	textArg, textFin := wrapString(text)

@@ -110,6 +110,17 @@ void iggSetNextWindowFocus(void)
    ImGui::SetNextWindowFocus();
 }
 
+void iggPushStyleColor(int index, IggVec4 const *col)
+{
+   Vec4Wrapper colArg(col);
+   ImGui::PushStyleColor(index, *colArg);
+}
+
+void iggPopStyleColor(int count)
+{
+   ImGui::PopStyleColor(count);
+}
+
 void iggTextUnformatted(char const *text)
 {
    ImGui::TextUnformatted(text);
