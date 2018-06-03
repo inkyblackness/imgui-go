@@ -197,3 +197,24 @@ IggBool iggMenuItem(char const *label, char const *shortcut, IggBool selected, I
 {
    return ImGui::MenuItem(label, shortcut, selected != 0, enabled != 0) ? 1 : 0;
 }
+
+void iggOpenPopup(char const *id)
+{
+   ImGui::OpenPopup(id);
+}
+
+IggBool iggBeginPopupModal(char const *name, IggBool *open, int flags)
+{
+   BoolWrapper openArg(open);
+   return ImGui::BeginPopupModal(name, openArg, flags) ? 1 : 0;
+}
+
+void iggEndPopup(void)
+{
+   ImGui::EndPopup();
+}
+
+void iggCloseCurrentPopup(void)
+{
+   ImGui::CloseCurrentPopup();
+}

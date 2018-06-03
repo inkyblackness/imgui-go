@@ -270,3 +270,39 @@ func MenuItemV(label string, shortcut string, selected bool, enabled bool) bool 
 func MenuItem(label string) bool {
 	return MenuItemV(label, "", false, true)
 }
+
+// OpenPopup marks popup as open (don't call every frame!).
+// Popups are closed when user click outside, or if CloseCurrentPopup() is called within a BeginPopup()/EndPopup() block.
+// By default, Selectable()/MenuItem() are calling CloseCurrentPopup().
+// Popup identifiers are relative to the current ID-stack (so OpenPopup and BeginPopup needs to be at the same level).
+func OpenPopup(id string) {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	C.iggOpenPopup(idArg)
+}
+
+// BeginPopupModalV creates modal dialog (regular window with title bar, block interactions behind the modal window,
+// can't close the modal window by clicking outside).
+func BeginPopupModalV(name string, open *bool, flags int) bool {
+	nameArg, nameFin := wrapString(name)
+	defer nameFin()
+	openArg, openFin := wrapBool(open)
+	defer openFin()
+	return C.iggBeginPopupModal(nameArg, openArg, C.int(flags)) != 0
+}
+
+// BeginPopupModal calls BeginPopupModalV(name, nil, 0)
+func BeginPopupModal(name string) bool {
+	return BeginPopupModalV(name, nil, 0)
+}
+
+// EndPopup finshes a popup. Only call EndPopup() if BeginPopupXXX() returns true!
+func EndPopup() {
+	C.iggEndPopup()
+}
+
+// CloseCurrentPopup closes the popup we have begin-ed into.
+// Clicking on a MenuItem or Selectable automatically close the current popup.
+func CloseCurrentPopup() {
+	C.iggCloseCurrentPopup()
+}

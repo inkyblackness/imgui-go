@@ -54,6 +54,11 @@ extern IggBool iggBeginMenu(char const *label, IggBool enabled);
 extern void iggEndMenu(void);
 extern IggBool iggMenuItem(char const *label, char const *shortcut, IggBool selected, IggBool enabled);
 
+extern void iggOpenPopup(char const *id);
+extern IggBool iggBeginPopupModal(char const *name, IggBool *open, int flags);
+extern void iggEndPopup(void);
+extern void iggCloseCurrentPopup(void);
+
 #ifdef __cplusplus
 }
 #endif
