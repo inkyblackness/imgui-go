@@ -147,6 +147,16 @@ void iggEndGroup(void)
    ImGui::EndGroup();
 }
 
+float iggGetTextLineHeight(void)
+{
+   return ImGui::GetTextLineHeight();
+}
+
+float iggGetTextLineHeightWithSpacing(void)
+{
+   return ImGui::GetTextLineHeightWithSpacing();
+}
+
 IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size)
 {
    Vec2Wrapper sizeArg(size);

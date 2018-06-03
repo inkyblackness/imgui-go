@@ -185,6 +185,16 @@ func EndGroup() {
 	C.iggEndGroup()
 }
 
+// TextLineHeight returns ~ FontSize.
+func TextLineHeight() float32 {
+	return float32(C.iggGetTextLineHeight())
+}
+
+// TextLineHeightWithSpacing returns ~ FontSize + style.ItemSpacing.y (distance in pixels between 2 consecutive lines of text).
+func TextLineHeightWithSpacing() float32 {
+	return float32(C.iggGetTextLineHeightWithSpacing())
+}
+
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
 // size.x==0.0: use remaining width, size.x>0.0: specify width.
 // size.y==0.0: use label height, size.y>0.0: specify height

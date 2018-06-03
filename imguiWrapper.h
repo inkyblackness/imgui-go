@@ -41,6 +41,8 @@ extern void iggSeparator(void);
 extern void iggSameLine(float posX, float spacingW);
 extern void iggBeginGroup(void);
 extern void iggEndGroup(void);
+extern float iggGetTextLineHeight(void);
+extern float iggGetTextLineHeightWithSpacing(void);
 
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
 
