@@ -40,6 +40,9 @@ extern void iggTextUnformatted(char const *text);
 extern IggBool iggButton(char const *label, IggVec2 const *size);
 extern IggBool iggCheckbox(char const *label, IggBool *selected);
 
+extern IggBool iggBeginCombo(char const *label, char const *previewValue, int flags);
+extern void iggEndCombo(void);
+
 extern void iggSeparator(void);
 extern void iggSameLine(float posX, float spacingW);
 extern void iggBeginGroup(void);

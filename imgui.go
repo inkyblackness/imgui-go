@@ -176,6 +176,26 @@ func Checkbox(id string, selected *bool) bool {
 	return C.iggCheckbox(idArg, selectedArg) != 0
 }
 
+// BeginComboV creates a combo box with complete control over the content to the user.
+// Call EndCombo() if this function returns true.
+func BeginComboV(label, previewValue string, flags int) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	previewValueArg, previewValueFin := wrapString(previewValue)
+	defer previewValueFin()
+	return C.iggBeginCombo(labelArg, previewValueArg, C.int(flags)) != 0
+}
+
+// BeginCombo calls BeginComboV(label, previewValue, 0).
+func BeginCombo(label, previewValue string) bool {
+	return BeginComboV(label, previewValue, 0)
+}
+
+// EndCombo must be called if BeginComboV() returned true.
+func EndCombo() {
+	C.iggEndCombo()
+}
+
 // Separator is generally horizontal. Inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
 func Separator() {
 	C.iggSeparator()

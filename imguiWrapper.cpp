@@ -138,6 +138,16 @@ IggBool iggCheckbox(char const *label, IggBool *selected)
    return ImGui::Checkbox(label, selectedArg) ? 1 : 0;
 }
 
+IggBool iggBeginCombo(char const *label, char const *previewValue, int flags)
+{
+   return ImGui::BeginCombo(label, previewValue, flags) ? 1 : 0;
+}
+
+void iggEndCombo(void)
+{
+   ImGui::EndCombo();
+}
+
 void iggSeparator(void)
 {
    ImGui::Separator();
