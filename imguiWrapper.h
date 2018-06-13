@@ -43,6 +43,8 @@ extern IggBool iggCheckbox(char const *label, IggBool *selected);
 extern IggBool iggBeginCombo(char const *label, char const *previewValue, int flags);
 extern void iggEndCombo(void);
 
+extern IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format);
+
 extern void iggSeparator(void);
 extern void iggSameLine(float posX, float spacingW);
 extern void iggBeginGroup(void);

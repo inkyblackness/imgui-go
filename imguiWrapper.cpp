@@ -148,6 +148,11 @@ void iggEndCombo(void)
    ImGui::EndCombo();
 }
 
+IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format)
+{
+   return ImGui::SliderInt(label, value, minValue, maxValue, format) ? 1 : 0;
+}
+
 void iggSeparator(void)
 {
    ImGui::Separator();

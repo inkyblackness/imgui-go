@@ -196,6 +196,22 @@ func EndCombo() {
 	C.iggEndCombo()
 }
 
+// SliderIntV creates a slider for integers.
+func SliderIntV(label string, value *int32, min, max int32, format string) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapInt32(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggSliderInt(labelArg, valueArg, C.int(min), C.int(max), formatArg) != 0
+}
+
+// SliderInt calls SliderIntV(label, value, min, max, "%d").
+func SliderInt(label string, value *int32, min, max int32) bool {
+	return SliderIntV(label, value, min, max, "%d")
+}
+
 // Separator is generally horizontal. Inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
 func Separator() {
 	C.iggSeparator()
