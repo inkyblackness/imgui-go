@@ -110,6 +110,22 @@ void iggSetNextWindowFocus(void)
    ImGui::SetNextWindowFocus();
 }
 
+void iggPushStyleVarFloat(int index, float value)
+{
+   ImGui::PushStyleVar(index, value);
+}
+
+void iggPushStyleVarVec2(int index, IggVec2 const *value)
+{
+   Vec2Wrapper valueArg(value);
+   ImGui::PushStyleVar(index, *valueArg);
+}
+
+void iggPopStyleVar(int count)
+{
+   ImGui::PopStyleVar(count);
+}
+
 void iggPushStyleColor(int index, IggVec4 const *col)
 {
    Vec4Wrapper colArg(col);
@@ -119,6 +135,16 @@ void iggPushStyleColor(int index, IggVec4 const *col)
 void iggPopStyleColor(int count)
 {
    ImGui::PopStyleColor(count);
+}
+
+void iggPushItemWidth(float width)
+{
+   ImGui::PushItemWidth(width);
+}
+
+void iggPopItemWidth(void)
+{
+   ImGui::PopItemWidth();
 }
 
 void iggPushTextWrapPos(float wrapPosX)

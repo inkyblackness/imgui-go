@@ -3,6 +3,54 @@ package imgui
 // #include "StyleWrapper.h"
 import "C"
 
+// StyleVarID identifies a style variable in the UI style.
+type StyleVarID int
+
+const (
+	// StyleVarAlpha is a float
+	StyleVarAlpha StyleVarID = iota
+	// StyleVarWindowPadding is a Vec2
+	StyleVarWindowPadding
+	// StyleVarWindowRounding is a float
+	StyleVarWindowRounding
+	// StyleVarWindowBorderSize is a float
+	StyleVarWindowBorderSize
+	// StyleVarWindowMinSize is a Vec2
+	StyleVarWindowMinSize
+	// StyleVarWindowTitleAlign is a Vec2
+	StyleVarWindowTitleAlign
+	// StyleVarChildRounding is a float
+	StyleVarChildRounding
+	// StyleVarChildBorderSize is a float
+	StyleVarChildBorderSize
+	// StyleVarPopupRounding is a float
+	StyleVarPopupRounding
+	// StyleVarPopupBorderSize is a float
+	StyleVarPopupBorderSize
+	// StyleVarFramePadding is a Vec2
+	StyleVarFramePadding
+	// StyleVarFrameRounding is a float
+	StyleVarFrameRounding
+	// StyleVarFrameBorderSize is a float
+	StyleVarFrameBorderSize
+	// StyleVarItemSpacing is a Vec2
+	StyleVarItemSpacing
+	// StyleVarItemInnerSpacing is a Vec2
+	StyleVarItemInnerSpacing
+	// StyleVarIndentSpacing is a float
+	StyleVarIndentSpacing
+	// StyleVarScrollbarSize is a float
+	StyleVarScrollbarSize
+	// StyleVarScrollbarRounding is a float
+	StyleVarScrollbarRounding
+	// StyleVarGrabMinSize is a float
+	StyleVarGrabMinSize
+	// StyleVarGrabRounding is a float
+	StyleVarGrabRounding
+	// StyleVarButtonTextAlign is a Vec2
+	StyleVarButtonTextAlign
+)
+
 // StyleColorID identifies a color in the UI style.
 type StyleColorID int
 

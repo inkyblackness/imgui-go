@@ -129,6 +129,27 @@ func SetNextWindowFocus() {
 	C.iggSetNextWindowFocus()
 }
 
+// PushStyleVarFloat pushes a float value on the stack to temporarily modify a style variable.
+func PushStyleVarFloat(id StyleVarID, value float32) {
+	C.iggPushStyleVarFloat(C.int(id), C.float(value))
+}
+
+// PushStyleVarVec2 pushes a Vec2 value on the stack to temporarily modify a style variable.
+func PushStyleVarVec2(id StyleVarID, value Vec2) {
+	valueArg, _ := value.wrapped()
+	C.iggPushStyleVarVec2(C.int(id), valueArg)
+}
+
+// PopStyleVarV reverts the given amount of style variable changes.
+func PopStyleVarV(count int) {
+	C.iggPopStyleVar(C.int(count))
+}
+
+// PopStyleVar calls PopStyleVarV(1).
+func PopStyleVar() {
+	PopStyleVarV(1)
+}
+
 // PushStyleColor pushes the current style color for given ID on a stack and sets the given one.
 // To revert to the previous color, call PopStyleColor().
 func PushStyleColor(id StyleColorID, color Vec4) {
@@ -144,6 +165,18 @@ func PopStyleColorV(count int) {
 // PopStyleColor calls PopStyleColorV(1).
 func PopStyleColor() {
 	PopStyleColorV(1)
+}
+
+// PushItemWidth sets width of items for the common item+label case, in pixels.
+// 0.0f = default to ~2/3 of windows width, >0.0f: width in pixels,
+// <0.0f align xx pixels to the right of window (so -1.0f always align width to the right side).
+func PushItemWidth(width float32) {
+	C.iggPushItemWidth(C.float(width))
+}
+
+// PopItemWidth must be called for each call to PushItemWidth().
+func PopItemWidth() {
+	C.iggPopItemWidth()
 }
 
 // PushTextWrapPosV defines word-wrapping for Text() commands.
