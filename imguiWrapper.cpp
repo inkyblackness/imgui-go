@@ -121,9 +121,24 @@ void iggPopStyleColor(int count)
    ImGui::PopStyleColor(count);
 }
 
+void iggPushTextWrapPos(float wrapPosX)
+{
+   ImGui::PushTextWrapPos(wrapPosX);
+}
+
+void iggPopTextWrapPos(void)
+{
+   ImGui::PopTextWrapPos();
+}
+
 void iggTextUnformatted(char const *text)
 {
    ImGui::TextUnformatted(text);
+}
+
+void iggText(char const *text)
+{
+   ImGui::Text("%s", text);
 }
 
 IggBool iggButton(char const *label, IggVec2 const *size)

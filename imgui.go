@@ -146,11 +146,35 @@ func PopStyleColor() {
 	PopStyleColorV(1)
 }
 
+// PushTextWrapPosV defines word-wrapping for Text() commands.
+// < 0.0f: no wrapping; 0.0f: wrap to end of window (or column); > 0.0f: wrap at 'wrapPosX' position in window local space.
+// Requires a matching call to PopTextWrapPos().
+func PushTextWrapPosV(wrapPosX float32)  {
+	C.iggPushTextWrapPos(C.float(wrapPosX))
+}
+
+// PushTextWrapPos calls PushTextWrapPosV(0.0).
+func PushTextWrapPos()  {
+	PushTextWrapPosV(0.0)
+}
+
+// PopTextWrapPos resets the last pushed position.
+func PopTextWrapPos() {
+	C.iggPopTextWrapPos()
+}
+
 // TextUnformatted adds raw text without formatting.
 func TextUnformatted(text string) {
 	textArg, textFin := wrapString(text)
 	defer textFin()
 	C.iggTextUnformatted(textArg)
+}
+
+// Text adds formatted text. See PushTextWrapPosV() or PushStyleColorV() for modifying the output.
+func Text(text string) {
+	textArg, textFin := wrapString(text)
+	defer textFin()
+	C.iggText(textArg)
 }
 
 // ButtonV returning true if it is pressed.

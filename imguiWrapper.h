@@ -35,7 +35,11 @@ extern void iggSetNextWindowFocus(void);
 extern void iggPushStyleColor(int index, IggVec4 const *col);
 extern void iggPopStyleColor(int count);
 
+extern void iggPushTextWrapPos(float wrapPosX);
+extern void iggPopTextWrapPos(void);
+
 extern void iggTextUnformatted(char const *text);
+extern void iggText(char const *text);
 
 extern IggBool iggButton(char const *label, IggVec2 const *size);
 extern IggBool iggCheckbox(char const *label, IggBool *selected);
