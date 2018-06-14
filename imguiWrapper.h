@@ -39,7 +39,6 @@ extern void iggPushTextWrapPos(float wrapPosX);
 extern void iggPopTextWrapPos(void);
 
 extern void iggTextUnformatted(char const *text);
-extern void iggText(char const *text);
 
 extern IggBool iggButton(char const *label, IggVec2 const *size);
 extern IggBool iggCheckbox(char const *label, IggBool *selected);

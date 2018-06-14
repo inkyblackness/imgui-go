@@ -163,18 +163,13 @@ func PopTextWrapPos() {
 	C.iggPopTextWrapPos()
 }
 
-// TextUnformatted adds raw text without formatting.
-func TextUnformatted(text string) {
-	textArg, textFin := wrapString(text)
-	defer textFin()
-	C.iggTextUnformatted(textArg)
-}
-
 // Text adds formatted text. See PushTextWrapPosV() or PushStyleColorV() for modifying the output.
+// Without any modified style stack, the text is unformatted.
 func Text(text string) {
 	textArg, textFin := wrapString(text)
 	defer textFin()
-	C.iggText(textArg)
+	// Internally we use ImGui::TextUnformatted, for the most direct call.
+	C.iggTextUnformatted(textArg)
 }
 
 // ButtonV returning true if it is pressed.
