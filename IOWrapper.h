@@ -7,6 +7,8 @@ extern "C"
 {
 #endif
 
+extern IggBool iggWantCaptureMouse(IggIO handle);
+
 extern IggFontAtlas iggIoGetFonts(IggIO handle);
 
 extern void iggIoSetDisplaySize(IggIO handle, IggVec2 const *value);

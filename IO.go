@@ -9,6 +9,14 @@ type IO struct {
 	handle C.IggIO
 }
 
+// WantCaptureMouse returns true if imgui will use the mouse inputs.
+// Do not dispatch them to your main game/application in this case.
+// In either case, always pass on mouse inputs to imgui.
+// (e.g. unclicked mouse is hovering over an imgui window, widget is active, mouse was clicked over an imgui window, etc.)
+func (io IO) WantCaptureMouse() bool {
+	return C.iggWantCaptureMouse(io.handle) != 0
+}
+
 // SetDisplaySize sets the size in pixels.
 func (io IO) SetDisplaySize(value Vec2) {
 	out, _ := value.wrapped()

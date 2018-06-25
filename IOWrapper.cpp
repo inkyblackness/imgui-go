@@ -2,6 +2,12 @@
 #include "IOWrapper.h"
 #include "WrapperConverter.h"
 
+IggBool iggWantCaptureMouse(IggIO handle)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   return io->WantCaptureMouse ? 1 : 0;
+}
+
 IggFontAtlas iggIoGetFonts(IggIO handle)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
