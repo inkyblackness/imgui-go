@@ -13,6 +13,7 @@ typedef void *IggDrawCmd;
 typedef void *IggDrawData;
 typedef void *IggDrawList;
 typedef void *IggFontAtlas;
+typedef void *IggFont;
 typedef void *IggGuiStyle;
 typedef void *IggIO;
 

@@ -32,11 +32,13 @@ extern void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *piv
 extern void iggSetNextWindowSize(IggVec2 const *size, int cond);
 extern void iggSetNextWindowFocus(void);
 
+extern void iggPushFont(IggFont handle);
+extern void iggPopFont(void);
+extern void iggPushStyleColor(int index, IggVec4 const *col);
+extern void iggPopStyleColor(int count);
 extern void iggPushStyleVarFloat(int index, float value);
 extern void iggPushStyleVarVec2(int index, IggVec2 const *value);
 extern void iggPopStyleVar(int count);
-extern void iggPushStyleColor(int index, IggVec4 const *col);
-extern void iggPopStyleColor(int count);
 
 extern void iggPushItemWidth(float width);
 extern void iggPopItemWidth(void);
@@ -44,6 +46,7 @@ extern void iggPushTextWrapPos(float wrapPosX);
 extern void iggPopTextWrapPos(void);
 
 extern void iggTextUnformatted(char const *text);
+extern void iggLabelText(char const *label, char const *text);
 
 extern IggBool iggButton(char const *label, IggVec2 const *size);
 extern IggBool iggCheckbox(char const *label, IggBool *selected);

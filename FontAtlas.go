@@ -18,6 +18,21 @@ func (atlas FontAtlas) handle() C.IggFontAtlas {
 	return C.IggFontAtlas(atlas)
 }
 
+// AddFontDefault adds the default font to the atlas. This is done by default if you do not call any
+// of the AddFont* methods before retrieving the texture data.
+func (atlas FontAtlas) AddFontDefault() Font {
+	fontHandle := C.iggAddFontDefault(atlas.handle())
+	return Font(fontHandle)
+}
+
+// AddFontFromFileTTF attempts to load a font from given TTF file.
+func (atlas FontAtlas) AddFontFromFileTTF(filename string, sizePixels float32) Font {
+	filenameArg, filenameFin := wrapString(filename)
+	defer filenameFin()
+	fontHandle := C.iggAddFontFromFileTTF(atlas.handle(), filenameArg, C.float(sizePixels))
+	return Font(fontHandle)
+}
+
 // TextureDataAlpha8 returns the image in 8-bit alpha values for the font atlas.
 // The returned image is valid as long as the font atlas is.
 func (atlas FontAtlas) TextureDataAlpha8() *Alpha8Image {

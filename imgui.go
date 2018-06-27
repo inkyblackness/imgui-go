@@ -129,6 +129,33 @@ func SetNextWindowFocus() {
 	C.iggSetNextWindowFocus()
 }
 
+// PushFont adds the given font on the stack. Use DefaultFont to refer to the default font.
+func PushFont(font Font) {
+	C.iggPushFont(font.handle())
+}
+
+// PopFont removes the previously pushed font from the stack.
+func PopFont() {
+	C.iggPopFont()
+}
+
+// PushStyleColor pushes the current style color for given ID on a stack and sets the given one.
+// To revert to the previous color, call PopStyleColor().
+func PushStyleColor(id StyleColorID, color Vec4) {
+	colorArg, _ := color.wrapped()
+	C.iggPushStyleColor(C.int(id), colorArg)
+}
+
+// PopStyleColorV reverts the given amount of style color changes.
+func PopStyleColorV(count int) {
+	C.iggPopStyleColor(C.int(count))
+}
+
+// PopStyleColor calls PopStyleColorV(1).
+func PopStyleColor() {
+	PopStyleColorV(1)
+}
+
 // PushStyleVarFloat pushes a float value on the stack to temporarily modify a style variable.
 func PushStyleVarFloat(id StyleVarID, value float32) {
 	C.iggPushStyleVarFloat(C.int(id), C.float(value))
@@ -148,23 +175,6 @@ func PopStyleVarV(count int) {
 // PopStyleVar calls PopStyleVarV(1).
 func PopStyleVar() {
 	PopStyleVarV(1)
-}
-
-// PushStyleColor pushes the current style color for given ID on a stack and sets the given one.
-// To revert to the previous color, call PopStyleColor().
-func PushStyleColor(id StyleColorID, color Vec4) {
-	colorArg, _ := color.wrapped()
-	C.iggPushStyleColor(C.int(id), colorArg)
-}
-
-// PopStyleColorV reverts the given amount of style color changes.
-func PopStyleColorV(count int) {
-	C.iggPopStyleColor(C.int(count))
-}
-
-// PopStyleColor calls PopStyleColorV(1).
-func PopStyleColor() {
-	PopStyleColorV(1)
 }
 
 // PushItemWidth sets width of items for the common item+label case, in pixels.
@@ -203,6 +213,15 @@ func Text(text string) {
 	defer textFin()
 	// Internally we use ImGui::TextUnformatted, for the most direct call.
 	C.iggTextUnformatted(textArg)
+}
+
+// LabelText adds text+label aligned the same way as value+label widgets.
+func LabelText(label, text string) {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	textArg, textFin := wrapString(text)
+	defer textFin()
+	C.iggLabelText(labelArg, textArg)
 }
 
 // ButtonV returning true if it is pressed.

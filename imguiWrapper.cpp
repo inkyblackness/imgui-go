@@ -110,6 +110,28 @@ void iggSetNextWindowFocus(void)
    ImGui::SetNextWindowFocus();
 }
 
+void iggPushFont(IggFont handle)
+{
+   ImFont *font = reinterpret_cast<ImFont *>(handle);
+   ImGui::PushFont(font);
+}
+
+void iggPopFont(void)
+{
+   ImGui::PopFont();
+}
+
+void iggPushStyleColor(int index, IggVec4 const *col)
+{
+   Vec4Wrapper colArg(col);
+   ImGui::PushStyleColor(index, *colArg);
+}
+
+void iggPopStyleColor(int count)
+{
+   ImGui::PopStyleColor(count);
+}
+
 void iggPushStyleVarFloat(int index, float value)
 {
    ImGui::PushStyleVar(index, value);
@@ -124,17 +146,6 @@ void iggPushStyleVarVec2(int index, IggVec2 const *value)
 void iggPopStyleVar(int count)
 {
    ImGui::PopStyleVar(count);
-}
-
-void iggPushStyleColor(int index, IggVec4 const *col)
-{
-   Vec4Wrapper colArg(col);
-   ImGui::PushStyleColor(index, *colArg);
-}
-
-void iggPopStyleColor(int count)
-{
-   ImGui::PopStyleColor(count);
 }
 
 void iggPushItemWidth(float width)
@@ -160,6 +171,11 @@ void iggPopTextWrapPos(void)
 void iggTextUnformatted(char const *text)
 {
    ImGui::TextUnformatted(text);
+}
+
+void iggLabelText(char const *label, char const *text)
+{
+   ImGui::LabelText(label, "%s", text);
 }
 
 IggBool iggButton(char const *label, IggVec2 const *size)
