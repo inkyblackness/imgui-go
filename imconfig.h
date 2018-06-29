@@ -13,9 +13,12 @@
 
 #pragma once
 
+extern "C" void iggAssert(int result, char const *expression, char const *file, int line);
+
 //---- Define assertion handler. Defaults to calling assert().
 //#define IM_ASSERT(_EXPR)  MyAssert(_EXPR)
 //#define IM_ASSERT(_EXPR)  ((void)(_EXPR))     // Disable asserts
+#define IM_ASSERT(_EXPR) iggAssert((_EXPR) != 0, #_EXPR, __FILE__, __LINE__)
 
 //---- Define attributes of all API symbols declarations, e.g. for DLL under Windows.
 //#define IMGUI_API __declspec( dllexport )
