@@ -129,6 +129,12 @@ func SetNextWindowFocus() {
 	C.iggSetNextWindowFocus()
 }
 
+// SetNextWindowBgAlpha sets next window background color alpha.
+// Helper to easily modify ImGuiCol_WindowBg/ChildBg/PopupBg.
+func SetNextWindowBgAlpha(value float32) {
+	C.iggSetNextWindowBgAlpha(C.float(value))
+}
+
 // PushFont adds the given font on the stack. Use DefaultFont to refer to the default font.
 func PushFont(font Font) {
 	C.iggPushFont(font.handle())

@@ -110,6 +110,11 @@ void iggSetNextWindowFocus(void)
    ImGui::SetNextWindowFocus();
 }
 
+void iggSetNextWindowBgAlpha(float value)
+{
+   ImGui::SetNextWindowBgAlpha(value);
+}
+
 void iggPushFont(IggFont handle)
 {
    ImFont *font = reinterpret_cast<ImFont *>(handle);
