@@ -212,6 +212,18 @@ func PopTextWrapPos() {
 	C.iggPopTextWrapPos()
 }
 
+// PushID pushes the given identifier into the ID stack. IDs are hash of the entire stack!
+func PushID(id string) {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	C.iggPushID(idArg)
+}
+
+// PopID removes the last pushed identifier from the ID stack.
+func PopID() {
+	C.iggPopID()
+}
+
 // Text adds formatted text. See PushTextWrapPosV() or PushStyleColorV() for modifying the output.
 // Without any modified style stack, the text is unformatted.
 func Text(text string) {

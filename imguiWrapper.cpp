@@ -173,6 +173,15 @@ void iggPopTextWrapPos(void)
    ImGui::PopTextWrapPos();
 }
 
+void iggPushID(char const *id)
+{
+   ImGui::PushID(id);
+}
+void iggPopID(void)
+{
+   ImGui::PopID();
+}
+
 void iggTextUnformatted(char const *text)
 {
    ImGui::TextUnformatted(text);
