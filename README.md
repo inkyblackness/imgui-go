@@ -25,6 +25,12 @@ The **Dear ImGui** functions `IO()` and `Style()` have been renamed to be `Curre
 This was done because their returned types have the same name, causing a name clash.
 With the `Current` prefix, they also better describe what they return.  
 
+## API philosophy
+This library does not intend to export all the functions of the wrapped ImGui. The following filter applies as a rule of thumb:
+* Functions marked as "obsolete" are not available. (The corresponding C code isn't even compiled - disabled by define)
+* "Shortcut" Functions, which combine language features and/or other ImGui functions, are not available. Prime example are the Text*() functions for instance: Text formatting should be done with fmt.Sprintf(), and style formatting with the corresponding Push/Pop functions.
+* Functions that are not needed by InkyBlackness are ignored. This doesn't mean that they can't be in the wrapper, they are simply not a priority. Feel free to propose an implementation or make a pull request, respecting the previous points :)
+
 ## Version philosophy
 This library does not mirror the versions of the wrapped ImGui. The semantic versioning of this wrapper is defined as:
 * Major changes: (Breaking) changes in API or behaviour. Typically done through changes in ImGui.
