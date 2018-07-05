@@ -17,6 +17,6 @@ This wrapper exposes minimal functionality of **Dear ImGui**. Ideally, this func
 
 ### Extensions
 At the moment, this library is primarily used by **InkyBlackness**. If you can and want to make use of this library in your own projects, you are happy to do so. Pull-requests with extensions are happily accepted, provided that they uphold the following minimum requirements:
-* Code is properly formatted & linted (use [metalinter](https://github.com/alecthomas/gometalinter) for a full check)
+* Code is properly formatted & linted (use [golangci-lint](https://github.com/golangci/golangci-lint) for a full check)
 * Public Go API is documented (copied documentation from **Dear ImGui** is acceptable and recommended, assuming it is adapted regarding type names)
 * API and version philosophies are respected (see README.md)

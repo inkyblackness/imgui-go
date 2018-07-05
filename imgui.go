@@ -10,7 +10,7 @@ func Version() string {
 
 // CurrentIO returns access to the ImGui communication struct for the currently active context.
 func CurrentIO() IO {
-	return IO{C.iggGetCurrentIO()}
+	return IO{handle:C.iggGetCurrentIO()}
 }
 
 // CurrentStyle returns the UI Style for the currently active context.
