@@ -255,6 +255,22 @@ func Button(id string) bool {
 	return ButtonV(id, Vec2{})
 }
 
+// ImageV adds an image based on given texture ID.
+// Refer to TextureID what this represents and how it is drawn.
+func ImageV(id TextureID, size Vec2, uv0, uv1 Vec2, tintCol, borderCol Vec4) {
+	sizeArg, _ := size.wrapped()
+	uv0Arg, _ := uv0.wrapped()
+	uv1Arg, _ := uv1.wrapped()
+	tintColArg, _ := tintCol.wrapped()
+	borderColArg, _ := borderCol.wrapped()
+	C.iggImage(id.handle(), sizeArg, uv0Arg, uv1Arg, tintColArg, borderColArg)
+}
+
+// Image calls ImageV(id, size, Vec2{0,0}, Vec2{1,1}, Vec4{1,1,1,1}, Vec4{0,0,0,0}).
+func Image(id TextureID, size Vec2) {
+	ImageV(id, size, Vec2{0,0}, Vec2{1,1}, Vec4{1,1,1,1}, Vec4{0,0,0,0})
+}
+
 // Checkbox creates a checkbox in the selected state.
 // The return value indicates if the selected state has changed.
 func Checkbox(id string, selected *bool) bool {

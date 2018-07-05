@@ -198,6 +198,18 @@ IggBool iggButton(char const *label, IggVec2 const *size)
    return ImGui::Button(label, *sizeArg) ? 1 : 0;
 }
 
+void iggImage(IggTextureID textureID,
+   IggVec2 const *size, IggVec2 const *uv0, IggVec2 const *uv1,
+   IggVec4 const *tintCol, IggVec4 const *borderCol)
+{
+   Vec2Wrapper sizeArg(size);
+   Vec2Wrapper uv0Arg(uv0);
+   Vec2Wrapper uv1Arg(uv1);
+   Vec4Wrapper tintColArg(tintCol);
+   Vec4Wrapper borderColArg(borderCol);
+   ImGui::Image(static_cast<ImTextureID>(textureID), *sizeArg, *uv0Arg, *uv1Arg, *tintColArg, *borderColArg);
+}
+
 IggBool iggCheckbox(char const *label, IggBool *selected)
 {
    BoolWrapper selectedArg(selected);
