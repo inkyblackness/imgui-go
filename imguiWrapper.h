@@ -56,6 +56,10 @@ extern IggBool iggButton(char const *label, IggVec2 const *size);
 extern void iggImage(IggTextureID textureID,
 	IggVec2 const *size, IggVec2 const *uv0, IggVec2 const *uv1,
 	IggVec4 const *tintCol, IggVec4 const *borderCol);
+extern IggBool iggImageButton(IggTextureID textureID,
+	IggVec2 const *size, IggVec2 const *uv0, IggVec2 const *uv1,
+	int framePadding, IggVec4 const *bgCol,
+	IggVec4 const *tintCol);
 extern IggBool iggCheckbox(char const *label, IggBool *selected);
 
 extern IggBool iggBeginCombo(char const *label, char const *previewValue, int flags);

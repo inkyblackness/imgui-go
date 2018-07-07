@@ -271,6 +271,23 @@ func Image(id TextureID, size Vec2) {
 	ImageV(id, size, Vec2{0,0}, Vec2{1,1}, Vec4{1,1,1,1}, Vec4{0,0,0,0})
 }
 
+// ImageButtonV adds a button with an image, based on given texture ID.
+// Refer to TextureID what this represents and how it is drawn.
+// <0 framePadding uses default frame padding settings. 0 for no padding.
+func ImageButtonV(id TextureID, size Vec2, uv0, uv1 Vec2, framePadding int, bgCol Vec4, tintCol Vec4) bool {
+	sizeArg, _ := size.wrapped()
+	uv0Arg, _ := uv0.wrapped()
+	uv1Arg, _ := uv1.wrapped()
+	bgColArg, _ := bgCol.wrapped()
+	tintColArg, _ := tintCol.wrapped()
+	return C.iggImageButton(id.handle(), sizeArg, uv0Arg, uv1Arg, C.int(framePadding), bgColArg, tintColArg) != 0
+}
+
+// ImageButton calls ImageButtonV(id, size, Vec2{0,0}, Vec2{1,1}, -1, Vec4{0,0,0,0}, Vec4{1,1,1,1}).
+func ImageButton(id TextureID, size Vec2) bool {
+	return ImageButtonV(id, size, Vec2{0,0}, Vec2{1,1}, -1, Vec4{0,0,0,0}, Vec4{1,1,1,1})
+}
+
 // Checkbox creates a checkbox in the selected state.
 // The return value indicates if the selected state has changed.
 func Checkbox(id string, selected *bool) bool {
