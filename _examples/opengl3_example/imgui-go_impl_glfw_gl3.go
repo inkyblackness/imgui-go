@@ -9,6 +9,32 @@ import (
 	"github.com/inkyblackness/imgui-go"
 )
 
+// enum ImGuiKey_
+const (
+	ImGuiKeyTab        int = 0
+	ImGuiKeyLeftArrow  int = 1
+	ImGuiKeyRightArrow int = 2
+	ImGuiKeyUpArrow    int = 3
+	ImGuiKeyDownArrow  int = 4
+	ImGuiKeyPageUp     int = 5
+	ImGuiKeyPageDown   int = 6
+	ImGuiKeyHome       int = 7
+	ImGuiKeyEnd        int = 8
+	ImGuiKeyInsert     int = 9
+	ImGuiKeyDelete     int = 10
+	ImGuiKeyBackspace  int = 11
+	ImGuiKeySpace      int = 12
+	ImGuiKeyEnter      int = 13
+	ImGuiKeyEscape     int = 14
+	ImGuiKeyA          int = 15 // for text edit CTRL+A: select all
+	ImGuiKeyC          int = 16 // for text edit CTRL+C: copy
+	ImGuiKeyV          int = 17 // for text edit CTRL+V: paste
+	ImGuiKeyX          int = 18 // for text edit CTRL+X: cut
+	ImGuiKeyY          int = 19 // for text edit CTRL+Y: redo
+	ImGuiKeyZ          int = 20 // for text edit CTRL+Z: undo
+	ImGuiKeyCOUNT      int = 21
+)
+
 type imguiGlfw3 struct {
 	window           *glfw.Window
 	time             float64
@@ -33,6 +59,30 @@ func imguiGlfw3Init(window *glfw.Window) *imguiGlfw3 {
 		window:      window,
 		glslVersion: "#version 150",
 	}
+
+	io := imgui.CurrentIO()
+	// Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
+	io.KeyMap(int(ImGuiKeyTab), int(glfw.KeyTab))
+	io.KeyMap(int(ImGuiKeyLeftArrow), int(glfw.KeyLeft))
+	io.KeyMap(int(ImGuiKeyRightArrow), int(glfw.KeyRight))
+	io.KeyMap(int(ImGuiKeyUpArrow), int(glfw.KeyUp))
+	io.KeyMap(int(ImGuiKeyDownArrow), int(glfw.KeyDown))
+	io.KeyMap(int(ImGuiKeyPageUp), int(glfw.KeyPageUp))
+	io.KeyMap(int(ImGuiKeyPageDown), int(glfw.KeyPageDown))
+	io.KeyMap(int(ImGuiKeyHome), int(glfw.KeyHome))
+	io.KeyMap(int(ImGuiKeyEnd), int(glfw.KeyEnd))
+	io.KeyMap(int(ImGuiKeyInsert), int(glfw.KeyInsert))
+	io.KeyMap(int(ImGuiKeyDelete), int(glfw.KeyDelete))
+	io.KeyMap(int(ImGuiKeyBackspace), int(glfw.KeyBackspace))
+	io.KeyMap(int(ImGuiKeySpace), int(glfw.KeySpace))
+	io.KeyMap(int(ImGuiKeyEnter), int(glfw.KeyEnter))
+	io.KeyMap(int(ImGuiKeyEscape), int(glfw.KeyEscape))
+	io.KeyMap(int(ImGuiKeyA), int(glfw.KeyA))
+	io.KeyMap(int(ImGuiKeyC), int(glfw.KeyC))
+	io.KeyMap(int(ImGuiKeyV), int(glfw.KeyV))
+	io.KeyMap(int(ImGuiKeyX), int(glfw.KeyX))
+	io.KeyMap(int(ImGuiKeyY), int(glfw.KeyY))
+	io.KeyMap(int(ImGuiKeyZ), int(glfw.KeyZ))
 
 	impl.installCallbacks()
 
@@ -363,6 +413,8 @@ func (impl *imguiGlfw3) invalidateDeviceObjects() {
 func (impl *imguiGlfw3) installCallbacks() {
 	impl.window.SetMouseButtonCallback(impl.mouseButtonChange)
 	impl.window.SetScrollCallback(impl.mouseScrollChange)
+	impl.window.SetKeyCallback(impl.keyChange)
+	impl.window.SetCharCallback(impl.charChange)
 }
 
 var buttonIndexByID = map[glfw.MouseButton]int{
@@ -388,4 +440,27 @@ func (impl *imguiGlfw3) mouseButtonChange(window *glfw.Window, rawButton glfw.Mo
 func (impl *imguiGlfw3) mouseScrollChange(window *glfw.Window, x, y float64) {
 	io := imgui.CurrentIO()
 	io.AddMouseWheelDelta(float32(x), float32(y))
+}
+
+func (impl *imguiGlfw3) keyChange(window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
+	io := imgui.CurrentIO()
+	if action == glfw.Press {
+		io.KeyPress(int(key))
+	}
+	if action == glfw.Release {
+		io.KeyRelease(int(key))
+	}
+
+	// Modifiers are not reliable across systems
+	io.KeyCtrl(int(glfw.KeyLeftControl), int(glfw.KeyRightControl))
+	io.KeyShift(int(glfw.KeyLeftShift), int(glfw.KeyRightShift))
+	io.KeyAlt(int(glfw.KeyLeftAlt), int(glfw.KeyRightAlt))
+	io.KeySuper(int(glfw.KeyLeftSuper), int(glfw.KeyRightSuper))
+}
+
+func (impl *imguiGlfw3) charChange(window *glfw.Window, char rune) {
+	io := imgui.CurrentIO()
+	if char > 0 && char < 0x10000 {
+		io.AddInputCharacter(char)
+	}
 }

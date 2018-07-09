@@ -17,6 +17,19 @@ func (io IO) WantCaptureMouse() bool {
 	return C.iggWantCaptureMouse(io.handle) != 0
 }
 
+// WantCaptureKeyboard returns true if imgui will use the keyboard inputs.
+// Do not dispatch them to your main game/application (in both cases, always pass keyboard inputs to imgui).
+// (e.g. InputText active, or an imgui window is focused and navigation is enabled, etc.).
+func (io IO) WantCaptureKeyboard() bool {
+	return C.iggWantCaptureKeyboard(io.handle) != 0
+}
+
+// WantTextInput is true, you may display an on-screen keyboard.
+// This is set by ImGui when it wants textual keyboard input to happen (e.g. when a InputText widget is active).
+func (io IO) WantTextInput() bool {
+	return C.iggWantTextInput(io.handle) != 0
+}
+
 // SetDisplaySize sets the size in pixels.
 func (io IO) SetDisplaySize(value Vec2) {
 	out, _ := value.wrapped()
@@ -63,4 +76,44 @@ func (io IO) SetDeltaTime(value float32) {
 // SetFontGlobalScale sets the global scaling factor for all fonts.
 func (io IO) SetFontGlobalScale(value float32) {
 	C.iggIoSetFontGlobalScale(io.handle, C.float(value))
+}
+
+// KeyPress sets the KeysDown flag
+func (io IO) KeyPress(key int) {
+	C.iggIoKeyPress(io.handle, C.int(key))
+}
+
+// KeyRelease clear the KeysDown flag
+func (io IO) KeyRelease(key int) {
+	C.iggIoKeyRelease(io.handle, C.int(key))
+}
+
+// KeyMap maps a key into the KeysDown array which represents your "native" keyboard state
+func (io IO) KeyMap(imguiKey int, glfwKey int) {
+	C.iggIoKeyMap(io.handle, C.int(imguiKey), C.int(glfwKey))
+}
+
+// KeyCtrl sets the keyboard modifier control pressed
+func (io IO) KeyCtrl(leftCtrl int, rigthCtrl int) {
+	C.iggIoKeyCtrl(io.handle, C.int(leftCtrl), C.int(rigthCtrl))
+}
+
+// KeyShift sets the keyboard modifier shift pressed
+func (io IO) KeyShift(leftShift int, rigthShift int) {
+	C.iggIoKeyShift(io.handle, C.int(leftShift), C.int(rigthShift))
+}
+
+// KeyAlt sets the keyboard modifier alt pressed
+func (io IO) KeyAlt(leftAlt int, rigthAlt int) {
+	C.iggIoKeyAlt(io.handle, C.int(leftAlt), C.int(rigthAlt))
+}
+
+// KeySuper sets the keyboard modifier super pressed
+func (io IO) KeySuper(leftSuper int, rigthSuper int) {
+	C.iggIoKeySuper(io.handle, C.int(leftSuper), C.int(rigthSuper))
+}
+
+// AddInputCharacter adds a new character into InputCharacters[].
+func (io IO) AddInputCharacter(char rune) {
+	C.iggIoAddInputCharacter(io.handle, C.ushort(char))
 }
