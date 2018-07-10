@@ -113,7 +113,9 @@ func (io IO) KeySuper(leftSuper int, rigthSuper int) {
 	C.iggIoKeySuper(io.handle, C.int(leftSuper), C.int(rigthSuper))
 }
 
-// AddInputCharactersUTF8 adds a new character into InputCharacters[].
-func (io IO) AddInputCharactersUTF8(chars string) {
-	C.iggIoAddInputCharactersUTF8(io.handle, C.CString(chars))
+// AddInputCharacters adds a new character into InputCharacters[].
+func (io IO) AddInputCharacters(chars string) {
+	textArg, textFin := wrapString(chars)
+	defer textFin()
+	C.iggIoAddInputCharactersUTF8(io.handle, textArg)
 }

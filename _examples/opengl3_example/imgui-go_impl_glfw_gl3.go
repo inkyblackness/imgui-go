@@ -193,7 +193,7 @@ func (impl *imguiGlfw3) Render(drawData imgui.DrawData) {
 	// Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
 	displayWidth, displayHeight := impl.window.GetSize()
 	fbWidth, fbHeight := impl.window.GetFramebufferSize()
-	if (fbWidth == 0) || (fbHeight == 0) {
+	if (fbWidth <= 0) || (fbHeight <= 0) {
 		return
 	}
 	drawData.ScaleClipRects(imgui.Vec2{
@@ -434,5 +434,5 @@ func (impl *imguiGlfw3) keyChange(window *glfw.Window, key glfw.Key, scancode in
 
 func (impl *imguiGlfw3) charChange(window *glfw.Window, char rune) {
 	io := imgui.CurrentIO()
-	io.AddInputCharactersUTF8(string(char))
+	io.AddInputCharacters(string(char))
 }
