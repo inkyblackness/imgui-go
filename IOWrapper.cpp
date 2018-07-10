@@ -63,11 +63,6 @@ void iggIoSetFontGlobalScale(IggIO handle, float value)
    io->FontGlobalScale = value;
 }
 
-// void ImGui_ImplGlfw_KeyCallback(IggIO handle, int key, int, int action, int mods)
-// {
-//    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
-// }
-
 void iggIoKeyPress(IggIO handle, int key)
 {
    ImGuiIO & io = *reinterpret_cast<ImGuiIO *>(handle);
@@ -80,10 +75,10 @@ void iggIoKeyRelease(IggIO handle, int key)
    io.KeysDown[key] = false;
 }
 
-void iggIoKeyMap(IggIO handle, int imguiKey, int glfwKey)
+void iggIoKeyMap(IggIO handle, int imguiKey, int nativeKey)
 {
    ImGuiIO & io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.KeyMap[imguiKey] = glfwKey;
+   io.KeyMap[imguiKey] = nativeKey;
 }
 
 void iggIoKeyCtrl(IggIO handle, int leftCtrl, int rigthCtrl)
@@ -110,8 +105,8 @@ void iggIoKeySuper(IggIO handle, int leftSuper, int rightSuper)
    io.KeySuper = io.KeysDown[leftSuper] || io.KeysDown[rightSuper];
 }
 
-void iggIoAddInputCharacter(IggIO handle, unsigned short c)
+void iggIoAddInputCharactersUTF8(IggIO handle, const char *utf8_char)
 {
    ImGuiIO & io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.AddInputCharacter(c);
+   io.AddInputCharactersUTF8(utf8_char);
 }

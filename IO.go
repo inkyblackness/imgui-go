@@ -89,8 +89,8 @@ func (io IO) KeyRelease(key int) {
 }
 
 // KeyMap maps a key into the KeysDown array which represents your "native" keyboard state
-func (io IO) KeyMap(imguiKey int, glfwKey int) {
-	C.iggIoKeyMap(io.handle, C.int(imguiKey), C.int(glfwKey))
+func (io IO) KeyMap(imguiKey int, nativeKey int) {
+	C.iggIoKeyMap(io.handle, C.int(imguiKey), C.int(nativeKey))
 }
 
 // KeyCtrl sets the keyboard modifier control pressed
@@ -113,7 +113,7 @@ func (io IO) KeySuper(leftSuper int, rigthSuper int) {
 	C.iggIoKeySuper(io.handle, C.int(leftSuper), C.int(rigthSuper))
 }
 
-// AddInputCharacter adds a new character into InputCharacters[].
-func (io IO) AddInputCharacter(char rune) {
-	C.iggIoAddInputCharacter(io.handle, C.ushort(char))
+// AddInputCharactersUTF8 adds a new character into InputCharacters[].
+func (io IO) AddInputCharactersUTF8(chars string) {
+	C.iggIoAddInputCharactersUTF8(io.handle, C.CString(chars))
 }
