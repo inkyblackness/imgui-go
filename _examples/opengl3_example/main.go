@@ -31,7 +31,10 @@ func main() {
 	defer window.Destroy()
 	window.MakeContextCurrent()
 	glfw.SwapInterval(1)
-	gl.Init()
+	err = gl.Init()
+	if err != nil {
+		panic(err)
+	}
 
 	context := imgui.CreateContext(nil)
 	defer context.Destroy()
