@@ -3,6 +3,32 @@ package imgui
 // #include "imguiWrapper.h"
 import "C"
 
+// User fill ImGuiIO.KeyMap[] array with indices into the ImGuiIO.KeysDown[512] array
+const (
+	KeyTab        = 0
+	KeyLeftArrow  = 1
+	KeyRightArrow = 2
+	KeyUpArrow    = 3
+	KeyDownArrow  = 4
+	KeyPageUp     = 5
+	KeyPageDown   = 6
+	KeyHome       = 7
+	KeyEnd        = 8
+	KeyInsert     = 9
+	KeyDelete     = 10
+	KeyBackspace  = 11
+	KeySpace      = 12
+	KeyEnter      = 13
+	KeyEscape     = 14
+	KeyA          = 15 // for text edit CTRL+A: select all
+	KeyC          = 16 // for text edit CTRL+C: copy
+	KeyV          = 17 // for text edit CTRL+V: paste
+	KeyX          = 18 // for text edit CTRL+X: cut
+	KeyY          = 19 // for text edit CTRL+Y: redo
+	KeyZ          = 20 // for text edit CTRL+Z: undo
+	KeyCOUNT      = 21
+)
+
 // Version returns a version string e.g. "1.23".
 func Version() string {
 	return C.GoString(C.iggGetVersion())
@@ -10,7 +36,7 @@ func Version() string {
 
 // CurrentIO returns access to the ImGui communication struct for the currently active context.
 func CurrentIO() IO {
-	return IO{handle:C.iggGetCurrentIO()}
+	return IO{handle: C.iggGetCurrentIO()}
 }
 
 // CurrentStyle returns the UI Style for the currently active context.
@@ -101,7 +127,7 @@ func EndChild() {
 
 // SetNextWindowPosV sets next window position.
 // Call before Begin(). Use pivot=(0.5,0.5) to center on given point, etc.
-func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2){
+func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2) {
 	posArg, _ := pos.wrapped()
 	pivotArg, _ := pivot.wrapped()
 	C.iggSetNextWindowPos(posArg, C.int(cond), pivotArg)
@@ -198,12 +224,12 @@ func PopItemWidth() {
 // PushTextWrapPosV defines word-wrapping for Text() commands.
 // < 0.0f: no wrapping; 0.0f: wrap to end of window (or column); > 0.0f: wrap at 'wrapPosX' position in window local space.
 // Requires a matching call to PopTextWrapPos().
-func PushTextWrapPosV(wrapPosX float32)  {
+func PushTextWrapPosV(wrapPosX float32) {
 	C.iggPushTextWrapPos(C.float(wrapPosX))
 }
 
 // PushTextWrapPos calls PushTextWrapPosV(0.0).
-func PushTextWrapPos()  {
+func PushTextWrapPos() {
 	PushTextWrapPosV(0.0)
 }
 
@@ -268,7 +294,7 @@ func ImageV(id TextureID, size Vec2, uv0, uv1 Vec2, tintCol, borderCol Vec4) {
 
 // Image calls ImageV(id, size, Vec2{0,0}, Vec2{1,1}, Vec4{1,1,1,1}, Vec4{0,0,0,0}).
 func Image(id TextureID, size Vec2) {
-	ImageV(id, size, Vec2{0,0}, Vec2{1,1}, Vec4{1,1,1,1}, Vec4{0,0,0,0})
+	ImageV(id, size, Vec2{0, 0}, Vec2{1, 1}, Vec4{1, 1, 1, 1}, Vec4{0, 0, 0, 0})
 }
 
 // ImageButtonV adds a button with an image, based on given texture ID.
@@ -285,7 +311,7 @@ func ImageButtonV(id TextureID, size Vec2, uv0, uv1 Vec2, framePadding int, bgCo
 
 // ImageButton calls ImageButtonV(id, size, Vec2{0,0}, Vec2{1,1}, -1, Vec4{0,0,0,0}, Vec4{1,1,1,1}).
 func ImageButton(id TextureID, size Vec2) bool {
-	return ImageButtonV(id, size, Vec2{0,0}, Vec2{1,1}, -1, Vec4{0,0,0,0}, Vec4{1,1,1,1})
+	return ImageButtonV(id, size, Vec2{0, 0}, Vec2{1, 1}, -1, Vec4{0, 0, 0, 0}, Vec4{1, 1, 1, 1})
 }
 
 // Checkbox creates a checkbox in the selected state.

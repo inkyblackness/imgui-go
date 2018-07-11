@@ -34,6 +34,30 @@ func imguiGlfw3Init(window *glfw.Window) *imguiGlfw3 {
 		glslVersion: "#version 150",
 	}
 
+	io := imgui.CurrentIO()
+	// Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
+	io.KeyMap(int(imgui.KeyTab), int(glfw.KeyTab))
+	io.KeyMap(int(imgui.KeyLeftArrow), int(glfw.KeyLeft))
+	io.KeyMap(int(imgui.KeyRightArrow), int(glfw.KeyRight))
+	io.KeyMap(int(imgui.KeyUpArrow), int(glfw.KeyUp))
+	io.KeyMap(int(imgui.KeyDownArrow), int(glfw.KeyDown))
+	io.KeyMap(int(imgui.KeyPageUp), int(glfw.KeyPageUp))
+	io.KeyMap(int(imgui.KeyPageDown), int(glfw.KeyPageDown))
+	io.KeyMap(int(imgui.KeyHome), int(glfw.KeyHome))
+	io.KeyMap(int(imgui.KeyEnd), int(glfw.KeyEnd))
+	io.KeyMap(int(imgui.KeyInsert), int(glfw.KeyInsert))
+	io.KeyMap(int(imgui.KeyDelete), int(glfw.KeyDelete))
+	io.KeyMap(int(imgui.KeyBackspace), int(glfw.KeyBackspace))
+	io.KeyMap(int(imgui.KeySpace), int(glfw.KeySpace))
+	io.KeyMap(int(imgui.KeyEnter), int(glfw.KeyEnter))
+	io.KeyMap(int(imgui.KeyEscape), int(glfw.KeyEscape))
+	io.KeyMap(int(imgui.KeyA), int(glfw.KeyA))
+	io.KeyMap(int(imgui.KeyC), int(glfw.KeyC))
+	io.KeyMap(int(imgui.KeyV), int(glfw.KeyV))
+	io.KeyMap(int(imgui.KeyX), int(glfw.KeyX))
+	io.KeyMap(int(imgui.KeyY), int(glfw.KeyY))
+	io.KeyMap(int(imgui.KeyZ), int(glfw.KeyZ))
+
 	impl.installCallbacks()
 
 	return impl
@@ -169,7 +193,7 @@ func (impl *imguiGlfw3) Render(drawData imgui.DrawData) {
 	// Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
 	displayWidth, displayHeight := impl.window.GetSize()
 	fbWidth, fbHeight := impl.window.GetFramebufferSize()
-	if (fbWidth == 0) || (fbHeight == 0) {
+	if (fbWidth <= 0) || (fbHeight <= 0) {
 		return
 	}
 	drawData.ScaleClipRects(imgui.Vec2{
@@ -363,6 +387,8 @@ func (impl *imguiGlfw3) invalidateDeviceObjects() {
 func (impl *imguiGlfw3) installCallbacks() {
 	impl.window.SetMouseButtonCallback(impl.mouseButtonChange)
 	impl.window.SetScrollCallback(impl.mouseScrollChange)
+	impl.window.SetKeyCallback(impl.keyChange)
+	impl.window.SetCharCallback(impl.charChange)
 }
 
 var buttonIndexByID = map[glfw.MouseButton]int{
@@ -388,4 +414,25 @@ func (impl *imguiGlfw3) mouseButtonChange(window *glfw.Window, rawButton glfw.Mo
 func (impl *imguiGlfw3) mouseScrollChange(window *glfw.Window, x, y float64) {
 	io := imgui.CurrentIO()
 	io.AddMouseWheelDelta(float32(x), float32(y))
+}
+
+func (impl *imguiGlfw3) keyChange(window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
+	io := imgui.CurrentIO()
+	if action == glfw.Press {
+		io.KeyPress(int(key))
+	}
+	if action == glfw.Release {
+		io.KeyRelease(int(key))
+	}
+
+	// Modifiers are not reliable across systems
+	io.KeyCtrl(int(glfw.KeyLeftControl), int(glfw.KeyRightControl))
+	io.KeyShift(int(glfw.KeyLeftShift), int(glfw.KeyRightShift))
+	io.KeyAlt(int(glfw.KeyLeftAlt), int(glfw.KeyRightAlt))
+	io.KeySuper(int(glfw.KeyLeftSuper), int(glfw.KeyRightSuper))
+}
+
+func (impl *imguiGlfw3) charChange(window *glfw.Window, char rune) {
+	io := imgui.CurrentIO()
+	io.AddInputCharacters(string(char))
 }
