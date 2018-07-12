@@ -274,6 +274,21 @@ float iggGetTextLineHeightWithSpacing(void)
    return ImGui::GetTextLineHeightWithSpacing();
 }
 
+IggBool iggTreeNode(char const *label, int flags)
+{
+   return ImGui::TreeNodeEx(label, flags) ? 1 : 0;
+}
+
+void iggTreePop(void)
+{
+   ImGui::TreePop();
+}
+
+void iggSetNextTreeNodeOpen(IggBool open, int cond)
+{
+   ImGui::SetNextTreeNodeOpen(open != 0, cond);
+}
+
 IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size)
 {
    Vec2Wrapper sizeArg(size);

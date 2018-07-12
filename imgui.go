@@ -396,6 +396,28 @@ func TextLineHeightWithSpacing() float32 {
 	return float32(C.iggGetTextLineHeightWithSpacing())
 }
 
+// TreeNodeV returns true if the tree branch is to be rendered. Call TreePop() in this case.
+func TreeNodeV(label string, flags int) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	return C.iggTreeNode(labelArg, C.int(flags)) != 0
+}
+
+// TreeNode calls TreeNodeV(label, 0).
+func TreeNode(label string) bool {
+	return TreeNodeV(label, 0)
+}
+
+// TreePop finishes a tree branch. This has to be called for a matching TreeNodeV call returning true.
+func TreePop() {
+	C.iggTreePop()
+}
+
+// SetNextTreeNodeOpen sets the open/collapsed state of the following tree node.
+func SetNextTreeNodeOpen(open bool, cond Condition) {
+	C.iggSetNextTreeNodeOpen(castBool(open), C.int(cond))
+}
+
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
 // size.x==0.0: use remaining width, size.x>0.0: specify width.
 // size.y==0.0: use label height, size.y>0.0: specify height
