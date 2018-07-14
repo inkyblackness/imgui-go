@@ -433,6 +433,25 @@ func Selectable(label string) bool {
 	return SelectableV(label, false, 0, Vec2{})
 }
 
+// SetTooltip sets a text tooltip under the mouse-cursor, typically use with IsItemHovered().
+// Overrides any previous call to SetTooltip().
+func SetTooltip(text string) {
+	textArg, textFin := wrapString(text)
+	defer textFin()
+	C.iggSetTooltip(textArg)
+}
+
+// BeginTooltip begins/appends to a tooltip window. Used to create full-featured tooltip (with any kind of contents).
+// Requires a call to EndTooltip().
+func BeginTooltip() {
+	C.iggBeginTooltip()
+}
+
+// EndTooltip closes the previously started tooltip window.
+func EndTooltip() {
+	C.iggEndTooltip()
+}
+
 // BeginMainMenuBar creates and appends to a full screen menu-bar.
 // If the return value is true, then EndMainMenuBar() must be called!
 func BeginMainMenuBar() bool {
@@ -528,4 +547,15 @@ func EndPopup() {
 // Clicking on a MenuItem or Selectable automatically close the current popup.
 func CloseCurrentPopup() {
 	C.iggCloseCurrentPopup()
+}
+
+// IsItemHoveredV returns true if the last item is hovered.
+// (and usable, aka not blocked by a popup, etc.). See HoveredFlags for more options.
+func IsItemHoveredV(flags int) bool {
+	return C.iggIsItemHovered(C.int(flags)) != 0
+}
+
+// IsItemHovered calls IsItemHoveredV(HoveredFlagsDefault)
+func IsItemHovered() bool {
+	return IsItemHoveredV(HoveredFlagsDefault)
 }

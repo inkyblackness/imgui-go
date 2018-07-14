@@ -80,6 +80,10 @@ extern void iggSetNextTreeNodeOpen(IggBool open, int cond);
 
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
 
+extern void iggSetTooltip(char const *text);
+extern void iggBeginTooltip(void);
+extern void iggEndTooltip(void);
+
 extern IggBool iggBeginMainMenuBar(void);
 extern void iggEndMainMenuBar(void);
 extern IggBool iggBeginMenuBar(void);
@@ -92,6 +96,8 @@ extern void iggOpenPopup(char const *id);
 extern IggBool iggBeginPopupModal(char const *name, IggBool *open, int flags);
 extern void iggEndPopup(void);
 extern void iggCloseCurrentPopup(void);
+
+extern IggBool  iggIsItemHovered(int flags);
 
 #ifdef __cplusplus
 }

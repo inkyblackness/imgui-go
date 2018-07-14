@@ -295,6 +295,21 @@ IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 co
    return ImGui::Selectable(label, selected != 0, flags, *sizeArg) ? 1 : 0;
 }
 
+void iggSetTooltip(char const *text)
+{
+   ImGui::SetTooltip("%s", text);
+}
+
+void iggBeginTooltip(void)
+{
+   ImGui::BeginTooltip();
+}
+
+void iggEndTooltip(void)
+{
+   ImGui::EndTooltip();
+}
+
 IggBool iggBeginMainMenuBar(void)
 {
    return ImGui::BeginMainMenuBar() ? 1 : 0;
@@ -349,4 +364,9 @@ void iggEndPopup(void)
 void iggCloseCurrentPopup(void)
 {
    ImGui::CloseCurrentPopup();
+}
+
+IggBool iggIsItemHovered(int flags)
+{
+   return ImGui::IsItemHovered(flags) ? 1 : 0;
 }
