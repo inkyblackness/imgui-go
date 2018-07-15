@@ -375,6 +375,12 @@ func SameLine() {
 	SameLineV(0, -1)
 }
 
+// Dummy adds a dummy item of given size.
+func Dummy(size Vec2) {
+	sizeArg, _ := size.wrapped()
+	C.iggDummy(sizeArg)
+}
+
 // BeginGroup locks horizontal starting position + capture group bounding box into one "item"
 // (so you can use IsItemHovered() or layout primitives such as SameLine() on whole group, etc.)
 func BeginGroup() {

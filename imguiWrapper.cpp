@@ -254,6 +254,12 @@ void iggSameLine(float posX, float spacingW)
    ImGui::SameLine(posX, spacingW);
 }
 
+void iggDummy(IggVec2 const *size)
+{
+   Vec2Wrapper sizeArg(size);
+   ImGui::Dummy(*sizeArg);
+}
+
 void iggBeginGroup(void)
 {
    ImGui::BeginGroup();
