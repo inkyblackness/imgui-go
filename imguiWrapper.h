@@ -69,9 +69,11 @@ extern IggBool iggSliderInt(char const *label, int *value, int minValue, int max
 
 extern void iggSeparator(void);
 extern void iggSameLine(float posX, float spacingW);
+extern void iggSpacing(void);
 extern void iggDummy(IggVec2 const *size);
 extern void iggBeginGroup(void);
 extern void iggEndGroup(void);
+extern void iggSetCursorPos(IggVec2 const *localPos);
 extern float iggGetTextLineHeight(void);
 extern float iggGetTextLineHeightWithSpacing(void);
 

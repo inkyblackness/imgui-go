@@ -254,6 +254,11 @@ void iggSameLine(float posX, float spacingW)
    ImGui::SameLine(posX, spacingW);
 }
 
+void iggSpacing(void)
+{
+   ImGui::Spacing();
+}
+
 void iggDummy(IggVec2 const *size)
 {
    Vec2Wrapper sizeArg(size);
@@ -268,6 +273,12 @@ void iggBeginGroup(void)
 void iggEndGroup(void)
 {
    ImGui::EndGroup();
+}
+
+void iggSetCursorPos(IggVec2 const *localPos)
+{
+   Vec2Wrapper localPosArg(localPos);
+   ImGui::SetCursorPos(*localPosArg);
 }
 
 float iggGetTextLineHeight(void)

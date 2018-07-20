@@ -375,6 +375,11 @@ func SameLine() {
 	SameLineV(0, -1)
 }
 
+// Spacing adds vertical spacing.
+func Spacing() {
+	C.iggSpacing()
+}
+
 // Dummy adds a dummy item of given size.
 func Dummy(size Vec2) {
 	sizeArg, _ := size.wrapped()
@@ -390,6 +395,12 @@ func BeginGroup() {
 // EndGroup must be called for each call to BeginGroup().
 func EndGroup() {
 	C.iggEndGroup()
+}
+
+// SetCursorPos sets the cursor relative to the current window.
+func SetCursorPos(localPos Vec2)  {
+	localPosArg, _ := localPos.wrapped()
+	C.iggSetCursorPos(localPosArg)
 }
 
 // TextLineHeight returns ~ FontSize.
