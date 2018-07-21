@@ -555,6 +555,19 @@ func BeginPopupModal(name string) bool {
 	return BeginPopupModalV(name, nil, 0)
 }
 
+// BeginPopupContextItemV returns true if the identified mouse button was pressed
+// while hovering over the last item.
+func BeginPopupContextItemV(label string, mouseButton int) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	return C.iggBeginPopupContextItem(labelArg, C.int(mouseButton)) != 0
+}
+
+// BeginPopupContextItem calls BeginPopupContextItemV("", 1)
+func BeginPopupContextItem() bool {
+	return BeginPopupContextItemV("", 1)
+}
+
 // EndPopup finshes a popup. Only call EndPopup() if BeginPopupXXX() returns true!
 func EndPopup() {
 	C.iggEndPopup()

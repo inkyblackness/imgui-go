@@ -373,6 +373,11 @@ IggBool iggBeginPopupModal(char const *name, IggBool *open, int flags)
    return ImGui::BeginPopupModal(name, openArg, flags) ? 1 : 0;
 }
 
+IggBool iggBeginPopupContextItem(char const *label, int mouseButton)
+{
+   return ImGui::BeginPopupContextItem(label, mouseButton) ? 1 : 0;
+}
+
 void iggEndPopup(void)
 {
    ImGui::EndPopup();
