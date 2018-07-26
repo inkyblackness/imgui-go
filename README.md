@@ -11,6 +11,8 @@ This wrapper is
 * versioned
 * with a ported example using [GLFW3](https://github.com/go-gl/glfw) and [OpenGL3](https://github.com/go-gl/gl).
 
+![Screenshot from example](_examples/opengl3_example/screenshot.png)
+
 ## API naming
 
 Names of types and functions follow closely those of **Dear ImGui**.
