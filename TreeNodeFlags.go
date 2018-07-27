@@ -2,7 +2,7 @@ package imgui
 
 const (
 	// TreeNodeFlagsSelected draws as selected.
-	TreeNodeFlagsSelected             = 1 << iota
+	TreeNodeFlagsSelected = 1 << iota
 	// TreeNodeFlagsFramed draws full colored frame (e.g. for CollapsingHeader).
 	TreeNodeFlagsFramed
 	// TreeNodeFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one.
@@ -33,5 +33,5 @@ const (
 	// from any of its child (items submitted between TreeNode and TreePop).
 	TreeNodeFlagsNavLeftJumpsBackHere
 	// TreeNodeFlagsCollapsingHeader combines TreeNodeFlagsFramed and TreeNodeFlagsNoAutoOpenOnLog.
-	TreeNodeFlagsCollapsingHeader     = TreeNodeFlagsFramed | TreeNodeFlagsNoAutoOpenOnLog
+	TreeNodeFlagsCollapsingHeader = TreeNodeFlagsFramed | TreeNodeFlagsNoAutoOpenOnLog
 )

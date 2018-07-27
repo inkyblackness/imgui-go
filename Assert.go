@@ -1,8 +1,9 @@
 package imgui
+
 import "C"
 import (
-	"fmt"
 	"errors"
+	"fmt"
 )
 
 // AssertHandler is a handler for an assertion that happened in the native part of ImGui.

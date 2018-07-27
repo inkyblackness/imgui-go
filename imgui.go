@@ -294,7 +294,7 @@ func ImageV(id TextureID, size Vec2, uv0, uv1 Vec2, tintCol, borderCol Vec4) {
 
 // Image calls ImageV(id, size, Vec2{0,0}, Vec2{1,1}, Vec4{1,1,1,1}, Vec4{0,0,0,0}).
 func Image(id TextureID, size Vec2) {
-	ImageV(id, size, Vec2{X:0, Y:0}, Vec2{X:1, Y:1}, Vec4{X:1, Y:1, Z:1, W:1}, Vec4{X:0, Y:0, Z:0, W:0})
+	ImageV(id, size, Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 1}, Vec4{X: 1, Y: 1, Z: 1, W: 1}, Vec4{X: 0, Y: 0, Z: 0, W: 0})
 }
 
 // ImageButtonV adds a button with an image, based on given texture ID.
@@ -311,7 +311,7 @@ func ImageButtonV(id TextureID, size Vec2, uv0, uv1 Vec2, framePadding int, bgCo
 
 // ImageButton calls ImageButtonV(id, size, Vec2{0,0}, Vec2{1,1}, -1, Vec4{0,0,0,0}, Vec4{1,1,1,1}).
 func ImageButton(id TextureID, size Vec2) bool {
-	return ImageButtonV(id, size, Vec2{X:0, Y:0}, Vec2{X:1, Y:1}, -1, Vec4{X:0, Y:0, Z:0, W:0}, Vec4{X:1, Y:1, Z:1, W:1})
+	return ImageButtonV(id, size, Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 1}, -1, Vec4{X: 0, Y: 0, Z: 0, W: 0}, Vec4{X: 1, Y: 1, Z: 1, W: 1})
 }
 
 // Checkbox creates a checkbox in the selected state.
@@ -398,7 +398,7 @@ func EndGroup() {
 }
 
 // SetCursorPos sets the cursor relative to the current window.
-func SetCursorPos(localPos Vec2)  {
+func SetCursorPos(localPos Vec2) {
 	localPosArg, _ := localPos.wrapped()
 	C.iggSetCursorPos(localPosArg)
 }

@@ -22,7 +22,7 @@ func CreateContext(fontAtlas *FontAtlas) *Context {
 	if fontAtlas != nil {
 		fontAtlasPtr = fontAtlas.handle()
 	}
-	return &Context{handle:C.iggCreateContext(fontAtlasPtr)}
+	return &Context{handle: C.iggCreateContext(fontAtlasPtr)}
 }
 
 // ErrNoContext is used when no context is current.
@@ -35,7 +35,7 @@ func CurrentContext() (*Context, error) {
 	if raw == nil {
 		return nil, ErrNoContext
 	}
-	return &Context{handle:raw}, nil
+	return &Context{handle: raw}, nil
 }
 
 // Destroy removes the internal state scope.
