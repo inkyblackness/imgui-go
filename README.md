@@ -1,5 +1,7 @@
 # Dear ImGui for Go
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/inkyblackness/imgui-go)](https://goreportcard.com/report/github.com/inkyblackness/imgui-go)
+
 This library is a [Go](https://www.golang.org) wrapper for [Dear ImGui](https://github.com/ocornut/imgui).
 
 At the moment, this wrapper is a special-purpose wrapper for use within InkyBlackness.
