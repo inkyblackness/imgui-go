@@ -107,6 +107,16 @@ func (style Style) handle() C.IggGuiStyle {
 	return C.IggGuiStyle(style)
 }
 
+// ItemInnerSpacing is the horizontal and vertical spacing between elements of
+// a composed widget (e.g. a slider and its label).
+func (style Style) ItemInnerSpacing() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggStyleGetItemInnerSpacing(style.handle(), valueArg)
+	valueFin()
+	return value
+}
+
 // SetColor sets a color value of the UI style.
 func (style Style) SetColor(id StyleColorID, value Vec4) {
 	valueArg, _ := value.wrapped()

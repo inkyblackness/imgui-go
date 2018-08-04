@@ -2,6 +2,12 @@
 #include "StyleWrapper.h"
 #include "WrapperConverter.h"
 
+void iggStyleGetItemInnerSpacing(IggGuiStyle handle, IggVec2 *value)
+{
+   ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
+   exportValue(*value, style->ItemInnerSpacing);
+}
+
 void iggStyleSetColor(IggGuiStyle handle, int colorID, IggVec4 const *value)
 {
    ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
