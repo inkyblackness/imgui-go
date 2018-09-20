@@ -2,6 +2,42 @@
 #include "FontAtlasWrapper.h"
 #include "WrapperConverter.h"
 
+IggGlyphRanges iggGetGlyphRangesDefault(IggFontAtlas handle)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesDefault()));
+}
+
+IggGlyphRanges iggGetGlyphRangesKorean(IggFontAtlas handle)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesKorean()));
+}
+
+IggGlyphRanges iggGetGlyphRangesJapanese(IggFontAtlas handle)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesJapanese()));
+}
+
+IggGlyphRanges iggGetGlyphRangesChinese(IggFontAtlas handle)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesChinese()));
+}
+
+IggGlyphRanges iggGetGlyphRangesCyrillic(IggFontAtlas handle)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesCyrillic()));
+}
+
+IggGlyphRanges iggGetGlyphRangesThai(IggFontAtlas handle)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesThai()));
+}
+
 IggFont iggAddFontDefault(IggFontAtlas handle)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
@@ -9,10 +45,13 @@ IggFont iggAddFontDefault(IggFontAtlas handle)
    return static_cast<IggFont>(font);
 }
 
-IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float sizePixels)
+IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float sizePixels,
+      IggFontConfig config, IggGlyphRanges glyphRanges)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
-   ImFont *font = fontAtlas->AddFontFromFileTTF(filename, sizePixels);
+   ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(config);
+   ImWchar *glyphChars = reinterpret_cast<ImWchar *>(glyphRanges);
+   ImFont *font = fontAtlas->AddFontFromFileTTF(filename, sizePixels, fontConfig, glyphChars);
    return static_cast<IggFont>(font);
 }
 
