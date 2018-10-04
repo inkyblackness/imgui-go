@@ -18,6 +18,8 @@ extern IggFont iggAddFontDefault(IggFontAtlas handle);
 extern IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float sizePixels,
 		IggFontConfig config, IggGlyphRanges glyphRanges);
 
+extern void iggFontAtlasSetTexDesiredWidth(IggFontAtlas handle, int value);
+
 extern void iggFontAtlasGetTexDataAsAlpha8(IggFontAtlas handle, unsigned char **pixels,
       int *width, int *height, int *bytesPerPixel);
 extern void iggFontAtlasSetTextureID(IggFontAtlas handle, IggTextureID id);

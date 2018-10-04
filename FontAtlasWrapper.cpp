@@ -55,6 +55,12 @@ IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float s
    return static_cast<IggFont>(font);
 }
 
+void iggFontAtlasSetTexDesiredWidth(IggFontAtlas handle, int value)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   fontAtlas->TexDesiredWidth = value;
+}
+
 void iggFontAtlasGetTexDataAsAlpha8(IggFontAtlas handle, unsigned char **pixels,
                                     int *width, int *height, int *bytesPerPixel)
 {

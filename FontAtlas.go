@@ -70,6 +70,13 @@ func (atlas FontAtlas) AddFontFromFileTTF(filename string, sizePixels float32) F
 	return atlas.AddFontFromFileTTFV(filename, sizePixels, DefaultFontConfig, EmptyGlyphRanges)
 }
 
+// SetTexDesiredWidth registers the width desired by user before building the image. Must be a power-of-two.
+// If have many glyphs your graphics API have texture size restrictions you may want to increase texture width to decrease height.
+// Set to 0 by default, causing auto-calculation.
+func (atlas FontAtlas) SetTexDesiredWidth(value int) {
+	C.iggFontAtlasSetTexDesiredWidth(atlas.handle(), C.int(value))
+}
+
 // TextureDataAlpha8 returns the image in 8-bit alpha values for the font atlas.
 // The returned image is valid as long as the font atlas is.
 func (atlas FontAtlas) TextureDataAlpha8() *Alpha8Image {
