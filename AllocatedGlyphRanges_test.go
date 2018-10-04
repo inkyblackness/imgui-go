@@ -13,9 +13,9 @@ import (
 func TestAllocatedGlyphRangesFreeSetsToZero(t *testing.T) {
 	var builder imgui.GlyphRangesBuilder
 	ranges := builder.Build()
-	require.NotEqual(t, uintptr(0), uintptr(ranges), "Should have allocated")
+	require.NotEqual(t, uintptr(0), uintptr(ranges.GlyphRanges), "Should have allocated")
 	ranges.Free()
-	assert.Equal(t, uintptr(0), uintptr(ranges), "Should have reset")
+	assert.Equal(t, uintptr(0), uintptr(ranges.GlyphRanges), "Should have reset")
 }
 
 func TestGlyphRangesBuilderAdd(t *testing.T) {
@@ -41,9 +41,9 @@ func TestGlyphRangesBuilderAdd(t *testing.T) {
 			builder.Add(add.from, add.to)
 		}
 		result := builder.Build()
-		require.NotEqual(t, uintptr(0), uintptr(result))
+		require.NotEqual(t, uintptr(0), uintptr(result.GlyphRanges))
 		for index, expected := range tc.expected {
-			resultPtr := unsafe.Pointer(uintptr(result) + uintptr(2*index))
+			resultPtr := unsafe.Pointer(uintptr(result.GlyphRanges) + uintptr(2*index))
 			resultShort := (*uint16)(resultPtr)
 			assert.Equal(t, expected, *resultShort, fmt.Sprintf("%s: Index %d mismatch", tc.name, index))
 		}
@@ -67,8 +67,8 @@ func TestGlyphRangesBuilderAddExisting(t *testing.T) {
 		input    []imgui.GlyphRanges
 		expected []uint16
 	}{
-		{name: "adding of single range", input: []imgui.GlyphRanges{imgui.GlyphRanges(baseRangeAA)}, expected: []uint16{65, 65, 0}},
-		{name: "adding of two single ranges", input: []imgui.GlyphRanges{imgui.GlyphRanges(baseRangeAA), imgui.GlyphRanges(baseRangeEF)}, expected: []uint16{65, 65, 69, 70, 0}},
+		{name: "adding of single range", input: []imgui.GlyphRanges{baseRangeAA.GlyphRanges}, expected: []uint16{65, 65, 0}},
+		{name: "adding of two single ranges", input: []imgui.GlyphRanges{baseRangeAA.GlyphRanges, baseRangeEF.GlyphRanges}, expected: []uint16{65, 65, 69, 70, 0}},
 	}
 
 	for _, tc := range tt {
@@ -77,9 +77,42 @@ func TestGlyphRangesBuilderAddExisting(t *testing.T) {
 			builder.AddExisting(add)
 		}
 		result := builder.Build()
-		require.NotEqual(t, uintptr(0), uintptr(result))
+		require.NotEqual(t, uintptr(0), uintptr(result.GlyphRanges))
 		for index, expected := range tc.expected {
-			resultPtr := unsafe.Pointer(uintptr(result) + uintptr(2*index))
+			resultPtr := unsafe.Pointer(uintptr(result.GlyphRanges) + uintptr(2*index))
+			resultShort := (*uint16)(resultPtr)
+			assert.Equal(t, expected, *resultShort, fmt.Sprintf("%s: Index %d mismatch", tc.name, index))
+		}
+		result.Free()
+	}
+}
+
+func TestGlyphRangesBuilderCompactsRanges(t *testing.T) {
+	type singleRange struct {
+		from rune
+		to   rune
+	}
+	tt := []struct {
+		name     string
+		input    []singleRange
+		expected []uint16
+	}{
+		{name: "Removing duplications", input: []singleRange{{from: 'A', to: 'B'}, {from: 'A', to: 'B'}}, expected: []uint16{65, 66}},
+		{name: "combining ranges A", input: []singleRange{{from: 'A', to: 'D'}, {from: 'B', to: 'E'}}, expected: []uint16{65, 69, 0}},
+		{name: "combining ranges B", input: []singleRange{{from: 'C', to: 'E'}, {from: 'A', to: 'D'}}, expected: []uint16{65, 69, 0}},
+		{name: "combining ranges C", input: []singleRange{{from: 'A', to: 'E'}, {from: 'B', to: 'C'}}, expected: []uint16{65, 69, 0}},
+		{name: "combining ranges of whole set", input: []singleRange{{from: 'A', to: 'B'}, {from: 'E', to: 'F'}, {from: 'A', to: 'C'}}, expected: []uint16{65, 67, 69, 70, 0}},
+	}
+
+	for _, tc := range tt {
+		var builder imgui.GlyphRangesBuilder
+		for _, add := range tc.input {
+			builder.Add(add.from, add.to)
+		}
+		result := builder.Build()
+		require.NotEqual(t, uintptr(0), uintptr(result.GlyphRanges))
+		for index, expected := range tc.expected {
+			resultPtr := unsafe.Pointer(uintptr(result.GlyphRanges) + uintptr(2*index))
 			resultShort := (*uint16)(resultPtr)
 			assert.Equal(t, expected, *resultShort, fmt.Sprintf("%s: Index %d mismatch", tc.name, index))
 		}
