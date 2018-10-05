@@ -55,7 +55,7 @@ func (atlas FontAtlas) AddFontDefault() Font {
 	return Font(fontHandle)
 }
 
-// AddFontFromFileTTF attempts to load a font from given TTF file.
+// AddFontFromFileTTFV attempts to load a font from given TTF file.
 func (atlas FontAtlas) AddFontFromFileTTFV(filename string, sizePixels float32,
 	config FontConfig, glyphRange GlyphRanges) Font {
 	filenameArg, filenameFin := wrapString(filename)

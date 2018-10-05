@@ -15,7 +15,7 @@ type AllocatedGlyphRanges struct {
 // Free releases the underlying memory of the ranges.
 // Call this method when the ranges are no longer in use.
 func (ranges *AllocatedGlyphRanges) Free() {
-	C.free(unsafe.Pointer(ranges.GlyphRanges))
+	C.free(unsafe.Pointer(ranges.GlyphRanges.handle()))
 	ranges.GlyphRanges = 0
 }
 
