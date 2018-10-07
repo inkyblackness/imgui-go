@@ -66,7 +66,10 @@ extern IggBool iggBeginCombo(char const *label, char const *previewValue, int fl
 extern void iggEndCombo(void);
 
 extern IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format);
+extern IggBool iggDragInt( char const *label, int *value, int speed, int min, int max, const char* format);
+
 extern IggBool iggSliderFloat(char const *label, float *value, float minValue, float maxValue, char const *format);
+extern IggBool iggDragFloat( char const *label, float *value, float speed, float min, float max, const char* format);
 
 extern void iggSeparator(void);
 extern void iggSameLine(float posX, float spacingW);
