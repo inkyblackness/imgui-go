@@ -244,6 +244,11 @@ IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, 
    return ImGui::SliderInt(label, value, minValue, maxValue, format) ? 1 : 0;
 }
 
+IggBool iggSliderFloat(char const *label, float *value, float minValue, float maxValue, char const *format)
+{
+   return ImGui::SliderFloat(label, value, minValue, maxValue, format) ? 1 : 0;
+}
+
 void iggSeparator(void)
 {
    ImGui::Separator();

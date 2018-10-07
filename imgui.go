@@ -360,6 +360,22 @@ func SliderInt(label string, value *int32, min, max int32) bool {
 	return SliderIntV(label, value, min, max, "%d")
 }
 
+// SliderIntV creates a slider for integers.
+func SliderFloatV(label string, value *float32, min, max float32, format string) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapFloat(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggSliderFloat(labelArg, valueArg, C.float(min), C.float(max), formatArg) != 0
+}
+
+// SliderInt calls SliderIntV(label, value, min, max, "%d").
+func SliderFloat(label string, value *float32, min, max float32) bool {
+	return SliderFloatV(label, value, min, max, "%f")
+}
+
 // Separator is generally horizontal. Inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
 func Separator() {
 	C.iggSeparator()
