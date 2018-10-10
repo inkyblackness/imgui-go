@@ -244,7 +244,7 @@ IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, 
    return ImGui::SliderInt(label, value, minValue, maxValue, format) ? 1 : 0;
 }
 
-IggBool iggDragInt( char const *label, int *value, int speed, int min, int max, const char* format)
+IggBool iggDragInt( char const *label, int *value, int speed, int min, int max, char const *format)
 {
     return ImGui::DragInt( label, value, speed, min, max, format ) ? 1 : 0;
 }
@@ -254,7 +254,7 @@ IggBool iggSliderFloat(char const *label, float *value, float minValue, float ma
    return ImGui::SliderFloat(label, value, minValue, maxValue, format) ? 1 : 0;
 }
 
-IggBool iggDragFloat( char const *label, float *value, float speed, float min, float max, const char* format)
+IggBool iggDragFloat( char const *label, float *value, float speed, float min, float max, char const *format)
 {
     return ImGui::DragFloat( label, value, speed, min, max, format ) ? 1 : 0;
 }
