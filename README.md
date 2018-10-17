@@ -46,14 +46,14 @@ At the moment, this library uses version [1.61](https://github.com/ocornut/imgui
 ## Alternatives
 
 Before this project was created, the following alternatives were considered - and ignored:
-* [kdrag0n/go-imgui](https://github.com/kdrag0n/go-imgui). Reasons for dismissal:
+* [kdrag0n/go-imgui](https://github.com/kdrag0n/go-imgui). Reasons for dismissal at time of decision:
   * Auto-generated bloat, which doesn't help
-  * Old API (1.5x)
-  * Does not compile (Issues [1](https://github.com/kdrag0n/go-imgui/issues/1) and [3](https://github.com/kdrag0n/go-imgui/issues/3))
-  * Project appears to be abandoned
-* [Extrawurst/cimgui](https://github.com/Extrawurst/cimgui). Reasons for dismissal:
-  * Old API (1.5x), 1.6x attempted, in-progress, could not be used
-  * Appears to still semi-expose the C++ API, especially through the structures
+  * Was using old API (1.5x)
+  * Did not compile (Issues [1](https://github.com/kdrag0n/go-imgui/issues/1) and [3](https://github.com/kdrag0n/go-imgui/issues/3))
+  * Project appeared to be abandoned
+* [Extrawurst/cimgui](https://github.com/Extrawurst/cimgui). Reasons for dismissal at time of decision:
+  * Was using old API (1.5x), 1.6x was attempted
+  * Apparently semi-exposed the C++ API, especially through the structures
   * Adding this adds another dependency
 
 
