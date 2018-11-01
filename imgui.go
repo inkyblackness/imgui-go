@@ -361,6 +361,60 @@ func SliderInt(label string, value *int32, min, max int32) bool {
 	return SliderIntV(label, value, min, max, "%d")
 }
 
+// DragInt calls DragIntV(label, value, min, max, "%%d").
+func DragInt(label string, value *int32, min, max int32) bool {
+	return DragIntV(label, value, 1, min, max, "%d")
+}
+
+// DragIntV creates a dragable slider for integers,
+func DragIntV(label string, value *int32, speed, min, max int32, format string) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	valueArg, valueFin := wrapInt32(value)
+	defer valueFin()
+
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+
+	return C.iggDragInt(labelArg, valueArg, C.int(speed), C.int(min), C.int(max), formatArg) != 0
+}
+
+//SliderFloatV creates a slider for floats.
+func SliderFloatV(label string, value *float32, min, max float32, format string) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapFloat(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggSliderFloat(labelArg, valueArg, C.float(min), C.float(max), formatArg) != 0
+}
+
+// SliderFloat calls SliderIntV(label, value, min, max, "%d").
+func SliderFloat(label string, value *float32, min, max float32) bool {
+	return SliderFloatV(label, value, min, max, "%f")
+}
+
+// DragFloat calls DragFloatV(label, value, min, max, "%0.3f").
+func DragFloat(label string, value *float32, speed, min, max float32) bool {
+	return DragFloatV(label, value, speed, min, max, "%0.3f")
+}
+
+// DragFloatV creates a dragglable slider for floats
+func DragFloatV(label string, value *float32, speed, min, max float32, format string) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	valueArg, valueFin := wrapFloat(value)
+	defer valueFin()
+
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+
+	return C.iggDragFloat(labelArg, valueArg, C.float(speed), C.float(min), C.float(max), formatArg) != 0
+}
+
 // Separator is generally horizontal. Inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
 func Separator() {
 	C.iggSeparator()
