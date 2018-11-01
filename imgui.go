@@ -345,6 +345,54 @@ func EndCombo() {
 	C.iggEndCombo()
 }
 
+// DragFloatV creates a draggable slider for floats.
+func DragFloatV(label string, value *float32, speed, min, max float32, format string, power float32) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapFloat(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggDragFloat(labelArg, valueArg, C.float(speed), C.float(min), C.float(max), formatArg, C.float(power)) != 0
+}
+
+// DragFloat calls DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", 1.0).
+func DragFloat(label string, value *float32) bool {
+	return DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", 1.0)
+}
+
+// DragIntV creates a draggable slider for integers.
+func DragIntV(label string, value *int32, speed float32, min, max int32, format string) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapInt32(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggDragInt(labelArg, valueArg, C.float(speed), C.int(min), C.int(max), formatArg) != 0
+}
+
+// DragInt calls DragIntV(label, value, 1.0, 0, 0, "%d").
+func DragInt(label string, value *int32) bool {
+	return DragIntV(label, value, 1.0, 0, 0, "%d")
+}
+
+// SliderFloatV creates a slider for floats.
+func SliderFloatV(label string, value *float32, min, max float32, format string, power float32) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapFloat(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggSliderFloat(labelArg, valueArg, C.float(min), C.float(max), formatArg, C.float(power)) != 0
+}
+
+// SliderFloat calls SliderIntV(label, value, min, max, "%.3f", 1.0).
+func SliderFloat(label string, value *float32, min, max float32) bool {
+	return SliderFloatV(label, value, min, max, "%.3f", 1.0)
+}
+
 // SliderIntV creates a slider for integers.
 func SliderIntV(label string, value *int32, min, max int32, format string) bool {
 	labelArg, labelFin := wrapString(label)

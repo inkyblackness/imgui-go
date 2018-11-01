@@ -239,6 +239,21 @@ void iggEndCombo(void)
    ImGui::EndCombo();
 }
 
+IggBool iggDragFloat(char const *label, float *value, float speed, float min, float max, char const *format, float power)
+{
+    return ImGui::DragFloat(label, value, speed, min, max, format, power) ? 1 : 0;
+}
+
+IggBool iggDragInt(char const *label, int *value, float speed, int min, int max, char const *format)
+{
+    return ImGui::DragInt(label, value, speed, min, max, format) ? 1 : 0;
+}
+
+IggBool iggSliderFloat(char const *label, float *value, float minValue, float maxValue, char const *format, float power)
+{
+   return ImGui::SliderFloat(label, value, minValue, maxValue, format, power) ? 1 : 0;
+}
+
 IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format)
 {
    return ImGui::SliderInt(label, value, minValue, maxValue, format) ? 1 : 0;

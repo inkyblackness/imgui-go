@@ -41,6 +41,19 @@ func wrapInt32(goValue *int32) (wrapped *C.int, finisher func()) {
 	return
 }
 
+func wrapFloat(goValue *float32) (wrapped *C.float, finisher func()) {
+	if goValue != nil {
+		cValue := C.float(*goValue)
+		wrapped = &cValue
+		finisher = func() {
+			*goValue = float32(cValue)
+		}
+	} else {
+		finisher = func() {}
+	}
+	return
+}
+
 func wrapString(value string) (wrapped *C.char, finisher func()) {
 	wrapped = C.CString(value)
 	finisher = func() { C.free(unsafe.Pointer(wrapped)) } // nolint: gas
