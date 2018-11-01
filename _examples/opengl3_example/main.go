@@ -1,10 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"runtime"
 	"time"
 
-	"fmt"
 	"github.com/go-gl/gl/v3.2-core/gl"
 	"github.com/go-gl/glfw/v3.2/glfw"
 	"github.com/inkyblackness/imgui-go"
