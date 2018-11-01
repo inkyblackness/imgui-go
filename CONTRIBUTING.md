@@ -20,3 +20,28 @@ At the moment, this library is primarily used by **InkyBlackness**. If you can a
 * Code is properly formatted & linted (use [golangci-lint](https://github.com/golangci/golangci-lint) for a full check)
 * Public Go API is documented (copied documentation from **Dear ImGui** is acceptable and recommended, assuming it is adapted regarding type names)
 * API and version philosophies are respected (see README.md)
+
+#### Clarification on API naming and signatures
+
+If an **Dear ImGui** function has the signature of
+
+```
+SomeControl(const char *label, int value, int optArg1 = 0, const char *optArg2 = "stuff");
+```
+
+then the wrapper functions should be
+
+```
+// SomeControl calls SomeControlV(label, value, 0, "stuff"). 
+SomeControl(label string, value int32) {
+    SomeControlV(label, value, 0, "stuff")
+}
+
+// SomeControlV does things (text possibly copied from imgui.h).
+SomeControlV(label string, value int32, optArg1 int32, optArg2 string) {
+    // ...
+}
+```
+
+The "idiomatic" function should have only the required parameters of the underlying function, and its comment specifies all the defaults, matching that of `imgui.h`.
+The "verbose" variant should require all the parameters of the underlying function.
