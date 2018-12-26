@@ -10,6 +10,12 @@ type Alpha8Image struct {
 	Pixels        unsafe.Pointer
 }
 
+// RGBA32Image represents a imgui backed 8-bit alpha value image.
+type RGBA32Image struct {
+	Width, Height int
+	Pixels        unsafe.Pointer
+}
+
 // FontAtlas contains runtime data for multiple fonts,
 // bake multiple fonts into a single texture, TTF/OTF font loader
 type FontAtlas uintptr
@@ -87,6 +93,22 @@ func (atlas FontAtlas) TextureDataAlpha8() *Alpha8Image {
 	C.iggFontAtlasGetTexDataAsAlpha8(atlas.handle(), &pixels, &width, &height, &bytesPerPixel)
 
 	return &Alpha8Image{
+		Width:  int(width),
+		Height: int(height),
+		Pixels: unsafe.Pointer(pixels), // nolint: gas
+	}
+}
+
+// TextureDataRGBA32 returns the image in 32-bit RGBA values for the font atlas.
+// The returned image is valid as long as the font atlas is.
+func (atlas FontAtlas) TextureDataRGBA32() *RGBA32Image {
+	var pixels *C.uchar
+	var width C.int
+	var height C.int
+	var bytesPerPixel C.int
+	C.iggFontAtlasGetTexDataAsRGBA32(atlas.handle(), &pixels, &width, &height, &bytesPerPixel)
+
+	return &RGBA32Image{
 		Width:  int(width),
 		Height: int(height),
 		Pixels: unsafe.Pointer(pixels), // nolint: gas
