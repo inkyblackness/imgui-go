@@ -10,7 +10,7 @@ type Alpha8Image struct {
 	Pixels        unsafe.Pointer
 }
 
-// RGBA32Image represents a imgui backed 8-bit alpha value image.
+// RGBA32Image represents a imgui backed 32-bit RGBA (8 bits per channel) value image.
 type RGBA32Image struct {
 	Width, Height int
 	Pixels        unsafe.Pointer

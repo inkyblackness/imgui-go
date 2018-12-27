@@ -182,7 +182,6 @@ func (rend *rendererGl2) newFrame() {
 }
 
 // OpenGL2 Render function.
-// (this used to be set in io.RenderDrawListsFn and called by ImGui::Render(), but you can now call this directly from your main loop)
 // Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly, in order to be able to run within any OpenGL engine that doesn't do so.
 func (rend *rendererGl2) render(drawData imgui.DrawData) {
 	displayWidth, displayHeight := rend.window.GetSize()
