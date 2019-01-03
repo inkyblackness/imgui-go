@@ -254,9 +254,9 @@ IggBool iggSliderFloat(char const *label, float *value, float minValue, float ma
    return ImGui::SliderFloat(label, value, minValue, maxValue, format, power) ? 1 : 0;
 }
 
-IggBool iggSliderFloat3(char const *label, float *value, float minValue, float maxValue, char const *format, float power)
+IggBool iggSliderFloatN(char const *label, float *value, int n, float minValue, float maxValue, char const *format, float power)
 {
-   return  ImGui::SliderFloat3(label, value, minValue, maxValue, format, power) ? 1 : 0;
+   return  ImGui::SliderScalarN(label, ImGuiDataType_Float, (void*)value, n, &minValue, &maxValue, format, power) ? 1 : 0;
 }
 
 IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format)
