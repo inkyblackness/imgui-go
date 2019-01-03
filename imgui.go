@@ -388,6 +388,19 @@ func SliderFloatV(label string, value *float32, min, max float32, format string,
 	return C.iggSliderFloat(labelArg, valueArg, C.float(min), C.float(max), formatArg, C.float(power)) != 0
 }
 
+func SliderFloat3V(label string, values *[3]float32, min, max float32, format string, power float32) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.float)(&values[0])
+	return C.iggSliderFloat3(labelArg, cvalues, C.float(min), C.float(max), formatArg, C.float(power)) != 0
+}
+
+func SliderFloat3(label string, values *[3]float32, min, max float32) bool {
+	return SliderFloat3V(label, values, min, max, "%.3f", 1.0)
+}
+
 // SliderFloat calls SliderIntV(label, value, min, max, "%.3f", 1.0).
 func SliderFloat(label string, value *float32, min, max float32) bool {
 	return SliderFloatV(label, value, min, max, "%.3f", 1.0)

@@ -69,6 +69,8 @@ extern IggBool iggDragFloat(char const *label, float *value, float speed, float 
 extern IggBool iggDragInt(char const *label, int *value, float speed, int min, int max, char const *format);
 
 extern IggBool iggSliderFloat(char const *label, float *value, float minValue, float maxValue, char const *format, float power);
+extern IggBool iggSliderFloat3(char const *label, float *value, float minValue, float maxValue, char const *format, float power);
+
 extern IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format);
 
 extern void iggSeparator(void);
