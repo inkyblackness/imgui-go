@@ -109,6 +109,8 @@ extern void iggCloseCurrentPopup(void);
 
 extern IggBool  iggIsItemHovered(int flags);
 
+extern IggBool iggIsKeyPressed(int key);
+
 #ifdef __cplusplus
 }
 #endif

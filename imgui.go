@@ -651,3 +651,7 @@ func IsItemHoveredV(flags int) bool {
 func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
+
+func IsKeyPressed(key int) bool {
+	return C.iggIsKeyPressed(C.int(key)) != 0
+}
