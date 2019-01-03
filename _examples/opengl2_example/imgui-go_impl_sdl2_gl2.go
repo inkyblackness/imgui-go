@@ -8,32 +8,32 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-type ImplSdl2Gl2 struct {
+type implSdl2Gl2 struct {
 	renderer *rendererGl2
 	platform *platformSdl2
 }
 
-func NewImplSdl2Gl2(window *sdl.Window) *ImplSdl2Gl2 {
-	return &ImplSdl2Gl2{
+func newImplSdl2Gl2(window *sdl.Window) *implSdl2Gl2 {
+	return &implSdl2Gl2{
 		renderer: newRendererGl2(window),
 		platform: newPlatformSdl2(window),
 	}
 }
 
-func (impl *ImplSdl2Gl2) NewFrame() {
+func (impl *implSdl2Gl2) NewFrame() {
 	impl.platform.newFrame()
 	impl.renderer.newFrame()
 }
 
-func (impl *ImplSdl2Gl2) Render(drawData imgui.DrawData) {
+func (impl *implSdl2Gl2) Render(drawData imgui.DrawData) {
 	impl.renderer.render(drawData)
 }
 
-func (impl *ImplSdl2Gl2) ProcessEvent(event sdl.Event) bool {
+func (impl *implSdl2Gl2) ProcessEvent(event sdl.Event) bool {
 	return impl.platform.processEvent(event)
 }
 
-func (impl *ImplSdl2Gl2) Shutdown() {
+func (impl *implSdl2Gl2) Shutdown() {
 	impl.renderer.shutdown()
 }
 
@@ -124,19 +124,17 @@ func (plat *platformSdl2) processEvent(event sdl.Event) bool {
 		} else if wheelEvent.Y < 0 {
 			deltaY--
 		}
+		io.AddMouseWheelDelta(deltaX, deltaY)
 		return true
 	case sdl.MOUSEBUTTONDOWN:
 		buttonEvent := event.(*sdl.MouseButtonEvent)
 		switch buttonEvent.Button {
 		case sdl.BUTTON_LEFT:
 			plat.buttonsDown[0] = true
-			break
 		case sdl.BUTTON_RIGHT:
 			plat.buttonsDown[1] = true
-			break
 		case sdl.BUTTON_MIDDLE:
 			plat.buttonsDown[2] = true
-			break
 		}
 		return true
 	case sdl.TEXTINPUT:
@@ -165,7 +163,6 @@ func (plat *platformSdl2) processEvent(event sdl.Event) bool {
 
 type rendererGl2 struct {
 	window      *sdl.Window
-	context     *sdl.GLContext
 	fontTexture uint32
 }
 
@@ -182,7 +179,8 @@ func (rend *rendererGl2) newFrame() {
 }
 
 // OpenGL2 Render function.
-// Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly, in order to be able to run within any OpenGL engine that doesn't do so.
+// Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly,
+// in order to be able to run within any OpenGL engine that doesn't do so.
 func (rend *rendererGl2) render(drawData imgui.DrawData) {
 	displayWidth, displayHeight := rend.window.GetSize()
 	fbWidth, fbHeight := rend.window.GLGetDrawableSize()
@@ -216,8 +214,9 @@ func (rend *rendererGl2) render(drawData imgui.DrawData) {
 	// gl.UseProgram(0)
 
 	// Setup viewport, orthographic projection matrix
-	// Our visible imgui space lies from draw_data->DisplayPos (top left) to draw_data->DisplayPos+data_data->DisplaySize (bottom right). DisplayMin is typically (0,0) for single viewport apps.
-	gl.Viewport(0, 0, int32(fbWidth), int32(fbHeight))
+	// Our visible imgui space lies from draw_data->DisplayPos (top left) to draw_data->DisplayPos+data_data->DisplaySize (bottom right).
+	// DisplayMin is typically (0,0) for single viewport apps.
+	gl.Viewport(0, 0, fbWidth, fbHeight)
 	gl.MatrixMode(gl.PROJECTION)
 	gl.PushMatrix()
 	gl.LoadIdentity()
@@ -249,7 +248,7 @@ func (rend *rendererGl2) render(drawData imgui.DrawData) {
 				command.CallUserCallback(commandList)
 			} else {
 				clipRect := command.ClipRect()
-				gl.Scissor(int32(clipRect.X), int32(fbHeight)-int32(clipRect.W), int32(clipRect.Z-clipRect.X), int32(clipRect.W-clipRect.Y))
+				gl.Scissor(int32(clipRect.X), fbHeight-int32(clipRect.W), int32(clipRect.Z-clipRect.X), int32(clipRect.W-clipRect.Y))
 				gl.BindTexture(gl.TEXTURE_2D, uint32(command.TextureID()))
 				gl.DrawElements(gl.TRIANGLES, int32(command.ElementCount()), uint32(drawType), unsafe.Pointer(indexBufferOffset))
 			}

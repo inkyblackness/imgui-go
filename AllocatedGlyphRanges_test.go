@@ -101,7 +101,8 @@ func TestGlyphRangesBuilderCompactsRanges(t *testing.T) {
 		{name: "combining ranges A", input: []singleRange{{from: 'A', to: 'D'}, {from: 'B', to: 'E'}}, expected: []uint16{65, 69, 0}},
 		{name: "combining ranges B", input: []singleRange{{from: 'C', to: 'E'}, {from: 'A', to: 'D'}}, expected: []uint16{65, 69, 0}},
 		{name: "combining ranges C", input: []singleRange{{from: 'A', to: 'E'}, {from: 'B', to: 'C'}}, expected: []uint16{65, 69, 0}},
-		{name: "combining ranges of whole set", input: []singleRange{{from: 'A', to: 'B'}, {from: 'E', to: 'F'}, {from: 'A', to: 'C'}}, expected: []uint16{65, 67, 69, 70, 0}},
+		{name: "combining ranges of whole set", input: []singleRange{
+			{from: 'A', to: 'B'}, {from: 'E', to: 'F'}, {from: 'A', to: 'C'}}, expected: []uint16{65, 67, 69, 70, 0}},
 	}
 
 	for _, tc := range tt {

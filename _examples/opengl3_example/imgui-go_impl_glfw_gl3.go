@@ -263,7 +263,8 @@ func (impl *imguiGlfw3) Render(drawData imgui.DrawData) {
 	gl.BindSampler(0, 0) // Rely on combined texture/sampler state.
 
 	// Recreate the VAO every time
-	// (This is to easily allow multiple GL contexts. VAO are not shared among GL contexts, and we don't track creation/deletion of windows so we don't have an obvious key to use to cache them.)
+	// (This is to easily allow multiple GL contexts. VAO are not shared among GL contexts, and
+	// we don't track creation/deletion of windows so we don't have an obvious key to use to cache them.)
 	var vaoHandle uint32
 	gl.GenVertexArrays(1, &vaoHandle)
 	gl.BindVertexArray(vaoHandle)

@@ -21,7 +21,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	defer window.Destroy()
+	defer func() { _ = window.Destroy() }()
 
 	if err := gl.Init(); err != nil {
 		panic(err)
@@ -35,7 +35,7 @@ func main() {
 	contextImgui := imgui.CreateContext(nil)
 	defer contextImgui.Destroy()
 
-	impl := NewImplSdl2Gl2(window)
+	impl := newImplSdl2Gl2(window)
 	defer impl.Shutdown()
 
 	var (
@@ -84,7 +84,7 @@ func main() {
 		gl.Clear(gl.COLOR_BUFFER_BIT)
 
 		imgui.Render()
-		window.GLMakeCurrent(contextGl)
+		_ = window.GLMakeCurrent(contextGl)
 		impl.Render(imgui.RenderedDrawData())
 		window.GLSwap()
 
@@ -96,7 +96,7 @@ func main() {
 			switch event.(type) {
 			case *sdl.QuitEvent:
 				running = false
-				break
+			default:
 			}
 		}
 

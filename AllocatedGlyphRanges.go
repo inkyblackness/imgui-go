@@ -29,7 +29,7 @@ type GlyphRangesBuilder struct {
 func (builder *GlyphRangesBuilder) Build() AllocatedGlyphRanges {
 	ranges := builder.mergedRanges()
 	raw := C.malloc(C.size_t(2 * ((len(ranges) * 2) + 1)))
-	rawSlice := (*[1 << 30]uint16)(unsafe.Pointer(raw))[:]
+	rawSlice := (*[1 << 30]uint16)(raw)[:]
 	outIndex := 0
 	for _, r := range ranges {
 		rawSlice[outIndex+0] = r.from
