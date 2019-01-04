@@ -639,19 +639,20 @@ func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
 
-func ListBox(label string, current_item *int32, items []string, items_count int, height_items int) bool {
+// ListBox creates a imgui::Listbox
+func ListBox(label string, currentItem *int32, items []string, itemsCount int, heightItems int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 
-	valueArg, valueFin := wrapInt32(current_item)
+	valueArg, valueFin := wrapInt32(currentItem)
 	defer valueFin()
 
-	argv := make([]*C.char, items_count)
+	argv := make([]*C.char, itemsCount)
 	for i, item := range items {
 		itemArg, itemDeleter := wrapString(item)
 		defer itemDeleter()
 		argv[i] = itemArg
 	}
 
-	return C.iggListBox(labelArg, valueArg, &argv[0], C.int(items_count), C.int(height_items)) != 0
+	return C.iggListBox(labelArg, valueArg, &argv[0], C.int(itemsCount), C.int(heightItems)) != 0
 }
