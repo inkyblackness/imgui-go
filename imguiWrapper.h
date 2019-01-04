@@ -107,6 +107,8 @@ extern void iggCloseCurrentPopup(void);
 
 extern IggBool  iggIsItemHovered(int flags);
 
+extern IggBool iggListBox(char const *label, int* current_item, char const* const items[], int items_count, int height_items);
+
 #ifdef __cplusplus
 }
 #endif

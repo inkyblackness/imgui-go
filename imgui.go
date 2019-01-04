@@ -638,3 +638,20 @@ func IsItemHoveredV(flags int) bool {
 func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
+
+func ListBox(label string, current_item *int32, items []string, items_count int, height_items int) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	valueArg, valueFin := wrapInt32(current_item)
+	defer valueFin()
+
+	argv := make([]*C.char, items_count)
+	for i, item := range items {
+		itemArg, itemDeleter := wrapString(item)
+		defer itemDeleter()
+		argv[i] = itemArg
+	}
+
+	return C.iggListBox(labelArg, valueArg, &argv[0], C.int(items_count), C.int(height_items)) != 0
+}
