@@ -393,7 +393,7 @@ func SliderFloat(label string, value *float32, min, max float32) bool {
 	return SliderFloatV(label, value, min, max, "%.3f", 1.0)
 }
 
-// SliderFloat3V creates slider for a 3D vector
+// SliderFloat3V creates slider for a 3D vector.
 func SliderFloat3V(label string, values *[3]float32, min, max float32, format string, power float32) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -403,7 +403,7 @@ func SliderFloat3V(label string, values *[3]float32, min, max float32, format st
 	return C.iggSliderFloatN(labelArg, cvalues, 3, C.float(min), C.float(max), formatArg, C.float(power)) != 0
 }
 
-// SliderFloat3 creates slider for a 3D vector
+// SliderFloat3 calls SliderFloat3V(label, values, min, max, "%.3f", 1,0).
 func SliderFloat3(label string, values *[3]float32, min, max float32) bool {
 	return SliderFloat3V(label, values, min, max, "%.3f", 1.0)
 }
@@ -654,6 +654,7 @@ func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
 
+// IsKeyPressed returns true if the corresponding key is currently pressed.
 func IsKeyPressed(key int) bool {
 	return C.iggIsKeyPressed(C.int(key)) != 0
 }
