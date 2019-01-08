@@ -254,6 +254,11 @@ IggBool iggSliderFloat(char const *label, float *value, float minValue, float ma
    return ImGui::SliderFloat(label, value, minValue, maxValue, format, power) ? 1 : 0;
 }
 
+IggBool iggSliderFloatN(char const *label, float *value, int n, float minValue, float maxValue, char const *format, float power)
+{
+   return  ImGui::SliderScalarN(label, ImGuiDataType_Float, (void*)value, n, &minValue, &maxValue, format, power) ? 1 : 0;
+}
+
 IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format)
 {
    return ImGui::SliderInt(label, value, minValue, maxValue, format) ? 1 : 0;
@@ -406,4 +411,9 @@ void iggCloseCurrentPopup(void)
 IggBool iggIsItemHovered(int flags)
 {
    return ImGui::IsItemHovered(flags) ? 1 : 0;
+}
+
+IggBool iggIsKeyPressed(int key)
+{
+   return ImGui::IsKeyPressed(key);
 }
