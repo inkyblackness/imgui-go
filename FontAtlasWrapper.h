@@ -10,7 +10,8 @@ extern "C"
 extern IggGlyphRanges iggGetGlyphRangesDefault(IggFontAtlas handle);
 extern IggGlyphRanges iggGetGlyphRangesKorean(IggFontAtlas handle);
 extern IggGlyphRanges iggGetGlyphRangesJapanese(IggFontAtlas handle);
-extern IggGlyphRanges iggGetGlyphRangesChinese(IggFontAtlas handle);
+extern IggGlyphRanges iggGetGlyphRangesChineseFull(IggFontAtlas handle);
+extern IggGlyphRanges iggGetGlyphRangesChineseSimplifiedCommon(IggFontAtlas handle);
 extern IggGlyphRanges iggGetGlyphRangesCyrillic(IggFontAtlas handle);
 extern IggGlyphRanges iggGetGlyphRangesThai(IggFontAtlas handle);
 
