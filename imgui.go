@@ -658,3 +658,62 @@ func IsItemHovered() bool {
 func IsKeyPressed(key int) bool {
 	return C.iggIsKeyPressed(C.int(key)) != 0
 }
+
+// BeginColumns calls BeginPopupContextItemV()
+func BeginColumns(label string, count int) {
+	BeginColumnsV(label, count, ColumnsFlagsNone)
+}
+
+// BeginColumnsV creates a column layout of the specified number of columns
+func BeginColumnsV(label string, count int, flags int32) {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	C.iggBeginColumns(labelArg, C.int(count), C.int(flags))
+}
+
+// NextColumn next column, defaults to current row or next row if the current row is finished
+func NextColumn() {
+	C.iggNextColumn()
+}
+
+// GetColumnIndex get current column index
+func GetColumnIndex() int {
+	return int(C.iggGetColumnIndex())
+}
+
+// GetColumnWidth get column width (in pixels). pass -1 to use current column
+func GetColumnWidth() int {
+	return int(C.iggGetColumnWidth())
+}
+
+// SetColumnWidth calls SetColumnWidthV()
+func SetColumnWidth(index int, width float32) {
+	SetColumnWidthV(index, width)
+}
+
+// SetColumnWidthV set column width (in pixels). pass -1 to use current column
+func SetColumnWidthV(index int, width float32) {
+	C.iggSetColumnWidth(C.int(index), C.float(width))
+}
+
+// GetColumnOffset get position of column line (in pixels, from the left side of the contents region). pass -1 to use
+// current column, otherwise 0..GetColumnsCount() inclusive. column 0 is typically 0.0f
+func GetColumnOffset(index int) float32 {
+	return float32(C.iggGetColumnOffset(C.int(index)))
+}
+
+// SetColumnOffset calls SetColumnOffsetV
+func SetColumnOffset(index int, offsetX float32) {
+	SetColumnOffsetV(index, offsetX)
+}
+
+// SetColumnOffsetV set position of column line (in pixels, from the left side of the contents region). pass -1 to use
+// current column
+func SetColumnOffsetV(index int, offsetX float32) {
+	C.iggSetColumnOffset(C.int(index), C.float(offsetX))
+}
+
+// GetColumnsCount returns number of current columns
+func GetColumnsCount() int {
+	return int(C.iggGetColumnsCount())
+}
