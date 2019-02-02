@@ -639,7 +639,8 @@ func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
 
-// ListBoxV Creates a imgui::Listbox and accepts the item height as parameter
+// ListBox creates a list of selectables of given items with equal height, enclosed with header and footer.
+// The function returns true if the selection was changed. The value of currentItem will indicate the new selected item.
 func ListBoxV(label string, currentItem *int32, items []string, heightItems int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
