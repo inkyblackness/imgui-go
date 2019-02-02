@@ -639,13 +639,15 @@ func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
 
-// ListBox creates a imgui::Listbox
-func ListBox(label string, currentItem *int32, items []string, itemsCount int, heightItems int) bool {
+// ListBoxV Creates a imgui::Listbox and accepts the item height as parameter
+func ListBoxV(label string, currentItem *int32, items []string, heightItems int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 
 	valueArg, valueFin := wrapInt32(currentItem)
 	defer valueFin()
+
+	itemsCount := len(items)
 
 	argv := make([]*C.char, itemsCount)
 	for i, item := range items {
@@ -654,5 +656,25 @@ func ListBox(label string, currentItem *int32, items []string, itemsCount int, h
 		argv[i] = itemArg
 	}
 
-	return C.iggListBox(labelArg, valueArg, &argv[0], C.int(itemsCount), C.int(heightItems)) != 0
+	return C.iggListBoxV(labelArg, valueArg, &argv[0], C.int(itemsCount), C.int(heightItems)) != 0
+}
+
+// ListBox Creates an imgui::Listbox
+func ListBox(label string, currentItem *int32, items []string) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	valueArg, valueFin := wrapInt32(currentItem)
+	defer valueFin()
+
+	itemsCount := len(items)
+
+	argv := make([]*C.char, itemsCount)
+	for i, item := range items {
+		itemArg, itemDeleter := wrapString(item)
+		defer itemDeleter()
+		argv[i] = itemArg
+	}
+
+	return C.iggListBox(labelArg, valueArg, &argv[0], C.int(itemsCount)) != 0
 }
