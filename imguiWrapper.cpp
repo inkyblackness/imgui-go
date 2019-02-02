@@ -408,7 +408,12 @@ IggBool iggIsItemHovered(int flags)
    return ImGui::IsItemHovered(flags) ? 1 : 0;
 }
 
-IggBool iggListBox(char const *label, int* current_item, char const* const items[], int items_count, int height_items)
+IggBool iggListBoxV(char const *label, int* current_item, char const* const items[], int items_count, int height_items)
 {
     return ImGui::ListBox(label, current_item, items, items_count, height_items) ? 1 : 0;
+}
+
+IggBool iggListBox(char const *label, int* current_item, char const* const items[], int items_count)
+{
+    return ImGui::ListBox(label, current_item, items, items_count) ? 1 : 0;
 }
