@@ -88,6 +88,7 @@ extern void iggTreePop(void);
 extern void iggSetNextTreeNodeOpen(IggBool open, int cond);
 
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
+extern IggBool iggListBoxV(char const *label, int* current_item, char const* const items[], int items_count, int height_items);
 
 extern void iggSetTooltip(char const *text);
 extern void iggBeginTooltip(void);
@@ -107,11 +108,9 @@ extern IggBool iggBeginPopupContextItem(char const *label, int mouseButton);
 extern void iggEndPopup(void);
 extern void iggCloseCurrentPopup(void);
 
-extern IggBool  iggIsItemHovered(int flags);
-extern IggBool iggIsKeyPressed(int key);
+extern IggBool iggIsItemHovered(int flags);
 
-extern IggBool iggListBoxV(char const *label, int* current_item, char const* const items[], int items_count, int height_items);
-extern IggBool iggListBox(char const *label, int* current_item, char const* const items[], int items_count);
+extern IggBool iggIsKeyPressed(int key);
 
 #ifdef __cplusplus
 }
