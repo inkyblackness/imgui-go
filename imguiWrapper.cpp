@@ -418,7 +418,7 @@ IggBool iggIsKeyPressed(int key)
    return ImGui::IsKeyPressed(key);
 }
 
-void iggBeginColumns(char const *label, int count, int flags)
+void iggBeginColumns(int count, char const *label, int flags)
 {
     ImGui::Columns(count, label, flags);
 }
