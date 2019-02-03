@@ -20,10 +20,16 @@ IggGlyphRanges iggGetGlyphRangesJapanese(IggFontAtlas handle)
    return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesJapanese()));
 }
 
-IggGlyphRanges iggGetGlyphRangesChinese(IggFontAtlas handle)
+IggGlyphRanges iggGetGlyphRangesChineseFull(IggFontAtlas handle)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
-   return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesChinese()));
+   return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesChineseFull()));
+}
+
+IggGlyphRanges iggGetGlyphRangesChineseSimplifiedCommon(IggFontAtlas handle)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   return static_cast<IggGlyphRanges>(const_cast<ImWchar *>(fontAtlas->GetGlyphRangesChineseSimplifiedCommon()));
 }
 
 IggGlyphRanges iggGetGlyphRangesCyrillic(IggFontAtlas handle)
