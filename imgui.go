@@ -654,6 +654,49 @@ func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
 
+// ListBoxV creates a list of selectables of given items with equal height, enclosed with header and footer.
+// This version accepts a custom item height
+// The function returns true if the selection was changed. The value of currentItem will indicate the new selected item.
+func ListBoxV(label string, currentItem *int32, items []string, heightItems int) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	valueArg, valueFin := wrapInt32(currentItem)
+	defer valueFin()
+
+	itemsCount := len(items)
+
+	argv := make([]*C.char, itemsCount)
+	for i, item := range items {
+		itemArg, itemDeleter := wrapString(item)
+		defer itemDeleter()
+		argv[i] = itemArg
+	}
+
+	return C.iggListBoxV(labelArg, valueArg, &argv[0], C.int(itemsCount), C.int(heightItems)) != 0
+}
+
+// ListBox creates a list of selectables of given items with equal height, enclosed with header and footer.
+// The function returns true if the selection was changed. The value of currentItem will indicate the new selected item.
+func ListBox(label string, currentItem *int32, items []string) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	valueArg, valueFin := wrapInt32(currentItem)
+	defer valueFin()
+
+	itemsCount := len(items)
+
+	argv := make([]*C.char, itemsCount)
+	for i, item := range items {
+		itemArg, itemDeleter := wrapString(item)
+		defer itemDeleter()
+		argv[i] = itemArg
+	}
+
+	return C.iggListBox(labelArg, valueArg, &argv[0], C.int(itemsCount)) != 0
+}
+
 // IsKeyPressed returns true if the corresponding key is currently pressed.
 func IsKeyPressed(key int) bool {
 	return C.iggIsKeyPressed(C.int(key)) != 0

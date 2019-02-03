@@ -108,8 +108,10 @@ extern void iggEndPopup(void);
 extern void iggCloseCurrentPopup(void);
 
 extern IggBool  iggIsItemHovered(int flags);
-
 extern IggBool iggIsKeyPressed(int key);
+
+extern IggBool iggListBoxV(char const *label, int* current_item, char const* const items[], int items_count, int height_items);
+extern IggBool iggListBox(char const *label, int* current_item, char const* const items[], int items_count);
 
 #ifdef __cplusplus
 }
