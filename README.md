@@ -11,7 +11,7 @@ This wrapper is
 * hand-crafted, for Go
 * documented
 * versioned
-* with a ported example using [GLFW3](https://github.com/go-gl/glfw) and [OpenGL3](https://github.com/go-gl/gl).
+* with ported examples for [GLFW3](https://github.com/go-gl/glfw) and [SDL2](https://github.com/veandco/go-sdl2), using [OpenGL](https://github.com/go-gl/gl).
 
 ![Screenshot from example](_examples/opengl3_example/screenshot.png)
 
