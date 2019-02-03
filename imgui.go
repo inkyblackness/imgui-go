@@ -515,7 +515,7 @@ func Selectable(label string) bool {
 }
 
 // ListBoxV creates a list of selectables of given items with equal height, enclosed with header and footer.
-// This version accepts a custom item height
+// This version accepts a custom item height.
 // The function returns true if the selection was changed. The value of currentItem will indicate the new selected item.
 func ListBoxV(label string, currentItem *int32, items []string, heightItems int) bool {
 	labelArg, labelFin := wrapString(label)
