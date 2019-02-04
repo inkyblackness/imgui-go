@@ -658,3 +658,18 @@ func IsItemHovered() bool {
 func IsKeyPressed(key int) bool {
 	return C.iggIsKeyPressed(C.int(key)) != 0
 }
+
+// ProgressBarV creates a progress bar.
+// size (for each axis) < 0.0f: align to end, 0.0f: auto, > 0.0f: specified size
+func ProgressBarV(fraction float32, size Vec2, overlay string) {
+	sizeArg, _ := size.wrapped()
+	overlayArg, overlayFin := wrapString(overlay)
+	defer overlayFin()
+	C.iggProgressBar(C.float(fraction), sizeArg, overlayArg)
+}
+
+// ProgressBar calls ProgressBarV(fraction, Vec2{-1, 0}, "")
+func ProgressBar(fraction float32) {
+	ProgressBarV(fraction, Vec2{-1, 0}, "")
+}
+

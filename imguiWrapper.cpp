@@ -417,3 +417,9 @@ IggBool iggIsKeyPressed(int key)
 {
    return ImGui::IsKeyPressed(key);
 }
+
+void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay) {
+   Vec2Wrapper sizeArg(size);
+   ImGui::ProgressBar(fraction, *sizeArg, overlay);
+}
+
