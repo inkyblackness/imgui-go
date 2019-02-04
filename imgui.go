@@ -680,4 +680,15 @@ func AlignTextToFramePadding() {
 	C.iggAlignTextToFramePadding();
 }
 
+// SetIniFileName sets file name used to load and save
+// windows layout. Call with an empty string to disable INI file.
+// This function can be only called before first call to NewFrame()
+func SetIniFileName(name string) {
+	if len(name) > 0 {
+		nameArg, _ := wrapString(name)
+		C.iggSetIniFileName(nameArg)
+	} else {
+		C.iggSetIniFileName((*C.char)(C.NULL))
+	}
+}
 

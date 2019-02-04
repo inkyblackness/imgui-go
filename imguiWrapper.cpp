@@ -427,3 +427,7 @@ void iggAlignTextToFramePadding() {
 	ImGui::AlignTextToFramePadding();
 }
 
+void iggSetIniFileName(const char *name) {
+	ImGui::GetIO().IniFilename = name;
+}
+
