@@ -677,7 +677,7 @@ func ProgressBar(fraction float32) {
 // FramePadding.y so that it will align properly to regularly framed
 // items (call if you have text on a line before a framed item)
 func AlignTextToFramePadding() {
-	C.iggAlignTextToFramePadding();
+	C.iggAlignTextToFramePadding()
 }
 
 // SetIniFileName sets file name used to load and save
@@ -691,4 +691,3 @@ func SetIniFileName(name string) {
 		C.iggSetIniFileName((*C.char)(C.NULL))
 	}
 }
-
