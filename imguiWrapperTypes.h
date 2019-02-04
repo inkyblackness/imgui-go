@@ -17,6 +17,7 @@ typedef void *IggFontConfig;
 typedef void *IggFont;
 typedef void *IggGlyphRanges;
 typedef void *IggGuiStyle;
+typedef void *IggInputTextCallbackData;
 typedef void *IggIO;
 
 typedef struct tagIggVec2

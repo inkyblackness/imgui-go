@@ -73,6 +73,8 @@ extern IggBool iggSliderFloatN(char const *label, float *value, int n, float min
 
 extern IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format);
 
+extern IggBool iggInputText(char const* label, char* buf, unsigned int bufSize, int flags, int callbackKey);
+
 extern void iggSeparator(void);
 extern void iggSameLine(float posX, float spacingW);
 extern void iggSpacing(void);

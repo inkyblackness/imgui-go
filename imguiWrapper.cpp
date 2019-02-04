@@ -264,6 +264,22 @@ IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, 
    return ImGui::SliderInt(label, value, minValue, maxValue, format) ? 1 : 0;
 }
 
+extern "C" int iggInputTextCallback(IggInputTextCallbackData data, int key);
+
+static int iggInputTextCallbackWrapper(ImGuiInputTextCallbackData *data)
+{
+   return iggInputTextCallback(reinterpret_cast<IggInputTextCallbackData>(data), static_cast<int>(reinterpret_cast<size_t>(data->UserData)));
+}
+
+IggBool iggInputText(char const* label, char* buf, unsigned int bufSize, int flags, int callbackKey)
+{
+   buf[bufSize-1] = 0;
+   IggBool result = ImGui::InputText(label, buf, static_cast<size_t>(bufSize), flags,
+                                     (callbackKey != 0) ? iggInputTextCallbackWrapper : nullptr, reinterpret_cast<void *>(callbackKey)) ? 1 : 0;
+   buf[bufSize-1] = 0;
+   return result;
+}
+
 void iggSeparator(void)
 {
    ImGui::Separator();

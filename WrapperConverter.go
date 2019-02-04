@@ -59,3 +59,21 @@ func wrapString(value string) (wrapped *C.char, finisher func()) {
 	finisher = func() { C.free(unsafe.Pointer(wrapped)) } // nolint: gas
 	return
 }
+
+func wrapStringBuffer(value *string, bufSize uint32) (wrapped *C.char, finisher func()) {
+	buf := C.malloc(C.size_t(bufSize))
+	if buf == nil {
+		panic("out-of-memory allocating buffer")
+	}
+
+	copy(((*[1 << 30]byte)(buf))[:bufSize-1], []byte(*value))
+	textLen := len(*value)
+	if uint32(textLen) < bufSize {
+		((*[1 << 30]byte)(buf))[textLen] = 0
+	}
+
+	return (*C.char)(buf), func() {
+		*value = C.GoString((*C.char)(buf))
+		C.free(unsafe.Pointer(buf))
+	}
+}

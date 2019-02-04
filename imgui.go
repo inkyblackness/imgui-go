@@ -424,6 +424,30 @@ func SliderInt(label string, value *int32, min, max int32) bool {
 	return SliderIntV(label, value, min, max, "%d")
 }
 
+// InputTextV creates a text field for dynamic text input.
+// The maxBytes indicate how many UTF-8 bytes may be entered at most.
+// The provided string will be truncated in case it requires more bytes than allowed.
+func InputTextV(label string, text *string, maxBytes uint32, flags int, cb InputTextCallback) bool {
+	if text == nil {
+		panic("text can't be nil")
+	}
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	bufSize := maxBytes + 1
+	bufArg, bufFin := wrapStringBuffer(text, bufSize)
+	defer bufFin()
+	cbKey := iggInputTextCallbackKeyFor(cb)
+	defer iggInputTextCallbackKeyRelease(cbKey)
+	result := C.iggInputText(labelArg, bufArg, C.uint(bufSize), C.int(flags), cbKey) != 0
+
+	return result
+}
+
+// InputText calls InputTextV(label, string, maxBytes, 0, nil)
+func InputText(label string, text *string, maxBytes uint32) bool {
+	return InputTextV(label, text, maxBytes, 0, nil)
+}
+
 // Separator is generally horizontal. Inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
 func Separator() {
 	C.iggSeparator()
