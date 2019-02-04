@@ -673,3 +673,11 @@ func ProgressBar(fraction float32) {
 	ProgressBarV(fraction, Vec2{-1, 0}, "")
 }
 
+// AlignTextToFramePadding vertically aligns upcoming text baseline to
+// FramePadding.y so that it will align properly to regularly framed
+// items (call if you have text on a line before a framed item)
+func AlignTextToFramePadding() {
+	C.iggAlignTextToFramePadding();
+}
+
+

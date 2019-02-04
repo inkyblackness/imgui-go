@@ -112,6 +112,7 @@ extern IggBool  iggIsItemHovered(int flags);
 extern IggBool iggIsKeyPressed(int key);
 
 extern void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay);
+extern void iggAlignTextToFramePadding();
 
 #ifdef __cplusplus
 }

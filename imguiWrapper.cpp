@@ -423,3 +423,7 @@ void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay) {
    ImGui::ProgressBar(fraction, *sizeArg, overlay);
 }
 
+void iggAlignTextToFramePadding() {
+	ImGui::AlignTextToFramePadding();
+}
+
