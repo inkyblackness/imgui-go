@@ -66,19 +66,12 @@ type stringBuffer struct {
 	size int
 }
 
-func newStringBuffer(initialSize int, initialValue string) *stringBuffer {
-	bufSize := initialSize
-	if bufSize < 1 {
-		bufSize = 1
-	}
-	newPtr := C.malloc(C.size_t(bufSize))
+func newStringBuffer(initialValue string) *stringBuffer {
 	rawText := []byte(initialValue)
+	bufSize := len(rawText) + 1
+	newPtr := C.malloc(C.size_t(bufSize))
 	zeroOffset := bufSize - 1
 	copy(((*[1 << 30]byte)(newPtr))[:zeroOffset], rawText)
-	textLen := len(rawText)
-	if zeroOffset > textLen {
-		zeroOffset = textLen
-	}
 	((*[1 << 30]byte)(newPtr))[zeroOffset] = 0
 
 	return &stringBuffer{ptr: newPtr, size: bufSize}

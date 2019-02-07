@@ -10,19 +10,16 @@ import (
 
 func TestStringBufferAllocation(t *testing.T) {
 	tt := []struct {
-		initialSize  int
+		initialValue string
 		expectedSize int
 	}{
-		{1, 1},
-		{2, 2},
-		{10, 10},
-		{0, 1},
-		{-1, 1},
-		{-10, 1},
+		{"", 1},
+		{"a", 2},
+		{"123456789", 10},
 	}
 	for _, tc := range tt {
-		t.Run(fmt.Sprintf("%d -> %d", tc.initialSize, tc.expectedSize), func(t *testing.T) {
-			buf := newStringBuffer(tc.initialSize, "")
+		t.Run(fmt.Sprintf("<%s>", tc.initialValue), func(t *testing.T) {
+			buf := newStringBuffer(tc.initialValue)
 			defer buf.free()
 			assert.Equal(t, tc.expectedSize, buf.size)
 		})
@@ -34,20 +31,13 @@ func TestStringBufferStorage(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run("Value <"+tc+">", func(t *testing.T) {
-			asBytes := []byte(tc)
-			buf := newStringBuffer(len(asBytes)+1, tc)
+			buf := newStringBuffer(tc)
 			require.NotNil(t, buf, "buffer expected")
 			defer buf.free()
 			result := buf.toGo()
 			assert.Equal(t, tc, result)
 		})
 	}
-}
-
-func TestStringBufferTruncation(t *testing.T) {
-	buf := newStringBuffer(3, "abcd")
-	defer buf.free()
-	assert.Equal(t, "ab", buf.toGo())
 }
 
 func TestStringBufferResize(t *testing.T) {
@@ -63,7 +53,7 @@ func TestStringBufferResize(t *testing.T) {
 	}
 	for _, tc := range tt {
 		t.Run(fmt.Sprintf("<%s> -> %d", tc.initialValue, tc.newSize), func(t *testing.T) {
-			buf := newStringBuffer(len([]byte(tc.initialValue))+1, tc.initialValue)
+			buf := newStringBuffer(tc.initialValue)
 			defer buf.free()
 			buf.resizeTo(tc.newSize)
 			assert.Equal(t, tc.expectedValue, buf.toGo())

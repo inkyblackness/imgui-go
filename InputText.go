@@ -49,10 +49,8 @@ const (
 	InputTextFlagsNoUndoRedo = 1 << 16
 	// InputTextFlagsCharsScientific allows 0123456789.+-*/eE (Scientific notation input).
 	InputTextFlagsCharsScientific = 1 << 17
-	// InputTextFlagsCallbackResize for callback on buffer capacity changes request (beyond 'buf_size' parameter value),
-	// allowing the string to grow. Notify when the string wants to be resized (for string types which hold a cache of their Size).
-	// You will be provided a new BufSize in the callback and NEED to honor it. (see misc/cpp/imgui_stdlib.h for an example of using this)
-	InputTextFlagsCallbackResize = 1 << 18
+	// inputTextFlagsCallbackResize for callback on buffer capacity change requests.
+	inputTextFlagsCallbackResize = 1 << 18
 )
 
 // InputTextCallback is called for sharing state of an input field.
@@ -110,7 +108,7 @@ func (data InputTextCallbackData) EventFlag() int {
 
 // Flags returns the set of flags that the user originally passed to InputText.
 func (data InputTextCallbackData) Flags() int {
-	return int(C.iggInputTextCallbackDataGetFlags(data.handle))
+	return int(C.iggInputTextCallbackDataGetFlags(data.handle)) & ^inputTextFlagsCallbackResize
 }
 
 // EventChar returns the current character input.
