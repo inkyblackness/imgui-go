@@ -273,11 +273,8 @@ static int iggInputTextCallbackWrapper(ImGuiInputTextCallbackData *data)
 
 IggBool iggInputText(char const* label, char* buf, unsigned int bufSize, int flags, int callbackKey)
 {
-   buf[bufSize-1] = 0;
-   IggBool result = ImGui::InputText(label, buf, static_cast<size_t>(bufSize), flags,
+   return ImGui::InputText(label, buf, static_cast<size_t>(bufSize), flags,
                                      (callbackKey != 0) ? iggInputTextCallbackWrapper : nullptr, reinterpret_cast<void *>(callbackKey)) ? 1 : 0;
-   buf[bufSize-1] = 0;
-   return result;
 }
 
 void iggSeparator(void)

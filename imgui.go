@@ -427,24 +427,34 @@ func SliderInt(label string, value *int32, min, max int32) bool {
 // InputTextV creates a text field for dynamic text input.
 // The maxBytes indicate how many UTF-8 bytes may be entered at most.
 // The provided string will be truncated in case it requires more bytes than allowed.
-func InputTextV(label string, text *string, maxBytes uint32, flags int, cb InputTextCallback) bool {
+//
+// Specify the flag InputTextFlagsCallbackResize in order to allow dynamic reallocation of the internal buffer.
+// This allows to enter more characters than initially provided via maxBytes.
+func InputTextV(label string, text *string, maxBytes int, flags int, cb InputTextCallback) bool {
 	if text == nil {
 		panic("text can't be nil")
 	}
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
-	bufSize := maxBytes + 1
-	bufArg, bufFin := wrapStringBuffer(text, bufSize)
-	defer bufFin()
-	cbKey := iggInputTextCallbackKeyFor(cb)
+	bufArg := newStringBuffer(maxBytes+1, *text)
+	defer bufArg.free()
+	cbKey := iggInputTextCallbackKeyFor(func(data InputTextCallbackData) int32 {
+		if data.EventFlag() == InputTextFlagsCallbackResize {
+			bufArg.resizeTo(data.bufSize())
+			data.setBuf(bufArg.ptr, bufArg.size, data.bufTextLen())
+			return 0
+		}
+		return cb(data)
+	})
 	defer iggInputTextCallbackKeyRelease(cbKey)
-	result := C.iggInputText(labelArg, bufArg, C.uint(bufSize), C.int(flags), cbKey) != 0
+	result := C.iggInputText(labelArg, (*C.char)(bufArg.ptr), C.uint(bufArg.size), C.int(flags), cbKey) != 0
+	*text = bufArg.toGo()
 
 	return result
 }
 
 // InputText calls InputTextV(label, string, maxBytes, 0, nil)
-func InputText(label string, text *string, maxBytes uint32) bool {
+func InputText(label string, text *string, maxBytes int) bool {
 	return InputTextV(label, text, maxBytes, 0, nil)
 }
 

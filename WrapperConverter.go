@@ -1,6 +1,7 @@
 package imgui
 
 // #include "imguiWrapperTypes.h"
+// #include <memory.h>
 // #include <stdlib.h>
 import "C"
 import "unsafe"
@@ -60,20 +61,57 @@ func wrapString(value string) (wrapped *C.char, finisher func()) {
 	return
 }
 
-func wrapStringBuffer(value *string, bufSize uint32) (wrapped *C.char, finisher func()) {
-	buf := C.malloc(C.size_t(bufSize))
-	if buf == nil {
-		panic("out-of-memory allocating buffer")
-	}
+type stringBuffer struct {
+	ptr  unsafe.Pointer
+	size int
+}
 
-	copy(((*[1 << 30]byte)(buf))[:bufSize-1], []byte(*value))
-	textLen := len(*value)
-	if uint32(textLen) < bufSize {
-		((*[1 << 30]byte)(buf))[textLen] = 0
+func newStringBuffer(initialSize int, initialValue string) *stringBuffer {
+	bufSize := initialSize
+	if bufSize < 1 {
+		bufSize = 1
 	}
+	newPtr := C.malloc(C.size_t(bufSize))
+	rawText := []byte(initialValue)
+	zeroOffset := bufSize - 1
+	copy(((*[1 << 30]byte)(newPtr))[:zeroOffset], rawText)
+	textLen := len(rawText)
+	if zeroOffset > textLen {
+		zeroOffset = textLen
+	}
+	((*[1 << 30]byte)(newPtr))[zeroOffset] = 0
 
-	return (*C.char)(buf), func() {
-		*value = C.GoString((*C.char)(buf))
-		C.free(unsafe.Pointer(buf))
+	return &stringBuffer{ptr: newPtr, size: bufSize}
+}
+
+func (buf *stringBuffer) free() {
+	C.free(unsafe.Pointer(buf.ptr))
+	buf.size = 0
+}
+
+func (buf *stringBuffer) resizeTo(requestedSize int) {
+	bufSize := requestedSize
+	if bufSize < 1 {
+		bufSize = 1
 	}
+	newPtr := C.malloc(C.size_t(bufSize))
+	copySize := bufSize
+	if copySize > buf.size {
+		copySize = buf.size
+	}
+	if copySize > 0 {
+		C.memcpy(newPtr, buf.ptr, C.size_t(copySize))
+	}
+	((*[1 << 30]byte)(newPtr))[bufSize-1] = 0
+	C.free(unsafe.Pointer(buf.ptr))
+	buf.ptr = newPtr
+	buf.size = bufSize
+}
+
+func (buf stringBuffer) toGo() string {
+	if (buf.ptr == nil) || (buf.size < 1) {
+		return ""
+	}
+	((*[1 << 30]byte)(buf.ptr))[buf.size-1] = 0
+	return C.GoString((*C.char)(buf.ptr))
 }

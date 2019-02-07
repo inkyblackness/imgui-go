@@ -2,7 +2,10 @@ package imgui
 
 // #include "InputTextCallbackDataWrapper.h"
 import "C"
-import "sync"
+import (
+	"sync"
+	"unsafe"
+)
 
 const (
 	// InputTextFlagsNone sets everything default.
@@ -100,7 +103,72 @@ type InputTextCallbackData struct {
 	handle C.IggInputTextCallbackData
 }
 
-// EventFlags returns a combination on InputTextFlagsCallback* constants.
-func (data InputTextCallbackData) EventFlags() int {
-	return int(C.iggInputTextCallbackDataGetEventFlags(data.handle))
+// EventFlag returns one of the InputTextFlagsCallback* constants to indicate the nature of the callback.
+func (data InputTextCallbackData) EventFlag() int {
+	return int(C.iggInputTextCallbackDataGetEventFlag(data.handle))
+}
+
+// Flags returns the set of flags that the user originally passed to InputText.
+func (data InputTextCallbackData) Flags() int {
+	return int(C.iggInputTextCallbackDataGetFlags(data.handle))
+}
+
+// EventChar returns the current character input.
+func (data InputTextCallbackData) EventChar() rune {
+	return rune(C.iggInputTextCallbackDataGetEventChar(data.handle))
+}
+
+// SetEventChar overrides what the user entered. Set to zero do drop the current input.
+// Returning 1 from the callback also drops the current input.
+//
+// Note: The internal representation of characters is based on uint16, so less than rune would provide.
+func (data InputTextCallbackData) SetEventChar(value rune) {
+	C.iggInputTextCallbackDataSetEventChar(data.handle, C.ushort(value))
+}
+
+// EventKey returns the currently pressed key. Valid for completion and history callbacks.
+func (data InputTextCallbackData) EventKey() int {
+	return int(C.iggInputTextCallbackDataGetEventKey(data.handle))
+}
+
+func (data InputTextCallbackData) setBuf(buf unsafe.Pointer, size, textLen int) {
+	C.iggInputTextCallbackDataSetBuf(data.handle, (*C.char)(buf), C.int(size), C.int(textLen))
+}
+
+func (data InputTextCallbackData) bufSize() int {
+	return int(C.iggInputTextCallbackDataGetBufSize(data.handle))
+}
+
+func (data InputTextCallbackData) bufTextLen() int {
+	return int(C.iggInputTextCallbackDataGetBufTextLen(data.handle))
+}
+
+// CursorPos returns the byte-offset of the cursor within the buffer.
+func (data InputTextCallbackData) CursorPos() int {
+	return int(C.iggInputTextCallbackDataGetCursorPos(data.handle))
+}
+
+// SetCursorPos changes the current byte-offset of the cursor within the buffer.
+func (data InputTextCallbackData) SetCursorPos(value int) {
+	C.iggInputTextCallbackDataSetCursorPos(data.handle, C.int(value))
+}
+
+// SelectionStart returns the byte-offset of the selection start within the buffer.
+func (data InputTextCallbackData) SelectionStart() int {
+	return int(C.iggInputTextCallbackDataGetSelectionStart(data.handle))
+}
+
+// SetSelectionStart changes the current byte-offset of the selection start within the buffer.
+func (data InputTextCallbackData) SetSelectionStart(value int) {
+	C.iggInputTextCallbackDataSetSelectionStart(data.handle, C.int(value))
+}
+
+// SelectionEnd returns the byte-offset of the selection end within the buffer.
+func (data InputTextCallbackData) SelectionEnd() int {
+	return int(C.iggInputTextCallbackDataGetSelectionEnd(data.handle))
+}
+
+// SetSelectionEnd changes the current byte-offset of the selection end within the buffer.
+func (data InputTextCallbackData) SetSelectionEnd(value int) {
+	C.iggInputTextCallbackDataSetSelectionEnd(data.handle, C.int(value))
 }
