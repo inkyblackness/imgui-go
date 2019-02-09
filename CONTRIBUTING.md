@@ -52,3 +52,16 @@ Please make sure code is formatted according to `go fmt`, and use the following 
 Note that running the linter in the root directory ignores the `_examples` directory - enter that and run the linter there separately.
 
 > If there are linter errors that you didn't introduce, you don't have to clean them up - I might have missed them and will be handling them separately.
+
+### Upgrade to newer Dear ImGui version
+
+An upgrade with _major_ changes in the API should be on purpose and with coordination. Such a change requires a bump of the major version of this wrapper.
+
+Otherwise, try to keep the API of this wrapper stable and keep compatible wrapper functions for changed/upgraded functions.
+  
+On an upgrade of **Dear ImGui**, apart from updating the actual files, be sure to do the following steps:
+* In case `imconfig.h` is changed, be sure to keep the intentional changes: Obsolete functions should not be compiled, and the `iggAssert()` function must survive.
+* Run `go test ./...` . There is at least one test that is bound to the version and needs change as well.
+* Update the screenshots of the examples, they show the version number.
+* Update the `readme.md` file, it indicates the version number.
+* Check if the license of **Dear ImGui** has changed and update the `_licenses/imgui-LICENSE.txt` file. This may happen every year (copyright year).

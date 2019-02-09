@@ -514,6 +514,34 @@ func Selectable(label string) bool {
 	return SelectableV(label, false, 0, Vec2{})
 }
 
+// ListBoxV creates a list of selectables of given items with equal height, enclosed with header and footer.
+// This version accepts a custom item height.
+// The function returns true if the selection was changed. The value of currentItem will indicate the new selected item.
+func ListBoxV(label string, currentItem *int32, items []string, heightItems int) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	valueArg, valueFin := wrapInt32(currentItem)
+	defer valueFin()
+
+	itemsCount := len(items)
+
+	argv := make([]*C.char, itemsCount)
+	for i, item := range items {
+		itemArg, itemDeleter := wrapString(item)
+		defer itemDeleter()
+		argv[i] = itemArg
+	}
+
+	return C.iggListBoxV(labelArg, valueArg, &argv[0], C.int(itemsCount), C.int(heightItems)) != 0
+}
+
+// ListBox calls ListBoxV(label, currentItem, items, -1)
+// The function returns true if the selection was changed. The value of currentItem will indicate the new selected item.
+func ListBox(label string, currentItem *int32, items []string) bool {
+	return ListBoxV(label, currentItem, items, -1)
+}
+
 // SetTooltip sets a text tooltip under the mouse-cursor, typically use with IsItemHovered().
 // Overrides any previous call to SetTooltip().
 func SetTooltip(text string) {

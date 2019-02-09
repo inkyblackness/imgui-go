@@ -332,6 +332,11 @@ IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 co
    return ImGui::Selectable(label, selected != 0, flags, *sizeArg) ? 1 : 0;
 }
 
+IggBool iggListBoxV(char const *label, int* current_item, char const* const items[], int items_count, int height_items)
+{
+   return ImGui::ListBox(label, current_item, items, items_count, height_items) ? 1 : 0;
+}
+
 void iggSetTooltip(char const *text)
 {
    ImGui::SetTooltip("%s", text);

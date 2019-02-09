@@ -1,6 +1,8 @@
 # Dear ImGui for Go
 
+[![Go Doc](https://godoc.org/github.com/inkyblackness/imgui-go?status.svg)](https://godoc.org/github.com/inkyblackness/imgui-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/inkyblackness/imgui-go)](https://goreportcard.com/report/github.com/inkyblackness/imgui-go)
+[![GolangCI](https://golangci.com/badges/github.com/inkyblackness/imgui-go.svg)](https://golangci.com)
 
 This library is a [Go](https://www.golang.org) wrapper for [Dear ImGui](https://github.com/ocornut/imgui).
 
@@ -11,7 +13,7 @@ This wrapper is
 * hand-crafted, for Go
 * documented
 * versioned
-* with a ported example using [GLFW3](https://github.com/go-gl/glfw) and [OpenGL3](https://github.com/go-gl/gl).
+* with ported examples for [GLFW3](https://github.com/go-gl/glfw) and [SDL2](https://github.com/veandco/go-sdl2), using [OpenGL](https://github.com/go-gl/gl).
 
 ![Screenshot from example](_examples/opengl3_example/screenshot.png)
 
@@ -41,7 +43,7 @@ This library does not mirror the versions of the wrapped ImGui. The semantic ver
 * Minor changes: Extensions in API. Typically done through small version increments of ImGui and/or exposing further features in a compatible way.
 * Patch changes: Bug fixes - either in the wrapper or the wrapped ImGui, given that the API & behaviour remains the same.
 
-At the moment, this library uses version [1.61](https://github.com/ocornut/imgui/releases/tag/v1.61) of ImGui.
+At the moment, this library uses version [1.67](https://github.com/ocornut/imgui/releases/tag/v1.67) of ImGui.
 
 ## Alternatives
 
