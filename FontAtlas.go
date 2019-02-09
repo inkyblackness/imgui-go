@@ -39,9 +39,22 @@ func (atlas FontAtlas) GlyphRangesJapanese() GlyphRanges {
 	return GlyphRanges(C.iggGetGlyphRangesJapanese(atlas.handle()))
 }
 
-// GlyphRangesChinese describes Default + Japanese + full set of about 21000 CJK Unified Ideographs.
+// GlyphRangesChinese calls GlyphRangesChineseFull() for compatibility reasons.
+// Deprecated: This function will be removed with v2.x.x ; Use GlyphRangesChineseFull instead.
 func (atlas FontAtlas) GlyphRangesChinese() GlyphRanges {
-	return GlyphRanges(C.iggGetGlyphRangesChinese(atlas.handle()))
+	return atlas.GlyphRangesChineseFull()
+}
+
+// GlyphRangesChineseFull describes Default + Half-Width + Japanese Hiragana/Katakana + full set of about 21000 CJK
+// Unified Ideographs.
+func (atlas FontAtlas) GlyphRangesChineseFull() GlyphRanges {
+	return GlyphRanges(C.iggGetGlyphRangesChineseFull(atlas.handle()))
+}
+
+// GlyphRangesChineseSimplifiedCommon describes Default + Half-Width + Japanese Hiragana/Katakana + set of 2500 CJK
+// Unified Ideographs for common simplified Chinese.
+func (atlas FontAtlas) GlyphRangesChineseSimplifiedCommon() GlyphRanges {
+	return GlyphRanges(C.iggGetGlyphRangesChineseSimplifiedCommon(atlas.handle()))
 }
 
 // GlyphRangesCyrillic describes Default + about 400 Cyrillic characters.
