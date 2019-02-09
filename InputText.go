@@ -156,9 +156,20 @@ func (data InputTextCallbackData) EventKey() int {
 	return int(C.iggInputTextCallbackDataGetEventKey(data.handle))
 }
 
-// Text returns the currently displayed text.
-func (data InputTextCallbackData) Text() string {
-	return C.GoString(C.iggInputTextCallbackDataGetBuf(data.handle))
+// Text returns a view into the current UTF-8 buffer.
+// The returned slice is a temporary view into the underlying raw buffer. Do not keep it!
+//
+// During the callbacks of [Completion,History,Always], you may change the bytes.
+// If you do so, mark the buffer as modified with MarkBufferModified().
+func (data InputTextCallbackData) Buffer() []byte {
+	ptr := C.iggInputTextCallbackDataGetBuf(data.handle)
+	textLen := data.bufTextLen()
+	return ((*[1 << 30]byte)(unsafe.Pointer(ptr)))[:textLen]
+}
+
+// MarkBufferModified indicates that the content of the buffer was modified during a callback.
+func (data InputTextCallbackData) MarkBufferModified() {
+	C.iggInputTextCallbackDataMarkBufferModified(data.handle)
 }
 
 func (data InputTextCallbackData) setBuf(buf unsafe.Pointer, size, textLen int) {

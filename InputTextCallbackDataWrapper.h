@@ -16,6 +16,7 @@ extern int iggInputTextCallbackDataGetEventKey(IggInputTextCallbackData handle);
 
 extern char *iggInputTextCallbackDataGetBuf(IggInputTextCallbackData handle);
 extern void iggInputTextCallbackDataSetBuf(IggInputTextCallbackData handle, char *buf, int size, int textLen);
+extern void iggInputTextCallbackDataMarkBufferModified(IggInputTextCallbackData handle);
 extern int iggInputTextCallbackDataGetBufSize(IggInputTextCallbackData handle);
 extern int iggInputTextCallbackDataGetBufTextLen(IggInputTextCallbackData handle);
 

@@ -46,6 +46,12 @@ void iggInputTextCallbackDataSetBuf(IggInputTextCallbackData handle, char *buf, 
    data->BufDirty = true;
 }
 
+void iggInputTextCallbackDataMarkBufferModified(IggInputTextCallbackData handle)
+{
+   ImGuiInputTextCallbackData *data = reinterpret_cast<ImGuiInputTextCallbackData *>(handle);
+   data->BufDirty = true;
+}
+
 int iggInputTextCallbackDataGetBufSize(IggInputTextCallbackData handle)
 {
    ImGuiInputTextCallbackData *data = reinterpret_cast<ImGuiInputTextCallbackData *>(handle);
