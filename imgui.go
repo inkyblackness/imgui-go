@@ -438,23 +438,14 @@ func InputTextV(label string, text *string, flags int, cb InputTextCallback) boo
 	}
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
-	bufArg := newStringBuffer(*text)
+	state := newInputTextState(*text, cb)
 	defer func() {
-		*text = bufArg.toGo()
-		bufArg.free()
+		*text = state.buf.toGo()
+		state.release()
 	}()
-	cbKey := iggInputTextCallbackKeyFor(func(data InputTextCallbackData) int32 {
-		if data.EventFlag() == inputTextFlagsCallbackResize {
-			bufArg.resizeTo(data.bufSize())
-			data.setBuf(bufArg.ptr, bufArg.size, data.bufTextLen())
-			return 0
-		}
-		return cb(data)
-	})
-	defer iggInputTextCallbackKeyRelease(cbKey)
 
-	return C.iggInputText(labelArg, (*C.char)(bufArg.ptr), C.uint(bufArg.size),
-		C.int(flags|inputTextFlagsCallbackResize), cbKey) != 0
+	return C.iggInputText(labelArg, (*C.char)(state.buf.ptr), C.uint(state.buf.size),
+		C.int(flags|inputTextFlagsCallbackResize), state.key) != 0
 }
 
 // InputText calls InputTextV(label, string, 0, nil)

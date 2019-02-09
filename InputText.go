@@ -57,47 +57,74 @@ const (
 // By default, the callback should return 0.
 type InputTextCallback func(InputTextCallbackData) int32
 
-var inputTextCallbacks = make(map[C.int]InputTextCallback)
-var inputTextCallbacksMutex sync.Mutex
+type inputTextState struct {
+	buf *stringBuffer
+
+	key      C.int
+	callback InputTextCallback
+}
+
+var inputTextStates = make(map[C.int]*inputTextState)
+var inputTextStatesMutex sync.Mutex
+
+func newInputTextState(text string, cb InputTextCallback) *inputTextState {
+	state := &inputTextState{}
+	state.buf = newStringBuffer(text)
+
+	if cb == nil {
+		return state
+	}
+	state.callback = cb
+	state.register()
+	return state
+}
+
+func (state *inputTextState) register() {
+	inputTextStatesMutex.Lock()
+	defer inputTextStatesMutex.Unlock()
+	key := C.int(len(inputTextStates) + 1)
+	for _, existing := inputTextStates[key]; existing; _, existing = inputTextStates[key] {
+		key++
+	}
+	state.key = key
+	inputTextStates[key] = state
+}
+
+func (state *inputTextState) release() {
+	state.buf.free()
+
+	if state.key != 0 {
+		inputTextStatesMutex.Lock()
+		defer inputTextStatesMutex.Unlock()
+		delete(inputTextStates, state.key)
+	}
+}
+
+func (state *inputTextState) onCallback(handle C.IggInputTextCallbackData) C.int {
+	data := InputTextCallbackData{state: state, handle: handle}
+	if data.EventFlag() == inputTextFlagsCallbackResize {
+		state.buf.resizeTo(data.bufSize())
+		data.setBuf(state.buf.ptr, state.buf.size, data.bufTextLen())
+		return 0
+	}
+	return C.int(state.callback(data))
+}
 
 //export iggInputTextCallback
 func iggInputTextCallback(handle C.IggInputTextCallbackData, key C.int) C.int {
-	cb := iggInputTextCallbackFor(key)
-	return C.int(cb(InputTextCallbackData{handle: handle}))
+	state := iggInputTextStateFor(key)
+	return state.onCallback(handle)
 }
 
-func iggInputTextCallbackFor(key C.int) InputTextCallback {
-	inputTextCallbacksMutex.Lock()
-	defer inputTextCallbacksMutex.Unlock()
-	cb, existing := inputTextCallbacks[key]
-	if !existing || (cb == nil) {
-		return func(InputTextCallbackData) int32 { return 0 }
-	}
-	return cb
-}
-
-func iggInputTextCallbackKeyFor(cb InputTextCallback) C.int {
-	if cb == nil {
-		return 0
-	}
-	inputTextCallbacksMutex.Lock()
-	defer inputTextCallbacksMutex.Unlock()
-	key := C.int(len(inputTextCallbacks) + 1)
-	for _, existing := inputTextCallbacks[key]; existing; _, existing = inputTextCallbacks[key] {
-		key++
-	}
-	inputTextCallbacks[key] = cb
-	return key
-}
-
-func iggInputTextCallbackKeyRelease(key C.int) {
-	inputTextCallbacksMutex.Lock()
-	defer inputTextCallbacksMutex.Unlock()
-	delete(inputTextCallbacks, key)
+func iggInputTextStateFor(key C.int) *inputTextState {
+	inputTextStatesMutex.Lock()
+	defer inputTextStatesMutex.Unlock()
+	return inputTextStates[key]
 }
 
 // InputTextCallbackData represents the shared state of InputText(), passed as an argument to your callback.
 type InputTextCallbackData struct {
+	state  *inputTextState
 	handle C.IggInputTextCallbackData
 }
 
