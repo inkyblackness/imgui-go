@@ -129,6 +129,11 @@ func (data InputTextCallbackData) EventKey() int {
 	return int(C.iggInputTextCallbackDataGetEventKey(data.handle))
 }
 
+// Text returns the currently displayed text.
+func (data InputTextCallbackData) Text() string {
+	return C.GoString(C.iggInputTextCallbackDataGetBuf(data.handle))
+}
+
 func (data InputTextCallbackData) setBuf(buf unsafe.Pointer, size, textLen int) {
 	C.iggInputTextCallbackDataSetBuf(data.handle, (*C.char)(buf), C.int(size), C.int(textLen))
 }
