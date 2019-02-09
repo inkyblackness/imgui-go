@@ -429,6 +429,8 @@ func SliderInt(label string, value *int32, min, max int32) bool {
 // Contrary to the original library, this wrapper does not limit the maximum number of possible characters.
 // Dynamic resizing of the internal buffer is handled within the wrapper and the user will never be called for such requests.
 //
+// The provided callback is called for any of the requested InputTextFlagsCallback* flags.
+//
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
 func InputTextV(label string, text *string, flags int, cb InputTextCallback) bool {
 	if text == nil {
@@ -437,7 +439,10 @@ func InputTextV(label string, text *string, flags int, cb InputTextCallback) boo
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	bufArg := newStringBuffer(*text)
-	defer bufArg.free()
+	defer func() {
+		*text = bufArg.toGo()
+		bufArg.free()
+	}()
 	cbKey := iggInputTextCallbackKeyFor(func(data InputTextCallbackData) int32 {
 		if data.EventFlag() == inputTextFlagsCallbackResize {
 			bufArg.resizeTo(data.bufSize())
@@ -447,10 +452,9 @@ func InputTextV(label string, text *string, flags int, cb InputTextCallback) boo
 		return cb(data)
 	})
 	defer iggInputTextCallbackKeyRelease(cbKey)
-	result := C.iggInputText(labelArg, (*C.char)(bufArg.ptr), C.uint(bufArg.size), C.int(flags|inputTextFlagsCallbackResize), cbKey) != 0
-	*text = bufArg.toGo()
 
-	return result
+	return C.iggInputText(labelArg, (*C.char)(bufArg.ptr), C.uint(bufArg.size),
+		C.int(flags|inputTextFlagsCallbackResize), cbKey) != 0
 }
 
 // InputText calls InputTextV(label, string, 0, nil)
