@@ -184,6 +184,25 @@ func (data InputTextCallbackData) bufTextLen() int {
 	return int(C.iggInputTextCallbackDataGetBufTextLen(data.handle))
 }
 
+// DeleteBytes removes the given count of bytes starting at the specified offset from the buffer.
+// This function can be called during the [Completion,History,Always] callbacks.
+// Clears the current selection.
+func (data InputTextCallbackData) DeleteBytes(offset, count int) {
+	C.iggInputTextCallbackDataDeleteBytes(data.handle, C.int(offset), C.int(count))
+}
+
+// InsertBytes inserts the given bytes at given offset into the buffer.
+// This function can be called during the [Completion,History,Always] callbacks.
+// Clears the current selection.
+func (data InputTextCallbackData) InsertBytes(offset int, bytes []byte) {
+	var bytesPtr *C.char
+	byteCount := len(bytes)
+	if byteCount > 0 {
+		bytesPtr = (*C.char)(unsafe.Pointer(&bytes[0]))
+	}
+	C.iggInputTextCallbackDataInsertBytes(data.handle, C.int(offset), bytesPtr, C.int(byteCount))
+}
+
 // CursorPos returns the byte-offset of the cursor within the buffer.
 func (data InputTextCallbackData) CursorPos() int {
 	return int(C.iggInputTextCallbackDataGetCursorPos(data.handle))

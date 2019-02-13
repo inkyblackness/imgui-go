@@ -19,6 +19,8 @@ extern void iggInputTextCallbackDataSetBuf(IggInputTextCallbackData handle, char
 extern void iggInputTextCallbackDataMarkBufferModified(IggInputTextCallbackData handle);
 extern int iggInputTextCallbackDataGetBufSize(IggInputTextCallbackData handle);
 extern int iggInputTextCallbackDataGetBufTextLen(IggInputTextCallbackData handle);
+extern void iggInputTextCallbackDataDeleteBytes(IggInputTextCallbackData handle, int offset, int count);
+extern void iggInputTextCallbackDataInsertBytes(IggInputTextCallbackData handle, int offset, char *bytes, int count);
 
 extern int iggInputTextCallbackDataGetCursorPos(IggInputTextCallbackData handle);
 extern void iggInputTextCallbackDataSetCursorPos(IggInputTextCallbackData handle, int value);

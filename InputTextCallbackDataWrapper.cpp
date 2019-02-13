@@ -64,6 +64,18 @@ int iggInputTextCallbackDataGetBufTextLen(IggInputTextCallbackData handle)
    return data->BufTextLen;
 }
 
+void iggInputTextCallbackDataDeleteBytes(IggInputTextCallbackData handle, int offset, int count)
+{
+   ImGuiInputTextCallbackData *data = reinterpret_cast<ImGuiInputTextCallbackData *>(handle);
+   data->DeleteChars(offset, count);
+}
+
+void iggInputTextCallbackDataInsertBytes(IggInputTextCallbackData handle, int offset, char *bytes, int count)
+{
+   ImGuiInputTextCallbackData *data = reinterpret_cast<ImGuiInputTextCallbackData *>(handle);
+   data->InsertChars(offset, bytes, bytes+count);
+}
+
 int iggInputTextCallbackDataGetCursorPos(IggInputTextCallbackData handle)
 {
    ImGuiInputTextCallbackData *data = reinterpret_cast<ImGuiInputTextCallbackData *>(handle);
