@@ -422,3 +422,44 @@ IggBool iggIsKeyPressed(int key)
 {
    return ImGui::IsKeyPressed(key);
 }
+
+void iggBeginColumns(int count, char const *label, int flags)
+{
+    ImGui::Columns(count, label, flags);
+}
+
+void iggNextColumn()
+{
+    ImGui::NextColumn();
+}
+
+int iggGetColumnIndex()
+{
+    return ImGui::GetColumnIndex();
+}
+
+int iggGetColumnWidth(int index)
+{
+    return ImGui::GetColumnWidth(index);
+}
+
+void iggSetColumnWidth(int index, float width)
+{
+    ImGui::SetColumnWidth(index, width);
+}
+
+float iggGetColumnOffset(int index)
+{
+    return ImGui::GetColumnOffset(index);
+}
+
+void iggSetColumnOffset(int index, float offsetX)
+{
+    ImGui::SetColumnOffset(index, offsetX);
+}
+
+int iggGetColumnsCount()
+{
+    return ImGui::GetColumnsCount();
+}
+

@@ -686,3 +686,62 @@ func IsItemHovered() bool {
 func IsKeyPressed(key int) bool {
 	return C.iggIsKeyPressed(C.int(key)) != 0
 }
+
+// Columns calls ColumnsV(count, label, ColumnsFlagsNone).
+func Columns(count int, label string) {
+	ColumnsV(count, label, ColumnsFlagsNone)
+}
+
+// ColumnsV creates a column layout of the specified number of columns.
+func ColumnsV(count int, label string, flags int32) {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	C.iggBeginColumns(C.int(count), labelArg, C.int(flags))
+}
+
+// NextColumn next column, defaults to current row or next row if the current row is finished.
+func NextColumn() {
+	C.iggNextColumn()
+}
+
+// ColumnIndex get current column index.
+func ColumnIndex() int {
+	return int(C.iggGetColumnIndex())
+}
+
+// ColumnWidth calls ColumnWidthV(-1).
+func ColumnWidth() int {
+	return ColumnWidthV(-1)
+}
+
+// ColumnWidthV get column width (in pixels). pass -1 to use current column.
+func ColumnWidthV(index int) int {
+	return int(C.iggGetColumnWidth(C.int(index)))
+}
+
+// SetColumnWidth sets column width (in pixels). pass -1 to use current column.
+func SetColumnWidth(index int, width float32) {
+	C.iggSetColumnWidth(C.int(index), C.float(width))
+}
+
+// ColumnOffset calls ColumnOffsetV(-1)
+func ColumnOffset() float32 {
+	return ColumnOffsetV(-1)
+}
+
+// ColumnOffsetV get position of column line (in pixels, from the left side of the contents region). pass -1 to use
+// current column, otherwise 0..GetColumnsCount() inclusive. column 0 is typically 0.0.
+func ColumnOffsetV(index int) float32 {
+	return float32(C.iggGetColumnOffset(C.int(index)))
+}
+
+// SetColumnOffset set position of column line (in pixels, from the left side of the contents region). pass -1 to use
+// current column.
+func SetColumnOffset(index int, offsetX float32) {
+	C.iggSetColumnOffset(C.int(index), C.float(offsetX))
+}
+
+// ColumnsCount returns number of current columns.
+func ColumnsCount() int {
+	return int(C.iggGetColumnsCount())
+}

@@ -112,6 +112,15 @@ extern IggBool iggIsItemHovered(int flags);
 
 extern IggBool iggIsKeyPressed(int key);
 
+extern void iggBeginColumns(int count, char const *label, int flags);
+extern void  iggNextColumn();
+extern int  iggGetColumnIndex();
+extern int  iggGetColumnWidth(int index);
+extern void  iggSetColumnWidth(int index, float width);
+extern float  iggGetColumnOffset(int index);
+extern void  iggSetColumnOffset(int index, float offsetX);
+extern int  iggGetColumnsCount();
+
 #ifdef __cplusplus
 }
 #endif
