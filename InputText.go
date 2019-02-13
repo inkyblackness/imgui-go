@@ -156,8 +156,9 @@ func (data InputTextCallbackData) EventKey() int {
 	return int(C.iggInputTextCallbackDataGetEventKey(data.handle))
 }
 
-// Text returns a view into the current UTF-8 buffer.
+// Buffer returns a view into the current UTF-8 buffer.
 // The returned slice is a temporary view into the underlying raw buffer. Do not keep it!
+// The underlying memory allocation may even change through a call to InsertBytes().
 //
 // During the callbacks of [Completion,History,Always], you may change the bytes.
 // If you do so, mark the buffer as modified with MarkBufferModified().
@@ -192,6 +193,8 @@ func (data InputTextCallbackData) DeleteBytes(offset, count int) {
 }
 
 // InsertBytes inserts the given bytes at given offset into the buffer.
+// Calling this function may change the underlying buffer allocation.
+//
 // This function can be called during the [Completion,History,Always] callbacks.
 // Clears the current selection.
 func (data InputTextCallbackData) InsertBytes(offset int, bytes []byte) {
