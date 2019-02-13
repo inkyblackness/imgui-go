@@ -78,7 +78,7 @@ func newStringBuffer(initialValue string) *stringBuffer {
 }
 
 func (buf *stringBuffer) free() {
-	C.free(unsafe.Pointer(buf.ptr))
+	C.free(buf.ptr)
 	buf.size = 0
 }
 
@@ -96,7 +96,7 @@ func (buf *stringBuffer) resizeTo(requestedSize int) {
 		C.memcpy(newPtr, buf.ptr, C.size_t(copySize))
 	}
 	((*[1 << 30]byte)(newPtr))[bufSize-1] = 0
-	C.free(unsafe.Pointer(buf.ptr))
+	C.free(buf.ptr)
 	buf.ptr = newPtr
 	buf.size = bufSize
 }

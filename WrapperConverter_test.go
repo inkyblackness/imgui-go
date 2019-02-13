@@ -13,15 +13,16 @@ func TestStringBufferAllocation(t *testing.T) {
 		initialValue string
 		expectedSize int
 	}{
-		{"", 1},
-		{"a", 2},
-		{"123456789", 10},
+		{initialValue: "", expectedSize: 1},
+		{initialValue: "a", expectedSize: 2},
+		{initialValue: "123456789", expectedSize: 10},
 	}
 	for _, tc := range tt {
-		t.Run(fmt.Sprintf("<%s>", tc.initialValue), func(t *testing.T) {
-			buf := newStringBuffer(tc.initialValue)
+		td := tc
+		t.Run(fmt.Sprintf("<%s>", td.initialValue), func(t *testing.T) {
+			buf := newStringBuffer(td.initialValue)
 			defer buf.free()
-			assert.Equal(t, tc.expectedSize, buf.size)
+			assert.Equal(t, td.expectedSize, buf.size)
 		})
 	}
 }
@@ -30,12 +31,13 @@ func TestStringBufferStorage(t *testing.T) {
 	tt := []string{"", "a", "ab", "SomeLongerText"}
 
 	for _, tc := range tt {
-		t.Run("Value <"+tc+">", func(t *testing.T) {
-			buf := newStringBuffer(tc)
+		td := tc
+		t.Run("Value <"+td+">", func(t *testing.T) {
+			buf := newStringBuffer(td)
 			require.NotNil(t, buf, "buffer expected")
 			defer buf.free()
 			result := buf.toGo()
-			assert.Equal(t, tc, result)
+			assert.Equal(t, td, result)
 		})
 	}
 }
@@ -46,17 +48,18 @@ func TestStringBufferResize(t *testing.T) {
 		newSize       int
 		expectedValue string
 	}{
-		{"", 10, ""},
-		{"abcd", 10, "abcd"},
-		{"abcd", 3, "ab"},
-		{"efgh", 0, ""},
+		{initialValue: "", newSize: 10, expectedValue: ""},
+		{initialValue: "abcd", newSize: 10, expectedValue: "abcd"},
+		{initialValue: "abcd", newSize: 3, expectedValue: "ab"},
+		{initialValue: "efgh", newSize: 0, expectedValue: ""},
 	}
 	for _, tc := range tt {
-		t.Run(fmt.Sprintf("<%s> -> %d", tc.initialValue, tc.newSize), func(t *testing.T) {
-			buf := newStringBuffer(tc.initialValue)
+		td := tc
+		t.Run(fmt.Sprintf("<%s> -> %d", td.initialValue, tc.newSize), func(t *testing.T) {
+			buf := newStringBuffer(td.initialValue)
 			defer buf.free()
-			buf.resizeTo(tc.newSize)
-			assert.Equal(t, tc.expectedValue, buf.toGo())
+			buf.resizeTo(td.newSize)
+			assert.Equal(t, td.expectedValue, buf.toGo())
 		})
 	}
 }
