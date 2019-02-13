@@ -277,6 +277,13 @@ IggBool iggInputText(char const* label, char* buf, unsigned int bufSize, int fla
                                      (callbackKey != 0) ? iggInputTextCallbackWrapper : nullptr, reinterpret_cast<void *>(callbackKey)) ? 1 : 0;
 }
 
+IggBool iggInputTextMultiline(char const* label, char* buf, unsigned int bufSize, IggVec2 const *size, int flags, int callbackKey)
+{
+   Vec2Wrapper sizeArg(size);
+   return ImGui::InputTextMultiline(label, buf, static_cast<size_t>(bufSize), *sizeArg, flags,
+                                     (callbackKey != 0) ? iggInputTextCallbackWrapper : nullptr, reinterpret_cast<void *>(callbackKey)) ? 1 : 0;
+}
+
 void iggSeparator(void)
 {
    ImGui::Separator();

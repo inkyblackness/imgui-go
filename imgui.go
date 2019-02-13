@@ -453,6 +453,36 @@ func InputText(label string, text *string) bool {
 	return InputTextV(label, text, 0, nil)
 }
 
+// InputTextMultilineV provides a field for dynamic text input of multiple lines.
+//
+// Contrary to the original library, this wrapper does not limit the maximum number of possible characters.
+// Dynamic resizing of the internal buffer is handled within the wrapper and the user will never be called for such requests.
+//
+// The provided callback is called for any of the requested InputTextFlagsCallback* flags.
+//
+// To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
+func InputTextMultilineV(label string, text *string, size Vec2, flags int, cb InputTextCallback) bool {
+	if text == nil {
+		panic("text can't be nil")
+	}
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	sizeArg, _ := size.wrapped()
+	state := newInputTextState(*text, cb)
+	defer func() {
+		*text = state.buf.toGo()
+		state.release()
+	}()
+
+	return C.iggInputTextMultiline(labelArg, (*C.char)(state.buf.ptr), C.uint(state.buf.size), sizeArg,
+		C.int(flags|inputTextFlagsCallbackResize), state.key) != 0
+}
+
+// InputTextMultiline calls InputTextMultilineV(label, text, Vec2{0,0}, 0, nil)
+func InputTextMultiline(label string, text *string) bool {
+	return InputTextMultilineV(label, text, Vec2{}, 0, nil)
+}
+
 // Separator is generally horizontal. Inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
 func Separator() {
 	C.iggSeparator()
