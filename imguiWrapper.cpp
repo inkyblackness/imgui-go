@@ -438,9 +438,9 @@ int iggGetColumnIndex()
     return ImGui::GetColumnIndex();
 }
 
-int iggGetColumnWidth()
+int iggGetColumnWidth(int index)
 {
-    return ImGui::GetColumnWidth();
+    return ImGui::GetColumnWidth(index);
 }
 
 void iggSetColumnWidth(int index, float width)

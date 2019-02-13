@@ -687,13 +687,13 @@ func IsKeyPressed(key int) bool {
 	return C.iggIsKeyPressed(C.int(key)) != 0
 }
 
-// BeginColumns calls BeginColumnsV().
-func BeginColumns(count int, label string) {
-	BeginColumnsV(count, label, ColumnsFlagsNone)
+// Columns calls ColumnsV(count, label, ColumnsFlagsNone).
+func Columns(count int, label string) {
+	ColumnsV(count, label, ColumnsFlagsNone)
 }
 
-// BeginColumnsV creates a column layout of the specified number of columns.
-func BeginColumnsV(count int, label string, flags int32) {
+// ColumnsV creates a column layout of the specified number of columns.
+func ColumnsV(count int, label string, flags int32) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	C.iggBeginColumns(C.int(count), labelArg, C.int(flags))
@@ -704,44 +704,44 @@ func NextColumn() {
 	C.iggNextColumn()
 }
 
-// GetColumnIndex get current column index.
-func GetColumnIndex() int {
+// ColumnIndex get current column index.
+func ColumnIndex() int {
 	return int(C.iggGetColumnIndex())
 }
 
-// GetColumnWidth get column width (in pixels). pass -1 to use current column.
-func GetColumnWidth() int {
-	return int(C.iggGetColumnWidth())
+// ColumnWidth calls ColumnWidthV(-1).
+func ColumnWidth() int {
+	return ColumnWidthV(-1)
 }
 
-// SetColumnWidth calls SetColumnWidthV().
+// ColumnWidthV get column width (in pixels). pass -1 to use current column.
+func ColumnWidthV(index int) int {
+	return int(C.iggGetColumnWidth(C.int(index)))
+}
+
+// SetColumnWidth sets column width (in pixels). pass -1 to use current column.
 func SetColumnWidth(index int, width float32) {
-	SetColumnWidthV(index, width)
-}
-
-// SetColumnWidthV set column width (in pixels). pass -1 to use current column.
-func SetColumnWidthV(index int, width float32) {
 	C.iggSetColumnWidth(C.int(index), C.float(width))
 }
 
-// GetColumnOffset get position of column line (in pixels, from the left side of the contents region). pass -1 to use
+// ColumnOffset calls ColumnOffsetV(-1)
+func ColumnOffset() float32 {
+	return ColumnOffsetV(-1)
+}
+
+// ColumnOffsetV get position of column line (in pixels, from the left side of the contents region). pass -1 to use
 // current column, otherwise 0..GetColumnsCount() inclusive. column 0 is typically 0.0.
-func GetColumnOffset(index int) float32 {
+func ColumnOffsetV(index int) float32 {
 	return float32(C.iggGetColumnOffset(C.int(index)))
 }
 
-// SetColumnOffset calls SetColumnOffsetV.
-func SetColumnOffset(index int, offsetX float32) {
-	SetColumnOffsetV(index, offsetX)
-}
-
-// SetColumnOffsetV set position of column line (in pixels, from the left side of the contents region). pass -1 to use
+// SetColumnOffset set position of column line (in pixels, from the left side of the contents region). pass -1 to use
 // current column.
-func SetColumnOffsetV(index int, offsetX float32) {
+func SetColumnOffset(index int, offsetX float32) {
 	C.iggSetColumnOffset(C.int(index), C.float(offsetX))
 }
 
-// GetColumnsCount returns number of current columns.
-func GetColumnsCount() int {
+// ColumnsCount returns number of current columns.
+func ColumnsCount() int {
 	return int(C.iggGetColumnsCount())
 }
