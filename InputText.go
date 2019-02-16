@@ -70,10 +70,6 @@ var inputTextStatesMutex sync.Mutex
 func newInputTextState(text string, cb InputTextCallback) *inputTextState {
 	state := &inputTextState{}
 	state.buf = newStringBuffer(text)
-
-	if cb == nil {
-		return state
-	}
 	state.callback = cb
 	state.register()
 	return state
@@ -107,6 +103,9 @@ func (state *inputTextState) onCallback(handle C.IggInputTextCallbackData) C.int
 		data.setBuf(state.buf.ptr, state.buf.size, data.bufTextLen())
 		return 0
 	}
+	if state.callback == nil {
+		return 0
+	}
 	return C.int(state.callback(data))
 }
 
@@ -138,13 +137,14 @@ func (data InputTextCallbackData) Flags() int {
 	return int(C.iggInputTextCallbackDataGetFlags(data.handle)) & ^inputTextFlagsCallbackResize
 }
 
-// EventChar returns the current character input.
+// EventChar returns the current character input. Only valid during CharFilter callback.
 func (data InputTextCallbackData) EventChar() rune {
 	return rune(C.iggInputTextCallbackDataGetEventChar(data.handle))
 }
 
 // SetEventChar overrides what the user entered. Set to zero do drop the current input.
 // Returning 1 from the callback also drops the current input.
+// Only valid during CharFilter callback.
 //
 // Note: The internal representation of characters is based on uint16, so less than rune would provide.
 func (data InputTextCallbackData) SetEventChar(value rune) {
@@ -157,18 +157,23 @@ func (data InputTextCallbackData) EventKey() int {
 }
 
 // Buffer returns a view into the current UTF-8 buffer.
+// Only during the callbacks of [Completion,History,Always] the current buffer is returned.
 // The returned slice is a temporary view into the underlying raw buffer. Do not keep it!
 // The underlying memory allocation may even change through a call to InsertBytes().
 //
-// During the callbacks of [Completion,History,Always], you may change the bytes.
+// You may change the bytes.
 // If you do so, mark the buffer as modified with MarkBufferModified().
 func (data InputTextCallbackData) Buffer() []byte {
 	ptr := C.iggInputTextCallbackDataGetBuf(data.handle)
+	if ptr == nil {
+		return nil
+	}
 	textLen := data.bufTextLen()
 	return ((*[1 << 30]byte)(unsafe.Pointer(ptr)))[:textLen]
 }
 
 // MarkBufferModified indicates that the content of the buffer was modified during a callback.
+// Only considered during [Completion,History,Always] callbacks.
 func (data InputTextCallbackData) MarkBufferModified() {
 	C.iggInputTextCallbackDataMarkBufferModified(data.handle)
 }
@@ -207,31 +212,37 @@ func (data InputTextCallbackData) InsertBytes(offset int, bytes []byte) {
 }
 
 // CursorPos returns the byte-offset of the cursor within the buffer.
+// Only valid during [Completion,History,Always] callbacks.
 func (data InputTextCallbackData) CursorPos() int {
 	return int(C.iggInputTextCallbackDataGetCursorPos(data.handle))
 }
 
 // SetCursorPos changes the current byte-offset of the cursor within the buffer.
+// Only valid during [Completion,History,Always] callbacks.
 func (data InputTextCallbackData) SetCursorPos(value int) {
 	C.iggInputTextCallbackDataSetCursorPos(data.handle, C.int(value))
 }
 
 // SelectionStart returns the byte-offset of the selection start within the buffer.
+// Only valid during [Completion,History,Always] callbacks.
 func (data InputTextCallbackData) SelectionStart() int {
 	return int(C.iggInputTextCallbackDataGetSelectionStart(data.handle))
 }
 
 // SetSelectionStart changes the current byte-offset of the selection start within the buffer.
+// Only valid during [Completion,History,Always] callbacks.
 func (data InputTextCallbackData) SetSelectionStart(value int) {
 	C.iggInputTextCallbackDataSetSelectionStart(data.handle, C.int(value))
 }
 
 // SelectionEnd returns the byte-offset of the selection end within the buffer.
+// Only valid during [Completion,History,Always] callbacks.
 func (data InputTextCallbackData) SelectionEnd() int {
 	return int(C.iggInputTextCallbackDataGetSelectionEnd(data.handle))
 }
 
 // SetSelectionEnd changes the current byte-offset of the selection end within the buffer.
+// Only valid during [Completion,History,Always] callbacks.
 func (data InputTextCallbackData) SetSelectionEnd(value int) {
 	C.iggInputTextCallbackDataSetSelectionEnd(data.handle, C.int(value))
 }
