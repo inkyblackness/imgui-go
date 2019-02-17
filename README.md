@@ -6,16 +6,16 @@
 
 This library is a [Go](https://www.golang.org) wrapper for [Dear ImGui](https://github.com/ocornut/imgui).
 
-At the moment, this wrapper is a special-purpose wrapper for use within InkyBlackness.
+This wrapper started as a special-purpose wrapper for use within InkyBlackness.
 However, it is self-contained and can be used for other purposes as well.
 
 This wrapper is
 * hand-crafted, for Go
 * documented
 * versioned
-* with ported examples for [GLFW3](https://github.com/go-gl/glfw) and [SDL2](https://github.com/veandco/go-sdl2), using [OpenGL](https://github.com/go-gl/gl).
+* with ported examples in a separate repository (see below)
 
-![Screenshot from example](_examples/opengl3_example/screenshot.png)
+![Screenshot from example](assets/screenshot.png)
 
 ## API naming
 
@@ -44,6 +44,14 @@ This library does not mirror the versions of the wrapped ImGui. The semantic ver
 * Patch changes: Bug fixes - either in the wrapper or the wrapped ImGui, given that the API & behaviour remains the same.
 
 At the moment, this library uses version [1.67](https://github.com/ocornut/imgui/releases/tag/v1.67) of ImGui.
+
+## Examples
+A separate repository was created to host ported examples and reference implementations.
+See repository [inkyblackness/imgui-go-examples](https://github.com/inkyblackness/imgui-go-examples).
+
+It contains reference implementations for libraries such as [GLFW3](https://github.com/go-gl/glfw) and [SDL2](https://github.com/veandco/go-sdl2), using [OpenGL](https://github.com/go-gl/gl).
+
+The screenshot above was created with such an example.
 
 ## Alternatives
 
