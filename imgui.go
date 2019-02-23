@@ -745,3 +745,9 @@ func SetColumnOffset(index int, offsetX float32) {
 func ColumnsCount() int {
 	return int(C.iggGetColumnsCount())
 }
+
+// SetScrollHereY scrolls window to last item.
+// center_y_ratio: 0.0f top of last item, 0.5f vertical center of last item, 1.0f bottom of last item.
+func SetScrollHereY(CenterYRatio float32) {
+	C.iggSetScrollHereY(C.float(CenterYRatio))
+}
