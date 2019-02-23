@@ -119,13 +119,3 @@ func (io IO) AddInputCharacters(chars string) {
 	defer textFin()
 	C.iggIoAddInputCharactersUTF8(io.handle, textArg)
 }
-
-// SetIniFilename changes the imgui.ini settings filename.
-// Use an empty string to disable the ini from being used.
-func (io IO) SetIniFilename(s string) {
-	if s == "" {
-		C.iggIoSetIniFilename(io.handle, nil)
-		return
-	}
-	C.iggIoSetIniFilename(io.handle, C.CString(s))
-}
