@@ -16,6 +16,7 @@ extern IggGlyphRanges iggGetGlyphRangesCyrillic(IggFontAtlas handle);
 extern IggGlyphRanges iggGetGlyphRangesThai(IggFontAtlas handle);
 
 extern IggFont iggAddFontDefault(IggFontAtlas handle);
+extern IggFont iggAddFontDefaultSize(IggFontAtlas handle, float sizePixels);
 extern IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float sizePixels,
 		IggFontConfig config, IggGlyphRanges glyphRanges);
 

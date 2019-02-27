@@ -51,6 +51,15 @@ IggFont iggAddFontDefault(IggFontAtlas handle)
    return static_cast<IggFont>(font);
 }
 
+IggFont iggAddFontDefaultSize(IggFontAtlas handle, float sizePixels)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   ImFontConfig fontConfig;
+   fontConfig.SizePixels = sizePixels;
+   ImFont *font = fontAtlas->AddFontDefault(&fontConfig);
+   return static_cast<IggFont>(font);
+}
+
 IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float sizePixels,
       IggFontConfig config, IggGlyphRanges glyphRanges)
 {
