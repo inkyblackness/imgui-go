@@ -161,8 +161,10 @@ func (data InputTextCallbackData) EventKey() int {
 // The returned slice is a temporary view into the underlying raw buffer. Do not keep it!
 // The underlying memory allocation may even change through a call to InsertBytes().
 //
-// You may change the bytes.
-// If you do so, mark the buffer as modified with MarkBufferModified().
+// You may change the buffer through the following ways:
+// If the new text has a different (encoded) length, use the functions InsertBytes() and/or DeleteBytes().
+// Otherwise you may keep the buffer as is and modify the bytes. If you change the buffer this way directly, mark the buffer
+// as modified with MarkBufferModified().
 func (data InputTextCallbackData) Buffer() []byte {
 	ptr := C.iggInputTextCallbackDataGetBuf(data.handle)
 	if ptr == nil {
@@ -190,19 +192,42 @@ func (data InputTextCallbackData) bufTextLen() int {
 	return int(C.iggInputTextCallbackDataGetBufTextLen(data.handle))
 }
 
-// DeleteBytes removes the given count of bytes starting at the specified offset from the buffer.
+// DeleteBytes removes the given count of bytes starting at the specified byte offset within the buffer.
 // This function can be called during the [Completion,History,Always] callbacks.
 // Clears the current selection.
+//
+// This function ignores the deletion beyond the current buffer length.
+// Calling with negative offset or count arguments will panic.
 func (data InputTextCallbackData) DeleteBytes(offset, count int) {
-	C.iggInputTextCallbackDataDeleteBytes(data.handle, C.int(offset), C.int(count))
+	if offset < 0 {
+		panic("invalid offset")
+	}
+	if count < 0 {
+		panic("invalid count")
+	}
+	textLen := data.bufTextLen()
+	if offset >= textLen {
+		return
+	}
+	toRemove := count
+	available := textLen - offset
+	if toRemove > available {
+		toRemove = available
+	}
+	C.iggInputTextCallbackDataDeleteBytes(data.handle, C.int(offset), C.int(toRemove))
 }
 
-// InsertBytes inserts the given bytes at given offset into the buffer.
+// InsertBytes inserts the given bytes at given byte offset into the buffer.
 // Calling this function may change the underlying buffer allocation.
 //
 // This function can be called during the [Completion,History,Always] callbacks.
 // Clears the current selection.
+//
+// Calling with an offset outside of the range of the buffer will panic.
 func (data InputTextCallbackData) InsertBytes(offset int, bytes []byte) {
+	if (offset < 0) || (offset > data.bufTextLen()) {
+		panic("invalid offset")
+	}
 	var bytesPtr *C.char
 	byteCount := len(bytes)
 	if byteCount > 0 {
