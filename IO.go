@@ -78,39 +78,39 @@ func (io IO) SetFontGlobalScale(value float32) {
 	C.iggIoSetFontGlobalScale(io.handle, C.float(value))
 }
 
-// KeyPress sets the KeysDown flag
+// KeyPress sets the KeysDown flag.
 func (io IO) KeyPress(key int) {
 	C.iggIoKeyPress(io.handle, C.int(key))
 }
 
-// KeyRelease clear the KeysDown flag
+// KeyRelease clears the KeysDown flag.
 func (io IO) KeyRelease(key int) {
 	C.iggIoKeyRelease(io.handle, C.int(key))
 }
 
-// KeyMap maps a key into the KeysDown array which represents your "native" keyboard state
+// KeyMap maps a key into the KeysDown array which represents your "native" keyboard state.
 func (io IO) KeyMap(imguiKey int, nativeKey int) {
 	C.iggIoKeyMap(io.handle, C.int(imguiKey), C.int(nativeKey))
 }
 
-// KeyCtrl sets the keyboard modifier control pressed
-func (io IO) KeyCtrl(leftCtrl int, rigthCtrl int) {
-	C.iggIoKeyCtrl(io.handle, C.int(leftCtrl), C.int(rigthCtrl))
+// KeyCtrl sets the keyboard modifier control pressed.
+func (io IO) KeyCtrl(leftCtrl int, rightCtrl int) {
+	C.iggIoKeyCtrl(io.handle, C.int(leftCtrl), C.int(rightCtrl))
 }
 
-// KeyShift sets the keyboard modifier shift pressed
-func (io IO) KeyShift(leftShift int, rigthShift int) {
-	C.iggIoKeyShift(io.handle, C.int(leftShift), C.int(rigthShift))
+// KeyShift sets the keyboard modifier shift pressed.
+func (io IO) KeyShift(leftShift int, rightShift int) {
+	C.iggIoKeyShift(io.handle, C.int(leftShift), C.int(rightShift))
 }
 
-// KeyAlt sets the keyboard modifier alt pressed
-func (io IO) KeyAlt(leftAlt int, rigthAlt int) {
-	C.iggIoKeyAlt(io.handle, C.int(leftAlt), C.int(rigthAlt))
+// KeyAlt sets the keyboard modifier alt pressed.
+func (io IO) KeyAlt(leftAlt int, rightAlt int) {
+	C.iggIoKeyAlt(io.handle, C.int(leftAlt), C.int(rightAlt))
 }
 
-// KeySuper sets the keyboard modifier super pressed
-func (io IO) KeySuper(leftSuper int, rigthSuper int) {
-	C.iggIoKeySuper(io.handle, C.int(leftSuper), C.int(rigthSuper))
+// KeySuper sets the keyboard modifier super pressed.
+func (io IO) KeySuper(leftSuper int, rightSuper int) {
+	C.iggIoKeySuper(io.handle, C.int(leftSuper), C.int(rightSuper))
 }
 
 // AddInputCharacters adds a new character into InputCharacters[].
