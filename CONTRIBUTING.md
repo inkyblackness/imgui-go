@@ -49,7 +49,6 @@ The "verbose" variant should require all the parameters of the underlying functi
 ### Code Style
 
 Please make sure code is formatted according to `go fmt`, and use the following linter: [golangci-lint](https://github.com/golangci/golangci-lint).
-Note that running the linter in the root directory ignores the `_examples` directory - enter that and run the linter there separately.
 
 > If there are linter errors that you didn't introduce, you don't have to clean them up - I might have missed them and will be handling them separately.
 
