@@ -2,6 +2,8 @@
 #include "IOWrapper.h"
 #include "WrapperConverter.h"
 
+#include <string>
+
 IggBool iggWantCaptureMouse(IggIO handle)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
@@ -105,14 +107,16 @@ void iggIoKeySuper(IggIO handle, int leftSuper, int rightSuper)
    io.KeySuper = io.KeysDown[leftSuper] || io.KeysDown[rightSuper];
 }
 
-void iggIoAddInputCharactersUTF8(IggIO handle, const char *utf8_char)
+void iggIoAddInputCharactersUTF8(IggIO handle, char const *utf8Chars)
 {
    ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.AddInputCharactersUTF8(utf8_char);
+   io.AddInputCharactersUTF8(utf8Chars);
 }
 
-void iggIoSetIniFilename(IggIO handle, const char *str1)
+void iggIoSetIniFilename(IggIO handle, char const *value)
 {
+   static std::string bufferValue;
    ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.IniFilename = str1;
+   bufferValue = (value != nullptr) ? value : "";
+   io.IniFilename = bufferValue.empty() ? nullptr : bufferValue.c_str();
 }

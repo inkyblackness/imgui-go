@@ -23,12 +23,12 @@ extern void iggIoSetFontGlobalScale(IggIO handle, float value);
 extern void iggIoKeyPress(IggIO handle, int key);
 extern void iggIoKeyRelease(IggIO handle, int key);
 extern void iggIoKeyMap(IggIO handle, int imguiKey, int nativeKey);
-extern void iggIoKeyCtrl(IggIO handle, int leftCtrl, int rigthCtrl);
+extern void iggIoKeyCtrl(IggIO handle, int leftCtrl, int rightCtrl);
 extern void iggIoKeyShift(IggIO handle, int leftShift, int rightShift);
 extern void iggIoKeyAlt(IggIO handle, int leftAlt, int rightAlt);
 extern void iggIoKeySuper(IggIO handle, int leftSuper, int rightSuper);
-extern void iggIoAddInputCharactersUTF8(IggIO handle, const char *utf8_char);
-extern void iggIoSetIniFilename(IggIO handle, const char *str1);
+extern void iggIoAddInputCharactersUTF8(IggIO handle, char const *utf8Chars);
+extern void iggIoSetIniFilename(IggIO handle, char const *value);
 
 #ifdef __cplusplus
 }
