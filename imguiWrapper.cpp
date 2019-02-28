@@ -229,6 +229,12 @@ IggBool iggCheckbox(char const *label, IggBool *selected)
    return ImGui::Checkbox(label, selectedArg) ? 1 : 0;
 }
 
+void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay)
+{
+   Vec2Wrapper sizeArg(size);
+   ImGui::ProgressBar(fraction, *sizeArg, overlay);
+}
+
 IggBool iggBeginCombo(char const *label, char const *previewValue, int flags)
 {
    return ImGui::BeginCombo(label, previewValue, flags) ? 1 : 0;
@@ -319,6 +325,11 @@ void iggSetCursorPos(IggVec2 const *localPos)
 {
    Vec2Wrapper localPosArg(localPos);
    ImGui::SetCursorPos(*localPosArg);
+}
+
+void iggAlignTextToFramePadding()
+{
+   ImGui::AlignTextToFramePadding();
 }
 
 float iggGetTextLineHeight(void)

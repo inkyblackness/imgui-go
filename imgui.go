@@ -325,6 +325,20 @@ func Checkbox(id string, selected *bool) bool {
 	return C.iggCheckbox(idArg, selectedArg) != 0
 }
 
+// ProgressBarV creates a progress bar.
+// size (for each axis) < 0.0f: align to end, 0.0f: auto, > 0.0f: specified size
+func ProgressBarV(fraction float32, size Vec2, overlay string) {
+	sizeArg, _ := size.wrapped()
+	overlayArg, overlayFin := wrapString(overlay)
+	defer overlayFin()
+	C.iggProgressBar(C.float(fraction), sizeArg, overlayArg)
+}
+
+// ProgressBar calls ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "").
+func ProgressBar(fraction float32) {
+	ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "")
+}
+
 // BeginComboV creates a combo box with complete control over the content to the user.
 // Call EndCombo() if this function returns true.
 func BeginComboV(label, previewValue string, flags int) bool {
@@ -524,6 +538,13 @@ func EndGroup() {
 func SetCursorPos(localPos Vec2) {
 	localPosArg, _ := localPos.wrapped()
 	C.iggSetCursorPos(localPosArg)
+}
+
+// AlignTextToFramePadding vertically aligns upcoming text baseline to
+// FramePadding.y so that it will align properly to regularly framed
+// items. Call if you have text on a line before a framed item.
+func AlignTextToFramePadding() {
+	C.iggAlignTextToFramePadding()
 }
 
 // TextLineHeight returns ~ FontSize.

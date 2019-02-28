@@ -61,6 +61,7 @@ extern IggBool iggImageButton(IggTextureID textureID,
 	int framePadding, IggVec4 const *bgCol,
 	IggVec4 const *tintCol);
 extern IggBool iggCheckbox(char const *label, IggBool *selected);
+extern void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay);
 
 extern IggBool iggBeginCombo(char const *label, char const *previewValue, int flags);
 extern void iggEndCombo(void);
@@ -83,6 +84,7 @@ extern void iggDummy(IggVec2 const *size);
 extern void iggBeginGroup(void);
 extern void iggEndGroup(void);
 extern void iggSetCursorPos(IggVec2 const *localPos);
+extern void iggAlignTextToFramePadding();
 extern float iggGetTextLineHeight(void);
 extern float iggGetTextLineHeightWithSpacing(void);
 
