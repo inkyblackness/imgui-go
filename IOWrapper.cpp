@@ -81,10 +81,10 @@ void iggIoKeyMap(IggIO handle, int imguiKey, int nativeKey)
    io.KeyMap[imguiKey] = nativeKey;
 }
 
-void iggIoKeyCtrl(IggIO handle, int leftCtrl, int rigthCtrl)
+void iggIoKeyCtrl(IggIO handle, int leftCtrl, int rightCtrl)
 {
    ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.KeyCtrl = io.KeysDown[leftCtrl] || io.KeysDown[rigthCtrl];
+   io.KeyCtrl = io.KeysDown[leftCtrl] || io.KeysDown[rightCtrl];
 }
 
 void iggIoKeyShift(IggIO handle, int leftShift, int rightShift)
