@@ -804,3 +804,10 @@ func SetColumnOffset(index int, offsetX float32) {
 func ColumnsCount() int {
 	return int(C.iggGetColumnsCount())
 }
+
+// SetScrollHereY adjusts scrolling amount to make current cursor position visible.
+// ratio=0.0: top, 0.5: center, 1.0: bottom.
+// When using to make a "default/current item" visible, consider using SetItemDefaultFocus() instead.
+func SetScrollHereY(ratio float32) {
+	C.iggSetScrollHereY(C.float(ratio))
+}

@@ -28,6 +28,7 @@ extern void iggIoKeyShift(IggIO handle, int leftShift, int rightShift);
 extern void iggIoKeyAlt(IggIO handle, int leftAlt, int rightAlt);
 extern void iggIoKeySuper(IggIO handle, int leftSuper, int rightSuper);
 extern void iggIoAddInputCharactersUTF8(IggIO handle, const char *utf8_char);
+extern void iggIoSetIniFilename(IggIO handle, const char *str1);
 
 #ifdef __cplusplus
 }

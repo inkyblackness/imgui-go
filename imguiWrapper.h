@@ -91,7 +91,7 @@ extern void iggTreePop(void);
 extern void iggSetNextTreeNodeOpen(IggBool open, int cond);
 
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
-extern IggBool iggListBoxV(char const *label, int* current_item, char const* const items[], int items_count, int height_items);
+extern IggBool iggListBoxV(char const *label, int *current_item, char const *const items[], int items_count, int height_items);
 
 extern void iggSetTooltip(char const *text);
 extern void iggBeginTooltip(void);
@@ -116,13 +116,14 @@ extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsKeyPressed(int key);
 
 extern void iggBeginColumns(int count, char const *label, int flags);
-extern void  iggNextColumn();
-extern int  iggGetColumnIndex();
-extern int  iggGetColumnWidth(int index);
-extern void  iggSetColumnWidth(int index, float width);
-extern float  iggGetColumnOffset(int index);
-extern void  iggSetColumnOffset(int index, float offsetX);
-extern int  iggGetColumnsCount();
+extern void iggNextColumn();
+extern int iggGetColumnIndex();
+extern int iggGetColumnWidth(int index);
+extern void iggSetColumnWidth(int index, float width);
+extern float iggGetColumnOffset(int index);
+extern void iggSetColumnOffset(int index, float offsetX);
+extern int iggGetColumnsCount();
+extern void iggSetScrollHereY(float ratio);
 
 #ifdef __cplusplus
 }
