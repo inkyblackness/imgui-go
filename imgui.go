@@ -746,8 +746,9 @@ func ColumnsCount() int {
 	return int(C.iggGetColumnsCount())
 }
 
-// SetScrollHereY scrolls window to last item.
-// center_y_ratio: 0.0f top of last item, 0.5f vertical center of last item, 1.0f bottom of last item.
-func SetScrollHereY(CenterYRatio float32) {
-	C.iggSetScrollHereY(C.float(CenterYRatio))
+// SetScrollHereY adjusts scrolling amount to make current cursor position visible.
+// ratio=0.0: top, 0.5: center, 1.0: bottom.
+// When using to make a "default/current item" visible, consider using SetItemDefaultFocus() instead.
+func SetScrollHereY(ratio float32) {
+	C.iggSetScrollHereY(C.float(ratio))
 }
