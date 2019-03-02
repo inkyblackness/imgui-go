@@ -74,6 +74,12 @@ func (atlas FontAtlas) AddFontDefault() Font {
 	return Font(fontHandle)
 }
 
+// AddFontDefaultV adds the default font to the atlas using the specified FontConfig.
+func (atlas FontAtlas) AddFontDefaultV(cfg FontConfig) Font {
+	fontHandle := C.iggAddFontDefaultV(atlas.handle(), cfg.handle())
+	return Font(fontHandle)
+}
+
 // AddFontFromFileTTFV attempts to load a font from given TTF file.
 func (atlas FontAtlas) AddFontFromFileTTFV(filename string, sizePixels float32,
 	config FontConfig, glyphRange GlyphRanges) Font {
