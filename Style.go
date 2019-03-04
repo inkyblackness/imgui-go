@@ -89,15 +89,21 @@ const (
 	StyleColorResizeGrip
 	StyleColorResizeGripHovered
 	StyleColorResizeGripActive
+	StyleColorTab
+	StyleColorTabHovered
+	StyleColorTabActive
+	StyleColorTabUnfocused
+	StyleColorTabUnfocusedActive
 	StyleColorPlotLines
 	StyleColorPlotLinesHovered
 	StyleColorPlotHistogram
 	StyleColorPlotHistogramHovered
 	StyleColorTextSelectedBg
-	StyleColorModalWindowDarkening
 	StyleColorDragDropTarget
-	StyleColorNavHighlight
-	StyleColorNavWindowingHighlight
+	StyleColorNavHighlight          // Gamepad/keyboard: current highlighted item
+	StyleColorNavWindowingHighlight // Highlight window when using CTRL+TAB
+	StyleColorNavWindowingDarkening // Darken/colorize entire screen behind the CTRL+TAB window list, when active
+	StyleColorModalWindowDarkening  // Darken/colorize entire screen behind a modal window, when one is active
 )
 
 // Style describes the overall graphical representation of the user interface.
