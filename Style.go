@@ -47,6 +47,8 @@ const (
 	StyleVarGrabMinSize
 	// StyleVarGrabRounding is a float
 	StyleVarGrabRounding
+	// StyleVarTabRounding is a float
+	StyleVarTabRounding
 	// StyleVarButtonTextAlign is a Vec2
 	StyleVarButtonTextAlign
 )
