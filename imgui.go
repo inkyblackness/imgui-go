@@ -155,6 +155,15 @@ func GetWindowHeight() float32 {
 	return float32(C.iggGetWindowHeight())
 }
 
+// GetContentRegionAvail returns the size of the content region that is available (based on the current cursor position).
+func GetContentRegionAvail() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggGetContentRegionAvail(valueArg)
+	valueFin()
+	return value
+}
+
 // SetNextWindowPosV sets next window position.
 // Call before Begin(). Use pivot=(0.5,0.5) to center on given point, etc.
 func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2) {

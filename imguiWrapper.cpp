@@ -112,6 +112,11 @@ float iggGetWindowHeight(void)
    return ImGui::GetWindowHeight();
 }
 
+void iggGetContentRegionAvail(IggVec2 *size)
+{
+   exportValue(*size, ImGui::GetContentRegionAvail());
+}
+
 void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
 {
    Vec2Wrapper posArg(pos);
