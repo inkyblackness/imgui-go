@@ -28,6 +28,11 @@ extern void iggEnd(void);
 extern IggBool iggBeginChild(char const *id, IggVec2 const *size, IggBool border, int flags);
 extern void iggEndChild(void);
 
+extern void iggGetWindowPos(IggVec2 *pos);
+extern void iggGetWindowSize(IggVec2 *size);
+extern float iggGetWindowWidth(void);
+extern float iggGetWindowHeight(void);
+
 extern void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot);
 extern void iggSetNextWindowSize(IggVec2 const *size, int cond);
 extern void iggSetNextWindowFocus(void);

@@ -126,6 +126,35 @@ func EndChild() {
 	C.iggEndChild()
 }
 
+// GetWindowPos returns the current window position in screen space.
+// This is useful if you want to do your own drawing via the DrawList API.
+func GetWindowPos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggGetWindowPos(valueArg)
+	valueFin()
+	return value
+}
+
+// GetWindowSize returns the size of the current window.
+func GetWindowSize() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggGetWindowSize(valueArg)
+	valueFin()
+	return value
+}
+
+// GetWindowWidth returns the width of the current window.
+func GetWindowWidth() float32 {
+	return float32(C.iggGetWindowWidth())
+}
+
+// GetWindowHeight returns the height of the current window.
+func GetWindowHeight() float32 {
+	return float32(C.iggGetWindowHeight())
+}
+
 // SetNextWindowPosV sets next window position.
 // Call before Begin(). Use pivot=(0.5,0.5) to center on given point, etc.
 func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2) {

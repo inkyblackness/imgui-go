@@ -92,6 +92,26 @@ void iggEndChild(void)
    ImGui::EndChild();
 }
 
+void iggGetWindowPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetWindowPos());
+}
+
+void iggGetWindowSize(IggVec2 *size)
+{
+   exportValue(*size, ImGui::GetWindowSize());
+}
+
+float iggGetWindowWidth(void)
+{
+   return ImGui::GetWindowWidth();
+}
+
+float iggGetWindowHeight(void)
+{
+   return ImGui::GetWindowHeight();
+}
+
 void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
 {
    Vec2Wrapper posArg(pos);
