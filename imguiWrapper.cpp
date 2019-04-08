@@ -368,6 +368,18 @@ IggBool iggListBoxV(char const *label, int *current_item, char const *const item
    return ImGui::ListBox(label, current_item, items, items_count, height_items) ? 1 : 0;
 }
 
+void iggPlotLines(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, IggVec2 const *graph_size)
+{
+   Vec2Wrapper graph_size_arg(graph_size);
+   ImGui::PlotLines(label, values, values_count, values_offset, overlay_text, scale_min, scale_max, *graph_size_arg);
+}
+
+void iggPlotHistogram(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, IggVec2 const *graph_size)
+{
+   Vec2Wrapper graph_size_arg(graph_size);
+   ImGui::PlotHistogram(label, values, values_count, values_offset, overlay_text, scale_min, scale_max, *graph_size_arg);
+}
+
 void iggSetTooltip(char const *text)
 {
    ImGui::SetTooltip("%s", text);

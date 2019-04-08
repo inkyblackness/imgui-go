@@ -95,6 +95,9 @@ extern void iggSetNextTreeNodeOpen(IggBool open, int cond);
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
 extern IggBool iggListBoxV(char const *label, int *current_item, char const *const items[], int items_count, int height_items);
 
+extern void iggPlotLines(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, IggVec2 const *graph_size);
+extern void iggPlotHistogram(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, IggVec2 const *graph_size);
+
 extern void iggSetTooltip(char const *text);
 extern void iggBeginTooltip(void);
 extern void iggEndTooltip(void);
