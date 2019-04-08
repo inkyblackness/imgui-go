@@ -366,10 +366,26 @@ float iggCursorPosY(void)
    return ImGui::GetCursorPosY();
 }
 
+void iggCursorStartPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetCursorStartPos());
+}
+
+void iggCursorScreenPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetCursorScreenPos());
+}
+
 void iggSetCursorPos(IggVec2 const *localPos)
 {
    Vec2Wrapper localPosArg(localPos);
    ImGui::SetCursorPos(*localPosArg);
+}
+
+void iggSetCursorScreenPos(IggVec2 const *absPos)
+{
+   Vec2Wrapper absPosArg(absPos);
+   ImGui::SetCursorScreenPos(*absPosArg);
 }
 
 void iggAlignTextToFramePadding()

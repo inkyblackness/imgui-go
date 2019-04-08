@@ -596,10 +596,34 @@ func CursorPosY() float32 {
 	return float32(C.iggCursorPosY())
 }
 
+// CursorStartPos returns the initial cursor position in window coordinates.
+func CursorStartPos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggCursorStartPos(valueArg)
+	valueFin()
+	return value
+}
+
+// CursorScreenPos returns the cursor position in absolute screen coordinates.
+func CursorScreenPos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggCursorScreenPos(valueArg)
+	valueFin()
+	return value
+}
+
 // SetCursorPos sets the cursor relative to the current window.
 func SetCursorPos(localPos Vec2) {
 	localPosArg, _ := localPos.wrapped()
 	C.iggSetCursorPos(localPosArg)
+}
+
+// SetCursorScreenPos sets the cursor position in absolute screen coordinates.
+func SetCursorScreenPos(absPos Vec2) {
+	absPosArg, _ := absPos.wrapped()
+	C.iggSetCursorScreenPos(absPosArg)
 }
 
 // AlignTextToFramePadding vertically aligns upcoming text baseline to
