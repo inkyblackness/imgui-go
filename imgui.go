@@ -568,6 +568,25 @@ func EndGroup() {
 	C.iggEndGroup()
 }
 
+// GetCursorPos returns the cursor position in window coordinates (relative to window position).
+func GetCursorPos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggGetCursorPos(valueArg)
+	valueFin()
+	return value
+}
+
+// GetCursorPosX returns the x-coordinate of the cursor position in window coordinates.
+func GetCursorPosX() float32 {
+	return float32(C.iggGetCursorPosX())
+}
+
+// GetCursorPosY returns the y-coordinate of the cursor position in window coordinates.
+func GetCursorPosY() float32 {
+	return float32(C.iggGetCursorPosY())
+}
+
 // SetCursorPos sets the cursor relative to the current window.
 func SetCursorPos(localPos Vec2) {
 	localPosArg, _ := localPos.wrapped()

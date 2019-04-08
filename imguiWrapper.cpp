@@ -346,6 +346,21 @@ void iggEndGroup(void)
    ImGui::EndGroup();
 }
 
+void iggGetCursorPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetCursorPos());
+}
+
+float iggGetCursorPosX(void)
+{
+   return ImGui::GetCursorPosX();
+}
+
+float iggGetCursorPosY(void)
+{
+   return ImGui::GetCursorPosY();
+}
+
 void iggSetCursorPos(IggVec2 const *localPos)
 {
    Vec2Wrapper localPosArg(localPos);

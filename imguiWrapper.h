@@ -89,6 +89,11 @@ extern void iggSpacing(void);
 extern void iggDummy(IggVec2 const *size);
 extern void iggBeginGroup(void);
 extern void iggEndGroup(void);
+
+extern void iggGetCursorPos(IggVec2 *pos);
+extern float iggGetCursorPosX(void);
+extern float iggGetCursorPosY(void);
+
 extern void iggSetCursorPos(IggVec2 const *localPos);
 extern void iggAlignTextToFramePadding();
 extern float iggGetTextLineHeight(void);
