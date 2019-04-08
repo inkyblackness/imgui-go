@@ -48,6 +48,7 @@ extern void iggPopStyleVar(int count);
 
 extern void iggPushItemWidth(float width);
 extern void iggPopItemWidth(void);
+extern float iggCalcItemWidth(void);
 extern void iggPushTextWrapPos(float wrapPosX);
 extern void iggPopTextWrapPos(void);
 

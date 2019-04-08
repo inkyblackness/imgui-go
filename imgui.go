@@ -251,6 +251,11 @@ func PopItemWidth() {
 	C.iggPopItemWidth()
 }
 
+// CalcItemWidth returns the width of items given pushed settings and current cursor position.
+func CalcItemWidth() float32 {
+	return float32(C.iggCalcItemWidth())
+}
+
 // PushTextWrapPosV defines word-wrapping for Text() commands.
 // < 0.0f: no wrapping; 0.0f: wrap to end of window (or column); > 0.0f: wrap at 'wrapPosX' position in window local space.
 // Requires a matching call to PopTextWrapPos().

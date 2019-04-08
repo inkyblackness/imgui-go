@@ -183,6 +183,11 @@ void iggPopItemWidth(void)
    ImGui::PopItemWidth();
 }
 
+float iggCalcItemWidth(void)
+{
+   return ImGui::CalcItemWidth();
+}
+
 void iggPushTextWrapPos(float wrapPosX)
 {
    ImGui::PushTextWrapPos(wrapPosX);
