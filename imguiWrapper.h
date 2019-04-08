@@ -28,11 +28,11 @@ extern void iggEnd(void);
 extern IggBool iggBeginChild(char const *id, IggVec2 const *size, IggBool border, int flags);
 extern void iggEndChild(void);
 
-extern void iggGetWindowPos(IggVec2 *pos);
-extern void iggGetWindowSize(IggVec2 *size);
-extern float iggGetWindowWidth(void);
-extern float iggGetWindowHeight(void);
-extern void iggGetContentRegionAvail(IggVec2 *size);
+extern void iggWindowPos(IggVec2 *pos);
+extern void iggWindowSize(IggVec2 *size);
+extern float iggWindowWidth(void);
+extern float iggWindowHeight(void);
+extern void iggContentRegionAvail(IggVec2 *size);
 
 extern void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot);
 extern void iggSetNextWindowSize(IggVec2 const *size, int cond);
@@ -91,9 +91,9 @@ extern void iggDummy(IggVec2 const *size);
 extern void iggBeginGroup(void);
 extern void iggEndGroup(void);
 
-extern void iggGetCursorPos(IggVec2 *pos);
-extern float iggGetCursorPosX(void);
-extern float iggGetCursorPosY(void);
+extern void iggCursorPos(IggVec2 *pos);
+extern float iggCursorPosX(void);
+extern float iggCursorPosY(void);
 
 extern void iggSetCursorPos(IggVec2 const *localPos);
 extern void iggAlignTextToFramePadding();

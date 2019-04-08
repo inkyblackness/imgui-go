@@ -126,40 +126,40 @@ func EndChild() {
 	C.iggEndChild()
 }
 
-// GetWindowPos returns the current window position in screen space.
+// WindowPos returns the current window position in screen space.
 // This is useful if you want to do your own drawing via the DrawList API.
-func GetWindowPos() Vec2 {
+func WindowPos() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
-	C.iggGetWindowPos(valueArg)
+	C.iggWindowPos(valueArg)
 	valueFin()
 	return value
 }
 
-// GetWindowSize returns the size of the current window.
-func GetWindowSize() Vec2 {
+// WindowSize returns the size of the current window.
+func WindowSize() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
-	C.iggGetWindowSize(valueArg)
+	C.iggWindowSize(valueArg)
 	valueFin()
 	return value
 }
 
-// GetWindowWidth returns the width of the current window.
-func GetWindowWidth() float32 {
-	return float32(C.iggGetWindowWidth())
+// WindowWidth returns the width of the current window.
+func WindowWidth() float32 {
+	return float32(C.iggWindowWidth())
 }
 
-// GetWindowHeight returns the height of the current window.
-func GetWindowHeight() float32 {
-	return float32(C.iggGetWindowHeight())
+// WindowHeight returns the height of the current window.
+func WindowHeight() float32 {
+	return float32(C.iggWindowHeight())
 }
 
-// GetContentRegionAvail returns the size of the content region that is available (based on the current cursor position).
-func GetContentRegionAvail() Vec2 {
+// ContentRegionAvail returns the size of the content region that is available (based on the current cursor position).
+func ContentRegionAvail() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
-	C.iggGetContentRegionAvail(valueArg)
+	C.iggContentRegionAvail(valueArg)
 	valueFin()
 	return value
 }
@@ -577,23 +577,23 @@ func EndGroup() {
 	C.iggEndGroup()
 }
 
-// GetCursorPos returns the cursor position in window coordinates (relative to window position).
-func GetCursorPos() Vec2 {
+// CursorPos returns the cursor position in window coordinates (relative to window position).
+func CursorPos() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
-	C.iggGetCursorPos(valueArg)
+	C.iggCursorPos(valueArg)
 	valueFin()
 	return value
 }
 
-// GetCursorPosX returns the x-coordinate of the cursor position in window coordinates.
-func GetCursorPosX() float32 {
-	return float32(C.iggGetCursorPosX())
+// CursorPosX returns the x-coordinate of the cursor position in window coordinates.
+func CursorPosX() float32 {
+	return float32(C.iggCursorPosX())
 }
 
-// GetCursorPosY returns the y-coordinate of the cursor position in window coordinates.
-func GetCursorPosY() float32 {
-	return float32(C.iggGetCursorPosY())
+// CursorPosY returns the y-coordinate of the cursor position in window coordinates.
+func CursorPosY() float32 {
+	return float32(C.iggCursorPosY())
 }
 
 // SetCursorPos sets the cursor relative to the current window.

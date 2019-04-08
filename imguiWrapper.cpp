@@ -92,27 +92,27 @@ void iggEndChild(void)
    ImGui::EndChild();
 }
 
-void iggGetWindowPos(IggVec2 *pos)
+void iggWindowPos(IggVec2 *pos)
 {
    exportValue(*pos, ImGui::GetWindowPos());
 }
 
-void iggGetWindowSize(IggVec2 *size)
+void iggWindowSize(IggVec2 *size)
 {
    exportValue(*size, ImGui::GetWindowSize());
 }
 
-float iggGetWindowWidth(void)
+float iggWindowWidth(void)
 {
    return ImGui::GetWindowWidth();
 }
 
-float iggGetWindowHeight(void)
+float iggWindowHeight(void)
 {
    return ImGui::GetWindowHeight();
 }
 
-void iggGetContentRegionAvail(IggVec2 *size)
+void iggContentRegionAvail(IggVec2 *size)
 {
    exportValue(*size, ImGui::GetContentRegionAvail());
 }
@@ -351,17 +351,17 @@ void iggEndGroup(void)
    ImGui::EndGroup();
 }
 
-void iggGetCursorPos(IggVec2 *pos)
+void iggCursorPos(IggVec2 *pos)
 {
    exportValue(*pos, ImGui::GetCursorPos());
 }
 
-float iggGetCursorPosX(void)
+float iggCursorPosX(void)
 {
    return ImGui::GetCursorPosX();
 }
 
-float iggGetCursorPosY(void)
+float iggCursorPosY(void)
 {
    return ImGui::GetCursorPosY();
 }
