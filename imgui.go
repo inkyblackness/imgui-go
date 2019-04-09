@@ -108,6 +108,7 @@ func End() {
 }
 
 // BeginChildV pushes a new child to the stack and starts appending to it.
+// flags are the WindowFlags to apply.
 func BeginChildV(id string, size Vec2, border bool, flags int) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
