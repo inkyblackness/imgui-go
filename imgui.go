@@ -581,6 +581,7 @@ func SetNextTreeNodeOpen(open bool, cond Condition) {
 }
 
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
+// flags are the SelectableFlags to apply.
 // size.x==0.0: use remaining width, size.x>0.0: specify width.
 // size.y==0.0: use label height, size.y>0.0: specify height
 func SelectableV(label string, selected bool, flags int, size Vec2) bool {
