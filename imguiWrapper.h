@@ -47,6 +47,8 @@ extern void iggPushStyleVarFloat(int index, float value);
 extern void iggPushStyleVarVec2(int index, IggVec2 const *value);
 extern void iggPopStyleVar(int count);
 
+extern float iggGetFontSize();
+
 extern void iggPushItemWidth(float width);
 extern void iggPopItemWidth(void);
 extern float iggCalcItemWidth(void);

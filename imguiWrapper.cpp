@@ -178,6 +178,11 @@ void iggPopStyleVar(int count)
    ImGui::PopStyleVar(count);
 }
 
+float iggGetFontSize()
+{
+   return ImGui::GetFontSize();
+}
+
 void iggPushItemWidth(float width)
 {
    ImGui::PushItemWidth(width);
