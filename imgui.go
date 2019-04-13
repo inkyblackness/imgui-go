@@ -342,6 +342,7 @@ func ProgressBar(fraction float32) {
 
 // BeginComboV creates a combo box with complete control over the content to the user.
 // Call EndCombo() if this function returns true.
+// flags are the ComboFlags to apply.
 func BeginComboV(label, previewValue string, flags int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
