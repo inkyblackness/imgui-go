@@ -9,6 +9,22 @@ type Vec2 struct {
 	Y float32
 }
 
+func (vec *Vec2) wrapped() (out *C.IggVec2, finisher func()) {
+	if vec != nil {
+		out = &C.IggVec2{
+			x: C.float(vec.X),
+			y: C.float(vec.Y),
+		}
+		finisher = func() {
+			vec.X = float32(out.x) // nolint: gotype
+			vec.Y = float32(out.y) // nolint: gotype
+		}
+	} else {
+		finisher = func() {}
+	}
+	return
+}
+
 // Plus returns vec + other.
 func (vec Vec2) Plus(other Vec2) Vec2 {
 	return Vec2{
@@ -31,22 +47,6 @@ func (vec Vec2) Times(value float32) Vec2 {
 		X: vec.X * value,
 		Y: vec.Y * value,
 	}
-}
-
-func (vec *Vec2) wrapped() (out *C.IggVec2, finisher func()) {
-	if vec != nil {
-		out = &C.IggVec2{
-			x: C.float(vec.X),
-			y: C.float(vec.Y),
-		}
-		finisher = func() {
-			vec.X = float32(out.x) // nolint: gotype
-			vec.Y = float32(out.y) // nolint: gotype
-		}
-	} else {
-		finisher = func() {}
-	}
-	return
 }
 
 // Vec4 represents a four-dimensional vector.
