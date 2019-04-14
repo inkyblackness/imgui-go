@@ -9,6 +9,30 @@ type Vec2 struct {
 	Y float32
 }
 
+// Plus returns vec + other.
+func (vec Vec2) Plus(other Vec2) Vec2 {
+	return Vec2{
+		X: vec.X + other.X,
+		Y: vec.Y + other.Y,
+	}
+}
+
+// Minus returns vec - other.
+func (vec Vec2) Minus(other Vec2) Vec2 {
+	return Vec2{
+		X: vec.X - other.X,
+		Y: vec.Y - other.Y,
+	}
+}
+
+// Times returns vec * value.
+func (vec Vec2) Times(value float32) Vec2 {
+	return Vec2{
+		X: vec.X * value,
+		Y: vec.Y * value,
+	}
+}
+
 func (vec *Vec2) wrapped() (out *C.IggVec2, finisher func()) {
 	if vec != nil {
 		out = &C.IggVec2{
@@ -51,4 +75,34 @@ func (vec *Vec4) wrapped() (out *C.IggVec4, finisher func()) {
 		finisher = func() {}
 	}
 	return
+}
+
+// Plus returns vec + other.
+func (vec Vec4) Plus(other Vec4) Vec4 {
+	return Vec4{
+		X: vec.X + other.X,
+		Y: vec.Y + other.Y,
+		Z: vec.Z + other.Z,
+		W: vec.W + other.W,
+	}
+}
+
+// Minus returns vec - other.
+func (vec Vec4) Minus(other Vec4) Vec4 {
+	return Vec4{
+		X: vec.X - other.X,
+		Y: vec.Y - other.Y,
+		Z: vec.Z - other.Z,
+		W: vec.W - other.W,
+	}
+}
+
+// Times returns vec * value.
+func (vec Vec4) Times(value float32) Vec4 {
+	return Vec4{
+		X: vec.X * value,
+		Y: vec.Y * value,
+		Z: vec.Z * value,
+		W: vec.W * value,
+	}
 }
