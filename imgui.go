@@ -111,6 +111,7 @@ func End() {
 }
 
 // BeginChildV pushes a new child to the stack and starts appending to it.
+// flags are the WindowFlags to apply.
 func BeginChildV(id string, size Vec2, border bool, flags int) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
@@ -344,6 +345,7 @@ func ProgressBar(fraction float32) {
 
 // BeginComboV creates a combo box with complete control over the content to the user.
 // Call EndCombo() if this function returns true.
+// flags are the ComboFlags to apply.
 func BeginComboV(label, previewValue string, flags int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -583,6 +585,7 @@ func SetNextTreeNodeOpen(open bool, cond Condition) {
 }
 
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
+// flags are the SelectableFlags to apply.
 // size.x==0.0: use remaining width, size.x>0.0: specify width.
 // size.y==0.0: use label height, size.y>0.0: specify height
 func SelectableV(label string, selected bool, flags int, size Vec2) bool {
