@@ -312,13 +312,13 @@ static int iggInputTextCallbackWrapper(ImGuiInputTextCallbackData *data)
    return iggInputTextCallback(reinterpret_cast<IggInputTextCallbackData>(data), static_cast<int>(reinterpret_cast<size_t>(data->UserData)));
 }
 
-IggBool iggInputText(char const* label, char* buf, unsigned int bufSize, int flags, int callbackKey)
+IggBool iggInputText(char const *label, char* buf, unsigned int bufSize, int flags, int callbackKey)
 {
    return ImGui::InputText(label, buf, static_cast<size_t>(bufSize), flags,
                            iggInputTextCallbackWrapper, reinterpret_cast<void *>(callbackKey)) ? 1 : 0;
 }
 
-IggBool iggInputTextMultiline(char const* label, char* buf, unsigned int bufSize, IggVec2 const *size, int flags, int callbackKey)
+IggBool iggInputTextMultiline(char const *label, char* buf, unsigned int bufSize, IggVec2 const *size, int flags, int callbackKey)
 {
    Vec2Wrapper sizeArg(size);
    return ImGui::InputTextMultiline(label, buf, static_cast<size_t>(bufSize), *sizeArg, flags,
@@ -429,21 +429,21 @@ IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 co
    return ImGui::Selectable(label, selected != 0, flags, *sizeArg) ? 1 : 0;
 }
 
-IggBool iggListBoxV(char const *label, int *current_item, char const *const items[], int items_count, int height_items)
+IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemsCount, int heightItems)
 {
-   return ImGui::ListBox(label, current_item, items, items_count, height_items) ? 1 : 0;
+   return ImGui::ListBox(label, currentItem, items, itemsCount, heightItems) ? 1 : 0;
 }
 
-void iggPlotLines(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, IggVec2 const *graph_size)
+void iggPlotLines(char const *label, float const *values, int valuesCount, int valuesOffset, char const *overlayText, float scaleMin, float scaleMax, IggVec2 const *graphSize)
 {
-   Vec2Wrapper graph_size_arg(graph_size);
-   ImGui::PlotLines(label, values, values_count, values_offset, overlay_text, scale_min, scale_max, *graph_size_arg);
+   Vec2Wrapper graphSizeArg(graphSize);
+   ImGui::PlotLines(label, values, valuesCount, valuesOffset, overlayText, scaleMin, scaleMax, *graphSizeArg);
 }
 
-void iggPlotHistogram(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, IggVec2 const *graph_size)
+void iggPlotHistogram(char const *label, float const *values, int valuesCount, int valuesOffset, char const *overlayText, float scaleMin, float scaleMax, IggVec2 const *graphSize)
 {
-   Vec2Wrapper graph_size_arg(graph_size);
-   ImGui::PlotHistogram(label, values, values_count, values_offset, overlay_text, scale_min, scale_max, *graph_size_arg);
+   Vec2Wrapper graphSizeArg(graphSize);
+   ImGui::PlotHistogram(label, values, valuesCount, valuesOffset, overlayText, scaleMin, scaleMax, *graphSizeArg);
 }
 
 void iggSetTooltip(char const *text)
@@ -572,7 +572,7 @@ int iggGetColumnsCount()
    return ImGui::GetColumnsCount();
 }
 
-void iggSetScrollHereY(float center_y_ratio = 0.5f)
+void iggSetScrollHereY(float centerYRatio)
 {
-   ImGui::SetScrollHereY(center_y_ratio);
+   ImGui::SetScrollHereY(centerYRatio);
 }

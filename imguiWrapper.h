@@ -110,10 +110,10 @@ extern void iggTreePop(void);
 extern void iggSetNextTreeNodeOpen(IggBool open, int cond);
 
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
-extern IggBool iggListBoxV(char const *label, int *current_item, char const *const items[], int items_count, int height_items);
+extern IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemCount, int heightItems);
 
-extern void iggPlotLines(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, IggVec2 const *graph_size);
-extern void iggPlotHistogram(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, IggVec2 const *graph_size);
+extern void iggPlotLines(const char* label, const float* values, int valuesCount, int valuesOffset, const char* overlayText, float scaleMin, float scaleMax, IggVec2 const *graphSize);
+extern void iggPlotHistogram(const char* label, const float* values, int valuesCount, int valuesOffset, const char* overlayText, float scaleMin, float scaleMax, IggVec2 const *graphSize);
 
 extern void iggSetTooltip(char const *text);
 extern void iggBeginTooltip(void);
@@ -145,7 +145,7 @@ extern void iggSetColumnWidth(int index, float width);
 extern float iggGetColumnOffset(int index);
 extern void iggSetColumnOffset(int index, float offsetX);
 extern int iggGetColumnsCount();
-extern void iggSetScrollHereY(float ratio);
+extern void iggSetScrollHereY(float centerYRatio);
 
 #ifdef __cplusplus
 }
