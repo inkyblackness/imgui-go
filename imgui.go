@@ -130,6 +130,44 @@ func EndChild() {
 	C.iggEndChild()
 }
 
+// WindowPos returns the current window position in screen space.
+// This is useful if you want to do your own drawing via the DrawList API.
+func WindowPos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggWindowPos(valueArg)
+	valueFin()
+	return value
+}
+
+// WindowSize returns the size of the current window.
+func WindowSize() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggWindowSize(valueArg)
+	valueFin()
+	return value
+}
+
+// WindowWidth returns the width of the current window.
+func WindowWidth() float32 {
+	return float32(C.iggWindowWidth())
+}
+
+// WindowHeight returns the height of the current window.
+func WindowHeight() float32 {
+	return float32(C.iggWindowHeight())
+}
+
+// ContentRegionAvail returns the size of the content region that is available (based on the current cursor position).
+func ContentRegionAvail() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggContentRegionAvail(valueArg)
+	valueFin()
+	return value
+}
+
 // SetNextWindowPosV sets next window position.
 // Call before Begin(). Use pivot=(0.5,0.5) to center on given point, etc.
 func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2) {
@@ -214,6 +252,11 @@ func PopStyleVar() {
 	PopStyleVarV(1)
 }
 
+// FontSize returns the current font size (= height in pixels) of the current font with the current scale applied.
+func FontSize() float32 {
+	return float32(C.iggGetFontSize())
+}
+
 // PushItemWidth sets width of items for the common item+label case, in pixels.
 // 0.0f = default to ~2/3 of windows width, >0.0f: width in pixels,
 // <0.0f align xx pixels to the right of window (so -1.0f always align width to the right side).
@@ -224,6 +267,11 @@ func PushItemWidth(width float32) {
 // PopItemWidth must be called for each call to PushItemWidth().
 func PopItemWidth() {
 	C.iggPopItemWidth()
+}
+
+// CalcItemWidth returns the width of items given pushed settings and current cursor position.
+func CalcItemWidth() float32 {
+	return float32(C.iggCalcItemWidth())
 }
 
 // PushTextWrapPosV defines word-wrapping for Text() commands.
@@ -539,10 +587,53 @@ func EndGroup() {
 	C.iggEndGroup()
 }
 
+// CursorPos returns the cursor position in window coordinates (relative to window position).
+func CursorPos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggCursorPos(valueArg)
+	valueFin()
+	return value
+}
+
+// CursorPosX returns the x-coordinate of the cursor position in window coordinates.
+func CursorPosX() float32 {
+	return float32(C.iggCursorPosX())
+}
+
+// CursorPosY returns the y-coordinate of the cursor position in window coordinates.
+func CursorPosY() float32 {
+	return float32(C.iggCursorPosY())
+}
+
+// CursorStartPos returns the initial cursor position in window coordinates.
+func CursorStartPos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggCursorStartPos(valueArg)
+	valueFin()
+	return value
+}
+
+// CursorScreenPos returns the cursor position in absolute screen coordinates.
+func CursorScreenPos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggCursorScreenPos(valueArg)
+	valueFin()
+	return value
+}
+
 // SetCursorPos sets the cursor relative to the current window.
 func SetCursorPos(localPos Vec2) {
 	localPosArg, _ := localPos.wrapped()
 	C.iggSetCursorPos(localPosArg)
+}
+
+// SetCursorScreenPos sets the cursor position in absolute screen coordinates.
+func SetCursorScreenPos(absPos Vec2) {
+	absPosArg, _ := absPos.wrapped()
+	C.iggSetCursorScreenPos(absPosArg)
 }
 
 // AlignTextToFramePadding vertically aligns upcoming text baseline to

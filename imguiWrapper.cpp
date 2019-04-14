@@ -92,6 +92,31 @@ void iggEndChild(void)
    ImGui::EndChild();
 }
 
+void iggWindowPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetWindowPos());
+}
+
+void iggWindowSize(IggVec2 *size)
+{
+   exportValue(*size, ImGui::GetWindowSize());
+}
+
+float iggWindowWidth(void)
+{
+   return ImGui::GetWindowWidth();
+}
+
+float iggWindowHeight(void)
+{
+   return ImGui::GetWindowHeight();
+}
+
+void iggContentRegionAvail(IggVec2 *size)
+{
+   exportValue(*size, ImGui::GetContentRegionAvail());
+}
+
 void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
 {
    Vec2Wrapper posArg(pos);
@@ -153,6 +178,11 @@ void iggPopStyleVar(int count)
    ImGui::PopStyleVar(count);
 }
 
+float iggGetFontSize()
+{
+   return ImGui::GetFontSize();
+}
+
 void iggPushItemWidth(float width)
 {
    ImGui::PushItemWidth(width);
@@ -161,6 +191,11 @@ void iggPushItemWidth(float width)
 void iggPopItemWidth(void)
 {
    ImGui::PopItemWidth();
+}
+
+float iggCalcItemWidth(void)
+{
+   return ImGui::CalcItemWidth();
 }
 
 void iggPushTextWrapPos(float wrapPosX)
@@ -321,10 +356,41 @@ void iggEndGroup(void)
    ImGui::EndGroup();
 }
 
+void iggCursorPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetCursorPos());
+}
+
+float iggCursorPosX(void)
+{
+   return ImGui::GetCursorPosX();
+}
+
+float iggCursorPosY(void)
+{
+   return ImGui::GetCursorPosY();
+}
+
+void iggCursorStartPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetCursorStartPos());
+}
+
+void iggCursorScreenPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetCursorScreenPos());
+}
+
 void iggSetCursorPos(IggVec2 const *localPos)
 {
    Vec2Wrapper localPosArg(localPos);
    ImGui::SetCursorPos(*localPosArg);
+}
+
+void iggSetCursorScreenPos(IggVec2 const *absPos)
+{
+   Vec2Wrapper absPosArg(absPos);
+   ImGui::SetCursorScreenPos(*absPosArg);
 }
 
 void iggAlignTextToFramePadding()
