@@ -3,6 +3,9 @@ package imgui
 // #cgo CXXFLAGS: -std=c++11
 // #include "imguiWrapper.h"
 import "C"
+import (
+	"math"
+)
 
 // User fill ImGuiIO.KeyMap[] array with indices into the ImGuiIO.KeysDown[512] array
 const (
@@ -620,6 +623,72 @@ func ListBoxV(label string, currentItem *int32, items []string, heightItems int)
 // The function returns true if the selection was changed. The value of currentItem will indicate the new selected item.
 func ListBox(label string, currentItem *int32, items []string) bool {
 	return ListBoxV(label, currentItem, items, -1)
+}
+
+// PlotLines draws an array of floats as a line graph.
+// It calls PlotLinesV using no overlay text and automatically calculated scale and graph size.
+func PlotLines(label string, values []float32) {
+	PlotLinesV(label, values, 0, "", math.MaxFloat32, math.MaxFloat32, Vec2{})
+}
+
+// PlotLinesV draws an array of floats as a line graph with additional options.
+// valuesOffset specifies an offset into the values array at which to start drawing, wrapping around when the end of the values array is reached.
+// overlayText specifies a string to print on top of the graph.
+// scaleMin and scaleMax define the scale of the y axis, if either is math.MaxFloat32 that value is calculated from the input data.
+// graphSize defines the size of the graph, if either coordinate is zero the default size for that direction is used.
+func PlotLinesV(label string, values []float32, valuesOffset int, overlayText string, scaleMin float32, scaleMax float32, graphSize Vec2) {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	valuesCount := len(values)
+	valuesArray := make([]C.float, valuesCount)
+	for i, value := range values {
+		valuesArray[i] = C.float(value)
+	}
+
+	var overlayTextArg *C.char
+	if overlayText != "" {
+		var overlayTextFinisher func()
+		overlayTextArg, overlayTextFinisher = wrapString(overlayText)
+		defer overlayTextFinisher()
+	}
+
+	graphSizeArg, _ := graphSize.wrapped()
+
+	C.iggPlotLines(labelArg, &valuesArray[0], C.int(valuesCount), C.int(valuesOffset), overlayTextArg, C.float(scaleMin), C.float(scaleMax), graphSizeArg)
+}
+
+// PlotHistogram draws an array of floats as a bar graph.
+// It calls PlotHistogramV using no overlay text and automatically calculated scale and graph size.
+func PlotHistogram(label string, values []float32) {
+	PlotHistogramV(label, values, 0, "", math.MaxFloat32, math.MaxFloat32, Vec2{})
+}
+
+// PlotHistogramV draws an array of floats as a bar graph with additional options.
+// valuesOffset specifies an offset into the values array at which to start drawing, wrapping around when the end of the values array is reached.
+// overlayText specifies a string to print on top of the graph.
+// scaleMin and scaleMax define the scale of the y axis, if either is math.MaxFloat32 that value is calculated from the input data.
+// graphSize defines the size of the graph, if either coordinate is zero the default size for that direction is used.
+func PlotHistogramV(label string, values []float32, valuesOffset int, overlayText string, scaleMin float32, scaleMax float32, graphSize Vec2) {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	valuesCount := len(values)
+	valuesArray := make([]C.float, valuesCount)
+	for i, value := range values {
+		valuesArray[i] = C.float(value)
+	}
+
+	var overlayTextArg *C.char
+	if overlayText != "" {
+		var overlayTextFinisher func()
+		overlayTextArg, overlayTextFinisher = wrapString(overlayText)
+		defer overlayTextFinisher()
+	}
+
+	graphSizeArg, _ := graphSize.wrapped()
+
+	C.iggPlotHistogram(labelArg, &valuesArray[0], C.int(valuesCount), C.int(valuesOffset), overlayTextArg, C.float(scaleMin), C.float(scaleMax), graphSizeArg)
 }
 
 // SetTooltip sets a text tooltip under the mouse-cursor, typically use with IsItemHovered().
