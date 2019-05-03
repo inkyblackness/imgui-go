@@ -925,7 +925,7 @@ func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
 
-// IsKeyPressed returns true if the corresponding key is currently being held down.
+// IsKeyDown returns true if the corresponding key is currently being held down.
 func IsKeyDown(key int) bool {
 	return C.iggIsKeyDown(C.int(key)) != 0
 }
