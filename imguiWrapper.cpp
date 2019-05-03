@@ -527,6 +527,11 @@ IggBool iggIsItemHovered(int flags)
    return ImGui::IsItemHovered(flags) ? 1 : 0;
 }
 
+IggBool iggIsKeyDown(int key)
+{
+   return ImGui::IsKeyDown(key);
+}
+
 IggBool iggIsKeyPressed(int key)
 {
    return ImGui::IsKeyPressed(key);
