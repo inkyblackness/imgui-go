@@ -576,3 +576,8 @@ void iggSetScrollHereY(float centerYRatio)
 {
    ImGui::SetScrollHereY(centerYRatio);
 }
+
+IggBool iggIsItemFocused()
+{
+   return ImGui::IsItemFocused();
+}

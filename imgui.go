@@ -995,3 +995,8 @@ func ColumnsCount() int {
 func SetScrollHereY(ratio float32) {
 	C.iggSetScrollHereY(C.float(ratio))
 }
+
+// IsItemFocused returns true if the last item is focused.
+func IsItemFocused() bool {
+	return C.iggIsItemFocused() != 0
+}
