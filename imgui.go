@@ -1005,3 +1005,8 @@ func ColumnsCount() int {
 func SetScrollHereY(ratio float32) {
 	C.iggSetScrollHereY(C.float(ratio))
 }
+
+// Make last item the default focused item of a window.
+func SetItemDefaultFocus() {
+	C.iggSetItemDefaultFocus()
+}
