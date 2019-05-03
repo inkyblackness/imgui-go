@@ -586,3 +586,8 @@ void iggSetItemDefaultFocus()
 {
    ImGui::SetItemDefaultFocus();
 }
+
+IggBool iggIsItemFocused()
+{
+   return ImGui::IsItemFocused();
+}
