@@ -136,7 +136,7 @@ extern void iggCloseCurrentPopup(void);
 extern IggBool iggIsItemHovered(int flags);
 
 extern IggBool iggIsKeyPressed(int key);
-extern IggBool iggIsMouseDoubleClicked(int key);
+extern IggBool iggIsMouseDoubleClicked(int button);
 
 extern void iggBeginColumns(int count, char const *label, int flags);
 extern void iggNextColumn();
