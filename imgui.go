@@ -1006,7 +1006,7 @@ func SetScrollHereY(ratio float32) {
 	C.iggSetScrollHereY(C.float(ratio))
 }
 
-// Make last item the default focused item of a window.
+// SetItemDefaultFocus makes the last item the default focused item of a window.
 func SetItemDefaultFocus() {
 	C.iggSetItemDefaultFocus()
 }
