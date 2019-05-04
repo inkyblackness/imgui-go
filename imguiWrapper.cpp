@@ -536,6 +536,10 @@ IggBool iggIsKeyReleased(int key)
 {
    return ImGui::IsKeyReleased(key);
 }
+
+IggBool iggIsMouseClicked(int button, IggBool repeat)
+{
+   return ImGui::IsMouseClicked(button, repeat);
 }
 
 void iggBeginColumns(int count, char const *label, int flags)

@@ -940,6 +940,16 @@ func IsKeyPressed(key int) bool {
 func IsKeyReleased(key int) bool {
 	return C.iggIsKeyReleased(C.int(key)) != 0
 }
+
+// IsMouseClickedV returns true if the mouse button was clicked (0=left, 1=right, 2=middle)
+// If repeat=true and the mouse button is being held down then the click is repeated using io.KeyRepeatDelay and KeyRepeatRate
+func IsMouseClickedV(button int, repeat bool) bool {
+	return C.iggIsMouseClicked(C.int(button), castBool(repeat)) != 0
+}
+
+// IsMouseClicked calls IsMouseClickedV(key, false).
+func IsMouseClicked(button int) bool {
+	return IsMouseClickedV(button, false)
 }
 
 // Columns calls ColumnsV(count, label, ColumnsFlagsNone).
