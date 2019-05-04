@@ -138,6 +138,7 @@ extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsKeyPressed(int key, IggBool repeat);
 extern IggBool iggIsKeyReleased(int key);
 extern IggBool iggIsMouseDown(int button);
+extern IggBool iggIsAnyMouseDown();
 extern IggBool iggIsMouseClicked(int button, IggBool repeat);
 
 extern void iggBeginColumns(int count, char const *label, int flags);

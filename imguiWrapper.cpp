@@ -542,6 +542,11 @@ IggBool iggIsMouseDown(int button)
    return ImGui::IsMouseDown(button);
 }
 
+IggBool iggIsAnyMouseDown()
+{
+   return ImGui::IsAnyMouseDown();
+}
+
 IggBool iggIsMouseClicked(int button, IggBool repeat)
 {
    return ImGui::IsMouseClicked(button, repeat);

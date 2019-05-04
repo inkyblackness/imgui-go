@@ -946,6 +946,11 @@ func IsMouseDown(button int) {
 	return C.iggIsMouseDown(C.int(button)) != 0
 }
 
+// IsAnyMouseDown returns true if any mouse button is currently being held down.
+func IsAnyMouseDown() {
+	return C.iggIsAnyMouseDown() != 0
+}
+
 // IsMouseClickedV returns true if the mouse button was clicked (0=left, 1=right, 2=middle)
 // If repeat=true and the mouse button is being held down then the click is repeated using io.KeyRepeatDelay and KeyRepeatRate
 func IsMouseClickedV(button int, repeat bool) bool {
