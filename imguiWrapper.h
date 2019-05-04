@@ -140,6 +140,7 @@ extern IggBool iggIsKeyReleased(int key);
 extern IggBool iggIsMouseDown(int button);
 extern IggBool iggIsAnyMouseDown();
 extern IggBool iggIsMouseClicked(int button, IggBool repeat);
+extern IggBool iggIsMouseReleased(int button);
 
 extern void iggBeginColumns(int count, char const *label, int flags);
 extern void iggNextColumn();

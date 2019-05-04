@@ -962,6 +962,11 @@ func IsMouseClicked(button int) bool {
 	return IsMouseClickedV(button, false)
 }
 
+// IsMouseReleased returns true if the mouse button was released (went from Down to !Down).
+func IsMouseReleased(button int) bool {
+	return C.iggIsMouseReleased(button)
+}
+
 // Columns calls ColumnsV(count, label, ColumnsFlagsNone).
 func Columns(count int, label string) {
 	ColumnsV(count, label, ColumnsFlagsNone)
