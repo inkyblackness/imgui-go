@@ -935,6 +935,11 @@ func IsKeyPressedV(key int, repeat bool) bool {
 func IsKeyPressed(key int) bool {
 	return IsKeyPressedV(key, true)
 }
+
+// IsKeyReleased returns true if the corresponding key was released (went from Down to !Down).
+func IsKeyReleased(key int) bool {
+	return C.iggIsKeyReleased(C.int(key)) != 0
+}
 }
 
 // Columns calls ColumnsV(count, label, ColumnsFlagsNone).
