@@ -948,12 +948,12 @@ func IsKeyReleased(key int) bool {
 }
 
 // IsMouseDown returns true if the corresponding mouse button is currently being held down.
-func IsMouseDown(button int) {
+func IsMouseDown(button int) bool {
 	return C.iggIsMouseDown(C.int(button)) != 0
 }
 
 // IsAnyMouseDown returns true if any mouse button is currently being held down.
-func IsAnyMouseDown() {
+func IsAnyMouseDown() bool {
 	return C.iggIsAnyMouseDown() != 0
 }
 
@@ -970,8 +970,7 @@ func IsMouseClicked(button int) bool {
 
 // IsMouseReleased returns true if the mouse button was released (went from Down to !Down).
 func IsMouseReleased(button int) bool {
-	return C.iggIsMouseReleased(button)
-	return C.iggIsKeyPressed(C.int(key)) != 0
+	return C.iggIsMouseReleased(C.int(button)) != 0
 }
 
 // IsMouseDoubleClickedV returns true if the mouse button was double-clicked (0=left, 1=right, 2=middle)
