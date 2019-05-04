@@ -147,6 +147,7 @@ extern void iggSetColumnOffset(int index, float offsetX);
 extern int iggGetColumnsCount();
 extern void iggSetScrollHereY(float centerYRatio);
 extern IggBool iggIsItemFocused();
+extern IggBool iggIsAnyItemFocused();
 
 #ifdef __cplusplus
 }

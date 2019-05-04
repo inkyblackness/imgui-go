@@ -581,3 +581,8 @@ IggBool iggIsItemFocused()
 {
    return ImGui::IsItemFocused();
 }
+
+IggBool iggIsAnyItemFocused()
+{
+   return ImGui::IsAnyItemFocused();
+}
