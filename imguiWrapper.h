@@ -155,6 +155,7 @@ extern int iggGetColumnsCount();
 extern void iggSetScrollHereY(float centerYRatio);
 extern void iggSetItemDefaultFocus();
 extern IggBool iggIsItemFocused();
+extern IggBool iggIsAnyItemFocused();
 
 #ifdef __cplusplus
 }

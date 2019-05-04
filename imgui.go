@@ -1058,3 +1058,8 @@ func SetItemDefaultFocus() {
 func IsItemFocused() bool {
 	return C.iggIsItemFocused() != 0
 }
+
+// IsAnyItemFocused returns true if any item is focused.
+func IsAnyItemFocused() bool {
+	return C.iggIsAnyItemFocused() != 0
+}
