@@ -925,9 +925,16 @@ func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
 
-// IsKeyPressed returns true if the corresponding key is currently pressed.
+// IsKeyPressedV returns true if the corresponding key was pressed (went from !Down to Down).
+// If repeat=true and the key is being held down then the press is repeated using io.KeyRepeatDelay and KeyRepeatRate
+func IsKeyPressedV(key int, repeat bool) bool {
+	return C.iggIsKeyPressed(C.int(key), castBool(repeat)) != 0
+}
+
+// IsKeyPressed calls IsKeyPressedV(key, true).
 func IsKeyPressed(key int) bool {
-	return C.iggIsKeyPressed(C.int(key)) != 0
+	return IsKeyPressedV(key, true)
+}
 }
 
 // Columns calls ColumnsV(count, label, ColumnsFlagsNone).
