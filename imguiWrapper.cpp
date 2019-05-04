@@ -537,6 +537,11 @@ IggBool iggIsKeyReleased(int key)
    return ImGui::IsKeyReleased(key);
 }
 
+IggBool iggIsMouseDown(int button)
+{
+   return ImGui::IsMouseDown(button);
+}
+
 IggBool iggIsMouseClicked(int button, IggBool repeat)
 {
    return ImGui::IsMouseClicked(button, repeat);
