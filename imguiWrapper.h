@@ -135,12 +135,14 @@ extern void iggCloseCurrentPopup(void);
 
 extern IggBool iggIsItemHovered(int flags);
 
+extern IggBool iggIsKeyDown(int key);
 extern IggBool iggIsKeyPressed(int key, IggBool repeat);
 extern IggBool iggIsKeyReleased(int key);
 extern IggBool iggIsMouseDown(int button);
 extern IggBool iggIsAnyMouseDown();
 extern IggBool iggIsMouseClicked(int button, IggBool repeat);
 extern IggBool iggIsMouseReleased(int button);
+extern IggBool iggIsMouseDoubleClicked(int button);
 
 extern void iggBeginColumns(int count, char const *label, int flags);
 extern void iggNextColumn();
@@ -151,6 +153,7 @@ extern float iggGetColumnOffset(int index);
 extern void iggSetColumnOffset(int index, float offsetX);
 extern int iggGetColumnsCount();
 extern void iggSetScrollHereY(float centerYRatio);
+extern void iggSetItemDefaultFocus();
 
 #ifdef __cplusplus
 }

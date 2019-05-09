@@ -925,6 +925,11 @@ func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsDefault)
 }
 
+// IsKeyDown returns true if the corresponding key is currently being held down.
+func IsKeyDown(key int) bool {
+	return C.iggIsKeyDown(C.int(key)) != 0
+}
+
 // IsKeyPressedV returns true if the corresponding key was pressed (went from !Down to Down).
 // If repeat=true and the key is being held down then the press is repeated using io.KeyRepeatDelay and KeyRepeatRate
 func IsKeyPressedV(key int, repeat bool) bool {
@@ -965,6 +970,16 @@ func IsMouseClicked(button int) bool {
 // IsMouseReleased returns true if the mouse button was released (went from Down to !Down).
 func IsMouseReleased(button int) bool {
 	return C.iggIsMouseReleased(C.int(button)) != 0
+}
+
+// IsMouseDoubleClickedV returns true if the mouse button was double-clicked (0=left, 1=right, 2=middle)
+func IsMouseDoubleClickedV(button int) bool {
+	return C.iggIsMouseDoubleClicked(C.int(button)) != 0
+}
+
+// IsMouseDoubleClicked calls IsMouseDoubleClicked(0), where 0 is the left button
+func IsMouseDoubleClicked() bool {
+	return IsMouseDoubleClickedV(0)
 }
 
 // Columns calls ColumnsV(count, label, ColumnsFlagsNone).
@@ -1031,4 +1046,9 @@ func ColumnsCount() int {
 // When using to make a "default/current item" visible, consider using SetItemDefaultFocus() instead.
 func SetScrollHereY(ratio float32) {
 	C.iggSetScrollHereY(C.float(ratio))
+}
+
+// SetItemDefaultFocus makes the last item the default focused item of a window.
+func SetItemDefaultFocus() {
+	C.iggSetItemDefaultFocus()
 }

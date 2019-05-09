@@ -527,6 +527,11 @@ IggBool iggIsItemHovered(int flags)
    return ImGui::IsItemHovered(flags) ? 1 : 0;
 }
 
+IggBool iggIsKeyDown(int key)
+{
+   return ImGui::IsKeyDown(key);
+}
+
 IggBool iggIsKeyPressed(int key, IggBool repeat)
 {
    return ImGui::IsKeyPressed(key, repeat);
@@ -555,6 +560,11 @@ IggBool iggIsMouseClicked(int button, IggBool repeat)
 IggBool iggIsMouseReleased(int button)
 {
    return ImGui::IsMouseReleased(button);
+}
+
+IggBool iggIsMouseDoubleClicked(int button)
+{
+   return ImGui::IsMouseDoubleClicked(button);
 }
 
 void iggBeginColumns(int count, char const *label, int flags)
@@ -600,4 +610,9 @@ int iggGetColumnsCount()
 void iggSetScrollHereY(float centerYRatio)
 {
    ImGui::SetScrollHereY(centerYRatio);
+}
+
+void iggSetItemDefaultFocus()
+{
+   ImGui::SetItemDefaultFocus();
 }
