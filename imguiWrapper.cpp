@@ -616,3 +616,13 @@ void iggSetItemDefaultFocus()
 {
    ImGui::SetItemDefaultFocus();
 }
+
+IggBool iggIsItemFocused()
+{
+   return ImGui::IsItemFocused();
+}
+
+IggBool iggIsAnyItemFocused()
+{
+   return ImGui::IsAnyItemFocused();
+}

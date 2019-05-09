@@ -1052,3 +1052,13 @@ func SetScrollHereY(ratio float32) {
 func SetItemDefaultFocus() {
 	C.iggSetItemDefaultFocus()
 }
+
+// IsItemFocused returns true if the last item is focused.
+func IsItemFocused() bool {
+	return C.iggIsItemFocused() != 0
+}
+
+// IsAnyItemFocused returns true if any item is focused.
+func IsAnyItemFocused() bool {
+	return C.iggIsAnyItemFocused() != 0
+}
