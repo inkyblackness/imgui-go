@@ -527,9 +527,44 @@ IggBool iggIsItemHovered(int flags)
    return ImGui::IsItemHovered(flags) ? 1 : 0;
 }
 
-IggBool iggIsKeyPressed(int key)
+IggBool iggIsKeyDown(int key)
 {
-   return ImGui::IsKeyPressed(key);
+   return ImGui::IsKeyDown(key);
+}
+
+IggBool iggIsKeyPressed(int key, IggBool repeat)
+{
+   return ImGui::IsKeyPressed(key, repeat);
+}
+
+IggBool iggIsKeyReleased(int key)
+{
+   return ImGui::IsKeyReleased(key);
+}
+
+IggBool iggIsMouseDown(int button)
+{
+   return ImGui::IsMouseDown(button);
+}
+
+IggBool iggIsAnyMouseDown()
+{
+   return ImGui::IsAnyMouseDown();
+}
+
+IggBool iggIsMouseClicked(int button, IggBool repeat)
+{
+   return ImGui::IsMouseClicked(button, repeat);
+}
+
+IggBool iggIsMouseReleased(int button)
+{
+   return ImGui::IsMouseReleased(button);
+}
+
+IggBool iggIsMouseDoubleClicked(int button)
+{
+   return ImGui::IsMouseDoubleClicked(button);
 }
 
 void iggBeginColumns(int count, char const *label, int flags)
@@ -575,6 +610,11 @@ int iggGetColumnsCount()
 void iggSetScrollHereY(float centerYRatio)
 {
    ImGui::SetScrollHereY(centerYRatio);
+}
+
+void iggSetItemDefaultFocus()
+{
+   ImGui::SetItemDefaultFocus();
 }
 
 IggBool iggIsItemFocused()
