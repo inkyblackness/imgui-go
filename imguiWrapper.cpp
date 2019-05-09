@@ -532,6 +532,11 @@ IggBool iggIsKeyPressed(int key)
    return ImGui::IsKeyPressed(key);
 }
 
+IggBool iggIsMouseDoubleClicked(int button)
+{
+   return ImGui::IsMouseDoubleClicked(button);
+}
+
 void iggBeginColumns(int count, char const *label, int flags)
 {
    ImGui::Columns(count, label, flags);

@@ -930,6 +930,16 @@ func IsKeyPressed(key int) bool {
 	return C.iggIsKeyPressed(C.int(key)) != 0
 }
 
+// IsMouseDoubleClickedV returns true if the mouse button was double-clicked (0=left, 1=right, 2=middle)
+func IsMouseDoubleClickedV(button int) bool {
+	return C.iggIsMouseDoubleClicked(C.int(button)) != 0
+}
+
+// IsMouseDoubleClicked calls IsMouseDoubleClicked(0), where 0 is the left button
+func IsMouseDoubleClicked() bool {
+	return IsMouseDoubleClickedV(0)
+}
+
 // Columns calls ColumnsV(count, label, ColumnsFlagsNone).
 func Columns(count int, label string) {
 	ColumnsV(count, label, ColumnsFlagsNone)
