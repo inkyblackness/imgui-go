@@ -626,3 +626,8 @@ IggBool iggIsAnyItemFocused()
 {
    return ImGui::IsAnyItemFocused();
 }
+
+int iggGetMouseCursor()
+{
+   return ImGui::GetMouseCursor();
+}

@@ -157,6 +157,7 @@ extern void iggSetScrollHereY(float centerYRatio);
 extern void iggSetItemDefaultFocus();
 extern IggBool iggIsItemFocused();
 extern IggBool iggIsAnyItemFocused();
+extern int iggGetMouseCursor();
 
 #ifdef __cplusplus
 }
