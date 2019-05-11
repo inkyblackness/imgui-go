@@ -631,3 +631,8 @@ int iggGetMouseCursor()
 {
    return ImGui::GetMouseCursor();
 }
+
+void iggSetMouseCursor(int cursor)
+{
+   ImGui::SetMouseCursor(cursor);
+}

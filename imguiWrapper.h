@@ -158,6 +158,7 @@ extern void iggSetItemDefaultFocus();
 extern IggBool iggIsItemFocused();
 extern IggBool iggIsAnyItemFocused();
 extern int iggGetMouseCursor();
+extern void iggSetMouseCursor(int cursor);
 
 #ifdef __cplusplus
 }

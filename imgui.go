@@ -1063,3 +1063,8 @@ func IsAnyItemFocused() bool {
 func GetMouseCursor() int {
 	return int(C.iggGetMouseCursor())
 }
+
+// SetMouseCursor sets desired cursor type.
+func SetMouseCursor(cursor int) {
+	C.iggSetMouseCursor(C.int(cursor))
+}
