@@ -127,3 +127,9 @@ func (io IO) SetIniFilename(value string) {
 	defer valueFin()
 	C.iggIoSetIniFilename(io.handle, valueArg)
 }
+
+// SetConfigFlags sets the gamepad/keyboard navigation options, etc.
+func (io IO) SetConfigFlags(flags int) {
+	C.iggIoSetConfigFlags(io.handle, C.int(flags))
+}
+

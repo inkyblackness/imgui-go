@@ -120,3 +120,10 @@ void iggIoSetIniFilename(IggIO handle, char const *value)
    bufferValue = (value != nullptr) ? value : "";
    io.IniFilename = bufferValue.empty() ? nullptr : bufferValue.c_str();
 }
+
+void iggIoSetConfigFlags(IggIO handle, int flags)
+{
+   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
+   io.ConfigFlags = flags;
+}
+
