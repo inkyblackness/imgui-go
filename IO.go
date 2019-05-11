@@ -133,3 +133,7 @@ func (io IO) SetConfigFlags(flags int) {
 	C.iggIoSetConfigFlags(io.handle, C.int(flags))
 }
 
+// SetBackendFlags sets back-end capabilities.
+func (io IO) SetBackendFlags(flags int) {
+	C.iggIoSetBackendFlags(io.handle, C.int(flags))
+}

@@ -30,6 +30,7 @@ extern void iggIoKeySuper(IggIO handle, int leftSuper, int rightSuper);
 extern void iggIoAddInputCharactersUTF8(IggIO handle, char const *utf8Chars);
 extern void iggIoSetIniFilename(IggIO handle, char const *value);
 extern void iggIoSetConfigFlags(IggIO handle, int flags);
+extern void iggIoSetBackendFlags(IggIO handle, int flags);
 
 #ifdef __cplusplus
 }

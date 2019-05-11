@@ -127,3 +127,8 @@ void iggIoSetConfigFlags(IggIO handle, int flags)
    io.ConfigFlags = flags;
 }
 
+void iggIoSetBackendFlags(IggIO handle, int flags)
+{
+   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
+   io.BackendFlags = flags;
+}
