@@ -15,6 +15,8 @@ const (
 	ConfigFlagNoMouseCursorChange
 
 	// User storage (to allow your back-end/engine to communicate to code that may be shared between multiple projects. Those flags are not used by core ImGui)
-	ConfigFlagIsSRGB        = 1 << 20 // Application is SRGB-aware.
-	ConfigFlagIsTouchScreen = 1 << 21 // Application is using a touch screen instead of a mouse.
+	// Application is SRGB-aware.
+	ConfigFlagIsSRGB = 1 << 20
+	// Application is using a touch screen instead of a mouse.
+	ConfigFlagIsTouchScreen = 1 << 21
 )
