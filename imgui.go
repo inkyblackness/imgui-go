@@ -1058,9 +1058,9 @@ func IsAnyItemFocused() bool {
 	return C.iggIsAnyItemFocused() != 0
 }
 
-// GetMouseCursor returns desired cursor type, reset in imgui.NewFrame(), this is updated during the frame.
+// MouseCursor returns desired cursor type, reset in imgui.NewFrame(), this is updated during the frame.
 // Valid before Render(). If you use software rendering by setting io.MouseDrawCursor ImGui will render those for you.
-func GetMouseCursor() int {
+func MouseCursor() int {
 	return int(C.iggGetMouseCursor())
 }
 
