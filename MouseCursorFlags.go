@@ -1,7 +1,7 @@
 package imgui
 
 const (
-	// Enumeration for GetMouseCursor()
+	// Enumeration for MouseCursor()
 	// User code may request binding to display given cursor by calling SetMouseCursor(), which is why we have some cursors that are marked unused here
 	MouseCursorNone = iota - 1
 	MouseCursorArrow
