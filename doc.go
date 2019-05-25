@@ -2,7 +2,9 @@
 //
 // Setup
 //
-// Refer to the _examples directory, which contains ported examples of the C++ version, available to Go.
+// For integration, please refer to the dedicated repository
+// https://github.com/inkyblackness/imgui-go-examples ,
+// which contains ported examples of the C++ version, available to Go.
 //
 // Conventions
 //
