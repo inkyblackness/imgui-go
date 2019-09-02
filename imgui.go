@@ -675,6 +675,11 @@ func SetNextTreeNodeOpen(open bool, cond Condition) {
 	C.iggSetNextTreeNodeOpen(castBool(open), C.int(cond))
 }
 
+// TreeNodeToLabelSpacing returns the horizontal distance preceding label for a regular unframed TreeNode.
+func TreeNodeToLabelSpacing() float32 {
+	return float32(C.iggGetTreeNodeToLabelSpacing())
+}
+
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
 // flags are the SelectableFlags to apply.
 // size.x==0.0: use remaining width, size.x>0.0: specify width.
