@@ -137,3 +137,64 @@ func (io IO) SetConfigFlags(flags int) {
 func (io IO) SetBackendFlags(flags int) {
 	C.iggIoSetBackendFlags(io.handle, C.int(flags))
 }
+
+// Clipboard describes the access to the text clipboard of the window manager.
+type Clipboard interface {
+	// Text returns the current text from the clipboard, if available.
+	Text() (string, error)
+	// SetText sets the text as the current text on the clipboard.
+	SetText(value string)
+}
+
+var clipboards = map[C.IggIO]Clipboard{}
+var dropLastClipboardText = func() {}
+
+// SetClipboard registers a clipboard for text copy/paste actions.
+// If no clipboard is set, then a fallback implementation may be used, if available for the OS.
+// To disable clipboard handling overall, pass nil as the Clipboard.
+//
+// Since ImGui queries the clipboard text via a return value, the wrapper has to hold the
+// current clipboard text as a copy in memory. This memory will be freed at the next clipboard operation.
+func (io IO) SetClipboard(board Clipboard) {
+	dropLastClipboardText()
+
+	if board != nil {
+		clipboards[io.handle] = board
+		C.iggIoRegisterClipboardFunctions(io.handle)
+	} else {
+		C.iggIoClearClipboardFunctions(io.handle)
+		delete(clipboards, io.handle)
+	}
+}
+
+//export iggIoGetClipboardText
+func iggIoGetClipboardText(handle C.IggIO) *C.char {
+	dropLastClipboardText()
+
+	board := clipboards[handle]
+	if board == nil {
+		return nil
+	}
+
+	text, err := board.Text()
+	if err != nil {
+		return nil
+	}
+	textPtr, textFin := wrapString(text)
+	dropLastClipboardText = func() {
+		dropLastClipboardText = func() {}
+		textFin()
+	}
+	return textPtr
+}
+
+//export iggIoSetClipboardText
+func iggIoSetClipboardText(handle C.IggIO, text *C.char) {
+	dropLastClipboardText()
+
+	board := clipboards[handle]
+	if board == nil {
+		return
+	}
+	board.SetText(C.GoString(text))
+}

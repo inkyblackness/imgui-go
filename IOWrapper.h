@@ -32,6 +32,9 @@ extern void iggIoSetIniFilename(IggIO handle, char const *value);
 extern void iggIoSetConfigFlags(IggIO handle, int flags);
 extern void iggIoSetBackendFlags(IggIO handle, int flags);
 
+extern void iggIoRegisterClipboardFunctions(IggIO handle);
+extern void iggIoClearClipboardFunctions(IggIO handle);
+
 #ifdef __cplusplus
 }
 #endif
