@@ -423,6 +423,11 @@ void iggSetNextTreeNodeOpen(IggBool open, int cond)
    ImGui::SetNextTreeNodeOpen(open != 0, cond);
 }
 
+float iggGetTreeNodeToLabelSpacing(void)
+{
+   return ImGui::GetTreeNodeToLabelSpacing();
+}
+
 IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size)
 {
    Vec2Wrapper sizeArg(size);
