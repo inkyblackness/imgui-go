@@ -107,7 +107,7 @@ extern float iggGetTextLineHeightWithSpacing(void);
 
 extern IggBool iggTreeNode(char const *label, int flags);
 extern void iggTreePop(void);
-extern void iggSetNextTreeNodeOpen(IggBool open, int cond);
+extern void iggSetNextItemOpen(IggBool open, int cond);
 extern float iggGetTreeNodeToLabelSpacing(void);
 
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);

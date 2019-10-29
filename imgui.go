@@ -670,9 +670,9 @@ func TreePop() {
 	C.iggTreePop()
 }
 
-// SetNextTreeNodeOpen sets the open/collapsed state of the following tree node.
-func SetNextTreeNodeOpen(open bool, cond Condition) {
-	C.iggSetNextTreeNodeOpen(castBool(open), C.int(cond))
+// SetNextItemOpen sets the open/collapsed state of the following tree node.
+func SetNextItemOpen(open bool, cond Condition) {
+	C.iggSetNextItemOpen(castBool(open), C.int(cond))
 }
 
 // TreeNodeToLabelSpacing returns the horizontal distance preceding label for a regular unframed TreeNode.

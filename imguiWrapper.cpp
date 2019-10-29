@@ -418,9 +418,9 @@ void iggTreePop(void)
    ImGui::TreePop();
 }
 
-void iggSetNextTreeNodeOpen(IggBool open, int cond)
+void iggSetNextItemOpen(IggBool open, int cond)
 {
-   ImGui::SetNextTreeNodeOpen(open != 0, cond);
+   ImGui::SetNextItemOpen(open != 0, cond);
 }
 
 float iggGetTreeNodeToLabelSpacing(void)
