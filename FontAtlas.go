@@ -95,6 +95,35 @@ func (atlas FontAtlas) AddFontFromFileTTF(filename string, sizePixels float32) F
 	return atlas.AddFontFromFileTTFV(filename, sizePixels, DefaultFontConfig, EmptyGlyphRanges)
 }
 
+// AddFontFromMemoryTTFV attempts to load a font from given TTF byte array.
+func (atlas FontAtlas) AddFontFromMemoryTTFV(
+	fontData []byte, sizePixels float32,
+	config FontConfig,
+	glyphRange GlyphRanges,
+) Font {
+	// NOTE: We never free the fontDataC array because IMGUI's AddFontFromMemoryTTF takes ownership if
+	// FontConfig.FontDataOwnedByAtlas == true (which it is by default). We do not expose this flag in Go
+	// so we can assume in most cases it is true.
+	if !config.getFontDataOwnedByAtlas() {
+		panic("Only ImFontConfig.FontDataOwnedByAtlas == true is supported.")
+	}
+
+	fontDataC := C.malloc(C.size_t(len(fontData)))
+	cBuf := (*[1 << 30]byte)(fontDataC)
+
+	copy(cBuf[:], fontData)
+
+	fontHandle := C.iggAddFontFromMemoryTTF(atlas.handle(), (*C.char)(fontDataC), C.int(len(fontData)), C.float(sizePixels),
+		config.handle(), glyphRange.handle())
+
+	return Font(fontHandle)
+}
+
+// AddFontFromMemoryTTF calls AddFontFromMemoryTTFV(fontData, sizePixels, DefaultFontConfig, EmptyGlyphRanges).
+func (atlas FontAtlas) AddFontFromMemoryTTF(fontData []byte, sizePixels float32) Font {
+	return atlas.AddFontFromMemoryTTFV(fontData, sizePixels, DefaultFontConfig, EmptyGlyphRanges)
+}
+
 // SetTexDesiredWidth registers the width desired by user before building the image. Must be a power-of-two.
 // If have many glyphs your graphics API have texture size restrictions you may want to increase texture width to decrease height.
 // Set to 0 by default, causing auto-calculation.

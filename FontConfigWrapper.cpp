@@ -54,3 +54,9 @@ void iggFontConfigSetMergeMode(IggFontConfig handle, IggBool value)
    ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);
    fontConfig->MergeMode = value;
 }
+
+int iggFontConfigGetFontDataOwnedByAtlas(IggFontConfig handle)
+{
+   ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);
+   return fontConfig->FontDataOwnedByAtlas;
+}

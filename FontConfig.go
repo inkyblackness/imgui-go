@@ -89,3 +89,12 @@ func (config FontConfig) SetMergeMode(value bool) {
 		C.iggFontConfigSetMergeMode(config.handle(), castBool(value))
 	}
 }
+
+// getFontDataOwnedByAtlas gets the current ownership status of the font data.
+func (config FontConfig) getFontDataOwnedByAtlas() bool {
+	if config != DefaultFontConfig {
+		return C.iggFontConfigGetFontDataOwnedByAtlas(config.handle()) != 0
+	}
+
+	return true
+}

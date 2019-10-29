@@ -69,6 +69,17 @@ IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float s
    return static_cast<IggFont>(font);
 }
 
+IggFont iggAddFontFromMemoryTTF(IggFontAtlas handle, char *font_data, int font_size, float sizePixels,
+      IggFontConfig config, IggGlyphRanges glyphRanges)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(config);
+   ImWchar *glyphChars = reinterpret_cast<ImWchar *>(glyphRanges);
+   ImFont *font = fontAtlas->AddFontFromMemoryTTF(font_data, font_size, sizePixels, fontConfig, glyphChars);
+   return static_cast<IggFont>(font);
+}
+
+
 void iggFontAtlasSetTexDesiredWidth(IggFontAtlas handle, int value)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
