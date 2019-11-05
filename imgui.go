@@ -1041,6 +1041,50 @@ func ColumnsCount() int {
 	return int(C.iggGetColumnsCount())
 }
 
+// BeginTabBarV create and append into a TabBar
+func BeginTabBarV(strId string, flags int) bool {
+	idArg, idFin := wrapString(strId)
+	defer idFin()
+	return C.iggBeginTabBar(idArg, C.int(flags)) != 0
+}
+
+// BeginTabBar calls BeginTabBarV(strId, 0)
+func BeginTabBar(strId string) bool {
+	return BeginTabBarV(strId, 0)
+}
+
+// EndTabBar only call EndTabBar() if BeginTabBar() returns true!
+func EndTabBar() {
+	C.iggEndTabBar()
+}
+
+// BeginTabItemV create a Tab. Returns true if the Tab is selected.
+func BeginTabItemV(label string, open *bool, flags int) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	openArg, openFin := wrapBool(open)
+	defer openFin()
+	return C.iggBeginTabItem(labelArg, openArg, C.int(flags)) != 0
+}
+
+// BeginTabBar calls BeginTabBarV(label, nil, 0)
+func BeginTabItem(label string) bool {
+	return BeginTabItemV(label, nil, 0)
+}
+
+func EndTabItem() {
+	C.iggEndTabItem()
+}
+
+// SetTabItemClosed notify TabBar or Docking system of a closed tab/window ahead
+// (useful to reduce visual flicker on reorderable tab bars). For tab-bar: call
+// after BeginTabBar() and before Tab submissions. Otherwise call with a window name.
+func SetTabItemClosed(tabOrDockedWindowLabel string) {
+	labelArg, labelFin := wrapString(tabOrDockedWindowLabel)
+	defer labelFin()
+	C.iggSetTabItemClosed(labelArg)
+}
+
 // SetScrollHereY adjusts scrolling amount to make current cursor position visible.
 // ratio=0.0: top, 0.5: center, 1.0: bottom.
 // When using to make a "default/current item" visible, consider using SetItemDefaultFocus() instead.
