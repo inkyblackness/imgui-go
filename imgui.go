@@ -1042,15 +1042,16 @@ func ColumnsCount() int {
 }
 
 // BeginTabBarV create and append into a TabBar
-func BeginTabBarV(strId string, flags int) bool {
-	idArg, idFin := wrapString(strId)
+func BeginTabBarV(strID string, flags int) bool {
+	idArg, idFin := wrapString(strID)
 	defer idFin()
+
 	return C.iggBeginTabBar(idArg, C.int(flags)) != 0
 }
 
 // BeginTabBar calls BeginTabBarV(strId, 0)
-func BeginTabBar(strId string) bool {
-	return BeginTabBarV(strId, 0)
+func BeginTabBar(strID string) bool {
+	return BeginTabBarV(strID, 0)
 }
 
 // EndTabBar only call EndTabBar() if BeginTabBar() returns true!
@@ -1062,16 +1063,19 @@ func EndTabBar() {
 func BeginTabItemV(label string, open *bool, flags int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
+
 	openArg, openFin := wrapBool(open)
 	defer openFin()
+
 	return C.iggBeginTabItem(labelArg, openArg, C.int(flags)) != 0
 }
 
-// BeginTabBar calls BeginTabBarV(label, nil, 0)
+// BeginTabItem calls BeginTabItemV(label, nil, 0)
 func BeginTabItem(label string) bool {
 	return BeginTabItemV(label, nil, 0)
 }
 
+// EndTabItem Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem()
 func EndTabItem() {
 	C.iggEndTabItem()
 }

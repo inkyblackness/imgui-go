@@ -9,14 +9,12 @@ const (
 	TabBarFlagsReorderable = 1 << 0
 	// TabBarFlagsAutoSelectNewTabs Automatically select new tabs when they appear
 	TabBarFlagsAutoSelectNewTabs = 1 << 1
-	// TabBarFlagsNoCloseWithMiddleMouseButton Disable behavior of closing tabs
-	// (that are submitted with p_open != NULL) with middle mouse button. You can
-	// still repro this behavior on user's side with
-	// if (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
+	// TabBarFlagsNoCloseWithMiddleMouseButton Disable behavior of closing tabs (that are submitted with p_open != NULL) with middle mouse button. You can
+	// still repro this behavior on user's side with if (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
 	TabBarFlagsNoCloseWithMiddleMouseButton = 1 << 2
-	//
+	// TabBarFlagsNoTabListPopupButton Undocumented in Dear imGui v1.67
 	TabBarFlagsNoTabListPopupButton = 1 << 3
-	//
+	// TabBarFlagsNoTabListScrollingButtons Undocumented in Dear imGui v1.67
 	TabBarFlagsNoTabListScrollingButtons = 1 << 4
 	// TabBarFlagsNoTooltip Disable tooltips when hovering a tab
 	TabBarFlagsNoTooltip = 1 << 5
