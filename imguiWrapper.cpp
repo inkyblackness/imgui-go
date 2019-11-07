@@ -2,6 +2,10 @@
 #include "imguiWrapper.h"
 #include "WrapperConverter.h"
 
+/*******************************/
+/* Context creation and access */
+/*******************************/
+
 IggContext iggCreateContext(IggFontAtlas sharedFontAtlas)
 {
    ImGuiContext *context = ImGui::CreateContext(reinterpret_cast<ImFontAtlas *>(sharedFontAtlas));
@@ -23,12 +27,16 @@ void iggSetCurrentContext(IggContext context)
    ImGui::SetCurrentContext(reinterpret_cast<ImGuiContext *>(context));
 }
 
-IggIO iggGetCurrentIO()
+/*************************/
+/* Main - v1.67 complete */
+/*************************/
+
+IggIO iggGetIO()
 {
    return reinterpret_cast<IggIO>(&ImGui::GetIO());
 }
 
-IggGuiStyle iggGetCurrentStyle()
+IggGuiStyle iggGetStyle()
 {
    return reinterpret_cast<IggGuiStyle>(&ImGui::GetStyle());
 }
@@ -36,6 +44,11 @@ IggGuiStyle iggGetCurrentStyle()
 void iggNewFrame()
 {
    ImGui::NewFrame();
+}
+
+void iggEndFrame()
+{
+   ImGui::EndFrame();
 }
 
 void iggRender()
@@ -48,15 +61,21 @@ IggDrawData iggGetDrawData()
    return reinterpret_cast<IggDrawData>(ImGui::GetDrawData());
 }
 
-void iggEndFrame()
+// here because we don't want to break with previous versions of this wrapper
+IggIO iggGetCurrentIO()
 {
-   ImGui::EndFrame();
+   return iggGetIO();
 }
 
-char const *iggGetVersion()
+// here because we don't want to break with previous versions of this wrapper
+IggGuiStyle iggGetCurrentStyle()
 {
-   return ImGui::GetVersion();
+   return iggGetStyle();
 }
+
+/****************************/
+/* Demo, Debug, Information */
+/****************************/
 
 void iggShowDemoWindow(IggBool *open)
 {
@@ -70,6 +89,19 @@ void iggShowUserGuide(void)
    ImGui::ShowUserGuide();
 }
 
+char const *iggGetVersion()
+{
+   return ImGui::GetVersion();
+}
+
+/********************/
+/* Styles - MISSING */
+/********************/
+
+/****************************/
+/* Windows - v1.67 complete */
+/****************************/
+
 IggBool iggBegin(char const *id, IggBool *open, int flags)
 {
    BoolWrapper openArg(open);
@@ -81,6 +113,10 @@ void iggEnd(void)
    ImGui::End();
 }
 
+/*****************/
+/* Child Windows */
+/*****************/
+
 IggBool iggBeginChild(char const *id, IggVec2 const *size, IggBool border, int flags)
 {
    Vec2Wrapper sizeArg(size);
@@ -91,6 +127,10 @@ void iggEndChild(void)
 {
    ImGui::EndChild();
 }
+
+/*********************/
+/* Windows Utilities */
+/*********************/
 
 void iggWindowPos(IggVec2 *pos)
 {
@@ -139,6 +179,19 @@ void iggSetNextWindowBgAlpha(float value)
 {
    ImGui::SetNextWindowBgAlpha(value);
 }
+
+/*********************/
+/* Windows Scrolling */
+/*********************/
+
+void iggSetScrollHereY(float centerYRatio)
+{
+   ImGui::SetScrollHereY(centerYRatio);
+}
+
+/******************************/
+/* Parameters stacks (shared) */
+/******************************/
 
 void iggPushFont(IggFont handle)
 {
@@ -208,6 +261,130 @@ void iggPopTextWrapPos(void)
    ImGui::PopTextWrapPos();
 }
 
+/*******************/
+/* Cursor / Layout */
+/*******************/
+
+void iggSeparator(void)
+{
+   ImGui::Separator();
+}
+
+void iggSameLine(float posX, float spacingW)
+{
+   ImGui::SameLine(posX, spacingW);
+}
+
+void iggSpacing(void)
+{
+   ImGui::Spacing();
+}
+
+void iggDummy(IggVec2 const *size)
+{
+   Vec2Wrapper sizeArg(size);
+   ImGui::Dummy(*sizeArg);
+}
+
+void iggBeginGroup(void)
+{
+   ImGui::BeginGroup();
+}
+
+void iggEndGroup(void)
+{
+   ImGui::EndGroup();
+}
+
+IggVec2 iggGetCursorPos()
+{
+    ImVec2 r = ImGui::GetCursorPos();
+    return IggVec2{x: r.x, y:r.y};
+}
+
+float iggGetCursorPosX(void)
+{
+   return ImGui::GetCursorPosX();
+}
+
+float iggGetCursorPosY(void)
+{
+   return ImGui::GetCursorPosY();
+}
+
+void iggSetCursorPos(IggVec2 const *localPos)
+{
+   Vec2Wrapper localPosArg(localPos);
+   ImGui::SetCursorPos(*localPosArg);
+}
+
+IggVec2 iggGetCursorStartPos(void)
+{
+    ImVec2 r = ImGui::GetCursorStartPos();
+    return IggVec2{x: r.x, y:r.y};
+}
+
+IggVec2 iggCursorScreenPos(void)
+{
+    ImVec2 r = ImGui::GetCursorScreenPos();
+    return IggVec2{x: r.x, y:r.y};
+}
+
+void iggSetCursorScreenPos(IggVec2 const *absPos)
+{
+   Vec2Wrapper absPosArg(absPos);
+   ImGui::SetCursorScreenPos(*absPosArg);
+}
+
+void iggAlignTextToFramePadding()
+{
+   ImGui::AlignTextToFramePadding();
+}
+
+float iggGetTextLineHeight(void)
+{
+   return ImGui::GetTextLineHeight();
+}
+
+float iggGetTextLineHeightWithSpacing(void)
+{
+   return ImGui::GetTextLineHeightWithSpacing();
+}
+
+// here because we don't want to break with previous versions of this wrapper
+void iggCursorPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetCursorPos());
+}
+
+// here because we don't want to break with previous versions of this wrapper
+float iggCursorPosX(void)
+{
+   return iggGetCursorPosX();
+}
+
+// here because we don't want to break with previous versions of this wrapper
+float iggCursorPosY(void)
+{
+   return iggGetCursorPosY();
+}
+
+// here because we don't want to break with previous versions of this wrapper
+void iggCursorStartPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetCursorStartPos());
+}
+
+// here because we don't want to break with previous versions of this wrapper
+void iggCursorScreenPos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetCursorScreenPos());
+}
+
+/*******************/
+/* ID stack/scopes */
+/*******************/
+
 void iggPushID(char const *id)
 {
    ImGui::PushID(id);
@@ -216,6 +393,10 @@ void iggPopID(void)
 {
    ImGui::PopID();
 }
+
+/*****************/
+/* Widgets: Text */
+/*****************/
 
 void iggTextUnformatted(char const *text)
 {
@@ -227,10 +408,27 @@ void iggLabelText(char const *label, char const *text)
    ImGui::LabelText(label, "%s", text);
 }
 
+/**********************************/
+/* Widgets: Main - v1.67 complete */
+/**********************************/
+
 IggBool iggButton(char const *label, IggVec2 const *size)
 {
    Vec2Wrapper sizeArg(size);
    return ImGui::Button(label, *sizeArg) ? 1 : 0;
+}
+
+IggBool iggSmallButton (char const *label) {
+    return ImGui::SmallButton(label) ? 1 : 0;
+}
+
+IggBool iggInvisibleButton(char const *str_id, IggVec2 const *size) {
+    Vec2Wrapper sizeArg(size);
+    return ImGui::InvisibleButton(str_id, *sizeArg) ? 1 : 0;
+}
+
+IggBool iggArrowButton (char const *label, int dir) {
+    return ImGui::ArrowButton(label, dir) ? 1 : 0;
 }
 
 void iggImage(IggTextureID textureID,
@@ -264,11 +462,34 @@ IggBool iggCheckbox(char const *label, IggBool *selected)
    return ImGui::Checkbox(label, selectedArg) ? 1 : 0;
 }
 
+IggBool iggCheckboxFlags(char const *label, unsigned int *flags, unsigned int flags_value)
+{
+   return ImGui::CheckboxFlags(label, flags, flags_value) ? 1 : 0;
+}
+
+IggBool iggRadioButton(char const *label, IggBool *active)
+{
+   return ImGui::RadioButton(label, active) ? 1 : 0;
+}
+
+IggBool iggRadioButtonInt(char const *label, int *v, int v_button)
+{
+   return ImGui::RadioButton(label, v, v_button) ? 1 : 0;
+}
+
 void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay)
 {
    Vec2Wrapper sizeArg(size);
    ImGui::ProgressBar(fraction, *sizeArg, overlay);
 }
+
+void iggBullet() {
+    ImGui::Bullet();
+}
+
+/**********************/
+/* Widgets: Combo Box */
+/**********************/
 
 IggBool iggBeginCombo(char const *label, char const *previewValue, int flags)
 {
@@ -280,6 +501,10 @@ void iggEndCombo(void)
    ImGui::EndCombo();
 }
 
+/******************/
+/* Widgets: Drags */
+/******************/
+
 IggBool iggDragFloat(char const *label, float *value, float speed, float min, float max, char const *format, float power)
 {
    return ImGui::DragFloat(label, value, speed, min, max, format, power) ? 1 : 0;
@@ -290,20 +515,29 @@ IggBool iggDragInt(char const *label, int *value, float speed, int min, int max,
    return ImGui::DragInt(label, value, speed, min, max, format) ? 1 : 0;
 }
 
+/********************/
+/* Widgets: Sliders */
+/********************/
+
 IggBool iggSliderFloat(char const *label, float *value, float minValue, float maxValue, char const *format, float power)
 {
    return ImGui::SliderFloat(label, value, minValue, maxValue, format, power) ? 1 : 0;
-}
-
-IggBool iggSliderFloatN(char const *label, float *value, int n, float minValue, float maxValue, char const *format, float power)
-{
-   return ImGui::SliderScalarN(label, ImGuiDataType_Float, (void *)value, n, &minValue, &maxValue, format, power) ? 1 : 0;
 }
 
 IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format)
 {
    return ImGui::SliderInt(label, value, minValue, maxValue, format) ? 1 : 0;
 }
+
+// here because we don't want to break with previous versions of this wrapper
+IggBool iggSliderFloatN(char const *label, float *value, int n, float minValue, float maxValue, char const *format, float power)
+{
+   return ImGui::SliderScalarN(label, ImGuiDataType_Float, (void *)value, n, &minValue, &maxValue, format, power) ? 1 : 0;
+}
+
+/*******************************/
+/* Widgets: Input with Keyboard */
+/*******************************/
 
 extern "C" int iggInputTextCallback(IggInputTextCallbackData data, int key);
 
@@ -325,88 +559,13 @@ IggBool iggInputTextMultiline(char const *label, char* buf, unsigned int bufSize
                                     iggInputTextCallbackWrapper, reinterpret_cast<void *>(callbackKey)) ? 1 : 0;
 }
 
-void iggSeparator(void)
-{
-   ImGui::Separator();
-}
+/******************************************/
+/* Widgets: Color Editor/Picker - MISSING */
+/******************************************/
 
-void iggSameLine(float posX, float spacingW)
-{
-   ImGui::SameLine(posX, spacingW);
-}
-
-void iggSpacing(void)
-{
-   ImGui::Spacing();
-}
-
-void iggDummy(IggVec2 const *size)
-{
-   Vec2Wrapper sizeArg(size);
-   ImGui::Dummy(*sizeArg);
-}
-
-void iggBeginGroup(void)
-{
-   ImGui::BeginGroup();
-}
-
-void iggEndGroup(void)
-{
-   ImGui::EndGroup();
-}
-
-void iggCursorPos(IggVec2 *pos)
-{
-   exportValue(*pos, ImGui::GetCursorPos());
-}
-
-float iggCursorPosX(void)
-{
-   return ImGui::GetCursorPosX();
-}
-
-float iggCursorPosY(void)
-{
-   return ImGui::GetCursorPosY();
-}
-
-void iggCursorStartPos(IggVec2 *pos)
-{
-   exportValue(*pos, ImGui::GetCursorStartPos());
-}
-
-void iggCursorScreenPos(IggVec2 *pos)
-{
-   exportValue(*pos, ImGui::GetCursorScreenPos());
-}
-
-void iggSetCursorPos(IggVec2 const *localPos)
-{
-   Vec2Wrapper localPosArg(localPos);
-   ImGui::SetCursorPos(*localPosArg);
-}
-
-void iggSetCursorScreenPos(IggVec2 const *absPos)
-{
-   Vec2Wrapper absPosArg(absPos);
-   ImGui::SetCursorScreenPos(*absPosArg);
-}
-
-void iggAlignTextToFramePadding()
-{
-   ImGui::AlignTextToFramePadding();
-}
-
-float iggGetTextLineHeight(void)
-{
-   return ImGui::GetTextLineHeight();
-}
-
-float iggGetTextLineHeightWithSpacing(void)
-{
-   return ImGui::GetTextLineHeightWithSpacing();
-}
+/******************/
+/* Widgets: Trees */
+/******************/
 
 IggBool iggTreeNode(char const *label, int flags)
 {
@@ -418,15 +577,19 @@ void iggTreePop(void)
    ImGui::TreePop();
 }
 
+float iggGetTreeNodeToLabelSpacing(void)
+{
+   return ImGui::GetTreeNodeToLabelSpacing();
+}
+
 void iggSetNextTreeNodeOpen(IggBool open, int cond)
 {
    ImGui::SetNextTreeNodeOpen(open != 0, cond);
 }
 
-float iggGetTreeNodeToLabelSpacing(void)
-{
-   return ImGui::GetTreeNodeToLabelSpacing();
-}
+/************************/
+/* Widgets: Selectables */
+/************************/
 
 IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size)
 {
@@ -434,10 +597,24 @@ IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 co
    return ImGui::Selectable(label, selected != 0, flags, *sizeArg) ? 1 : 0;
 }
 
-IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemsCount, int heightItems)
+/***********************/
+/* Widgets: List Boxes */
+/***********************/
+
+IggBool iggListBox(char const *label, int *currentItem, char const *const items[], int itemsCount, int heightItems)
 {
    return ImGui::ListBox(label, currentItem, items, itemsCount, heightItems) ? 1 : 0;
 }
+
+// here because we don't want to break with previous versions of this wrapper
+IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemsCount, int heightItems)
+{
+   return iggListBox(label, currentItem, items, itemsCount, heightItems);
+}
+
+/**************************/
+/* Widgets: Data Plotting */
+/**************************/
 
 void iggPlotLines(char const *label, float const *values, int valuesCount, int valuesOffset, char const *overlayText, float scaleMin, float scaleMax, IggVec2 const *graphSize)
 {
@@ -451,20 +628,13 @@ void iggPlotHistogram(char const *label, float const *values, int valuesCount, i
    ImGui::PlotHistogram(label, values, valuesCount, valuesOffset, overlayText, scaleMin, scaleMax, *graphSizeArg);
 }
 
-void iggSetTooltip(char const *text)
-{
-   ImGui::SetTooltip("%s", text);
-}
+/***************************************/
+/* Widgets: Value() Helpers. - MISSING */
+/***************************************/
 
-void iggBeginTooltip(void)
-{
-   ImGui::BeginTooltip();
-}
-
-void iggEndTooltip(void)
-{
-   ImGui::EndTooltip();
-}
+/******************/
+/* Widgets: Menus */
+/******************/
 
 IggBool iggBeginMainMenuBar(void)
 {
@@ -501,20 +671,43 @@ IggBool iggMenuItem(char const *label, char const *shortcut, IggBool selected, I
    return ImGui::MenuItem(label, shortcut, selected != 0, enabled != 0) ? 1 : 0;
 }
 
+/************/
+/* Tooltips */
+/************/
+
+void iggBeginTooltip(void)
+{
+   ImGui::BeginTooltip();
+}
+
+void iggEndTooltip(void)
+{
+   ImGui::EndTooltip();
+}
+
+void iggSetTooltip(char const *text)
+{
+   ImGui::SetTooltip("%s", text);
+}
+
+/******************/
+/* Popups, Modals */
+/******************/
+
 void iggOpenPopup(char const *id)
 {
    ImGui::OpenPopup(id);
+}
+
+IggBool iggBeginPopupContextItem(char const *label, int mouseButton)
+{
+   return ImGui::BeginPopupContextItem(label, mouseButton) ? 1 : 0;
 }
 
 IggBool iggBeginPopupModal(char const *name, IggBool *open, int flags)
 {
    BoolWrapper openArg(open);
    return ImGui::BeginPopupModal(name, openArg, flags) ? 1 : 0;
-}
-
-IggBool iggBeginPopupContextItem(char const *label, int mouseButton)
-{
-   return ImGui::BeginPopupContextItem(label, mouseButton) ? 1 : 0;
 }
 
 void iggEndPopup(void)
@@ -527,11 +720,131 @@ void iggCloseCurrentPopup(void)
    ImGui::CloseCurrentPopup();
 }
 
+/***********/
+/* Columns */
+/***********/
+
+void iggColumns(int count, char const *label, int flags)
+{
+   ImGui::Columns(count, label, flags);
+}
+
+void iggNextColumn()
+{
+   ImGui::NextColumn();
+}
+
+int iggGetColumnIndex()
+{
+   return ImGui::GetColumnIndex();
+}
+
+int iggGetColumnWidth(int index)
+{
+   return ImGui::GetColumnWidth(index);
+}
+
+void iggSetColumnWidth(int index, float width)
+{
+   ImGui::SetColumnWidth(index, width);
+}
+
+float iggGetColumnOffset(int index)
+{
+   return ImGui::GetColumnOffset(index);
+}
+
+void iggSetColumnOffset(int index, float offsetX)
+{
+   ImGui::SetColumnOffset(index, offsetX);
+}
+
+int iggGetColumnsCount()
+{
+   return ImGui::GetColumnsCount();
+}
+
+// here because we don't want to break with previous versions of this wrapper
+void iggBeginColumns(int count, char const *label, int flags)
+{
+   iggColumns(count, label, flags);
+}
+
+/***********************************/
+/* Tab Bars, Tabs - v1.67 complete */
+/***********************************/
+
+IggBool iggBeginTabBar(char const *str_id, int flags) {
+    return ImGui::BeginTabBar(str_id, flags) ? 1 : 0;
+}
+
+void iggEndTabBar() {
+    ImGui::EndTabBar();
+}
+
+IggBool iggBeginTabItem(char const *label, IggBool *p_open, int flags) {
+    BoolWrapper openArg(p_open);
+    return ImGui::BeginTabItem(label, openArg, flags) ? 1 : 0;
+}
+
+void iggEndTabItem() {
+    ImGui::EndTabItem();
+}
+
+void iggSetTabItemClosed(char const * tab_or_docked_window_label) {
+    ImGui::SetTabItemClosed(tab_or_docked_window_label);
+}
+
+/*****************************/
+/* Logging/Capture - MISSING */
+/*****************************/
+
+/***************************/
+/* Drag and Drop - MISSING */
+/***************************/
+
+/**********************/
+/* Clipping - MISSING */
+/**********************/
+
+/*********************/
+/* Focus, Activation */
+/*********************/
+void iggSetItemDefaultFocus()
+{
+   ImGui::SetItemDefaultFocus();
+}
+
+/**************************/
+/* Item/Widgets Utilities */
+/**************************/
 IggBool iggIsItemHovered(int flags)
 {
    return ImGui::IsItemHovered(flags) ? 1 : 0;
 }
 
+IggBool iggIsItemFocused()
+{
+   return ImGui::IsItemFocused();
+}
+
+IggBool iggIsAnyItemFocused()
+{
+   return ImGui::IsAnyItemFocused();
+}
+
+
+/*************************************/
+/* Miscellaneous Utilities - MISSING */
+/*************************************/
+
+/*****************************/
+/* Color Utilities - MISSING */
+/*****************************/
+
+/********************/
+/* Inputs Utilities */
+/*******************/
 IggBool iggIsKeyDown(int key)
 {
    return ImGui::IsKeyDown(key);
@@ -572,66 +885,6 @@ IggBool iggIsMouseDoubleClicked(int button)
    return ImGui::IsMouseDoubleClicked(button);
 }
 
-void iggBeginColumns(int count, char const *label, int flags)
-{
-   ImGui::Columns(count, label, flags);
-}
-
-void iggNextColumn()
-{
-   ImGui::NextColumn();
-}
-
-int iggGetColumnIndex()
-{
-   return ImGui::GetColumnIndex();
-}
-
-int iggGetColumnWidth(int index)
-{
-   return ImGui::GetColumnWidth(index);
-}
-
-void iggSetColumnWidth(int index, float width)
-{
-   ImGui::SetColumnWidth(index, width);
-}
-
-float iggGetColumnOffset(int index)
-{
-   return ImGui::GetColumnOffset(index);
-}
-
-void iggSetColumnOffset(int index, float offsetX)
-{
-   ImGui::SetColumnOffset(index, offsetX);
-}
-
-int iggGetColumnsCount()
-{
-   return ImGui::GetColumnsCount();
-}
-
-void iggSetScrollHereY(float centerYRatio)
-{
-   ImGui::SetScrollHereY(centerYRatio);
-}
-
-void iggSetItemDefaultFocus()
-{
-   ImGui::SetItemDefaultFocus();
-}
-
-IggBool iggIsItemFocused()
-{
-   return ImGui::IsItemFocused();
-}
-
-IggBool iggIsAnyItemFocused()
-{
-   return ImGui::IsAnyItemFocused();
-}
-
 int iggGetMouseCursor()
 {
    return ImGui::GetMouseCursor();
@@ -642,23 +895,14 @@ void iggSetMouseCursor(int cursor)
    ImGui::SetMouseCursor(cursor);
 }
 
-IggBool iggBeginTabBar(char const *str_id, int flags) {
-    return ImGui::BeginTabBar(str_id, flags) ? 1 : 0;
-}
+/*********************************/
+/* Clipboard Utilities - MISSING */
+/*********************************/
 
-void iggEndTabBar() {
-    ImGui::EndTabBar();
-}
+/*************************************/
+/* Settings/.Ini Utilities - MISSING */
+/*************************************/
 
-IggBool iggBeginTabItem(char const *label, IggBool *p_open, int flags) {
-    BoolWrapper openArg(p_open);
-    return ImGui::BeginTabItem(label, openArg, flags) ? 1 : 0;
-}
-
-void iggEndTabItem() {
-    ImGui::EndTabItem();
-}
-
-void iggSetTabItemClosed(char const * tab_or_docked_window_label) {
-    ImGui::SetTabItemClosed(tab_or_docked_window_label);
-}
+/******************************/
+/* Memory Utilities - MISSING */
+/******************************/
