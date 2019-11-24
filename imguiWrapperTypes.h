@@ -19,6 +19,7 @@ typedef void *IggGlyphRanges;
 typedef void *IggGuiStyle;
 typedef void *IggInputTextCallbackData;
 typedef void *IggIO;
+typedef void *IggListClipper;
 
 typedef struct tagIggVec2
 {
@@ -33,6 +34,7 @@ typedef struct tagIggVec4
    float z;
    float w;
 } IggVec4;
+
 
 #ifdef __cplusplus
 }

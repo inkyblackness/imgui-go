@@ -168,6 +168,24 @@ extern IggBool iggBeginTabItem(char const *label, IggBool *p_open, int flags);
 extern void iggEndTabItem();
 extern void iggSetTabItemClosed(char const * tab_or_docked_window_label);
 
+extern IggListClipper iggListClipperInit(int items_count, float items_height);
+extern void iggListClipperBegin(IggListClipper *calliper, int items_count, float items_height);
+extern IggBool iggListClipperStep(IggListClipper *calliper);
+extern void iggListClipperEnd(IggListClipper *calliper);
+extern float iggListClipperStartPosY(IggListClipper *calliper);
+extern float iggListClipperItemsHeight(IggListClipper *calliper);
+extern int iggListClipperItemsCount(IggListClipper *calliper);
+extern int iggListClipperStepNo(IggListClipper *calliper);
+extern int iggListClipperDisplayStart(IggListClipper *calliper);
+extern int iggListClipperDisplayEnd(IggListClipper *calliper);
+
+extern void iggSetListClipperStartPosY(IggListClipper *calliper, float value);
+extern void iggSetListClipperItemsHeight(IggListClipper *calliper, float value);
+extern void iggSetListClipperItemsCount(IggListClipper *calliper, int value);
+extern void iggSetListClipperStepNo(IggListClipper *calliper, int value);
+extern void iggSetListClipperDisplayStart(IggListClipper *calliper, int value);
+extern void iggSetListClipperDisplayEnd(IggListClipper *calliper, int value);
+
 #ifdef __cplusplus
 }
 #endif

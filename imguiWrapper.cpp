@@ -668,3 +668,100 @@ void iggEndTabItem() {
 void iggSetTabItemClosed(char const * tab_or_docked_window_label) {
     ImGui::SetTabItemClosed(tab_or_docked_window_label);
 }
+
+IggListClipper iggListClipperInit(int items_count, float items_height)
+{
+     ImGuiListClipper * returnValue = new ImGuiListClipper(items_count, items_height);
+     return (void*)returnValue;
+}
+
+void iggListClipperBegin(IggListClipper *calliper, int items_count, float items_height)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    clipper->Begin(items_count, items_height);
+}
+
+IggBool iggListClipperStep(IggListClipper *calliper)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    return clipper->Step();
+}
+
+void iggListClipperEnd(IggListClipper *calliper)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    clipper->End();
+}
+
+float iggListClipperStartPosY(IggListClipper *calliper)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    return clipper->StartPosY;
+}
+
+float iggListClipperItemsHeight(IggListClipper *calliper)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    return clipper->ItemsHeight;
+}
+
+int iggListClipperItemsCount(IggListClipper *calliper)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    return clipper->ItemsCount;
+}
+
+int iggListClipperStepNo(IggListClipper *calliper)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    return clipper->StepNo;
+}
+
+int iggListClipperDisplayStart(IggListClipper *calliper)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    return clipper->DisplayStart;
+}
+
+int iggListClipperDisplayEnd(IggListClipper *calliper)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    return clipper->DisplayEnd;
+}
+
+void iggSetListClipperStartPosY(IggListClipper *calliper, float value)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    clipper->StartPosY = value;
+}
+
+void iggSetListClipperItemsHeight(IggListClipper *calliper, float value)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    clipper->ItemsHeight = value;
+}
+
+void iggSetListClipperItemsCount(IggListClipper *calliper, int value)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    clipper->ItemsCount = value;
+}
+
+void iggSetListClipperStepNo(IggListClipper *calliper, int value)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    clipper->StepNo = value;
+}
+
+void iggSetListClipperDisplayStart(IggListClipper *calliper, int value)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    clipper->DisplayStart = value;
+}
+
+void iggSetListClipperDisplayEnd(IggListClipper *calliper, int value)
+{
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(*calliper);
+    clipper->DisplayEnd = value;
+}
+
