@@ -12,7 +12,6 @@ type ListClipper struct {
 func New(itemsCount int, itemsHeight float32) ListClipper {
 	clipper := ListClipper{}
 	clipper.CListClipper = C.iggListClipperInit(C.int(itemsCount), C.float(itemsHeight))
-	
 	return clipper
 }
 
