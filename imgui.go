@@ -193,6 +193,11 @@ func SetNextWindowSize(size Vec2) {
 	SetNextWindowSizeV(size, 0)
 }
 
+func SetNextWindowContentSize(size Vec2) {
+	sizeArg, _ := size.wrapped()
+	C.iggSetNextWindowContentSize(sizeArg)
+}
+
 // SetNextWindowFocus sets next window to be focused / front-most. Call before Begin().
 func SetNextWindowFocus() {
 	C.iggSetNextWindowFocus()

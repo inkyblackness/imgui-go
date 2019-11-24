@@ -130,6 +130,12 @@ void iggSetNextWindowSize(IggVec2 const *size, int cond)
    ImGui::SetNextWindowSize(*sizeArg, cond);
 }
 
+void iggSetNextWindowContentSize(IggVec2 const *size)
+{
+    Vec2Wrapper sizeArg(size);
+   ImGui::SetNextWindowContentSize(*sizeArg);
+}
+
 void iggSetNextWindowFocus(void)
 {
    ImGui::SetNextWindowFocus();
