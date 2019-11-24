@@ -3,16 +3,16 @@ package imgui
 // #include "imguiWrapper.h"
 import "C"
 
-// items_count:  Use -1 to ignore (you can call Begin later). Use INT_MAX if you don't know how many items you have (in which case the cursor won't be advanced in the final step).
-// items_height: Use -1.0f to be calculated automatically on first step. Otherwise pass in the distance between your items, typically GetTextLineHeightWithSpacing() or GetFrameHeightWithSpacing().
-// If you don't specify an items_height, you NEED to call Step(). If you specify items_height you may call the old Begin()/End() api directly, but prefer calling Step().
+// ListClipper struct containing imguiListClipper
 type ListClipper struct {
 	CListClipper C.IggListClipper
 }
 
+// New Creates a new ListClipper and call Begin
 func New(itemsCount int, itemsHeight float32) ListClipper {
 	clipper := ListClipper{}
 	clipper.CListClipper = C.iggListClipperInit(C.int(itemsCount), C.float(itemsHeight))
+	
 	return clipper
 }
 
