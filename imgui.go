@@ -193,6 +193,7 @@ func SetNextWindowSize(size Vec2) {
 	SetNextWindowSizeV(size, 0)
 }
 
+// SetNextWindowContentSize calls SetNextWindowContentSize(size)
 func SetNextWindowContentSize(size Vec2) {
 	sizeArg, _ := size.wrapped()
 	C.iggSetNextWindowContentSize(sizeArg)
