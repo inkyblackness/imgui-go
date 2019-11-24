@@ -161,6 +161,12 @@ extern IggBool iggIsAnyItemFocused();
 extern int iggGetMouseCursor();
 extern void iggSetMouseCursor(int cursor);
 
+extern IggBool iggBeginTabBar(char const *str_id, int flags);
+extern void iggEndTabBar();
+extern IggBool iggBeginTabItem(char const *label, IggBool *p_open, int flags);
+extern void iggEndTabItem();
+extern void iggSetTabItemClosed(char const * tab_or_docked_window_label);
+
 #ifdef __cplusplus
 }
 #endif

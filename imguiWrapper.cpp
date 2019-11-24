@@ -641,3 +641,24 @@ void iggSetMouseCursor(int cursor)
 {
    ImGui::SetMouseCursor(cursor);
 }
+
+IggBool iggBeginTabBar(char const *str_id, int flags) {
+    return ImGui::BeginTabBar(str_id, flags) ? 1 : 0;
+}
+
+void iggEndTabBar() {
+    ImGui::EndTabBar();
+}
+
+IggBool iggBeginTabItem(char const *label, IggBool *p_open, int flags) {
+    BoolWrapper openArg(p_open);
+    return ImGui::BeginTabItem(label, openArg, flags) ? 1 : 0;
+}
+
+void iggEndTabItem() {
+    ImGui::EndTabItem();
+}
+
+void iggSetTabItemClosed(char const * tab_or_docked_window_label) {
+    ImGui::SetTabItemClosed(tab_or_docked_window_label);
+}
