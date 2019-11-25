@@ -258,14 +258,14 @@ func FontSize() float32 {
 }
 
 // CalcTextSize calculate the size of the text
-func CalcTextSize(text string, hide_text_after_double_hash bool, wrap_width float32) Vec2 {
+func CalcTextSize(text string, hideTextAfterDoubleHash bool, wrapWidth float32) Vec2 {
 	CString := newStringBuffer(text)
 	defer CString.free()
 
 	var vec2 Vec2
 	valueArg, returnFunc := vec2.wrapped()
 
-	C.iggCalcTextSize((*C.char)(CString.ptr), C.int(CString.size), castBool(hide_text_after_double_hash), C.float(wrap_width), valueArg)
+	C.iggCalcTextSize((*C.char)(CString.ptr), C.int(CString.size), castBool(hideTextAfterDoubleHash), C.float(wrapWidth), valueArg)
 	returnFunc()
 
 	return vec2
