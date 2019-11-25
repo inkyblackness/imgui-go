@@ -46,6 +46,7 @@ extern void iggPopStyleColor(int count);
 extern void iggPushStyleVarFloat(int index, float value);
 extern void iggPushStyleVarVec2(int index, IggVec2 const *value);
 extern void iggPopStyleVar(int count);
+extern void iggCalcTextSize(const char* text, int length, IggBool hide_text_after_double_hash, float wrap_width, IggVec2 *value);
 
 extern float iggGetFontSize();
 

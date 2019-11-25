@@ -257,6 +257,20 @@ func FontSize() float32 {
 	return float32(C.iggGetFontSize())
 }
 
+// CalcTextSize calculate the size of the text
+func CalcTextSize(text string, hide_text_after_double_hash bool, wrap_width float32) Vec2 {
+	CString := newStringBuffer(text)
+	defer CString.free()
+
+	var vec2 Vec2
+	valueArg, returnFunc := vec2.wrapped()
+
+	C.iggCalcTextSize((*C.char)(CString.ptr), C.int(CString.size), castBool(hide_text_after_double_hash), C.float(wrap_width), valueArg)
+	returnFunc()
+
+	return vec2
+}
+
 // PushItemWidth sets width of items for the common item+label case, in pixels.
 // 0.0f = default to ~2/3 of windows width, >0.0f: width in pixels,
 // <0.0f align xx pixels to the right of window (so -1.0f always align width to the right side).
