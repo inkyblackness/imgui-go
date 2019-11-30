@@ -4,6 +4,7 @@ package imgui
 //#include "imguiWrapper.h"
 import "C"
 
+// ListClipper Helper: Manually clip large list of items.
 type ListClipper struct {
 	StartPosY    float32
 	ItemsHeight  float32
