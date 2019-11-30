@@ -39,3 +39,23 @@ void exportValue(IggVec4 &out, ImVec4 const &in)
    out.z = in.z;
    out.w = in.w;
 }
+
+void importValue(ImGuiListClipper &out, IggListClipper const &in)
+{
+    out.StartPosY = in.StartPosY;
+    out.ItemsHeight = in.ItemsHeight;
+    out.ItemsCount = in.ItemsCount;
+    out.StepNo = in.StepNo;
+    out.DisplayStart = in.DisplayStart;
+    out.DisplayEnd = in.DisplayEnd;
+}
+
+void exportValue(IggListClipper &out, ImGuiListClipper const &in)
+{
+    out.StartPosY = in.StartPosY;
+    out.ItemsHeight = in.ItemsHeight;
+    out.ItemsCount = in.ItemsCount;
+    out.StepNo = in.StepNo;
+    out.DisplayStart = in.DisplayStart;
+    out.DisplayEnd = in.DisplayEnd;
+}
