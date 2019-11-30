@@ -43,7 +43,6 @@ func (clipper *ListClipper) wrapped() (out *C.IggListClipper, finisher func()) {
 func (clipper *ListClipper) Step() bool {
 	arg, finnishFunc := clipper.wrapped()
 	defer finnishFunc()
-	
 	return C.iggListClipperStep(arg) != 0
 }
 
