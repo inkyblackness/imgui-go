@@ -18,7 +18,7 @@ This wrapper exposes minimal functionality of **Dear ImGui**. Ideally, this func
 ### Extensions
 At the moment, this library is primarily used by **InkyBlackness**. If you can and want to make use of this library in your own projects, you are happy to do so. Pull-requests with extensions are happily accepted, provided that they uphold the following minimum requirements:
 * Code is properly formatted & linted (use [golangci-lint](https://github.com/golangci/golangci-lint) for a full check)
-* Public Go API is documented (copied documentation from **Dear ImGui** is acceptable and recommended, assuming it is adapted regarding type names)
+* Public Go API is documented. Copied documentation from **Dear ImGui** is acceptable and recommended, assuming it is adapted regarding type names. If there is no documentation in the original, try to spend some time figuring it out.
 * API and version philosophies are respected (see README.md)
 
 #### Clarification on API naming and signatures
@@ -60,7 +60,30 @@ Otherwise, try to keep the API of this wrapper stable and keep compatible wrappe
   
 On an upgrade of **Dear ImGui**, apart from updating the actual files, be sure to do the following steps:
 * In case `imconfig.h` is changed, be sure to keep the intentional changes: Obsolete functions should not be compiled, and the `iggAssert()` function must survive.
+* Have a look at any extended enumerations. The Go variant will need extension/change as well, otherwise the constants will be wrong.
+* Check for any documentation changes of exported functions. The Go documentation should reflect such changes as well.
 * Run `go test ./...` . There is at least one test that is bound to the version and needs change as well.
 * Update the screenshots of the examples, they show the version number.
-* Update the `readme.md` file, it indicates the version number.
+* Update the `README.md` file, it indicates the version number.
 * Check if the license of **Dear ImGui** has changed and update the `_licenses/imgui-LICENSE.txt` file. This may happen every year (copyright year).
+
+#### Handling of removed functions
+
+In order to avoid needing a major version bump of the wrapper just for one removed function, use the following pattern:
+
+```
+// NewFunction does new stuff.
+func NewFunction() {
+}
+
+// OldFunction did something and is now delegating to NewFunction().
+// Deprecated: Use NewFunction instead.  
+func OldFunction() {
+    NewFunction()
+}
+```
+
+The `OldFunction` is implemented using the new API, and is marked as `Deprecated` in the comment.
+IDEs tend to respect this and notify the user.
+
+If, however, a whole set of functionality is replaced, this then probably warrants a major version bump.
