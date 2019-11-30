@@ -16,6 +16,8 @@ const (
 	WindowFlagsNoCollapse = 1 << 5
 	// WindowFlagsAlwaysAutoResize resizes every window to its content every frame.
 	WindowFlagsAlwaysAutoResize = 1 << 6
+	// WindowFlagsNoBackground disables drawing background color (WindowBg, etc.) and outside border.
+	WindowFlagsNoBackground = 1 << 7
 	// WindowFlagsNoSavedSettings prohibits load/save settings in .ini file.
 	WindowFlagsNoSavedSettings = 1 << 8
 	// WindowFlagsNoInputs disables catching mouse or keyboard inputs, hovering test with pass through.
