@@ -36,7 +36,6 @@ func (clipper *ListClipper) wrapped() (out *C.IggListClipper, finisher func()) {
 	} else {
 		finisher = func() {}
 	}
-	
 	return
 }
 
