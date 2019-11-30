@@ -19,6 +19,9 @@ extern IggFont iggAddFontDefault(IggFontAtlas handle);
 extern IggFont iggAddFontDefaultV(IggFontAtlas handle, IggFontConfig config);
 extern IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float sizePixels,
 		IggFontConfig config, IggGlyphRanges glyphRanges);
+extern IggFont iggAddFontFromMemoryTTF(IggFontAtlas handle, char *font_data, int font_size, float sizePixels,
+		IggFontConfig config, IggGlyphRanges glyphRanges);
+
 
 extern void iggFontAtlasSetTexDesiredWidth(IggFontAtlas handle, int value);
 
