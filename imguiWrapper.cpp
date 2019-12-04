@@ -572,9 +572,9 @@ IggBool iggIsMouseDoubleClicked(int button)
    return ImGui::IsMouseDoubleClicked(button);
 }
 
-void iggBeginColumns(int count, char const *label, int flags)
+void iggColumns(int count, char const *label, IggBool border)
 {
-   ImGui::Columns(count, label, flags);
+   ImGui::Columns(count, label, border);
 }
 
 void iggNextColumn()

@@ -4,22 +4,22 @@ package imgui
 // User code may request binding to display given cursor by calling SetMouseCursor(), which is why we have some cursors that are marked unused here
 const (
 	// MouseCursorNone no mouse cursor
-	MouseCursorNone = iota - 1
+	MouseCursorNone = -1
 	// MouseCursorArrow standard arrow mouse cursor
-	MouseCursorArrow
+	MouseCursorArrow = 0
 	// MouseCursorTextInput when hovering over InputText, etc.
-	MouseCursorTextInput
+	MouseCursorTextInput = 1
 	// MouseCursorResizeAll (Unused by imgui functions)
-	MouseCursorResizeAll
+	MouseCursorResizeAll = 2
 	// MouseCursorResizeNS when hovering over an horizontal border
-	MouseCursorResizeNS
+	MouseCursorResizeNS = 3
 	// MouseCursorResizeEW when hovering over a vertical border or a column
-	MouseCursorResizeEW
+	MouseCursorResizeEW = 4
 	// MouseCursorResizeNESW when hovering over the bottom-left corner of a window
-	MouseCursorResizeNESW
+	MouseCursorResizeNESW = 5
 	// MouseCursorResizeNWSE when hovering over the bottom-right corner of a window
-	MouseCursorResizeNWSE
+	MouseCursorResizeNWSE = 6
 	// MouseCursorHand (Unused by imgui functions. Use for e.g. hyperlinks)
-	MouseCursorHand
-	MouseCursorCount
+	MouseCursorHand  = 7
+	MouseCursorCount = 8
 )

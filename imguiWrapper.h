@@ -145,7 +145,7 @@ extern IggBool iggIsMouseClicked(int button, IggBool repeat);
 extern IggBool iggIsMouseReleased(int button);
 extern IggBool iggIsMouseDoubleClicked(int button);
 
-extern void iggBeginColumns(int count, char const *label, int flags);
+extern void iggColumns(int count, char const *label, IggBool border);
 extern void iggNextColumn();
 extern int iggGetColumnIndex();
 extern int iggGetColumnWidth(int index);
