@@ -109,7 +109,7 @@ extern float iggGetTextLineHeightWithSpacing(void);
 
 extern IggBool iggTreeNode(char const *label, int flags);
 extern void iggTreePop(void);
-extern void iggSetNextTreeNodeOpen(IggBool open, int cond);
+extern void iggSetNextItemOpen(IggBool open, int cond);
 extern float iggGetTreeNodeToLabelSpacing(void);
 
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
@@ -147,7 +147,7 @@ extern IggBool iggIsMouseClicked(int button, IggBool repeat);
 extern IggBool iggIsMouseReleased(int button);
 extern IggBool iggIsMouseDoubleClicked(int button);
 
-extern void iggBeginColumns(int count, char const *label, int flags);
+extern void iggColumns(int count, char const *label, IggBool border);
 extern void iggNextColumn();
 extern int iggGetColumnIndex();
 extern int iggGetColumnWidth(int index);

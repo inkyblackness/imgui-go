@@ -7,11 +7,11 @@ type Condition int
 
 const (
 	// ConditionAlways sets the variable.
-	ConditionAlways Condition = 1 << iota
+	ConditionAlways Condition = 1 << 0
 	// ConditionOnce sets the variable once per runtime session (only the first call with succeed).
-	ConditionOnce
+	ConditionOnce = 1 << 1
 	// ConditionFirstUseEver sets the variable if the object/window has no persistently saved data (no entry in .ini file).
-	ConditionFirstUseEver
+	ConditionFirstUseEver = 1 << 2
 	// ConditionAppearing sets the variable if the object/window is appearing after being hidden/inactive (or the first time).
-	ConditionAppearing
+	ConditionAppearing = 1 << 3
 )
