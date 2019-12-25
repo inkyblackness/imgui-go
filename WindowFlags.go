@@ -43,12 +43,6 @@ const (
 	// WindowFlagsAlwaysUseWindowPadding Ensure child windows without border uses style.WindowPadding (ignored by
 	// default for non-bordered child windows, because more convenient)
 	WindowFlagsAlwaysUseWindowPadding = 1 << 16
-	// WindowFlagsResizeFromAnySide [BETA] enables resize from any corners and borders.
-	// Your back-end needs to honor the different values of io.MouseCursor set by imgui.
-	//
-	// Deprecated: Set io.ConfigWindowsResizeFromEdges and make sure mouse cursors are supported by back-end
-	// (io.BackendFlags & BackendFlagHasMouseCursors)
-	WindowFlagsResizeFromAnySide = 1 << 17
 	// WindowFlagsNoNavInputs No gamepad/keyboard navigation within the window
 	WindowFlagsNoNavInputs = 1 << 18
 	// WindowFlagsNoNavFocus No focusing toward this window with gamepad/keyboard navigation (e.g. skipped by CTRL+TAB)

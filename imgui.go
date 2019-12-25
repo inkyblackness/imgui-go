@@ -693,13 +693,6 @@ func TreePop() {
 	C.iggTreePop()
 }
 
-// SetNextTreeNodeOpen sets the open/collapsed state of the following tree node.
-//
-// Deprecated: Use SetNextItemOpen instead.
-func SetNextTreeNodeOpen(open bool, cond Condition) {
-	SetNextItemOpen(open, cond)
-}
-
 // SetNextItemOpen sets the open/collapsed state of the following tree node.
 func SetNextItemOpen(open bool, cond Condition) {
 	C.iggSetNextItemOpen(castBool(open), C.int(cond))

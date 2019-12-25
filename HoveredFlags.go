@@ -4,11 +4,6 @@ const (
 	// HoveredFlagsNone Return true if directly over the item/window, not obstructed by another window,
 	// not obstructed by an active popup or modal blocking inputs under them.
 	HoveredFlagsNone = 0
-	// HoveredFlagsDefault Return true if directly over the item/window, not obstructed by another window,
-	// not obstructed by an active popup or modal blocking inputs under them.
-	//
-	// Deprecated: Use HoveredFlagsNone instead.
-	HoveredFlagsDefault = HoveredFlagsNone
 	// HoveredFlagsChildWindows IsWindowHovered() only: Return true if any children of the window is hovered.
 	HoveredFlagsChildWindows = 1 << 0
 	// HoveredFlagsRootWindow IsWindowHovered() only: Test from root window (top most parent of the current hierarchy).
