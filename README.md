@@ -43,7 +43,7 @@ This library does not mirror the versions of the wrapped ImGui. The semantic ver
 * Minor changes: Extensions in API. Typically done through small version increments of ImGui and/or exposing further features in a compatible way.
 * Patch changes: Bug fixes - either in the wrapper or the wrapped ImGui, given that the API & behaviour remains the same.
 
-At the moment, this library uses version [1.67](https://github.com/ocornut/imgui/releases/tag/v1.67) of ImGui.
+At the moment, this library uses version [1.74](https://github.com/ocornut/imgui/releases/tag/v1.74) of ImGui.
 
 ## Examples
 A separate repository was created to host ported examples and reference implementations.
