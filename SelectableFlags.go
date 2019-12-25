@@ -1,6 +1,8 @@
 package imgui
 
 const (
+	// SelectableFlagsNone default = 0
+	SelectableFlagsNone = 0
 	// SelectableFlagsDontClosePopups makes clicking the selectable not close any parent popup windows.
 	SelectableFlagsDontClosePopups = 1 << 0
 	// SelectableFlagsSpanAllColumns allows the selectable frame to span all columns (text will still fit in current column).

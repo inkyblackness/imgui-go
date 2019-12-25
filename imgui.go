@@ -7,32 +7,6 @@ import (
 	"math"
 )
 
-// User fill ImGuiIO.KeyMap[] array with indices into the ImGuiIO.KeysDown[512] array
-const (
-	KeyTab        = 0
-	KeyLeftArrow  = 1
-	KeyRightArrow = 2
-	KeyUpArrow    = 3
-	KeyDownArrow  = 4
-	KeyPageUp     = 5
-	KeyPageDown   = 6
-	KeyHome       = 7
-	KeyEnd        = 8
-	KeyInsert     = 9
-	KeyDelete     = 10
-	KeyBackspace  = 11
-	KeySpace      = 12
-	KeyEnter      = 13
-	KeyEscape     = 14
-	KeyA          = 15 // for text edit CTRL+A: select all
-	KeyC          = 16 // for text edit CTRL+C: copy
-	KeyV          = 17 // for text edit CTRL+V: paste
-	KeyX          = 18 // for text edit CTRL+X: cut
-	KeyY          = 19 // for text edit CTRL+Y: redo
-	KeyZ          = 20 // for text edit CTRL+Z: undo
-	KeyCOUNT      = 21
-)
-
 // Version returns a version string e.g. "1.23".
 func Version() string {
 	return C.GoString(C.iggGetVersion())
@@ -692,9 +666,9 @@ func TreePop() {
 	C.iggTreePop()
 }
 
-// SetNextTreeNodeOpen sets the open/collapsed state of the following tree node.
-func SetNextTreeNodeOpen(open bool, cond Condition) {
-	C.iggSetNextTreeNodeOpen(castBool(open), C.int(cond))
+// SetNextItemOpen sets the open/collapsed state of the following tree node.
+func SetNextItemOpen(open bool, cond Condition) {
+	C.iggSetNextItemOpen(castBool(open), C.int(cond))
 }
 
 // TreeNodeToLabelSpacing returns the horizontal distance preceding label for a regular unframed TreeNode.
@@ -947,9 +921,9 @@ func IsItemHoveredV(flags int) bool {
 	return C.iggIsItemHovered(C.int(flags)) != 0
 }
 
-// IsItemHovered calls IsItemHoveredV(HoveredFlagsDefault)
+// IsItemHovered calls IsItemHoveredV(HoveredFlagsNone)
 func IsItemHovered() bool {
-	return IsItemHoveredV(HoveredFlagsDefault)
+	return IsItemHoveredV(HoveredFlagsNone)
 }
 
 // IsKeyDown returns true if the corresponding key is currently being held down.
@@ -1004,16 +978,17 @@ func IsMouseDoubleClicked(button int) bool {
 	return C.iggIsMouseDoubleClicked(C.int(button)) != 0
 }
 
-// Columns calls ColumnsV(count, label, ColumnsFlagsNone).
-func Columns(count int, label string) {
-	ColumnsV(count, label, ColumnsFlagsNone)
+// Columns calls ColumnsV(1, "", false).
+func Columns() {
+	ColumnsV(1, "", false)
 }
 
 // ColumnsV creates a column layout of the specified number of columns.
-func ColumnsV(count int, label string, flags int32) {
+// The brittle columns API will be superseded by an upcoming 'table' API.
+func ColumnsV(count int, label string, border bool) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
-	C.iggBeginColumns(C.int(count), labelArg, C.int(flags))
+	C.iggColumns(C.int(count), labelArg, castBool(border))
 }
 
 // NextColumn next column, defaults to current row or next row if the current row is finished.
