@@ -34,6 +34,13 @@ typedef struct tagIggVec4
    float w;
 } IggVec4;
 
+typedef struct tagIggListClipper
+{
+   float   StartPosY;
+   float   ItemsHeight;
+   int     ItemsCount, StepNo, DisplayStart, DisplayEnd;
+} IggListClipper;
+
 #ifdef __cplusplus
 }
 #endif

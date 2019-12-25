@@ -130,6 +130,12 @@ void iggSetNextWindowSize(IggVec2 const *size, int cond)
    ImGui::SetNextWindowSize(*sizeArg, cond);
 }
 
+void iggSetNextWindowContentSize(IggVec2 const *size)
+{
+   Vec2Wrapper sizeArg(size);
+   ImGui::SetNextWindowContentSize(*sizeArg);
+}
+
 void iggSetNextWindowFocus(void)
 {
    ImGui::SetNextWindowFocus();
@@ -186,6 +192,33 @@ float iggGetFontSize()
 void iggCalcTextSize(const char* text, int length, IggBool hide_text_after_double_hash, float wrap_width, IggVec2 *value)
 {
     exportValue(*value, ImGui::CalcTextSize(text, text + length, hide_text_after_double_hash, wrap_width));
+}
+
+IggBool iggListClipperStep(IggListClipper *clipper)
+{
+    ImGuiListClipper imguiClipper;
+    importValue(imguiClipper, *clipper);
+    IggBool returnValue = imguiClipper.Step() ? 1 : 0;
+    exportValue(*clipper, imguiClipper);
+    // needs to be done to prevent assert fail, we don't call end because the cursor will move.
+    imguiClipper.ItemsCount = -1;
+    return returnValue;
+}
+
+void iggListClipperBegin(IggListClipper *clipper, int items_count, float items_height)
+{
+    ImGuiListClipper imguiClipper(items_count, items_height);
+    exportValue(*clipper, imguiClipper);
+    // needs to be done to prevent assert fail, we don't call end because the cursor will move.
+    imguiClipper.ItemsCount = -1;
+}
+
+void iggListClipperEnd(IggListClipper *clipper)
+{
+    ImGuiListClipper imguiClipper;
+    importValue(imguiClipper, *clipper);
+    imguiClipper.End();
+    exportValue(*clipper, imguiClipper);
 }
 
 void iggPushItemWidth(float width)

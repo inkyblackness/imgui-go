@@ -9,6 +9,9 @@ extern void exportValue(IggVec2 &out, ImVec2 const &in);
 extern void importValue(ImVec4 &out, IggVec4 const &in);
 extern void exportValue(IggVec4 &out, ImVec4 const &in);
 
+extern void importValue(ImGuiListClipper &out, IggListClipper const &in);
+extern void exportValue(IggListClipper &out, ImGuiListClipper const &in);
+
 template <typename ImGuiType, typename IggType>
 class TypeWrapper
 {
@@ -55,3 +58,4 @@ private:
 typedef TypeWrapper<bool, IggBool> BoolWrapper;
 typedef TypeWrapper<ImVec2, IggVec2> Vec2Wrapper;
 typedef TypeWrapper<ImVec4, IggVec4> Vec4Wrapper;
+typedef TypeWrapper<ImGuiListClipper, IggListClipper> ListClipperWrapper;
