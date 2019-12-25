@@ -193,9 +193,9 @@ func SetNextWindowSize(size Vec2) {
 	SetNextWindowSizeV(size, 0)
 }
 
-// SetNextWindowContentSize set next window content size (~ enforce the range of scrollbars).
-//not including window decorations (title bar, menu bar, etc.). set an axis to 0.0f to leave
-//it automatic. call before Begin()
+// SetNextWindowContentSize sets next window content size (~ enforce the range of scrollbars).
+// Does not include window decorations (title bar, menu bar, etc.).
+// Set one axis to 0.0 to leave it automatic. This function must be called before Begin() to take effect.
 func SetNextWindowContentSize(size Vec2) {
 	sizeArg, _ := size.wrapped()
 	C.iggSetNextWindowContentSize(sizeArg)
