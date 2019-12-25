@@ -921,7 +921,7 @@ func IsItemHoveredV(flags int) bool {
 	return C.iggIsItemHovered(C.int(flags)) != 0
 }
 
-// IsItemHovered calls IsItemHoveredV(HoveredFlagsDefault)
+// IsItemHovered calls IsItemHoveredV(HoveredFlagsNone)
 func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsNone)
 }
@@ -978,9 +978,9 @@ func IsMouseDoubleClicked(button int) bool {
 	return C.iggIsMouseDoubleClicked(C.int(button)) != 0
 }
 
-// Columns calls ColumnsV(count, label, false).
-func Columns(count int, label string) {
-	ColumnsV(count, label, false)
+// Columns calls ColumnsV(1, "", false).
+func Columns() {
+	ColumnsV(1, "", false)
 }
 
 // ColumnsV creates a column layout of the specified number of columns.
