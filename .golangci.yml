@@ -13,6 +13,7 @@ linters:
     - gosec
     - maligned
     - dupl
+    - wsl # this one has become too pedantic
 
 issues:
   exclude-use-default: false # disable filtering of defaults for better zero-issue policy
@@ -25,3 +26,6 @@ issues:
 linters-settings:
   lll:
     line-length: 160
+  gocritic:
+    disabled-checks:
+      - dupSubExpr
