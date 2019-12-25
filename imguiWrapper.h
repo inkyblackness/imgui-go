@@ -49,11 +49,6 @@ extern void iggPushStyleVarVec2(int index, IggVec2 const *value);
 extern void iggPopStyleVar(int count);
 extern void iggCalcTextSize(const char* text, int length, IggBool hide_text_after_double_hash, float wrap_width, IggVec2 *value);
 
-// List Clipper
-extern IggBool iggListClipperStep(IggListClipper *clipper);
-extern void iggListClipperBegin(IggListClipper *clipper, int items_count, float items_height);
-extern void iggListClipperEnd(IggListClipper *clipper);
-
 extern float iggGetFontSize();
 
 extern void iggPushItemWidth(float width);
