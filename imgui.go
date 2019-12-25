@@ -984,6 +984,7 @@ func Columns() {
 }
 
 // ColumnsV creates a column layout of the specified number of columns.
+// The brittle columns API will be superseded by an upcoming 'table' API.
 func ColumnsV(count int, label string, border bool) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
