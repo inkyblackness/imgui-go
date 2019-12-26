@@ -7,16 +7,29 @@ import (
 	"errors"
 )
 
+// Flags for FreeType rasterizer. By default, hinting is enabled and the font's native hinter is preferred over the auto-hinter.
 const (
-	// By default, hinting is enabled and the font's native hinter is preferred over the auto-hinter.
-	FreeTypeRasterizerFlagsNoHinting     = 1 << 0 // Disable hinting. This generally generates 'blurrier' bitmap glyphs when the glyph are rendered in any of the anti-aliased modes.
-	FreeTypeRasterizerFlagsNoAutoHint    = 1 << 1 // Disable auto-hinter.
-	FreeTypeRasterizerFlagsForceAutoHint = 1 << 2 // Indicates that the auto-hinter is preferred over the font's native hinter.
-	FreeTypeRasterizerFlagsLightHinting  = 1 << 3 // A lighter hinting algorithm for gray-level modes. Many generated glyphs are fuzzier but better resemble their original shape. This is achieved by snapping glyphs to the pixel grid only vertically (Y-axis), as is done by Microsoft's ClearType and Adobe's proprietary font renderer. This preserves inter-glyph spacing in horizontal text.
-	FreeTypeRasterizerFlagsMonoHinting   = 1 << 4 // Strong hinting algorithm that should only be used for monochrome output.
-	FreeTypeRasterizerFlagsBold          = 1 << 5 // Styling: Should we artificially embolden the font?
-	FreeTypeRasterizerFlagsOblique       = 1 << 6 // Styling: Should we slant the font, emulating italic style?
-	FreeTypeRasterizerFlagsMonochrome    = 1 << 7 // Disable anti-aliasing. Combine this with MonoHinting for best results!
+	// FreeTypeRasterizerFlagsNoHinting disables hinting.
+	// This generally generates 'blurrier' bitmap glyphs when the glyph are rendered in any of the anti-aliased modes.
+	FreeTypeRasterizerFlagsNoHinting = 1 << 0
+	// FreeTypeRasterizerFlagsNoAutoHint disables auto-hinter.
+	FreeTypeRasterizerFlagsNoAutoHint = 1 << 1
+	// FreeTypeRasterizerFlagsForceAutoHint indicates that the auto-hinter is preferred over the font's native hinter.
+	FreeTypeRasterizerFlagsForceAutoHint = 1 << 2
+	// FreeTypeRasterizerFlagsLightHinting is a lighter hinting algorithm for gray-level modes.
+	// Many generated glyphs are fuzzier but better resemble their original shape.
+	// This is achieved by snapping glyphs to the pixel grid only vertically (Y-axis),
+	// as is done by Microsoft's ClearType and Adobe's proprietary font renderer.
+	// This preserves inter-glyph spacing in horizontal text.
+	FreeTypeRasterizerFlagsLightHinting = 1 << 3
+	// FreeTypeRasterizerFlagsMonoHinting is a strong hinting algorithm that should only be used for monochrome output.
+	FreeTypeRasterizerFlagsMonoHinting = 1 << 4
+	// FreeTypeRasterizerFlagsBold is for styling: Should we artificially embolden the font?
+	FreeTypeRasterizerFlagsBold = 1 << 5
+	// FreeTypeRasterizerFlagsOblique is for styling: Should we slant the font, emulating italic style?
+	FreeTypeRasterizerFlagsOblique = 1 << 6
+	// FreeTypeRasterizerFlagsMonochrome disables anti-aliasing. Combine this with MonoHinting for best results!
+	FreeTypeRasterizerFlagsMonochrome = 1 << 7
 )
 
 // BuildFontAtlasFreeType builds the FontAtlas using FreeType instead of the
