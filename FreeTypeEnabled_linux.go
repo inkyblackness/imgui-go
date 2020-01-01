@@ -9,8 +9,8 @@ package imgui
 // #include "FreeTypeWrapper.h"
 import "C"
 
-func buildFontAtlas(handle C.IggFontAtlas, flags int) error {
-	if C.iggImGuiFreeTypeBuildFontAtlas(handle, C.uint(flags)) == 0 {
+func (atlas FontAtlas) buildWithFreeType(flags int) error {
+	if C.iggFontAtlasBuildWithFreeType(atlas.handle(), C.uint(flags)) == 0 {
 		return ErrFreeTypeFailed
 	}
 	return nil

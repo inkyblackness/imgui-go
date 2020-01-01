@@ -2,9 +2,6 @@
 
 package imgui
 
-// #include "FreeTypeWrapper.h"
-import "C"
-
-func buildFontAtlas(handle C.IggFontAtlas, flags int) error {
+func (atlas FontAtlas) buildWithFreeType(flags int) error {
 	return ErrFreeTypeNotAvailable
 }

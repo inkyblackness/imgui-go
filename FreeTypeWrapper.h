@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 
-extern int iggImGuiFreeTypeBuildFontAtlas(IggFontAtlas handle, unsigned int flags);
+extern int iggFontAtlasBuildWithFreeType(IggFontAtlas handle, unsigned int flags);
 
 #ifdef __cplusplus
 }
