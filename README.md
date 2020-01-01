@@ -53,6 +53,21 @@ It contains reference implementations for libraries such as [GLFW3](https://gith
 
 The screenshot above was created with such an example.
 
+## Extras
+
+### FreeType font rendering
+
+If the `FreeType` library is available for your platform, you can enable using it with the build tag `imguifreetype` - as in
+```
+go build -tags="imguifreetype"
+```
+This extra is based on the reference implementation from **Dear ImGui**.
+
+This allows you to use the function `FontAtlas.BuildWithFreeType()`. If the build tag is not set, this function will always return an error. 
+
+If you set the build tag, yet the corresponding support has not been added to the library, you will receive a build error.
+Contributions to support more build environments are happily accepted. See files `FreeTypeEnabled*.go`.
+
 ## Alternatives
 
 Before this project was created, the following alternatives were considered - and ignored:
