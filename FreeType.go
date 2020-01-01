@@ -1,12 +1,5 @@
 package imgui
 
-// #cgo pkg-config: freetype2
-// #include "FreeTypeWrapper.h"
-import "C"
-import (
-	"errors"
-)
-
 // Flags for FreeType rasterizer. By default, hinting is enabled and the font's native hinter is preferred over the auto-hinter.
 const (
 	// FreeTypeRasterizerFlagsNoHinting disables hinting.
@@ -38,11 +31,7 @@ const (
 // `FontAtlas.GetTexDataAsRGBA32()` or `FontAtlas.Build()` (so normal Build()
 // won't be called)
 func (atlas FontAtlas) BuildFontAtlasFreeTypeV(flags int) error {
-	if C.iggImGuiFreeTypeBuildFontAtlas(atlas.handle(), C.uint(flags)) == 0 {
-		return errors.New("Failed to build FreeType FontAtlas")
-	} else {
-		return nil
-	}
+	return buildFontAtlas(atlas.handle(), flags)
 }
 
 // BuildFontAtlasFreeType calls BuildFontAtlasFreeTypeV(0)

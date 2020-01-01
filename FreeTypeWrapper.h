@@ -2,6 +2,8 @@
 
 #include "imguiWrapperTypes.h"
 
+#ifdef IMGUI_FREETYPE_ENABLED
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -11,4 +13,6 @@ extern int iggImGuiFreeTypeBuildFontAtlas(IggFontAtlas handle, unsigned int flag
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
