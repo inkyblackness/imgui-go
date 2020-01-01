@@ -12,5 +12,5 @@ const (
 	// ErrFreeTypeNotAvailable is used if the implementation of freetype is not available in this build.
 	ErrFreeTypeNotAvailable = FreeTypeError("Not available for this build")
 	// ErrFreeTypeFailed is used if building a font atlas was not possible.
-	ErrFreeTypeFailed = FreeTypeError("Failed to build FreeType FontAtlas")
+	ErrFreeTypeFailed = FreeTypeError("Failed to build FontAtlas with FreeType")
 )
