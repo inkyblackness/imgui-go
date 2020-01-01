@@ -10,7 +10,7 @@ package imgui
 import "C"
 
 func (atlas FontAtlas) buildWithFreeType(flags int) error {
-	if C.iggFontAtlasBuildWithFreeType(atlas.handle(), C.uint(flags)) == 0 {
+	if C.iggFreeTypeBuildFontAtlas(atlas.handle(), C.uint(flags)) == 0 {
 		return ErrFreeTypeFailed
 	}
 	return nil

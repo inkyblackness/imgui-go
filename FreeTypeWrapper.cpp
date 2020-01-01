@@ -4,7 +4,7 @@
 #include "imgui_freetype.h"
 #include "FreeTypeWrapper.h"
 
-int iggFontAtlasBuildWithFreeType(IggFontAtlas handle, unsigned int flags)
+int iggFreeTypeBuildFontAtlas(IggFontAtlas handle, unsigned int flags)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
    return ImGuiFreeType::BuildFontAtlas(fontAtlas, flags);
