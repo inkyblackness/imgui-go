@@ -71,10 +71,10 @@ Contributions to support more build environments are happily accepted. See files
 ## Alternatives
 
 Before this project was created, the following alternatives were considered - and ignored:
-* [kdrag0n/go-imgui](https://github.com/kdrag0n/go-imgui). Reasons for dismissal at time of decision:
+* `kdrag0n/go-imgui` (no longer available). Reasons for dismissal at time of decision:
   * Auto-generated bloat, which doesn't help
   * Was using old API (1.5x)
-  * Did not compile (Issues [1](https://github.com/kdrag0n/go-imgui/issues/1) and [3](https://github.com/kdrag0n/go-imgui/issues/3))
+  * Did not compile
   * Project appeared to be abandoned
 * [Extrawurst/cimgui](https://github.com/Extrawurst/cimgui). Reasons for dismissal at time of decision:
   * Was using old API (1.5x), 1.6x was attempted
