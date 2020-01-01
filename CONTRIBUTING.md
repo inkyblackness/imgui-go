@@ -16,7 +16,7 @@ This wrapper houses next to no functionality. As long as it is not a Go-specific
 This wrapper exposes minimal functionality of **Dear ImGui**. Ideally, this functionality is that of the common minimum that someone would want. This wrapper does not strife for full configurability, like the original library. This is not even possible in some cases, as it requires compilation flags.
 
 ### Extensions
-At the moment, this library is primarily used by **InkyBlackness**. If you can and want to make use of this library in your own projects, you are happy to do so. Pull-requests with extensions are happily accepted, provided that they uphold the following minimum requirements:
+If you can and want to make use of this library in your own projects, you are happy to do so. Pull-requests with extensions are happily accepted, provided that they uphold the following minimum requirements:
 * Code is properly formatted & linted (use [golangci-lint](https://github.com/golangci/golangci-lint) for a full check)
 * Public Go API is documented. Copied documentation from **Dear ImGui** is acceptable and recommended, assuming it is adapted regarding type names. If there is no documentation in the original, try to spend some time figuring it out. In any case, please make the comments readable as complete English sentences, as recommended by Go.
 * API and version philosophies are respected (see README.md)
