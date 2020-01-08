@@ -88,6 +88,11 @@ extern IggBool iggSliderInt(char const *label, int *value, int minValue, int max
 extern IggBool iggInputText(char const* label, char* buf, unsigned int bufSize, int flags, int callbackKey);
 extern IggBool iggInputTextMultiline(char const* label, char* buf, unsigned int bufSize, IggVec2 const *size, int flags, int callbackKey);
 
+extern IggBool iggColorEdit3(char const *label, float *col, int flags);
+extern IggBool iggColorEdit4(char const *label, float *col, int flags);
+extern IggBool iggColorPicker3(char const *label, float *col, int flags);
+extern IggBool iggColorPicker4(char const *label, float *col, int flags);
+
 extern void iggSeparator(void);
 extern void iggSameLine(float posX, float spacingW);
 extern void iggSpacing(void);
