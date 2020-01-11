@@ -23,7 +23,7 @@ If you can and want to make use of this library in your own projects, you are ha
 
 #### Clarification on API naming and signatures
 
-If an **Dear ImGui** function has the signature of
+If a **Dear ImGui** function has the signature of
 
 ```
 SomeControl(const char *label, int value, int optArg1 = 0, const char *optArg2 = "stuff");
