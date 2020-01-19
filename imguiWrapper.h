@@ -143,6 +143,11 @@ extern void iggCloseCurrentPopup(void);
 
 extern IggBool iggIsItemHovered(int flags);
 
+extern IggBool iggIsWindowAppearing();
+extern IggBool iggIsWindowCollapsed();
+extern IggBool iggIsWindowFocused(int flags);
+extern IggBool iggIsWindowHovered(int flags);
+
 extern IggBool iggIsKeyDown(int key);
 extern IggBool iggIsKeyPressed(int key, IggBool repeat);
 extern IggBool iggIsKeyReleased(int key);
