@@ -10,6 +10,13 @@ extern "C"
 extern IggBool iggWantCaptureMouse(IggIO handle);
 extern IggBool iggWantCaptureKeyboard(IggIO handle);
 extern IggBool iggWantTextInput(IggIO handle);
+extern float iggFramerate(IggIO handle);
+extern int iggMetricsRenderVertices(IggIO handle);
+extern int iggMetricsRenderIndices(IggIO handle);
+extern int iggMetricsRenderWindows(IggIO handle);
+extern int iggMetricsActiveWindows(IggIO handle);
+extern int iggMetricsActiveAllocations(IggIO handle);
+extern void iggMouseDelta(IggIO handle, IggVec2 *value);
 
 extern IggFontAtlas iggIoGetFonts(IggIO handle);
 
