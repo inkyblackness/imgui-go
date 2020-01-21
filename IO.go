@@ -63,7 +63,7 @@ func (io IO) MetricsActiveAllocations() int {
 }
     
 // MouseDelta returns the mouse delta movement . Note that this is zero if either current or previous position
-// are invalid (-FLT_MAX,-FLT_MAX), so a disappearing/reappearing mouse won't have a huge delta.
+// are invalid (-math.MaxFloat32,-math.MaxFloat32), so a disappearing/reappearing mouse won't have a huge delta.
 func (io IO) MouseDelta() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
