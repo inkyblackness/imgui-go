@@ -22,6 +22,48 @@ IggBool iggWantTextInput(IggIO handle)
    return io->WantTextInput ? 1 : 0;
 }
 
+extern float iggFramerate(IggIO handle)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   return io->Framerate;
+}
+
+extern int iggMetricsRenderVertices(IggIO handle)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   return io->MetricsRenderVertices;
+}
+
+extern int iggMetricsRenderIndices(IggIO handle)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   return io->MetricsRenderIndices;
+}
+
+extern int iggMetricsRenderWindows(IggIO handle)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   return io->MetricsRenderWindows;
+}
+
+extern int iggMetricsActiveWindows(IggIO handle)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   return io->MetricsActiveWindows;
+}
+
+extern int iggMetricsActiveAllocations(IggIO handle)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   return io->MetricsActiveAllocations;
+}
+
+extern void iggMouseDelta(IggIO handle, IggVec2 *value)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   exportValue(*value, io->MouseDelta);
+}
+
 IggFontAtlas iggIoGetFonts(IggIO handle)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);

@@ -30,6 +30,48 @@ func (io IO) WantTextInput() bool {
 	return C.iggWantTextInput(io.handle) != 0
 }
 
+// Framerate application estimation, in frame per second. Solely for convenience.
+// Rolling average estimation based on IO.DeltaTime over 120 frames.
+func (io IO) Framerate() float32 {
+	return float32(C.iggFramerate(io.handle))
+}
+
+// MetricsRenderVertices returns vertices output during last call to Render()
+func (io IO) MetricsRenderVertices() int {
+	return int(C.iggMetricsRenderVertices(io.handle))
+}
+
+// MetricsRenderIndices returns indices output during last call to Render() = number of triangles * 3
+func (io IO) MetricsRenderIndices() int {
+	return int(C.iggMetricsRenderIndices(io.handle))
+}
+
+// MetricsRenderWindows returns number of visible windows
+func (io IO) MetricsRenderWindows() int {
+	return int(C.iggMetricsRenderWindows(io.handle))
+}
+
+// MetricsActiveWindows returns number of active windows
+func (io IO) MetricsActiveWindows() int {
+	return int(C.iggMetricsActiveWindows(io.handle))
+}
+
+// MetricsActiveAllocations returns number of active allocations, updated by MemAlloc/MemFree
+// based on current context. May be off if you have multiple imgui contexts. 
+func (io IO) MetricsActiveAllocations() int {
+	return int(C.iggMetricsActiveAllocations(io.handle))
+}
+    
+// MouseDelta returns the mouse delta movement . Note that this is zero if either current or previous position
+// are invalid (-math.MaxFloat32,-math.MaxFloat32), so a disappearing/reappearing mouse won't have a huge delta.
+func (io IO) MouseDelta() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggMouseDelta(io.handle, valueArg)
+	valueFin()
+	return value
+}
+
 // SetDisplaySize sets the size in pixels.
 func (io IO) SetDisplaySize(value Vec2) {
 	out, _ := value.wrapped()

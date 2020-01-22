@@ -142,6 +142,7 @@ extern void iggEndPopup(void);
 extern void iggCloseCurrentPopup(void);
 
 extern IggBool iggIsItemHovered(int flags);
+extern IggBool iggIsItemActive();
 
 extern IggBool iggIsWindowAppearing();
 extern IggBool iggIsWindowCollapsed();

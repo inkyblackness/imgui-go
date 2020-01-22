@@ -978,6 +978,11 @@ func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsNone)
 }
 
+// IsItemActive returns if the last item is active. (e.g. button being held, text field being edited. This will continuously return true while holding mouse button on an item. Items that don't interact will always return false)
+func IsItemActive() bool {
+	return C.iggIsItemActive() != 0
+}
+
 // IsWindowAppearing returns whether the current window is appearing.
 func IsWindowAppearing() bool {
 	return C.iggIsWindowAppearing() != 0
