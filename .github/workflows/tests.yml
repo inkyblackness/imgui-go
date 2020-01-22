@@ -7,9 +7,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        go-version: [1.12.x, 1.13.x]
+        go-version: [1.12, 1.13]
         os: [macos-latest, windows-latest, ubuntu-latest]
     steps:
+    - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{matrix.go-version}}
     - name: Check out module
       uses: actions/checkout@v1
       with:
