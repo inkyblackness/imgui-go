@@ -998,9 +998,9 @@ func IsWindowFocusedV(flags int) bool {
 	return C.iggIsWindowFocused(C.int(flags)) != 0
 }
 
-// IsWindowFocused calls IsWindowFocusedV(0)
+// IsWindowFocused calls IsWindowFocusedV(FocusedFlagsNone)
 func IsWindowFocused() bool {
-	return IsWindowFocusedV(FocusedFlagsDefault)
+	return IsWindowFocusedV(FocusedFlagsNone)
 }
 
 // IsWindowHoveredV returns if current window is hovered (and typically: not blocked by a popup/modal).
@@ -1010,9 +1010,9 @@ func IsWindowHoveredV(flags int) bool {
 	return C.iggIsWindowHovered(C.int(flags)) != 0
 }
 
-// IsWindowHovered calls IsWindowHoveredV(0)
+// IsWindowHovered calls IsWindowHoveredV(HoveredFlagsNone)
 func IsWindowHovered() bool {
-	return IsWindowHoveredV(HoveredFlagsDefault)
+	return IsWindowHoveredV(HoveredFlagsNone)
 }
 
 // IsKeyDown returns true if the corresponding key is currently being held down.
