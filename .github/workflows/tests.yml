@@ -14,6 +14,8 @@ jobs:
       uses: actions/setup-go@v1
       with:
         go-version: ${{matrix.go-version}}
+    - name: Print go version
+      run: go version
     - name: Check out module
       uses: actions/checkout@v1
       with:
