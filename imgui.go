@@ -547,13 +547,13 @@ func InputTextMultiline(label string, text *string) bool {
 }
 
 // InputIntV creates a input field for integer type.
-func InputIntV(label string, value *int32, step int, step_fast int, flags int) bool {
+func InputIntV(label string, value *int32, step int, stepFast int, flags int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	valueArg, valueFin := wrapInt32(value)
 	defer valueFin()
 
-	return C.iggInputInt(labelArg, valueArg, C.int(step), C.int(step_fast), C.int(flags)) != 0
+	return C.iggInputInt(labelArg, valueArg, C.int(step), C.int(stepFast), C.int(flags)) != 0
 }
 
 // InputInt calls InputIntV(label, value, 1, 100, 0).
