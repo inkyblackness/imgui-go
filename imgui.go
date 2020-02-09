@@ -546,6 +546,21 @@ func InputTextMultiline(label string, text *string) bool {
 	return InputTextMultilineV(label, text, Vec2{}, 0, nil)
 }
 
+// InputIntV creates a input field for integer type.
+func InputIntV(label string, value *int32, step int, stepFast int, flags int) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapInt32(value)
+	defer valueFin()
+
+	return C.iggInputInt(labelArg, valueArg, C.int(step), C.int(stepFast), C.int(flags)) != 0
+}
+
+// InputInt calls InputIntV(label, value, 1, 100, 0).
+func InputInt(label string, value *int32) bool {
+	return InputIntV(label, value, 1, 100, 0)
+}
+
 // ColorEdit3 calls ColorEdit3V(label, col, 0)
 func ColorEdit3(label string, col *[3]float32) bool {
 	return ColorEdit3V(label, col, 0)
