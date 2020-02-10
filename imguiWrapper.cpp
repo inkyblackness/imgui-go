@@ -583,7 +583,7 @@ IggBool iggIsWindowCollapsed() {
 
 IggBool iggIsWindowFocused(int flags)
 {
-   return ImGui::IsWindowHovered(flags) ? 1 : 0;
+   return ImGui::IsWindowFocused(flags) ? 1 : 0;
 }
 
 IggBool iggIsWindowHovered(int flags)
