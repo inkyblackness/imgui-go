@@ -1228,7 +1228,12 @@ func SetMouseCursor(cursor int) {
 	C.iggSetMouseCursor(C.int(cursor))
 }
 
-// SetKeyboardFocusHere gives keyboard focus to next item
-func SetKeyboardFocusHere(offset int) {
+// SetKeyboardFocusHere calls SetKeyboardFocusHereV(0)
+func SetKeyboardFocusHere() {
+	C.iggSetKeyboardFocusHere(0)
+}
+
+// SetKeyboardFocusHereV gives keyboard focus to next item
+func SetKeyboardFocusHereV(offset int) {
 	C.iggSetKeyboardFocusHere(C.int(offset))
 }
