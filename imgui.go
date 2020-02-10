@@ -998,6 +998,11 @@ func IsItemActive() bool {
 	return C.iggIsItemActive() != 0
 }
 
+// IsAnyItemActive returns true if the any item is active.
+func IsAnyItemActive() bool {
+	return C.iggIsAnyItemActive() != 0
+}
+
 // IsWindowAppearing returns whether the current window is appearing.
 func IsWindowAppearing() bool {
 	return C.iggIsWindowAppearing() != 0
@@ -1221,4 +1226,9 @@ func MouseCursor() int {
 // SetMouseCursor sets desired cursor type.
 func SetMouseCursor(cursor int) {
 	C.iggSetMouseCursor(C.int(cursor))
+}
+
+// SetKeyboardFocusHere gives keyboard focus to next item
+func SetKeyboardFocusHere(offset int) {
+	C.iggSetKeyboardFocusHere(C.int(offset))
 }

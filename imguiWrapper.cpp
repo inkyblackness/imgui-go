@@ -573,6 +573,11 @@ IggBool iggIsItemActive()
    return ImGui::IsItemActive() ? 1 : 0;
 }
 
+IggBool iggIsAnyItemActive()
+{
+   return ImGui::IsAnyItemActive() ? 1 : 0;
+}
+
 IggBool iggIsWindowAppearing() {
    return ImGui::IsWindowAppearing() ? 1 : 0;
 }
@@ -699,6 +704,11 @@ int iggGetMouseCursor()
 void iggSetMouseCursor(int cursor)
 {
    ImGui::SetMouseCursor(cursor);
+}
+
+void iggSetKeyboardFocusHere(int offset)
+{
+   ImGui::SetKeyboardFocusHere(offset);
 }
 
 IggBool iggBeginTabBar(char const *str_id, int flags) {
