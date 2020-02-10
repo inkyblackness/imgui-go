@@ -145,6 +145,7 @@ extern void iggCloseCurrentPopup(void);
 
 extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsItemActive();
+extern IggBool iggIsAnyItemActive();
 
 extern IggBool iggIsWindowAppearing();
 extern IggBool iggIsWindowCollapsed();
@@ -175,6 +176,7 @@ extern IggBool iggIsItemFocused();
 extern IggBool iggIsAnyItemFocused();
 extern int iggGetMouseCursor();
 extern void iggSetMouseCursor(int cursor);
+extern void iggSetKeyboardFocusHere(int offset);
 
 extern IggBool iggBeginTabBar(char const *str_id, int flags);
 extern void iggEndTabBar();
