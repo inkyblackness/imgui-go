@@ -599,6 +599,11 @@ IggBool iggIsAnyItemActive()
    return ImGui::IsAnyItemActive() ? 1 : 0;
 }
 
+IggBool iggIsItemVisible()
+{
+   return ImGui::IsItemVisible() ? 1 : 0;
+}
+
 IggBool iggIsWindowAppearing() {
    return ImGui::IsWindowAppearing() ? 1 : 0;
 }

@@ -1035,6 +1035,11 @@ func IsAnyItemActive() bool {
 	return C.iggIsAnyItemActive() != 0
 }
 
+// IsItemVisible returns true if the last item is visible
+func IsItemVisible() bool {
+	return C.iggIsItemVisible() != 0
+}
+
 // IsWindowAppearing returns whether the current window is appearing.
 func IsWindowAppearing() bool {
 	return C.iggIsWindowAppearing() != 0
