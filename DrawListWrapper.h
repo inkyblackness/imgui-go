@@ -17,6 +17,7 @@ extern void iggGetVertexBufferLayout(size_t *entrySize, size_t *posOffset, size_
 
 extern void iggAddRect(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, ImU32 col, float rounding, int flags, float thickness);
 extern void iggAddRectFilled(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, ImU32 col, float rounding, int flags);
+extern void iggAddCircle(IggDrawList handle, IggVec2 const *center, float radius, ImU32 col, int numSegments, float thickness);
 extern void iggAddCircleFilled(IggDrawList handle, IggVec2 const *center, float radius, ImU32 col, int numSegments);
 
 extern IggDrawList iggGetWindowDrawList();

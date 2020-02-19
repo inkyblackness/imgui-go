@@ -142,8 +142,19 @@ func (list DrawList) AddCircleFilled(center Vec2, radius float32, col uint32) {
 
 // AddCircleFilledV adds a filled circle to the draw list. min is the
 // upper-left corner of the rectangle, and max is the lower right corner.
-// rectangles with dimensions of 1 pixel are not rendererd properly.
 func (list DrawList) AddCircleFilledV(center Vec2, radius float32, col uint32, numSegments int) {
 	centerArg, _ := center.wrapped()
 	C.iggAddCircleFilled(list.handle(), centerArg, C.float(radius), C.ImU32(col), C.int(numSegments))
+}
+
+// AddCircle calls addCircleV with a numSegments value of 12
+func (list DrawList) AddCircle(center Vec2, radius float32, col uint32) {
+	list.AddCircleV(center, radius, col, 12, 1.0)
+}
+
+// AddCircleV adds a unfilled circle to the draw list. min is the upper-left
+// corner of the rectangle, and max is the lower right corner.
+func (list DrawList) AddCircleV(center Vec2, radius float32, col uint32, numSegments int, thickness float32) {
+	centerArg, _ := center.wrapped()
+	C.iggAddCircle(list.handle(), centerArg, C.float(radius), C.ImU32(col), C.int(numSegments), C.float(thickness))
 }
