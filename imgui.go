@@ -330,6 +330,19 @@ func Button(id string) bool {
 	return ButtonV(id, Vec2{})
 }
 
+// InvisibleButtonV returning true if it is pressed.
+func InvisibleButtonV(id string, size Vec2) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	sizeArg, _ := size.wrapped()
+	return C.iggInvisibleButton(idArg, sizeArg) != 0
+}
+
+// InvisibleButton calls InvisibleButtonV(id, Vec2{0,0}).
+func InvisibleButton(id string) bool {
+	return InvisibleButtonV(id, Vec2{})
+}
+
 // ImageV adds an image based on given texture ID.
 // Refer to TextureID what this represents and how it is drawn.
 func ImageV(id TextureID, size Vec2, uv0, uv1 Vec2, tintCol, borderCol Vec4) {
@@ -716,6 +729,19 @@ func TextLineHeightWithSpacing() float32 {
 	return float32(C.iggGetTextLineHeightWithSpacing())
 }
 
+// FrameHeight returns the height of the current frame. This is equal to the
+// font size plus the padding at the top and bottom.
+func FrameHeight() float32 {
+	return float32(C.iggGetFrameHeight())
+}
+
+// FrameHeightSpacing returns the height of the current frame with the item spacing added.
+// This is equal to the font size plus the padding at the top and bottom, plus
+// the value of style.ItemSpacing.y
+func FrameHeightWithSpacing() float32 {
+	return float32(C.iggGetFrameHeightWithSpacing())
+}
+
 // TreeNodeV returns true if the tree branch is to be rendered. Call TreePop() in this case.
 func TreeNodeV(label string, flags int) bool {
 	labelArg, labelFin := wrapString(label)
@@ -980,6 +1006,12 @@ func EndPopup() {
 // Clicking on a MenuItem or Selectable automatically close the current popup.
 func CloseCurrentPopup() {
 	C.iggCloseCurrentPopup()
+}
+
+// IsItemClicked returns true if the current item is clicked with the left
+// mouse button.
+func IsItemClicked() bool {
+	return C.iggIsItemClicked() != 0
 }
 
 // IsItemHoveredV returns true if the last item is hovered.

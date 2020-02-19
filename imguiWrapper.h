@@ -64,6 +64,7 @@ extern void iggTextUnformatted(char const *text);
 extern void iggLabelText(char const *label, char const *text);
 
 extern IggBool iggButton(char const *label, IggVec2 const *size);
+extern IggBool iggInvisibleButton(char const *label, IggVec2 const *size);
 extern void iggImage(IggTextureID textureID,
 	IggVec2 const *size, IggVec2 const *uv0, IggVec2 const *uv1,
 	IggVec4 const *tintCol, IggVec4 const *borderCol);
@@ -113,6 +114,8 @@ extern void iggSetCursorScreenPos(IggVec2 const *absPos);
 extern void iggAlignTextToFramePadding();
 extern float iggGetTextLineHeight(void);
 extern float iggGetTextLineHeightWithSpacing(void);
+extern float iggGetFrameHeight(void);
+extern float iggGetFrameHeightWithSpacing(void);
 
 extern IggBool iggTreeNode(char const *label, int flags);
 extern void iggTreePop(void);
@@ -143,6 +146,7 @@ extern IggBool iggBeginPopupContextItem(char const *label, int mouseButton);
 extern void iggEndPopup(void);
 extern void iggCloseCurrentPopup(void);
 
+extern IggBool iggIsItemClicked();
 extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsItemActive();
 extern IggBool iggIsAnyItemActive();
