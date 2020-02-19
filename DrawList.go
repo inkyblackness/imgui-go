@@ -2,7 +2,9 @@ package imgui
 
 // #include "DrawListWrapper.h"
 import "C"
-import "unsafe"
+import (
+	"unsafe"
+)
 
 // DrawList is a draw-command list.
 // This is the low-level list of polygons that ImGui functions are filling.
@@ -82,4 +84,68 @@ func (list DrawList) IndexBuffer() (unsafe.Pointer, int) {
 	C.iggDrawListGetRawIndexBuffer(list.handle(), &data, &size)
 
 	return data, int(size)
+}
+
+// WindowDrawList returns the DrawList for the current window.
+func WindowDrawList() DrawList {
+	return DrawList(C.iggGetWindowDrawList())
+}
+
+// List of DrawCornerFlags
+const (
+	DrawCornerFlagsNone = 0 << iota
+	DrawCornerFlagsTopLeft
+	DrawCornerFlagsTopRight
+	DrawCornerFlagsBotLeft
+	DrawCornerFlagsBotRight
+	DrawCornerFlagsTop   = DrawCornerFlagsTopLeft | DrawCornerFlagsTopRight
+	DrawCornerFlagsBot   = DrawCornerFlagsBotLeft | DrawCornerFlagsBotRight
+	DrawCornerFlagsLeft  = DrawCornerFlagsTopLeft | DrawCornerFlagsBotLeft
+	DrawCornerFlagsRight = DrawCornerFlagsTopRight | DrawCornerFlagsBotRight
+	DrawCornerFlagsAll   = 0x0f
+)
+
+// AddRect calls AddRectV with rounding and thickness values of 1.0 and
+// DrawCornerFlagsAll
+func (list DrawList) AddRect(min Vec2, max Vec2, col uint32) {
+	list.AddRectV(min, max, col, 1.0, DrawCornerFlagsAll, 1.0)
+}
+
+// AddRectV adds a rectangle to draw list. min is the upper-left corner of the
+// rectangle, and max is the lower right corner. rectangles with dimensions of
+// 1 pixel are not rendererd properly.
+//
+// drawCornerFlags indicate which corners of the rectanble are to be rounded.
+func (list DrawList) AddRectV(min Vec2, max Vec2, col uint32, rounding float32, drawCornerFlags int, thickness float32) {
+	minArg, _ := min.wrapped()
+	maxArg, _ := max.wrapped()
+	C.iggAddRect(list.handle(), minArg, maxArg, C.ImU32(col), C.float(rounding), C.int(drawCornerFlags), C.float(thickness))
+}
+
+// AddRectFilled calls AddRectFilledV with a radius value of 1.0 and
+// DrawCornerFlagsAll
+func (list DrawList) AddRectFilled(min Vec2, max Vec2, col uint32) {
+	list.AddRectFilledV(min, max, col, 1.0, DrawCornerFlagsAll)
+}
+
+// AddRectFilledV adds a filled rectangle to the draw list. min is the
+// upper-left corner of the rectangle, and max is the lower right corner.
+// rectangles with dimensions of 1 pixel are not rendererd properly.
+func (list DrawList) AddRectFilledV(min Vec2, max Vec2, col uint32, rounding float32, drawCornerFlags int) {
+	minArg, _ := min.wrapped()
+	maxArg, _ := max.wrapped()
+	C.iggAddRectFilled(list.handle(), minArg, maxArg, C.ImU32(col), C.float(rounding), C.int(drawCornerFlags))
+}
+
+// AddCircleFilled calls addCircleFilledV with a numSegments value of 12
+func (list DrawList) AddCircleFilled(center Vec2, radius float32, col uint32) {
+	list.AddCircleFilledV(center, radius, col, 12)
+}
+
+// AddCircleFilledV adds a filled circle to the draw list. min is the
+// upper-left corner of the rectangle, and max is the lower right corner.
+// rectangles with dimensions of 1 pixel are not rendererd properly.
+func (list DrawList) AddCircleFilledV(center Vec2, radius float32, col uint32, numSegments int) {
+	centerArg, _ := center.wrapped()
+	C.iggAddCircleFilled(list.handle(), centerArg, C.float(radius), C.ImU32(col), C.int(numSegments))
 }
