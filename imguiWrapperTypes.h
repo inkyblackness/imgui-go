@@ -19,6 +19,7 @@ typedef void *IggGlyphRanges;
 typedef void *IggGuiStyle;
 typedef void *IggInputTextCallbackData;
 typedef void *IggIO;
+typedef unsigned int ImU32;  // 32-bit unsigned integer (often used to store packed colors)
 
 typedef struct tagIggVec2
 {
