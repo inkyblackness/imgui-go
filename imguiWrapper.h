@@ -150,6 +150,7 @@ extern IggBool iggIsItemClicked();
 extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsItemActive();
 extern IggBool iggIsAnyItemActive();
+extern IggBool iggIsItemVisible();
 
 extern IggBool iggIsWindowAppearing();
 extern IggBool iggIsWindowCollapsed();
