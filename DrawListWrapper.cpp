@@ -40,3 +40,33 @@ void iggGetVertexBufferLayout(size_t *entrySize, size_t *posOffset, size_t *uvOf
    *uvOffset = IM_OFFSETOF(ImDrawVert, uv);
    *colOffset = IM_OFFSETOF(ImDrawVert, col);
 }
+
+void iggAddRect(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, ImU32 col, float rounding, int flags, float thickness)
+{
+   Vec2Wrapper minArg(min);
+   Vec2Wrapper maxArg(max);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddRect(*minArg, *maxArg, col, rounding, flags, thickness);
+}
+
+void iggAddRectFilled(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, ImU32 col, float rounding, int flags)
+{
+   Vec2Wrapper minArg(min);
+   Vec2Wrapper maxArg(max);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddRectFilled(*minArg, *maxArg, col, rounding, flags);
+}
+
+void iggAddCircleFilled(IggDrawList handle, IggVec2 const *center, float radius, ImU32 col, int numSegments)
+{
+   Vec2Wrapper centerArg(center);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddCircleFilled(*centerArg, radius, col, numSegments);
+}
+
+IggDrawList iggGetWindowDrawList() {
+   return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetWindowDrawList()));
+}
