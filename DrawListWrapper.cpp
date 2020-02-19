@@ -59,6 +59,14 @@ void iggAddRectFilled(IggDrawList handle, IggVec2 const *min, IggVec2 const *max
    list->AddRectFilled(*minArg, *maxArg, col, rounding, flags);
 }
 
+void iggAddCircle(IggDrawList handle, IggVec2 const *center, float radius, ImU32 col, int numSegments, float thickness)
+{
+   Vec2Wrapper centerArg(center);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddCircle(*centerArg, radius, col, numSegments, thickness);
+}
+
 void iggAddCircleFilled(IggDrawList handle, IggVec2 const *center, float radius, ImU32 col, int numSegments)
 {
    Vec2Wrapper centerArg(center);
