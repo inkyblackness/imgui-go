@@ -75,6 +75,24 @@ void iggAddCircleFilled(IggDrawList handle, IggVec2 const *center, float radius,
    list->AddCircleFilled(*centerArg, radius, col, numSegments);
 }
 
+void iggAddTriangle(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, ImU32 col, float thickness) {
+   Vec2Wrapper p1Arg(p1);
+   Vec2Wrapper p2Arg(p2);
+   Vec2Wrapper p3Arg(p3);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddTriangle(*p1Arg, *p2Arg, *p3Arg, col, thickness);
+}
+
+void iggAddTriangleFilled(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, ImU32 col) {
+   Vec2Wrapper p1Arg(p1);
+   Vec2Wrapper p2Arg(p2);
+   Vec2Wrapper p3Arg(p3);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddTriangleFilled(*p1Arg, *p2Arg, *p3Arg, col);
+}
+
 IggDrawList iggGetWindowDrawList() {
    return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetWindowDrawList()));
 }

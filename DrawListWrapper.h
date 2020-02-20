@@ -19,6 +19,8 @@ extern void iggAddRect(IggDrawList handle, IggVec2 const *min, IggVec2 const *ma
 extern void iggAddRectFilled(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, ImU32 col, float rounding, int flags);
 extern void iggAddCircle(IggDrawList handle, IggVec2 const *center, float radius, ImU32 col, int numSegments, float thickness);
 extern void iggAddCircleFilled(IggDrawList handle, IggVec2 const *center, float radius, ImU32 col, int numSegments);
+extern void iggAddTriangle(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, ImU32 col, float thickness);
+extern void iggAddTriangleFilled(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, ImU32 col);
 
 extern IggDrawList iggGetWindowDrawList();
 
