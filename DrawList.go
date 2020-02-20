@@ -158,3 +158,26 @@ func (list DrawList) AddCircleV(center Vec2, radius float32, col uint32, numSegm
 	centerArg, _ := center.wrapped()
 	C.iggAddCircle(list.handle(), centerArg, C.float(radius), C.ImU32(col), C.int(numSegments), C.float(thickness))
 }
+
+// AddTriangle calls addTriangleV with a thickness of 1.0
+func (list DrawList) AddTriangle(p1 Vec2, p2 Vec2, p3 Vec2, col uint32) {
+	list.AddTriangleV(p1, p2, p3, col, 1.0)
+}
+
+// AddTriangleV adds an unfilled triangle of points p1, p2, p3 to the draw
+// list.
+func (list DrawList) AddTriangleV(p1 Vec2, p2 Vec2, p3 Vec2, col uint32, thickness float32) {
+	p1Arg, _ := p1.wrapped()
+	p2Arg, _ := p2.wrapped()
+	p3Arg, _ := p3.wrapped()
+	C.iggAddTriangle(list.handle(), p1Arg, p2Arg, p3Arg, C.ImU32(col), C.float(thickness))
+}
+
+// AddTriangleFilled adds an filled triangle of points p1, p2, p3 to the draw
+// list.
+func (list DrawList) AddTriangleFilled(p1 Vec2, p2 Vec2, p3 Vec2, col uint32) {
+	p1Arg, _ := p1.wrapped()
+	p2Arg, _ := p2.wrapped()
+	p3Arg, _ := p3.wrapped()
+	C.iggAddTriangleFilled(list.handle(), p1Arg, p2Arg, p3Arg, C.ImU32(col))
+}
