@@ -36,8 +36,8 @@ func Packed(c color.Color) PackedColor {
 		uint32(nrgba.A)<<packedAlphaShift)
 }
 
-// PackedFromVec4 converts the given four-dimensional vector into a packed color.
-func PackedFromVec4(vec Vec4) PackedColor {
+// PackedColorFromVec4 converts the given four-dimensional vector into a packed color.
+func PackedColorFromVec4(vec Vec4) PackedColor {
 	convert := func(f float32) uint32 {
 		scaled := (f * 255.0) + 0.5
 		switch {
