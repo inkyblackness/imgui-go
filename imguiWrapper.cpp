@@ -244,6 +244,12 @@ IggBool iggButton(char const *label, IggVec2 const *size)
    return ImGui::Button(label, *sizeArg) ? 1 : 0;
 }
 
+IggBool iggInvisibleButton(char const *label, IggVec2 const *size)
+{
+   Vec2Wrapper sizeArg(size);
+   return ImGui::InvisibleButton(label, *sizeArg) ? 1 : 0;
+}
+
 void iggImage(IggTextureID textureID,
               IggVec2 const *size, IggVec2 const *uv0, IggVec2 const *uv1,
               IggVec4 const *tintCol, IggVec4 const *borderCol)
@@ -444,6 +450,16 @@ float iggGetTextLineHeightWithSpacing(void)
    return ImGui::GetTextLineHeightWithSpacing();
 }
 
+float iggGetFrameHeight(void)
+{
+   return ImGui::GetFrameHeight();
+}
+
+float iggGetFrameHeightWithSpacing(void)
+{
+   return ImGui::GetFrameHeightWithSpacing();
+}
+
 IggBool iggTreeNode(char const *label, int flags)
 {
    return ImGui::TreeNodeEx(label, flags) ? 1 : 0;
@@ -563,6 +579,11 @@ void iggCloseCurrentPopup(void)
    ImGui::CloseCurrentPopup();
 }
 
+IggBool iggIsItemClicked()
+{
+   return ImGui::IsItemClicked() ? 1 : 0;
+}
+
 IggBool iggIsItemHovered(int flags)
 {
    return ImGui::IsItemHovered(flags) ? 1 : 0;
@@ -576,6 +597,11 @@ IggBool iggIsItemActive()
 IggBool iggIsAnyItemActive()
 {
    return ImGui::IsAnyItemActive() ? 1 : 0;
+}
+
+IggBool iggIsItemVisible()
+{
+   return ImGui::IsItemVisible() ? 1 : 0;
 }
 
 IggBool iggIsWindowAppearing() {

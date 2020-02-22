@@ -2,7 +2,9 @@ package imgui
 
 // #include "DrawListWrapper.h"
 import "C"
-import "unsafe"
+import (
+	"unsafe"
+)
 
 // DrawList is a draw-command list.
 // This is the low-level list of polygons that ImGui functions are filling.
@@ -82,4 +84,102 @@ func (list DrawList) IndexBuffer() (unsafe.Pointer, int) {
 	C.iggDrawListGetRawIndexBuffer(list.handle(), &data, &size)
 
 	return data, int(size)
+}
+
+// WindowDrawList returns the DrawList for the current window.
+func WindowDrawList() DrawList {
+	return DrawList(C.iggGetWindowDrawList())
+}
+
+// List of DrawCornerFlags
+const (
+	DrawCornerFlagsNone     = 0x0
+	DrawCornerFlagsTopLeft  = 0x1
+	DrawCornerFlagsTopRight = 0x2
+	DrawCornerFlagsBotLeft  = 0x4
+	DrawCornerFlagsBotRight = 0x8
+	DrawCornerFlagsTop      = DrawCornerFlagsTopLeft | DrawCornerFlagsTopRight
+	DrawCornerFlagsBot      = DrawCornerFlagsBotLeft | DrawCornerFlagsBotRight
+	DrawCornerFlagsLeft     = DrawCornerFlagsTopLeft | DrawCornerFlagsBotLeft
+	DrawCornerFlagsRight    = DrawCornerFlagsTopRight | DrawCornerFlagsBotRight
+	DrawCornerFlagsAll      = 0xF
+)
+
+// AddRect calls AddRectV with rounding and thickness values of 1.0 and
+// DrawCornerFlagsAll
+func (list DrawList) AddRect(min Vec2, max Vec2, col PackedColor) {
+	list.AddRectV(min, max, col, 1.0, DrawCornerFlagsAll, 1.0)
+}
+
+// AddRectV adds a rectangle to draw list. min is the upper-left corner of the
+// rectangle, and max is the lower right corner. rectangles with dimensions of
+// 1 pixel are not rendered properly.
+//
+// drawCornerFlags indicate which corners of the rectangle are to be rounded.
+func (list DrawList) AddRectV(min Vec2, max Vec2, col PackedColor, rounding float32, drawCornerFlags int, thickness float32) {
+	minArg, _ := min.wrapped()
+	maxArg, _ := max.wrapped()
+	C.iggAddRect(list.handle(), minArg, maxArg, C.IggPackedColor(col), C.float(rounding), C.int(drawCornerFlags), C.float(thickness))
+}
+
+// AddRectFilled calls AddRectFilledV with a radius value of 1.0 and
+// DrawCornerFlagsAll
+func (list DrawList) AddRectFilled(min Vec2, max Vec2, col PackedColor) {
+	list.AddRectFilledV(min, max, col, 1.0, DrawCornerFlagsAll)
+}
+
+// AddRectFilledV adds a filled rectangle to the draw list. min is the
+// upper-left corner of the rectangle, and max is the lower right corner.
+// rectangles with dimensions of 1 pixel are not rendered properly.
+func (list DrawList) AddRectFilledV(min Vec2, max Vec2, col PackedColor, rounding float32, drawCornerFlags int) {
+	minArg, _ := min.wrapped()
+	maxArg, _ := max.wrapped()
+	C.iggAddRectFilled(list.handle(), minArg, maxArg, C.IggPackedColor(col), C.float(rounding), C.int(drawCornerFlags))
+}
+
+// AddCircleFilled calls addCircleFilledV with a numSegments value of 12
+func (list DrawList) AddCircleFilled(center Vec2, radius float32, col PackedColor) {
+	list.AddCircleFilledV(center, radius, col, 12)
+}
+
+// AddCircleFilledV adds a filled circle to the draw list. min is the
+// upper-left corner of the rectangle, and max is the lower right corner.
+func (list DrawList) AddCircleFilledV(center Vec2, radius float32, col PackedColor, numSegments int) {
+	centerArg, _ := center.wrapped()
+	C.iggAddCircleFilled(list.handle(), centerArg, C.float(radius), C.IggPackedColor(col), C.int(numSegments))
+}
+
+// AddCircle calls addCircleV with a numSegments value of 12
+func (list DrawList) AddCircle(center Vec2, radius float32, col PackedColor) {
+	list.AddCircleV(center, radius, col, 12, 1.0)
+}
+
+// AddCircleV adds a unfilled circle to the draw list. min is the upper-left
+// corner of the rectangle, and max is the lower right corner.
+func (list DrawList) AddCircleV(center Vec2, radius float32, col PackedColor, numSegments int, thickness float32) {
+	centerArg, _ := center.wrapped()
+	C.iggAddCircle(list.handle(), centerArg, C.float(radius), C.IggPackedColor(col), C.int(numSegments), C.float(thickness))
+}
+
+// AddTriangle calls addTriangleV with a thickness of 1.0
+func (list DrawList) AddTriangle(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColor) {
+	list.AddTriangleV(p1, p2, p3, col, 1.0)
+}
+
+// AddTriangleV adds an unfilled triangle of points p1, p2, p3 to the draw
+// list.
+func (list DrawList) AddTriangleV(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColor, thickness float32) {
+	p1Arg, _ := p1.wrapped()
+	p2Arg, _ := p2.wrapped()
+	p3Arg, _ := p3.wrapped()
+	C.iggAddTriangle(list.handle(), p1Arg, p2Arg, p3Arg, C.IggPackedColor(col), C.float(thickness))
+}
+
+// AddTriangleFilled adds an filled triangle of points p1, p2, p3 to the draw
+// list.
+func (list DrawList) AddTriangleFilled(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColor) {
+	p1Arg, _ := p1.wrapped()
+	p2Arg, _ := p2.wrapped()
+	p3Arg, _ := p3.wrapped()
+	C.iggAddTriangleFilled(list.handle(), p1Arg, p2Arg, p3Arg, C.IggPackedColor(col))
 }
