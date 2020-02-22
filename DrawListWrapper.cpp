@@ -40,3 +40,59 @@ void iggGetVertexBufferLayout(size_t *entrySize, size_t *posOffset, size_t *uvOf
    *uvOffset = IM_OFFSETOF(ImDrawVert, uv);
    *colOffset = IM_OFFSETOF(ImDrawVert, col);
 }
+
+void iggAddRect(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, ImU32 col, float rounding, int flags, float thickness)
+{
+   Vec2Wrapper minArg(min);
+   Vec2Wrapper maxArg(max);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddRect(*minArg, *maxArg, col, rounding, flags, thickness);
+}
+
+void iggAddRectFilled(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, ImU32 col, float rounding, int flags)
+{
+   Vec2Wrapper minArg(min);
+   Vec2Wrapper maxArg(max);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddRectFilled(*minArg, *maxArg, col, rounding, flags);
+}
+
+void iggAddCircle(IggDrawList handle, IggVec2 const *center, float radius, ImU32 col, int numSegments, float thickness)
+{
+   Vec2Wrapper centerArg(center);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddCircle(*centerArg, radius, col, numSegments, thickness);
+}
+
+void iggAddCircleFilled(IggDrawList handle, IggVec2 const *center, float radius, ImU32 col, int numSegments)
+{
+   Vec2Wrapper centerArg(center);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddCircleFilled(*centerArg, radius, col, numSegments);
+}
+
+void iggAddTriangle(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, ImU32 col, float thickness) {
+   Vec2Wrapper p1Arg(p1);
+   Vec2Wrapper p2Arg(p2);
+   Vec2Wrapper p3Arg(p3);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddTriangle(*p1Arg, *p2Arg, *p3Arg, col, thickness);
+}
+
+void iggAddTriangleFilled(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, ImU32 col) {
+   Vec2Wrapper p1Arg(p1);
+   Vec2Wrapper p2Arg(p2);
+   Vec2Wrapper p3Arg(p3);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddTriangleFilled(*p1Arg, *p2Arg, *p3Arg, col);
+}
+
+IggDrawList iggGetWindowDrawList() {
+   return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetWindowDrawList()));
+}
