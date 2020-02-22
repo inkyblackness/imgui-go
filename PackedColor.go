@@ -3,13 +3,13 @@ package imgui
 import "image/color"
 
 // PackedColor is a 32-bit RGBA color value, with 8 bits per color channel.
-// The bytes are assigned as 0xAARRGGBB.
+// The bytes are assigned as 0xAABBGGRR.
 type PackedColor uint32
 
 const (
-	packedRedShift   = 16
+	packedRedShift   = 0
 	packedGreenShift = 8
-	packedBlueShift  = 0
+	packedBlueShift  = 16
 	packedAlphaShift = 24
 )
 
@@ -34,4 +34,24 @@ func Packed(c color.Color) PackedColor {
 		uint32(nrgba.G)<<packedGreenShift |
 		uint32(nrgba.B)<<packedBlueShift |
 		uint32(nrgba.A)<<packedAlphaShift)
+}
+
+// PackedFromVec4 converts the given four-dimensional vector into a packed color.
+func PackedFromVec4(vec Vec4) PackedColor {
+	convert := func(f float32) uint32 {
+		scaled := (f * 255.0) + 0.5
+		switch {
+		case scaled <= 0.0:
+			return 0x00
+		case scaled >= 255.0:
+			return 0xFF
+		default:
+			return uint32(scaled)
+		}
+	}
+	return PackedColor(0 |
+		convert(vec.X)<<packedRedShift |
+		convert(vec.Y)<<packedGreenShift |
+		convert(vec.Z)<<packedBlueShift |
+		convert(vec.W)<<packedAlphaShift)
 }
