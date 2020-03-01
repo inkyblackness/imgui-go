@@ -1,5 +1,6 @@
 package imgui
 
+// #cgo CPPFLAGS: -Iimgui
 // #include "imguiWrapperTypes.h"
 import "C"
 
