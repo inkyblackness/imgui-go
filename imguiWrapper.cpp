@@ -662,6 +662,11 @@ IggBool iggIsMouseDoubleClicked(int button)
    return ImGui::IsMouseDoubleClicked(button);
 }
 
+void iggMousePos(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetMousePos());
+}
+
 void iggColumns(int count, char const *label, IggBool border)
 {
    ImGui::Columns(count, label, border);
