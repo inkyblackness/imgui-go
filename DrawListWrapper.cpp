@@ -41,6 +41,15 @@ void iggGetVertexBufferLayout(size_t *entrySize, size_t *posOffset, size_t *uvOf
    *colOffset = IM_OFFSETOF(ImDrawVert, col);
 }
 
+void iggAddLine(IggDrawList handle, IggVec2 const *p1, IggVec2 const *p2, IggPackedColor col, float thickness)
+{
+   Vec2Wrapper p1Arg(p1);
+   Vec2Wrapper p2Arg(p2);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddLine(*p1Arg, *p2Arg, col, thickness);
+}
+
 void iggAddRect(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, IggPackedColor col, float rounding, int flags, float thickness)
 {
    Vec2Wrapper minArg(min);
