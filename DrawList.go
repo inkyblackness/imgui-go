@@ -105,6 +105,18 @@ const (
 	DrawCornerFlagsAll      = 0xF
 )
 
+// AddLine call AddLineV with a thickness value of 1.0
+func (list DrawList) AddLine(p1 Vec2, p2 Vec2, col PackedColor) {
+	list.AddLineV(p1, p2, col, 1.0)
+}
+
+// AddLineV adds a line to draw list, extending from point p1 to p2
+func (list DrawList) AddLineV(p1 Vec2, p2 Vec2, col PackedColor, thickness float32) {
+	p1Arg, _ := p1.wrapped()
+	p2Arg, _ := p2.wrapped()
+	C.iggAddLine(list.handle(), p1Arg, p2Arg, C.IggPackedColor(col), C.float(thickness))
+}
+
 // AddRect calls AddRectV with rounding and thickness values of 1.0 and
 // DrawCornerFlagsAll
 func (list DrawList) AddRect(min Vec2, max Vec2, col PackedColor) {
