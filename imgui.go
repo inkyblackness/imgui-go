@@ -500,6 +500,40 @@ func SliderInt(label string, value *int32, min, max int32) bool {
 	return SliderIntV(label, value, min, max, "%d")
 }
 
+// VSliderFloatV creates a vertically oriented slider for floats.
+func VSliderFloatV(label string, size Vec2, value *float32, min, max float32, format string, power float32) bool {
+	sizeArg, _ := size.wrapped()
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapFloat(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggVSliderFloat(labelArg, sizeArg, valueArg, C.float(min), C.float(max), formatArg, C.float(power)) != 0
+}
+
+// VSliderFloat calls VSliderIntV(label, size, value, min, max, "%.3f", 1.0
+func VSliderFloat(label string, size Vec2, value *float32, min, max float32) bool {
+	return VSliderFloatV(label, size, value, min, max, "%.3f", 1.0)
+}
+
+// VSliderIntV creates a vertically oriented slider for integers.
+func VSliderIntV(label string, size Vec2, value *int32, min, max int32, format string) bool {
+	sizeArg, _ := size.wrapped()
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapInt32(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggVSliderInt(labelArg, sizeArg, valueArg, C.int(min), C.int(max), formatArg) != 0
+}
+
+// VSliderInt calls VSliderIntV(label, size, value, min, max, "%d"
+func VSliderInt(label string, size Vec2, value *int32, min, max int32) bool {
+	return VSliderIntV(label, size, value, min, max, "%d")
+}
+
 // InputTextV creates a text field for dynamic text input.
 //
 // Contrary to the original library, this wrapper does not limit the maximum number of possible characters.

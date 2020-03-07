@@ -322,6 +322,18 @@ IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, 
    return ImGui::SliderInt(label, value, minValue, maxValue, format) ? 1 : 0;
 }
 
+IggBool iggVSliderFloat(char const *label, IggVec2 const *size, float *value, float minValue, float maxValue, char const *format, float power)
+{
+   Vec2Wrapper sizeArg(size);
+   return ImGui::VSliderFloat(label, *sizeArg, value, minValue, maxValue, format, power) ? 1 : 0;
+}
+
+IggBool iggVSliderInt(char const *label, IggVec2 const *size, int *value, int minValue, int maxValue, char const *format)
+{
+   Vec2Wrapper sizeArg(size);
+   return ImGui::VSliderInt(label, *sizeArg, value, minValue, maxValue, format) ? 1 : 0;
+}
+
 extern "C" int iggInputTextCallback(IggInputTextCallbackData data, int key);
 
 static int iggInputTextCallbackWrapper(ImGuiInputTextCallbackData *data)
