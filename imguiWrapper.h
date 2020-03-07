@@ -165,6 +165,7 @@ extern IggBool iggIsAnyMouseDown();
 extern IggBool iggIsMouseClicked(int button, IggBool repeat);
 extern IggBool iggIsMouseReleased(int button);
 extern IggBool iggIsMouseDoubleClicked(int button);
+extern void iggMousePos(IggVec2 *pos);
 
 extern void iggColumns(int count, char const *label, IggBool border);
 extern void iggNextColumn();

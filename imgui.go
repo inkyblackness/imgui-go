@@ -1124,6 +1124,15 @@ func IsMouseDoubleClicked(button int) bool {
 	return C.iggIsMouseDoubleClicked(C.int(button)) != 0
 }
 
+// MousePos returns the current window position in screen space.
+func MousePos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggMousePos(valueArg)
+	valueFin()
+	return value
+}
+
 // Columns calls ColumnsV(1, "", false).
 func Columns() {
 	ColumnsV(1, "", false)
