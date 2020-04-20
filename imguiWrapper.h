@@ -189,7 +189,7 @@ extern void iggSetColumnOffset(int index, float offsetX);
 extern int iggGetColumnsCount();
 
 extern IggBool iggBeginDragDropSource(int flags);
-extern IggBool iggSetDragDropPayload(const char* type, const char* data, int size);
+extern IggBool iggSetDragDropPayload(const char* type, const char* data, int size, int cond);
 extern void iggEndDragDropSource();
 extern IggBool iggBeginDragDropTarget();
 extern void iggAcceptDragDropPayload(const char* type, int flags, char* payload_out, int size_out);

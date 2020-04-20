@@ -761,8 +761,8 @@ IggBool iggBeginDragDropSource(int flags){
     return ImGui::BeginDragDropSource(flags) ? 1 : 0;
 }
 
-IggBool iggSetDragDropPayload(const char* type, const char* data, int size){
-    return ImGui::SetDragDropPayload(type, (const void*)data, size) ? 1 : 0;
+IggBool iggSetDragDropPayload(const char* type, const char* data, int size, int cond){
+    return ImGui::SetDragDropPayload(type, (const void*)data, size, cond) ? 1 : 0;
 }
 
 void iggEndDragDropSource(){
