@@ -180,6 +180,11 @@ func SetNextWindowPos(pos Vec2) {
 	SetNextWindowPosV(pos, 0, Vec2{})
 }
 
+// SetNextWindowCollapsed sets the next window collapsed state.
+func SetNextWindowCollapsed(collapsed bool, cond Condition) {
+	C.iggSetNextWindowCollapsed(castBool(collapsed), C.int(cond))
+}
+
 // SetNextWindowSizeV sets next window size.
 // Set axis to 0.0 to force an auto-fit on this axis. Call before Begin().
 func SetNextWindowSizeV(size Vec2, cond Condition) {

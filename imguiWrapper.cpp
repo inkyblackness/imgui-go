@@ -144,6 +144,10 @@ void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
    ImGui::SetNextWindowPos(*posArg, cond, *pivotArg);
 }
 
+void iggSetNextWindowCollapsed(IggBool collapsed, int cond) {
+   ImGui::SetNextWindowCollapsed(collapsed, cond);
+}
+
 void iggSetNextWindowSize(IggVec2 const *size, int cond)
 {
    Vec2Wrapper sizeArg(size);

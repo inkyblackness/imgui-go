@@ -41,6 +41,7 @@ extern void iggGetContentRegionMax(IggVec2 *out);
 
 extern void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot);
 extern void iggSetNextWindowSize(IggVec2 const *size, int cond);
+extern void iggSetNextWindowCollapsed(IggBool collapsed, int cond);
 extern void iggSetNextWindowSizeConstraints(const IggVec2* size_min, const IggVec2* size_max);
 extern void iggSetNextWindowContentSize(IggVec2 const *size);
 extern void iggSetNextWindowFocus(void);
