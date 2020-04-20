@@ -131,7 +131,7 @@ extern void iggTreePop(void);
 extern void iggSetNextItemOpen(IggBool open, int cond);
 extern float iggGetTreeNodeToLabelSpacing(void);
 
-extern IggBool iggCollapsingHeader(const char* label, IggBool p_open);
+extern IggBool iggCollapsingHeader(const char* label);
 
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
 extern IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemCount, int heightItems);
