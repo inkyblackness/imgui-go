@@ -68,6 +68,10 @@ This allows you to use the function `FontAtlas.BuildWithFreeType()`. If the buil
 If you set the build tag, yet the corresponding support has not been added to the library, you will receive a build error.
 Contributions to support more build environments are happily accepted. See files `FreeTypeEnabled*.go`.
 
+> If you are trying to do this on MS Windows with MinGW and receive an error like
+> `pkg-config: exec: "pkg-config": executable file not found in %PATH%`,
+> refer to [online guides](https://stackoverflow.com/questions/1710922/how-to-install-pkg-config-in-windows) on how to add this to your installation.  
+
 ## Alternatives
 
 Before this project was created, the following alternatives were considered - and ignored:
