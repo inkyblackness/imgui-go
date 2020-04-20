@@ -65,6 +65,21 @@ void iggShowDemoWindow(IggBool *open)
    ImGui::ShowDemoWindow(openArg);
 }
 
+void iggStyleColorsDark()
+{
+    ImGui::StyleColorsDark();
+}
+
+void iggStyleColorsClassic()
+{
+   ImGui::StyleColorsClassic();
+}
+
+void iggStyleColorsLight()
+{
+   ImGui::StyleColorsLight();
+}
+
 void iggShowUserGuide(void)
 {
    ImGui::ShowUserGuide();
@@ -117,6 +132,11 @@ void iggContentRegionAvail(IggVec2 *size)
    exportValue(*size, ImGui::GetContentRegionAvail());
 }
 
+void iggGetContentRegionMax(IggVec2 *out){
+    ImVec2 im_out = ImGui::GetContentRegionMax();
+    exportValue(*out, im_out);
+}
+
 void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
 {
    Vec2Wrapper posArg(pos);
@@ -128,6 +148,13 @@ void iggSetNextWindowSize(IggVec2 const *size, int cond)
 {
    Vec2Wrapper sizeArg(size);
    ImGui::SetNextWindowSize(*sizeArg, cond);
+}
+
+void iggSetNextWindowSizeConstraints(const IggVec2* size_min, const IggVec2* size_max)
+{
+   Vec2Wrapper sizeMinArg(size_min);
+   Vec2Wrapper sizeMaxArg(size_max);
+   ImGui::SetNextWindowSizeConstraints(*sizeMinArg, *sizeMaxArg);
 }
 
 void iggSetNextWindowContentSize(IggVec2 const *size)
@@ -384,6 +411,12 @@ void iggSeparator(void)
    ImGui::Separator();
 }
 
+IggBool iggCollapsingHeader(const char* label, IggBool p_open)
+{
+   bool open = p_open != 0;
+   return ImGui::CollapsingHeader(label, &open, 0) ? 1 : 0;
+}
+
 void iggSameLine(float posX, float spacingW)
 {
    ImGui::SameLine(posX, spacingW);
@@ -570,6 +603,11 @@ void iggOpenPopup(char const *id)
    ImGui::OpenPopup(id);
 }
 
+IggBool iggBeginPopup(char const *name, int flags)
+{
+   return ImGui::BeginPopup(name, flags) ? 1 : 0;
+}
+
 IggBool iggBeginPopupModal(char const *name, IggBool *open, int flags)
 {
    BoolWrapper openArg(open);
@@ -717,6 +755,32 @@ void iggSetColumnOffset(int index, float offsetX)
 int iggGetColumnsCount()
 {
    return ImGui::GetColumnsCount();
+}
+
+IggBool iggBeginDragDropSource(int flags){
+    return ImGui::BeginDragDropSource(flags) ? 1 : 0;
+}
+
+IggBool iggSetDragDropPayload(const char* type, const char* data, int size){
+    return ImGui::SetDragDropPayload(type, (const void*)data, size) ? 1 : 0;
+}
+
+void iggEndDragDropSource(){
+    ImGui::EndDragDropSource();
+}
+
+IggBool iggBeginDragDropTarget(){
+    return ImGui::BeginDragDropTarget() ? 1 : 0;
+}
+
+void iggAcceptDragDropPayload(const char* type, int flags, char* payload_out, int size_out){
+    const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(type, flags);
+    if(payload && payload->IsDelivery())
+        memcpy(payload_out, payload->Data, size_out);
+}
+
+void iggEndDragDropTarget(){
+    ImGui::EndDragDropTarget();
 }
 
 float iggGetScrollX()

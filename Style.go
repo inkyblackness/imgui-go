@@ -127,6 +127,15 @@ func (style Style) ItemInnerSpacing() Vec2 {
 	return value
 }
 
+// ItemSpacing returns horizontal and vertical spacing between widgets/lines
+func (style Style) ItemSpacing() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggStyleGetItemSpacing(style.handle(), valueArg)
+	valueFin()
+	return value
+}
+
 // FramePadding is the padding within a framed rectangle (used by most widgets)
 func (style Style) FramePadding() Vec2 {
 	var value Vec2

@@ -23,6 +23,10 @@ extern char const *iggGetVersion(void);
 extern void iggShowDemoWindow(IggBool *open);
 extern void iggShowUserGuide(void);
 
+extern void iggStyleColorsDark();
+extern void iggStyleColorsClassic();
+extern void iggStyleColorsLight();
+
 extern IggBool iggBegin(char const *id, IggBool *open, int flags);
 extern void iggEnd(void);
 extern IggBool iggBeginChild(char const *id, IggVec2 const *size, IggBool border, int flags);
@@ -33,9 +37,11 @@ extern void iggWindowSize(IggVec2 *size);
 extern float iggWindowWidth(void);
 extern float iggWindowHeight(void);
 extern void iggContentRegionAvail(IggVec2 *size);
+extern void iggGetContentRegionMax(IggVec2 *out);
 
 extern void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot);
 extern void iggSetNextWindowSize(IggVec2 const *size, int cond);
+extern void iggSetNextWindowSizeConstraints(const IggVec2* size_min, const IggVec2* size_max);
 extern void iggSetNextWindowContentSize(IggVec2 const *size);
 extern void iggSetNextWindowFocus(void);
 extern void iggSetNextWindowBgAlpha(float value);
@@ -125,6 +131,8 @@ extern void iggTreePop(void);
 extern void iggSetNextItemOpen(IggBool open, int cond);
 extern float iggGetTreeNodeToLabelSpacing(void);
 
+extern IggBool iggCollapsingHeader(const char* label, IggBool p_open);
+
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
 extern IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemCount, int heightItems);
 
@@ -144,6 +152,7 @@ extern void iggEndMenu(void);
 extern IggBool iggMenuItem(char const *label, char const *shortcut, IggBool selected, IggBool enabled);
 
 extern void iggOpenPopup(char const *id);
+extern IggBool iggBeginPopup(char const *name, int flags);
 extern IggBool iggBeginPopupModal(char const *name, IggBool *open, int flags);
 extern IggBool iggBeginPopupContextItem(char const *label, int mouseButton);
 extern void iggEndPopup(void);
@@ -178,6 +187,14 @@ extern void iggSetColumnWidth(int index, float width);
 extern float iggGetColumnOffset(int index);
 extern void iggSetColumnOffset(int index, float offsetX);
 extern int iggGetColumnsCount();
+
+extern IggBool iggBeginDragDropSource(int flags);
+extern IggBool iggSetDragDropPayload(const char* type, const char* data, int size);
+extern void iggEndDragDropSource();
+extern IggBool iggBeginDragDropTarget();
+extern void iggAcceptDragDropPayload(const char* type, int flags, char* payload_out, int size_out);
+extern void iggEndDragDropTarget();
+
 extern float iggGetScrollX();
 extern float iggGetScrollY();
 extern float iggGetScrollMaxX();

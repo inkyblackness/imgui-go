@@ -5,6 +5,7 @@ package imgui
 import "C"
 import (
 	"math"
+	"strings"
 )
 
 // Version returns a version string e.g. "1.23".
@@ -57,6 +58,21 @@ func ShowDemoWindow(open *bool) {
 // ShowUserGuide adds basic help/info block (not a window): how to manipulate ImGui as a end-user (mouse/keyboard controls).
 func ShowUserGuide() {
 	C.iggShowUserGuide()
+}
+
+// StyleColorsDark sets the new, recommended style (default)
+func StyleColorsDark() {
+	C.iggStyleColorsDark()
+}
+
+// StyleColorsClassic sets the classic style
+func StyleColorsClassic() {
+	C.iggStyleColorsClassic()
+}
+
+// StyleColorsLight sets the light style, best used with borders and a custom, thicker font
+func StyleColorsLight() {
+	C.iggStyleColorsLight()
 }
 
 // BeginV pushes a new window to the stack and start appending to it.
@@ -142,6 +158,15 @@ func ContentRegionAvail() Vec2 {
 	return value
 }
 
+// ContentRegionMax returns current content boundaries (typically window boundaries including scrolling, or current column boundaries), in windows coordinates
+func ContentRegionMax() Vec2 {
+	out := Vec2{}
+	outArg, outFin := out.wrapped()
+	C.iggGetContentRegionMax(outArg)
+	outFin()
+	return out
+}
+
 // SetNextWindowPosV sets next window position.
 // Call before Begin(). Use pivot=(0.5,0.5) to center on given point, etc.
 func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2) {
@@ -165,6 +190,13 @@ func SetNextWindowSizeV(size Vec2, cond Condition) {
 // SetNextWindowSize calls SetNextWindowSizeV(size, 0)
 func SetNextWindowSize(size Vec2) {
 	SetNextWindowSizeV(size, 0)
+}
+
+// SetNextWindowSizeConstraints set next window size limits. use -1,-1 on either X/Y axis to preserve the current size. Use callback to apply non-trivial programmatic constraints.
+func SetNextWindowSizeConstraints(sizeMin Vec2, sizeMax Vec2) {
+	sizeMinArg, _ := sizeMin.wrapped()
+	sizeMaxArg, _ := sizeMax.wrapped()
+	C.iggSetNextWindowSizeConstraints(sizeMinArg, sizeMaxArg)
 }
 
 // SetNextWindowContentSize sets next window content size (~ enforce the range of scrollbars).
@@ -665,6 +697,13 @@ func Separator() {
 	C.iggSeparator()
 }
 
+// CollapsingHeader adds a collapsing header.
+func CollapsingHeader(label string, open bool) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	return C.iggCollapsingHeader(labelArg, castBool(open)) != 0
+}
+
 // SameLineV is between widgets or groups to layout them horizontally.
 func SameLineV(posX float32, spacingW float32) {
 	C.iggSameLine(C.float(posX), C.float(spacingW))
@@ -1003,6 +1042,19 @@ func OpenPopup(id string) {
 	C.iggOpenPopup(idArg)
 }
 
+// BeginPopupV returns true if the popup is open, and you can start outputting to it.
+// Only call EndPopup() if BeginPopup() returns true.
+func BeginPopupV(name string, flags int) bool {
+	nameArg, nameFin := wrapString(name)
+	defer nameFin()
+	return C.iggBeginPopup(nameArg, C.int(flags)) != 0
+}
+
+// BeginPopup calls BeginPopupV(name, nil, 0)
+func BeginPopup(name string) bool {
+	return BeginPopupV(name, 0)
+}
+
 // BeginPopupModalV creates modal dialog (regular window with title bar, block interactions behind the modal window,
 // can't close the modal window by clicking outside).
 func BeginPopupModalV(name string, open *bool, flags int) bool {
@@ -1225,6 +1277,49 @@ func SetColumnOffset(index int, offsetX float32) {
 // ColumnsCount returns number of current columns.
 func ColumnsCount() int {
 	return int(C.iggGetColumnsCount())
+}
+
+// BeginDragDropSource call when the current item is active.
+// If this return true, you can call SetDragDropPayload() and EndDragDropSource()
+func BeginDragDropSource(flags int) bool {
+	return C.iggBeginDragDropSource(C.int(flags)) != 0
+}
+
+// SetDragDropPayload type is a user defined string of maximum 32 characters.
+// Strings starting with '_' are reserved for dear imgui internal types. Data is copied and held by imgui.
+func SetDragDropPayload(type_ string, payload string) bool {
+	typeArg, typeFin := wrapString(type_)
+	defer typeFin()
+	out := payload + "\000" + strings.Repeat(" ", 512-len(payload))
+	textArg, textFin := wrapString(out)
+	defer textFin()
+	return C.iggSetDragDropPayload(typeArg, textArg, C.int(512)) != 0
+}
+
+// EndDragDropSource only call EndDragDropSource() if BeginDragDropSource() returns true!
+func EndDragDropSource() {
+	C.iggEndDragDropSource()
+}
+
+// BeginDragDropTarget call after submitting an item that may receive an item. If this returns true, you can call AcceptDragDropPayload() + EndDragDropTarget()
+func BeginDragDropTarget() bool {
+	return C.iggBeginDragDropTarget() != 0
+}
+
+// AcceptDragDropPayload accept contents of a given type. If ImGuiDragDropFlags_AcceptBeforeDelivery is set you can peek into the payload before the mouse button is released.
+func AcceptDragDropPayload(type_ string, flags int) string {
+	typeArg, typeFin := wrapString(type_)
+	defer typeFin()
+	out := "\000" + strings.Repeat(" ", 511)
+	textArg, textFin := wrapString(out)
+	defer textFin()
+	C.iggAcceptDragDropPayload(typeArg, C.int(flags), textArg, C.int(512))
+	return C.GoString(textArg)
+}
+
+// EndDragDropTarget only call EndDragDropTarget() if BeginDragDropTarget() returns true!
+func EndDragDropTarget() {
+	C.iggEndDragDropTarget()
 }
 
 // BeginTabBarV create and append into a TabBar
