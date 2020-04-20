@@ -3,9 +3,9 @@ package imgui
 // #cgo CXXFLAGS: -std=c++11
 // #include "imguiWrapper.h"
 import "C"
+
 import (
 	"math"
-	"strings"
 )
 
 // Version returns a version string e.g. "1.23".
@@ -1277,56 +1277,6 @@ func SetColumnOffset(index int, offsetX float32) {
 // ColumnsCount returns number of current columns.
 func ColumnsCount() int {
 	return int(C.iggGetColumnsCount())
-}
-
-// BeginDragDropSource opens the scope for current draw and drop source.
-// Call when current ID is active.
-// When this returns true you need to: a) call SetDragDropPayload() exactly once, b) you may render the payload visual/description, c) call EndDragDropSource()
-func BeginDragDropSource(flags int) bool {
-	return C.iggBeginDragDropSource(C.int(flags)) != 0
-}
-
-// SetDragDropPayload sets the payload for current draw and drop source.
-// type is a user defined string of maximum 32 characters.
-// Strings starting with '_' are reserved for dear imgui internal types.
-// Data is copied and held by imgui.
-func SetDragDropPayload(type_ string, payload string, cond Condition) bool {
-	typeArg, typeFin := wrapString(type_)
-	defer typeFin()
-	out := payload + "\000" + strings.Repeat(" ", 512-len(payload))
-	textArg, textFin := wrapString(out)
-	defer textFin()
-	return C.iggSetDragDropPayload(typeArg, textArg, C.int(512), C.int(cond)) != 0
-}
-
-// EndDragDropSource closes the scope for current draw and drop source.
-// Only call EndDragDropSource() if BeginDragDropSource() returns true.
-func EndDragDropSource() {
-	C.iggEndDragDropSource()
-}
-
-// BeginDragDropTarget must be called after submitting an item that may receive an item.
-// If this returns true, you can call AcceptDragDropPayload() and EndDragDropTarget().
-func BeginDragDropTarget() bool {
-	return C.iggBeginDragDropTarget() != 0
-}
-
-// AcceptDragDropPayload accepts contents of a given type.
-// If ImGuiDragDropFlags_AcceptBeforeDelivery is set you can peek into the payload before the mouse button is released.
-func AcceptDragDropPayload(type_ string, flags int) string {
-	typeArg, typeFin := wrapString(type_)
-	defer typeFin()
-	out := "\000" + strings.Repeat(" ", 511)
-	textArg, textFin := wrapString(out)
-	defer textFin()
-	C.iggAcceptDragDropPayload(typeArg, C.int(flags), textArg, C.int(512))
-	return C.GoString(textArg)
-}
-
-// EndDragDropTarget closed the scope for current drag and drop target.
-// Only call EndDragDropTarget() if BeginDragDropTarget() returns true.
-func EndDragDropTarget() {
-	C.iggEndDragDropTarget()
 }
 
 // BeginTabBarV create and append into a TabBar
