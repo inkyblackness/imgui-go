@@ -65,6 +65,7 @@ extern void iggPushTextWrapPos(float wrapPosX);
 extern void iggPopTextWrapPos(void);
 
 extern void iggPushID(char const *id);
+extern void iggPushIDInt(int id);
 extern void iggPopID(void);
 
 extern void iggTextUnformatted(char const *text);

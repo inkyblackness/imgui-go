@@ -331,6 +331,11 @@ func PushID(id string) {
 	C.iggPushID(idArg)
 }
 
+// PushIDInt pushes the given identifier into the ID stack. IDs are hash of the entire stack!
+func PushIDInt(id int) {
+	C.iggPushIDInt(C.int(id))
+}
+
 // PopID removes the last pushed identifier from the ID stack.
 func PopID() {
 	C.iggPopID()
