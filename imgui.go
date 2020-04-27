@@ -350,6 +350,13 @@ func Text(text string) {
 	C.iggTextUnformatted(textArg)
 }
 
+// Text adds text in disabled style.
+func TextDisabled(text string) {
+	textArg, textFin := wrapString(text)
+	defer textFin()
+	C.iggTextDisabled(textArg)
+}
+
 // LabelText adds text+label aligned the same way as value+label widgets.
 func LabelText(label, text string) {
 	labelArg, labelFin := wrapString(label)

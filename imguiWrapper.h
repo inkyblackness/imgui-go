@@ -69,6 +69,7 @@ extern void iggPushIDInt(int id);
 extern void iggPopID(void);
 
 extern void iggTextUnformatted(char const *text);
+extern void iggTextDisabled(char const *text);
 extern void iggLabelText(char const *label, char const *text);
 
 extern IggBool iggButton(char const *label, IggVec2 const *size);
