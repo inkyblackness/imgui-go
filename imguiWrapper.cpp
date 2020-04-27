@@ -452,6 +452,14 @@ void iggEndGroup(void)
    ImGui::EndGroup();
 }
 
+void iggIndent(float indent_w) {
+   ImGui::Indent(indent_w);
+}
+
+void iggUnindent(float indent_w) {
+   ImGui::Unindent(indent_w);
+}
+
 void iggCursorPos(IggVec2 *pos)
 {
    exportValue(*pos, ImGui::GetCursorPos());

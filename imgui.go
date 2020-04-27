@@ -735,6 +735,26 @@ func Dummy(size Vec2) {
 	C.iggDummy(sizeArg)
 }
 
+// Indent moves content position toward the right by style.IndentSpacing
+func Indent() {
+	C.iggIndent(0)
+}
+
+// Unindent moves content position back to the left by style.IndentSpacing.
+func Unindent() {
+	C.iggUnindent(0)
+}
+
+// IndentV moves content position toward the right, by style.IndentSpacing or indent_w if not zero.
+func IndentV(indent_w float32) {
+	C.iggIndent(C.float(indent_w))
+}
+
+// UnindentV moves content position back to the left, by style.IndentSpacing or indent_w if not zero.
+func UnindentV(indent_w float32) {
+	C.iggUnindent(C.float(indent_w))
+}
+
 // BeginGroup locks horizontal starting position + capture group bounding box into one "item"
 // (so you can use IsItemHovered() or layout primitives such as SameLine() on whole group, etc.)
 func BeginGroup() {
