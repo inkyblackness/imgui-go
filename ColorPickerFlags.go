@@ -3,8 +3,12 @@ package imgui
 const (
 	// ColorPickerFlagsNone default = 0
 	ColorPickerFlagsNone           = 0
+	// ColorPickerFlagsNoPicker disables picker when clicking on colored square.
+	ColorPickerFlagsNoPicker        = 1 << 2  
+	// ColorPickerFlagsNoOptions disables toggling options menu when right-clicking on inputs/small preview.
+	ColorPickerFlagsNoOptions       = 1 << 3   
 	// ColorPickerFlagsNoAlpha ignoreс Alpha component (read 3 components from the input pointer).
-	ColorPickerFlagsNoAlpha = 1 << iota
+	ColorPickerFlagsNoAlpha = 1 << 1
 	// ColorPickerFlagsNoSmallPreview disables colored square preview next to the inputs. (e.g. to show only the inputs)
 	ColorPickerFlagsNoSmallPreview = 1 << 4
 	// ColorPickerFlagsNoInputs disables inputs sliders/text widgets (e.g. to show only the small preview colored square).
@@ -38,4 +42,8 @@ const (
 	ColorPickerFlagsPickerHueBar     = 1 << 25
 	// ColorPickerFlagsPickerHueWheel wheel for Hue, triangle for Sat/Value.
 	ColorPickerFlagsPickerHueWheel   = 1 << 26
+	// ColorPickerFlagsInputRGB enables input and output data in RGB format.
+	ColorPickerFlagsInputRGB        = 1 << 27,  
+	// ColorPickerFlagsInputHSV enables input and output data in HSV format.
+	ColorPickerFlagsInputHSV        = 1 << 28,  
 )
