@@ -4,6 +4,11 @@
 
 #include <string>
 
+IggIO iggGetCurrentIO()
+{
+   return reinterpret_cast<IggIO>(&ImGui::GetIO());
+}
+
 IggBool iggWantCaptureMouse(IggIO handle)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);

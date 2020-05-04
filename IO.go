@@ -9,6 +9,11 @@ type IO struct {
 	handle C.IggIO
 }
 
+// CurrentIO returns access to the ImGui communication struct for the currently active context.
+func CurrentIO() IO {
+	return IO{handle: C.iggGetCurrentIO()}
+}
+
 // WantCaptureMouse returns true if imgui will use the mouse inputs.
 // Do not dispatch them to your main game/application in this case.
 // In either case, always pass on mouse inputs to imgui.

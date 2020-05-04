@@ -2,6 +2,78 @@
 #include "StyleWrapper.h"
 #include "WrapperConverter.h"
 
+IggGuiStyle iggGetCurrentStyle()
+{
+   return reinterpret_cast<IggGuiStyle>(&ImGui::GetStyle());
+}
+
+void iggStyleColorsDark()
+{
+    ImGui::StyleColorsDark();
+}
+
+void iggStyleColorsClassic()
+{
+   ImGui::StyleColorsClassic();
+}
+
+void iggStyleColorsLight()
+{
+   ImGui::StyleColorsLight();
+}
+
+void iggPushStyleColor(int index, IggVec4 const *col)
+{
+   Vec4Wrapper colArg(col);
+   ImGui::PushStyleColor(index, *colArg);
+}
+
+void iggPopStyleColor(int count)
+{
+   ImGui::PopStyleColor(count);
+}
+
+void iggPushStyleVarFloat(int index, float value)
+{
+   ImGui::PushStyleVar(index, value);
+}
+
+void iggPushStyleVarVec2(int index, IggVec2 const *value)
+{
+   Vec2Wrapper valueArg(value);
+   ImGui::PushStyleVar(index, *valueArg);
+}
+
+void iggPopStyleVar(int count)
+{
+   ImGui::PopStyleVar(count);
+}
+
+void iggPushItemWidth(float width)
+{
+   ImGui::PushItemWidth(width);
+}
+
+void iggPopItemWidth(void)
+{
+   ImGui::PopItemWidth();
+}
+
+float iggCalcItemWidth(void)
+{
+   return ImGui::CalcItemWidth();
+}
+
+void iggPushTextWrapPos(float wrapPosX)
+{
+   ImGui::PushTextWrapPos(wrapPosX);
+}
+
+void iggPopTextWrapPos(void)
+{
+   ImGui::PopTextWrapPos();
+}
+
 void iggStyleGetItemInnerSpacing(IggGuiStyle handle, IggVec2 *value)
 {
    ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);

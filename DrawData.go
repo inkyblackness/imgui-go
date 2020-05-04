@@ -4,6 +4,12 @@ package imgui
 import "C"
 import "unsafe"
 
+// RenderedDrawData returns the created draw commands, which are valid after Render() and
+// until the next call to NewFrame(). This is what you have to render.
+func RenderedDrawData() DrawData {
+	return DrawData(C.iggGetDrawData())
+}
+
 // DrawData contains all draw data to render an ImGui frame.
 type DrawData uintptr
 

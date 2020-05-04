@@ -1,6 +1,7 @@
 package imgui
 
 // #cgo CPPFLAGS: -I./imgui-1.76
+// #cgo CXXFLAGS: -std=c++11
 // #cgo CXXFLAGS: -Wno-subobject-linkage
 import "C"
 

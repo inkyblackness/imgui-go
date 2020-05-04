@@ -12,20 +12,13 @@ extern void iggDestroyContext(IggContext context);
 extern IggContext iggGetCurrentContext();
 extern void iggSetCurrentContext(IggContext context);
 
-extern IggIO iggGetCurrentIO(void);
-extern IggGuiStyle iggGetCurrentStyle(void);
 extern void iggNewFrame(void);
 extern void iggRender(void);
-extern IggDrawData iggGetDrawData(void);
 extern void iggEndFrame(void);
 
 extern char const *iggGetVersion(void);
 extern void iggShowDemoWindow(IggBool *open);
 extern void iggShowUserGuide(void);
-
-extern void iggStyleColorsDark();
-extern void iggStyleColorsClassic();
-extern void iggStyleColorsLight();
 
 extern IggBool iggBegin(char const *id, IggBool *open, int flags);
 extern void iggEnd(void);
@@ -49,13 +42,7 @@ extern void iggSetNextWindowBgAlpha(float value);
 
 extern void iggPushFont(IggFont handle);
 extern void iggPopFont(void);
-extern void iggPushStyleColor(int index, IggVec4 const *col);
-extern void iggPopStyleColor(int count);
-extern void iggPushStyleVarFloat(int index, float value);
-extern void iggPushStyleVarVec2(int index, IggVec2 const *value);
-extern void iggPopStyleVar(int count);
 extern void iggCalcTextSize(const char* text, int length, IggBool hide_text_after_double_hash, float wrap_width, IggVec2 *value);
-
 extern float iggGetFontSize();
 
 extern void iggPushItemWidth(float width);

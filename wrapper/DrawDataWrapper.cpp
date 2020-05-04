@@ -2,6 +2,11 @@
 #include "DrawDataWrapper.h"
 #include "WrapperConverter.h"
 
+IggDrawData iggGetDrawData()
+{
+   return reinterpret_cast<IggDrawData>(ImGui::GetDrawData());
+}
+
 IggBool iggDrawDataValid(IggDrawData handle)
 {
    ImDrawData *drawData = reinterpret_cast<ImDrawData *>(handle);

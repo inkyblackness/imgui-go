@@ -23,16 +23,6 @@ void iggSetCurrentContext(IggContext context)
    ImGui::SetCurrentContext(reinterpret_cast<ImGuiContext *>(context));
 }
 
-IggIO iggGetCurrentIO()
-{
-   return reinterpret_cast<IggIO>(&ImGui::GetIO());
-}
-
-IggGuiStyle iggGetCurrentStyle()
-{
-   return reinterpret_cast<IggGuiStyle>(&ImGui::GetStyle());
-}
-
 void iggNewFrame()
 {
    ImGui::NewFrame();
@@ -41,11 +31,6 @@ void iggNewFrame()
 void iggRender()
 {
    ImGui::Render();
-}
-
-IggDrawData iggGetDrawData()
-{
-   return reinterpret_cast<IggDrawData>(ImGui::GetDrawData());
 }
 
 void iggEndFrame()
@@ -63,21 +48,6 @@ void iggShowDemoWindow(IggBool *open)
    BoolWrapper openArg(open);
 
    ImGui::ShowDemoWindow(openArg);
-}
-
-void iggStyleColorsDark()
-{
-    ImGui::StyleColorsDark();
-}
-
-void iggStyleColorsClassic()
-{
-   ImGui::StyleColorsClassic();
-}
-
-void iggStyleColorsLight()
-{
-   ImGui::StyleColorsLight();
 }
 
 void iggShowUserGuide(void)
@@ -188,33 +158,6 @@ void iggPopFont(void)
    ImGui::PopFont();
 }
 
-void iggPushStyleColor(int index, IggVec4 const *col)
-{
-   Vec4Wrapper colArg(col);
-   ImGui::PushStyleColor(index, *colArg);
-}
-
-void iggPopStyleColor(int count)
-{
-   ImGui::PopStyleColor(count);
-}
-
-void iggPushStyleVarFloat(int index, float value)
-{
-   ImGui::PushStyleVar(index, value);
-}
-
-void iggPushStyleVarVec2(int index, IggVec2 const *value)
-{
-   Vec2Wrapper valueArg(value);
-   ImGui::PushStyleVar(index, *valueArg);
-}
-
-void iggPopStyleVar(int count)
-{
-   ImGui::PopStyleVar(count);
-}
-
 float iggGetFontSize()
 {
    return ImGui::GetFontSize();
@@ -223,31 +166,6 @@ float iggGetFontSize()
 void iggCalcTextSize(const char* text, int length, IggBool hide_text_after_double_hash, float wrap_width, IggVec2 *value)
 {
     exportValue(*value, ImGui::CalcTextSize(text, text + length, hide_text_after_double_hash, wrap_width));
-}
-
-void iggPushItemWidth(float width)
-{
-   ImGui::PushItemWidth(width);
-}
-
-void iggPopItemWidth(void)
-{
-   ImGui::PopItemWidth();
-}
-
-float iggCalcItemWidth(void)
-{
-   return ImGui::CalcItemWidth();
-}
-
-void iggPushTextWrapPos(float wrapPosX)
-{
-   ImGui::PushTextWrapPos(wrapPosX);
-}
-
-void iggPopTextWrapPos(void)
-{
-   ImGui::PopTextWrapPos();
 }
 
 void iggPushID(char const *id)

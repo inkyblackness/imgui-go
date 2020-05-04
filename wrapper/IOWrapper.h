@@ -7,6 +7,8 @@ extern "C"
 {
 #endif
 
+extern IggIO iggGetCurrentIO(void);
+
 extern IggBool iggWantCaptureMouse(IggIO handle);
 extern IggBool iggWantCaptureKeyboard(IggIO handle);
 extern IggBool iggWantTextInput(IggIO handle);

@@ -7,6 +7,7 @@ extern "C"
 {
 #endif
 
+extern IggDrawData iggGetDrawData(void);
 extern IggBool iggDrawDataValid(IggDrawData handle);
 extern void iggDrawDataGetCommandLists(IggDrawData handle, void **handles, int *count);
 extern void iggDrawDataScaleClipRects(IggDrawData handle, IggVec2 const *scale);
