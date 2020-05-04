@@ -1,6 +1,6 @@
 package imgui
 
-// #include "StyleWrapper.h"
+// #include "wrapper/StyleWrapper.h"
 import "C"
 
 // StyleVarID identifies a style variable in the UI style.

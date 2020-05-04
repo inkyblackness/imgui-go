@@ -1,6 +1,6 @@
 package imgui
 
-// #include "DrawCommandWrapper.h"
+// #include "wrapper/DrawCommandWrapper.h"
 import "C"
 
 // DrawCommand describes one GPU call (or a callback).

@@ -1,6 +1,6 @@
 package imgui
 
-// #include "FontConfigWrapper.h"
+// #include "wrapper/FontConfigWrapper.h"
 import "C"
 
 // FontConfig describes properties of a single font.

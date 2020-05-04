@@ -1,6 +1,6 @@
 package imgui
 
-// #include "InputTextCallbackDataWrapper.h"
+// #include "wrapper/InputTextCallbackDataWrapper.h"
 import "C"
 import (
 	"sync"
