@@ -7,52 +7,6 @@ import (
 	"unsafe"
 )
 
-const (
-	// InputTextFlagsNone sets everything default.
-	InputTextFlagsNone = 0
-	// InputTextFlagsCharsDecimal allows 0123456789.+-
-	InputTextFlagsCharsDecimal = 1 << 0
-	// InputTextFlagsCharsHexadecimal allow 0123456789ABCDEFabcdef
-	InputTextFlagsCharsHexadecimal = 1 << 1
-	// InputTextFlagsCharsUppercase turns a..z into A..Z.
-	InputTextFlagsCharsUppercase = 1 << 2
-	// InputTextFlagsCharsNoBlank filters out spaces, tabs.
-	InputTextFlagsCharsNoBlank = 1 << 3
-	// InputTextFlagsAutoSelectAll selects entire text when first taking mouse focus.
-	InputTextFlagsAutoSelectAll = 1 << 4
-	// InputTextFlagsEnterReturnsTrue returns 'true' when Enter is pressed (as opposed to when the value was modified).
-	InputTextFlagsEnterReturnsTrue = 1 << 5
-	// InputTextFlagsCallbackCompletion for callback on pressing TAB (for completion handling).
-	InputTextFlagsCallbackCompletion = 1 << 6
-	// InputTextFlagsCallbackHistory for callback on pressing Up/Down arrows (for history handling).
-	InputTextFlagsCallbackHistory = 1 << 7
-	// InputTextFlagsCallbackAlways for callback on each iteration. User code may query cursor position, modify text buffer.
-	InputTextFlagsCallbackAlways = 1 << 8
-	// InputTextFlagsCallbackCharFilter for callback on character inputs to replace or discard them.
-	// Modify 'EventChar' to replace or discard, or return 1 in callback to discard.
-	InputTextFlagsCallbackCharFilter = 1 << 9
-	// InputTextFlagsAllowTabInput when pressing TAB to input a '\t' character into the text field.
-	InputTextFlagsAllowTabInput = 1 << 10
-	// InputTextFlagsCtrlEnterForNewLine in multi-line mode, unfocus with Enter, add new line with Ctrl+Enter
-	// (default is opposite: unfocus with Ctrl+Enter, add line with Enter).
-	InputTextFlagsCtrlEnterForNewLine = 1 << 11
-	// InputTextFlagsNoHorizontalScroll disables following the cursor horizontally.
-	InputTextFlagsNoHorizontalScroll = 1 << 12
-	// InputTextFlagsAlwaysInsertMode sets insert mode.
-	InputTextFlagsAlwaysInsertMode = 1 << 13
-	// InputTextFlagsReadOnly sets read-only mode.
-	InputTextFlagsReadOnly = 1 << 14
-	// InputTextFlagsPassword sets password mode, display all characters as '*'.
-	InputTextFlagsPassword = 1 << 15
-	// InputTextFlagsNoUndoRedo disables undo/redo. Note that input text owns the text data while active,
-	// if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
-	InputTextFlagsNoUndoRedo = 1 << 16
-	// InputTextFlagsCharsScientific allows 0123456789.+-*/eE (Scientific notation input).
-	InputTextFlagsCharsScientific = 1 << 17
-	// inputTextFlagsCallbackResize for callback on buffer capacity change requests.
-	inputTextFlagsCallbackResize = 1 << 18
-)
-
 // InputTextCallback is called for sharing state of an input field.
 // By default, the callback should return 0.
 type InputTextCallback func(InputTextCallbackData) int32
