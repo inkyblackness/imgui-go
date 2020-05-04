@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/DrawListWrapper.h"
+// #include "wrapper/DrawList.h"
 import "C"
 import (
 	"unsafe"

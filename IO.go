@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/IOWrapper.h"
+// #include "wrapper/IO.h"
 import "C"
 
 // IO is where your app communicate with ImGui. Access via CurrentIO().

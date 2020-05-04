@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/imguiWrapper.h"
+// #include "wrapper/Window.h"
 import "C"
 
 // ShowDemoWindow creates a demo/test window. Demonstrates most ImGui features.

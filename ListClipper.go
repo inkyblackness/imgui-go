@@ -1,7 +1,6 @@
 package imgui
 
 // #include "wrapper/ListClipper.h"
-// #include "wrapper/imguiWrapper.h"
 import "C"
 
 // ListClipper is a helper to manually clip large list of items.

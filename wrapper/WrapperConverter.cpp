@@ -1,5 +1,6 @@
-#include "imguiWrappedHeader.h"
-#include "imguiWrapperTypes.h"
+#include "imgui.h"
+
+#include "Types.h"
 #include "WrapperConverter.h"
 
 void importValue(bool &out, IggBool const &in)

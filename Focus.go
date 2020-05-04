@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/imguiWrapper.h"
+// #include "wrapper/Focus.h"
 import "C"
 
 // SetItemDefaultFocus makes the last item the default focused item of a window.

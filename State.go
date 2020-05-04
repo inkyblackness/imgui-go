@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/imguiWrapper.h"
+// #include "wrapper/State.h"
 import "C"
 
 // IsItemClicked returns true if the current item is clicked with the left

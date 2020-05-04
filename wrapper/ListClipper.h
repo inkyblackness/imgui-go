@@ -1,6 +1,6 @@
 #pragma once
 
-#include "imguiWrapperTypes.h"
+#include "Types.h"
 
 #ifdef __cplusplus
 extern "C"

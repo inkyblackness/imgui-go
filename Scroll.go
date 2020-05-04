@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/imguiWrapper.h"
+// #include "wrapper/Scroll.h"
 import "C"
 
 // GetScrollX returns the horizontal scrolling amount [0..GetScrollMaxX()].

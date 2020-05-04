@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/imguiWrapper.h"
+// #include "wrapper/Layout.h"
 import "C"
 
 // Separator is generally horizontal. Inside a menu bar or in horizontal layout mode, this becomes a vertical separator.

@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/DragDropWrapper.h"
+// #include "wrapper/DragDrop.h"
 import "C"
 
 // BeginDragDropSource opens the scope for current draw and drop source.

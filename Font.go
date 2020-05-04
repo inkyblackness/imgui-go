@@ -1,7 +1,7 @@
 package imgui
 
-// #include "wrapper/imguiWrapper.h"
-// #include "wrapper/imguiWrapperTypes.h"
+// #include "wrapper/Font.h"
+// #include "wrapper/Types.h"
 import "C"
 
 // Font describes one loaded font in an atlas.

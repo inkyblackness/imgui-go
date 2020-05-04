@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/DrawDataWrapper.h"
+// #include "wrapper/DrawData.h"
 import "C"
 import "unsafe"
 

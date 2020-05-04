@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/imguiWrapper.h"
+// #include "wrapper/Popup.h"
 import "C"
 
 // OpenPopup marks popup as open (don't call every frame!).

@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/FontAtlasWrapper.h"
+// #include "wrapper/FontAtlas.h"
 import "C"
 import "unsafe"
 

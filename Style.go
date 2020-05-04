@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/StyleWrapper.h"
+// #include "wrapper/Style.h"
 import "C"
 
 // StyleColorID identifies a color in the UI style.
