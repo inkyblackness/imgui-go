@@ -3,25 +3,25 @@ package imgui
 // #include "wrapper/Scroll.h"
 import "C"
 
-// GetScrollX returns the horizontal scrolling amount [0..GetScrollMaxX()].
-func GetScrollX() float32 {
+// ScrollX returns the horizontal scrolling amount [0..GetScrollMaxX()].
+func ScrollX() float32 {
 	return float32(C.iggGetScrollX())
 }
 
-// GetScrollY returns the vertical scrolling amount [0..GetScrollMaxY()].
-func GetScrollY() float32 {
+// ScrollY returns the vertical scrolling amount [0..GetScrollMaxY()].
+func ScrollY() float32 {
 	return float32(C.iggGetScrollY())
 }
 
-// GetScrollMaxX returns the maximum horizontal scrolling amount: ContentSize.X
+// ScrollMaxX returns the maximum horizontal scrolling amount: ContentSize.X
 // - WindowSize.X .
-func GetScrollMaxX() float32 {
+func ScrollMaxX() float32 {
 	return float32(C.iggGetScrollMaxX())
 }
 
-// GetScrollMaxY returns the maximum vertical scrolling amount: ContentSize.Y -
+// ScrollMaxY returns the maximum vertical scrolling amount: ContentSize.Y -
 // WindowSize.Y .
-func GetScrollMaxY() float32 {
+func ScrollMaxY() float32 {
 	return float32(C.iggGetScrollMaxY())
 }
 
