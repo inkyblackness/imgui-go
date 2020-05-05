@@ -12,6 +12,7 @@
 
 // imgui-go code
 #include "wrapper/Context.cpp"
+#include "wrapper/Extra.cpp"
 #include "wrapper/Focus.cpp"
 #include "wrapper/DragDrop.cpp"
 #include "wrapper/DrawCommand.cpp"
@@ -29,7 +30,6 @@
 #include "wrapper/Scroll.cpp"
 #include "wrapper/State.cpp"
 #include "wrapper/Style.cpp"
-#include "wrapper/Utils.cpp"
 #include "wrapper/Widgets.cpp"
 #include "wrapper/Window.cpp"
 #include "wrapper/WrapperConverter.cpp"
