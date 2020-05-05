@@ -1,6 +1,7 @@
 #include "imgui.h"
 
 #include "Layout.h"
+#include "WrapperConverter.h"
 
 void iggSeparator(void)
 {

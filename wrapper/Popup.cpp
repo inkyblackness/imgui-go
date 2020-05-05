@@ -1,6 +1,7 @@
 #include "imgui.h"
 
 #include "Popup.h"
+#include "WrapperConverter.h"
 
 void iggOpenPopup(char const *id)
 {

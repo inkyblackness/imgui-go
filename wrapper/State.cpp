@@ -1,6 +1,7 @@
 #include "imgui.h"
 
 #include "State.h"
+#include "WrapperConverter.h"
 
 IggBool iggIsItemClicked()
 {
