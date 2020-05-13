@@ -8,6 +8,12 @@ void iggStyleGetItemInnerSpacing(IggGuiStyle handle, IggVec2 *value)
    exportValue(*value, style->ItemInnerSpacing);
 }
 
+void iggStyleGetItemSpacing(IggGuiStyle handle, IggVec2 *value)
+{
+   ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
+   exportValue(*value, style->ItemSpacing);
+}
+
 void iggStyleGetFramePadding(IggGuiStyle handle, IggVec2 *value)
 {
    ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);

@@ -7,6 +7,8 @@ extern "C"
 {
 #endif
 
+extern void iggStyleGetItemSpacing(IggGuiStyle handle, IggVec2 *value);
+
 extern void iggStyleGetItemInnerSpacing(IggGuiStyle handle, IggVec2 *value);
 
 extern void iggStyleGetFramePadding(IggGuiStyle handle, IggVec2 *value);
