@@ -61,6 +61,12 @@ func wrapString(value string) (wrapped *C.char, finisher func()) {
 	return
 }
 
+func wrapBytes(value []byte) (wrapped unsafe.Pointer, finisher func()) {
+	wrapped = C.CBytes(value)
+	finisher = func() { C.free(wrapped) } // nolint: gas
+	return
+}
+
 type stringBuffer struct {
 	ptr  unsafe.Pointer
 	size int

@@ -23,6 +23,10 @@ extern char const *iggGetVersion(void);
 extern void iggShowDemoWindow(IggBool *open);
 extern void iggShowUserGuide(void);
 
+extern void iggStyleColorsDark();
+extern void iggStyleColorsClassic();
+extern void iggStyleColorsLight();
+
 extern IggBool iggBegin(char const *id, IggBool *open, int flags);
 extern void iggEnd(void);
 extern IggBool iggBeginChild(char const *id, IggVec2 const *size, IggBool border, int flags);
@@ -33,9 +37,12 @@ extern void iggWindowSize(IggVec2 *size);
 extern float iggWindowWidth(void);
 extern float iggWindowHeight(void);
 extern void iggContentRegionAvail(IggVec2 *size);
+extern void iggGetContentRegionMax(IggVec2 *out);
 
 extern void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot);
 extern void iggSetNextWindowSize(IggVec2 const *size, int cond);
+extern void iggSetNextWindowCollapsed(IggBool collapsed, int cond);
+extern void iggSetNextWindowSizeConstraints(const IggVec2* size_min, const IggVec2* size_max);
 extern void iggSetNextWindowContentSize(IggVec2 const *size);
 extern void iggSetNextWindowFocus(void);
 extern void iggSetNextWindowBgAlpha(float value);
@@ -58,9 +65,11 @@ extern void iggPushTextWrapPos(float wrapPosX);
 extern void iggPopTextWrapPos(void);
 
 extern void iggPushID(char const *id);
+extern void iggPushIDInt(int id);
 extern void iggPopID(void);
 
 extern void iggTextUnformatted(char const *text);
+extern void iggTextDisabled(char const *text);
 extern void iggLabelText(char const *label, char const *text);
 
 extern IggBool iggButton(char const *label, IggVec2 const *size);
@@ -105,6 +114,8 @@ extern void iggSpacing(void);
 extern void iggDummy(IggVec2 const *size);
 extern void iggBeginGroup(void);
 extern void iggEndGroup(void);
+extern void iggIndent(float indent_w);
+extern void iggUnindent(float indent_w);
 
 extern void iggCursorPos(IggVec2 *pos);
 extern float iggCursorPosX(void);
@@ -125,6 +136,8 @@ extern void iggTreePop(void);
 extern void iggSetNextItemOpen(IggBool open, int cond);
 extern float iggGetTreeNodeToLabelSpacing(void);
 
+extern IggBool iggCollapsingHeader(const char* label);
+
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
 extern IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemCount, int heightItems);
 
@@ -144,6 +157,7 @@ extern void iggEndMenu(void);
 extern IggBool iggMenuItem(char const *label, char const *shortcut, IggBool selected, IggBool enabled);
 
 extern void iggOpenPopup(char const *id);
+extern IggBool iggBeginPopup(char const *name, int flags);
 extern IggBool iggBeginPopupModal(char const *name, IggBool *open, int flags);
 extern IggBool iggBeginPopupContextItem(char const *label, int mouseButton);
 extern void iggEndPopup(void);
@@ -178,6 +192,7 @@ extern void iggSetColumnWidth(int index, float width);
 extern float iggGetColumnOffset(int index);
 extern void iggSetColumnOffset(int index, float offsetX);
 extern int iggGetColumnsCount();
+
 extern float iggGetScrollX();
 extern float iggGetScrollY();
 extern float iggGetScrollMaxX();
