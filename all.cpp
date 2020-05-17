@@ -12,7 +12,6 @@
 
 // imgui-go code
 #include "wrapper/Context.cpp"
-#include "wrapper/Extra.cpp"
 #include "wrapper/Focus.cpp"
 #include "wrapper/DragDrop.cpp"
 #include "wrapper/DrawCommand.cpp"
