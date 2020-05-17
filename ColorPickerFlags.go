@@ -15,9 +15,12 @@ const (
 	ColorPickerFlagsNoLabel = 1 << 7
 	// ColorPickerFlagsNoSidePreview disables bigger color preview on right side of the picker, use small colored square preview instead.
 	ColorPickerFlagsNoSidePreview = 1 << 8
+)
 
-	// User Options (right-click on widget to change some of them). You can set application defaults using SetColorEditOptions(). The idea is that you probably don't want to override them in most of your calls, let the user choose and/or call SetColorPickerOptions() during startup.
-
+// User Options (right-click on widget to change some of them). You can set application defaults using SetColorEditOptions().
+// The idea is that you probably don't want to override them in most of your calls, let the user choose and/or call
+// SetColorPickerOptions() during startup.
+const (
 	// ColorPickerFlagsAlphaBar shows vertical alpha bar/gradient in picker.
 	ColorPickerFlagsAlphaBar = 1 << 16
 	// ColorPickerFlagsAlphaPreview displays preview as a transparent color over a checkerboard, instead of opaque.
