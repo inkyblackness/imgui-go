@@ -428,6 +428,13 @@ func Checkbox(id string, selected *bool) bool {
 	return C.iggCheckbox(idArg, selectedArg) != 0
 }
 
+// RadioButton returning true if it is pressed and active indicates if it is selected.
+func RadioButton(id string, active bool) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	return C.iggRadioButton(idArg, castBool(active)) != 0
+}
+
 // ProgressBarV creates a progress bar.
 // size (for each axis) < 0.0f: align to end, 0.0f: auto, > 0.0f: specified size
 func ProgressBarV(fraction float32, size Vec2, overlay string) {
