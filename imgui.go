@@ -901,9 +901,15 @@ func ListBoxV(label string, currentItem *int32, items []string, heightItems int)
 	itemsCount := len(items)
 
 	argv := make([]*C.char, itemsCount)
+	itemFins := make([]func(), 0, itemsCount)
+	defer func() {
+		for _, itemFin := range itemFins {
+			itemFin()
+		}
+	}()
 	for i, item := range items {
-		itemArg, itemDeleter := wrapString(item)
-		defer itemDeleter()
+		itemArg, itemFin := wrapString(item)
+		itemFins = append(itemFins, itemFin)
 		argv[i] = itemArg
 	}
 
