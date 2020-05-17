@@ -613,7 +613,7 @@ func InputTextV(label string, text *string, flags int, cb InputTextCallback) boo
 		C.int(flags|inputTextFlagsCallbackResize), state.key) != 0
 }
 
-// InputText calls InputTextV(label, string, 0, nil)
+// InputText calls InputTextV(label, text, 0, nil)
 func InputText(label string, text *string) bool {
 	return InputTextV(label, text, 0, nil)
 }
