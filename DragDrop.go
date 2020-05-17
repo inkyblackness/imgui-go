@@ -11,7 +11,6 @@ func BeginDragDropSource(flags int) bool {
 }
 
 // SetDragDropPayload sets the payload for current draw and drop source.
-// type is a user defined string of maximum 32 characters.
 // Strings starting with '_' are reserved for dear imgui internal types.
 // Data is copied and held by imgui.
 func SetDragDropPayload(dataType string, data []byte, cond Condition) bool {
