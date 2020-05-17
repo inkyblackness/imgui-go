@@ -1,6 +1,6 @@
 package imgui
 
-// #include "imguiWrapperTypes.h"
+// #include "wrapper/Types.h"
 import "C"
 
 // TextureID is a user data to identify a texture.
