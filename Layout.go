@@ -39,14 +39,14 @@ func Unindent() {
 	C.iggUnindent(0)
 }
 
-// IndentV moves content position toward the right, by style.IndentSpacing or indent_w if not zero.
-func IndentV(indent_w float32) {
-	C.iggIndent(C.float(indent_w))
+// IndentV moves content position toward the right, by style.IndentSpacing or indentW if not zero.
+func IndentV(indentW float32) {
+	C.iggIndent(C.float(indentW))
 }
 
-// UnindentV moves content position back to the left, by style.IndentSpacing or indent_w if not zero.
-func UnindentV(indent_w float32) {
-	C.iggUnindent(C.float(indent_w))
+// UnindentV moves content position back to the left, by style.IndentSpacing or indentW if not zero.
+func UnindentV(indentW float32) {
+	C.iggUnindent(C.float(indentW))
 }
 
 // BeginGroup locks horizontal starting position + capture group bounding box into one "item"
