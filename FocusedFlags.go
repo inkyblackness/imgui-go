@@ -12,7 +12,7 @@ const (
 	FocusedFlagsAnyWindow = 1 << 2
 )
 
-// FocusedFlags combinations
+// This is a list of FocusedFlags combinations.
 const (
 	FocusedFlagsRootAndChildWindows = FocusedFlagsRootWindow | FocusedFlagsChildWindows
 )
