@@ -1,33 +1,7 @@
 package imgui
 
-// #include "DragDropWrapper.h"
+// #include "wrapper/DragDrop.h"
 import "C"
-
-// BeginDragDropSource flags
-const (
-	// DragDropFlagsNone specifies the default behaviour.
-	DragDropFlagsNone = 0
-	// DragDropFlagsSourceNoPreviewTooltip hides the tooltip that is open so you can display a preview or description of the source contents.
-	DragDropFlagsSourceNoPreviewTooltip = 1 << 0
-	// DragDropFlagsSourceNoDisableHover preserves the behaviour of IsItemHovered. By default, when dragging we clear data so that IsItemHovered() will return true, to avoid subsequent user code submitting tooltips.
-	DragDropFlagsSourceNoDisableHover = 1 << 1
-	// DragDropFlagsSourceNoHoldToOpenOthers disables the behavior that allows to open tree nodes and collapsing header by holding over them while dragging a source item.
-	DragDropFlagsSourceNoHoldToOpenOthers = 1 << 2
-	// DragDropFlagsSourceAllowNullID allows items such as Text(), Image() that have no unique identifier to be used as drag source, by manufacturing a temporary identifier based on their window-relative position. This is extremely unusual within the dear ecosystem and so we made it explicit.
-	DragDropFlagsSourceAllowNullID = 1 << 3
-	// DragDropFlagsSourceExtern specifies external source (from outside of), won't attempt to read current item/window info. Will always return true. Only one Extern source can be active simultaneously.
-	DragDropFlagsSourceExtern = 1 << 4
-)
-
-// AcceptDragDropPayload flags
-const (
-	// DragDropFlagsAcceptBeforeDelivery makes AcceptDragDropPayload() return true even before the mouse button is released. You can then call IsDelivery() to test if the payload needs to be delivered.
-	DragDropFlagsAcceptBeforeDelivery = 1 << 10
-	// DragDropFlagsAcceptNoDrawDefaultRect does not draw the default highlight rectangle when hovering over target.
-	DragDropFlagsAcceptNoDrawDefaultRect = 1 << 11
-	// DragDropFlagsAcceptPeekOnly is for peeking ahead and inspecting the payload before delivery.
-	DragDropFlagsAcceptPeekOnly = DragDropFlagsAcceptBeforeDelivery | DragDropFlagsAcceptNoDrawDefaultRect
-)
 
 // BeginDragDropSource opens the scope for current draw and drop source.
 // Call when current ID is active.

@@ -1,6 +1,6 @@
 package imgui
 
-// #include "imguiWrapperTypes.h"
+// #include "wrapper/Types.h"
 import "C"
 
 // Vec2 represents a two-dimensional vector.
