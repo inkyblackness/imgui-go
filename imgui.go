@@ -3,6 +3,7 @@ package imgui
 // #cgo CXXFLAGS: -std=c++11
 // #include "imguiWrapper.h"
 import "C"
+
 import (
 	"math"
 )
@@ -57,6 +58,21 @@ func ShowDemoWindow(open *bool) {
 // ShowUserGuide adds basic help/info block (not a window): how to manipulate ImGui as a end-user (mouse/keyboard controls).
 func ShowUserGuide() {
 	C.iggShowUserGuide()
+}
+
+// StyleColorsDark sets the new, recommended style (default)
+func StyleColorsDark() {
+	C.iggStyleColorsDark()
+}
+
+// StyleColorsClassic sets the classic style
+func StyleColorsClassic() {
+	C.iggStyleColorsClassic()
+}
+
+// StyleColorsLight sets the light style, best used with borders and a custom, thicker font
+func StyleColorsLight() {
+	C.iggStyleColorsLight()
 }
 
 // BeginV pushes a new window to the stack and start appending to it.
@@ -142,6 +158,15 @@ func ContentRegionAvail() Vec2 {
 	return value
 }
 
+// ContentRegionMax returns current content boundaries (typically window boundaries including scrolling, or current column boundaries), in windows coordinates
+func ContentRegionMax() Vec2 {
+	out := Vec2{}
+	outArg, outFin := out.wrapped()
+	C.iggGetContentRegionMax(outArg)
+	outFin()
+	return out
+}
+
 // SetNextWindowPosV sets next window position.
 // Call before Begin(). Use pivot=(0.5,0.5) to center on given point, etc.
 func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2) {
@@ -155,6 +180,11 @@ func SetNextWindowPos(pos Vec2) {
 	SetNextWindowPosV(pos, 0, Vec2{})
 }
 
+// SetNextWindowCollapsed sets the next window collapsed state.
+func SetNextWindowCollapsed(collapsed bool, cond Condition) {
+	C.iggSetNextWindowCollapsed(castBool(collapsed), C.int(cond))
+}
+
 // SetNextWindowSizeV sets next window size.
 // Set axis to 0.0 to force an auto-fit on this axis. Call before Begin().
 func SetNextWindowSizeV(size Vec2, cond Condition) {
@@ -165,6 +195,13 @@ func SetNextWindowSizeV(size Vec2, cond Condition) {
 // SetNextWindowSize calls SetNextWindowSizeV(size, 0)
 func SetNextWindowSize(size Vec2) {
 	SetNextWindowSizeV(size, 0)
+}
+
+// SetNextWindowSizeConstraints set next window size limits. use -1,-1 on either X/Y axis to preserve the current size. Use callback to apply non-trivial programmatic constraints.
+func SetNextWindowSizeConstraints(sizeMin Vec2, sizeMax Vec2) {
+	sizeMinArg, _ := sizeMin.wrapped()
+	sizeMaxArg, _ := sizeMax.wrapped()
+	C.iggSetNextWindowSizeConstraints(sizeMinArg, sizeMaxArg)
 }
 
 // SetNextWindowContentSize sets next window content size (~ enforce the range of scrollbars).
@@ -292,6 +329,11 @@ func PushID(id string) {
 	idArg, idFin := wrapString(id)
 	defer idFin()
 	C.iggPushID(idArg)
+}
+
+// PushIDInt pushes the given identifier into the ID stack. IDs are hash of the entire stack!
+func PushIDInt(id int) {
+	C.iggPushIDInt(C.int(id))
 }
 
 // PopID removes the last pushed identifier from the ID stack.
@@ -665,6 +707,13 @@ func Separator() {
 	C.iggSeparator()
 }
 
+// CollapsingHeader adds a collapsing header.
+func CollapsingHeader(label string) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	return C.iggCollapsingHeader(labelArg) != 0
+}
+
 // SameLineV is between widgets or groups to layout them horizontally.
 func SameLineV(posX float32, spacingW float32) {
 	C.iggSameLine(C.float(posX), C.float(spacingW))
@@ -684,6 +733,26 @@ func Spacing() {
 func Dummy(size Vec2) {
 	sizeArg, _ := size.wrapped()
 	C.iggDummy(sizeArg)
+}
+
+// Indent moves content position toward the right by style.IndentSpacing
+func Indent() {
+	C.iggIndent(0)
+}
+
+// Unindent moves content position back to the left by style.IndentSpacing.
+func Unindent() {
+	C.iggUnindent(0)
+}
+
+// IndentV moves content position toward the right, by style.IndentSpacing or indent_w if not zero.
+func IndentV(indent_w float32) {
+	C.iggIndent(C.float(indent_w))
+}
+
+// UnindentV moves content position back to the left, by style.IndentSpacing or indent_w if not zero.
+func UnindentV(indent_w float32) {
+	C.iggUnindent(C.float(indent_w))
 }
 
 // BeginGroup locks horizontal starting position + capture group bounding box into one "item"
@@ -1001,6 +1070,19 @@ func OpenPopup(id string) {
 	idArg, idFin := wrapString(id)
 	defer idFin()
 	C.iggOpenPopup(idArg)
+}
+
+// BeginPopupV returns true if the popup is open, and you can start outputting to it.
+// Only call EndPopup() if BeginPopup() returns true.
+func BeginPopupV(name string, flags int) bool {
+	nameArg, nameFin := wrapString(name)
+	defer nameFin()
+	return C.iggBeginPopup(nameArg, C.int(flags)) != 0
+}
+
+// BeginPopup calls BeginPopupV(name, nil, 0)
+func BeginPopup(name string) bool {
+	return BeginPopupV(name, 0)
 }
 
 // BeginPopupModalV creates modal dialog (regular window with title bar, block interactions behind the modal window,

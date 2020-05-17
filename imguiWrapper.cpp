@@ -65,6 +65,21 @@ void iggShowDemoWindow(IggBool *open)
    ImGui::ShowDemoWindow(openArg);
 }
 
+void iggStyleColorsDark()
+{
+    ImGui::StyleColorsDark();
+}
+
+void iggStyleColorsClassic()
+{
+   ImGui::StyleColorsClassic();
+}
+
+void iggStyleColorsLight()
+{
+   ImGui::StyleColorsLight();
+}
+
 void iggShowUserGuide(void)
 {
    ImGui::ShowUserGuide();
@@ -117,6 +132,11 @@ void iggContentRegionAvail(IggVec2 *size)
    exportValue(*size, ImGui::GetContentRegionAvail());
 }
 
+void iggGetContentRegionMax(IggVec2 *out){
+    ImVec2 im_out = ImGui::GetContentRegionMax();
+    exportValue(*out, im_out);
+}
+
 void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
 {
    Vec2Wrapper posArg(pos);
@@ -124,10 +144,21 @@ void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
    ImGui::SetNextWindowPos(*posArg, cond, *pivotArg);
 }
 
+void iggSetNextWindowCollapsed(IggBool collapsed, int cond) {
+   ImGui::SetNextWindowCollapsed(collapsed, cond);
+}
+
 void iggSetNextWindowSize(IggVec2 const *size, int cond)
 {
    Vec2Wrapper sizeArg(size);
    ImGui::SetNextWindowSize(*sizeArg, cond);
+}
+
+void iggSetNextWindowSizeConstraints(const IggVec2* size_min, const IggVec2* size_max)
+{
+   Vec2Wrapper sizeMinArg(size_min);
+   Vec2Wrapper sizeMaxArg(size_max);
+   ImGui::SetNextWindowSizeConstraints(*sizeMinArg, *sizeMaxArg);
 }
 
 void iggSetNextWindowContentSize(IggVec2 const *size)
@@ -223,6 +254,12 @@ void iggPushID(char const *id)
 {
    ImGui::PushID(id);
 }
+
+void iggPushIDInt(int id)
+{
+   ImGui::PushID(id);
+}
+
 void iggPopID(void)
 {
    ImGui::PopID();
@@ -384,6 +421,11 @@ void iggSeparator(void)
    ImGui::Separator();
 }
 
+IggBool iggCollapsingHeader(const char* label)
+{
+   return ImGui::CollapsingHeader(label) ? 1 : 0;
+}
+
 void iggSameLine(float posX, float spacingW)
 {
    ImGui::SameLine(posX, spacingW);
@@ -408,6 +450,14 @@ void iggBeginGroup(void)
 void iggEndGroup(void)
 {
    ImGui::EndGroup();
+}
+
+void iggIndent(float indent_w) {
+   ImGui::Indent(indent_w);
+}
+
+void iggUnindent(float indent_w) {
+   ImGui::Unindent(indent_w);
 }
 
 void iggCursorPos(IggVec2 *pos)
@@ -568,6 +618,11 @@ IggBool iggMenuItem(char const *label, char const *shortcut, IggBool selected, I
 void iggOpenPopup(char const *id)
 {
    ImGui::OpenPopup(id);
+}
+
+IggBool iggBeginPopup(char const *name, int flags)
+{
+   return ImGui::BeginPopup(name, flags) ? 1 : 0;
 }
 
 IggBool iggBeginPopupModal(char const *name, IggBool *open, int flags)
