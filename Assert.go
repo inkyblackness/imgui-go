@@ -2,20 +2,34 @@ package imgui
 
 import "C"
 import (
-	"errors"
 	"fmt"
 )
 
 // AssertHandler is a handler for an assertion that happened in the native part of ImGui.
 type AssertHandler func(expression string, file string, line int)
 
-var assertHandler AssertHandler = func(expression string, file string, line int) {
-	message := fmt.Sprintf(`Assertion failed!
+// AssertionError is the standard error being thrown by the default handler.
+type AssertionError struct {
+	Expression string
+	File       string
+	Line       int
+}
+
+// Error returns the string representation.
+func (err AssertionError) Error() string {
+	return fmt.Sprintf(`Assertion failed!
 File: %s, Line %d
 
 Expression: %s
-`, file, line, expression)
-	panic(errors.New(message))
+`, err.File, err.Line, err.Expression)
+}
+
+var assertHandler AssertHandler = func(expression string, file string, line int) {
+	panic(AssertionError{
+		Expression: expression,
+		File:       file,
+		Line:       line,
+	})
 }
 
 // SetAssertHandler registers a handler function for all future assertions.

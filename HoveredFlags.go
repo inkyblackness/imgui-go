@@ -21,7 +21,7 @@ const (
 	HoveredFlagsAllowWhenDisabled = 1 << 7
 )
 
-// HoveredFlags combinations
+// This is a list of HoveredFlags combinations.
 const (
 	HoveredFlagsRectOnly            = HoveredFlagsAllowWhenBlockedByPopup | HoveredFlagsAllowWhenBlockedByActiveItem | HoveredFlagsAllowWhenOverlapped
 	HoveredFlagsRootAndChildWindows = HoveredFlagsRootWindow | HoveredFlagsChildWindows

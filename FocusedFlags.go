@@ -8,11 +8,13 @@ const (
 	FocusedFlagsChildWindows = 1 << 0
 	// FocusedFlagsRootWindow tests from root window (top most parent of the current hierarchy)
 	FocusedFlagsRootWindow = 1 << 1
-	// FocusedFlagsAnyWindow returns true if any window is focused. Important: If you are trying to tell how to dispatch your low-level inputs, do NOT use this. Use WantCaptureMouse instead.
+	// FocusedFlagsAnyWindow returns true if any window is focused.
+	// Important: If you are trying to tell how to dispatch your low-level inputs, do NOT use this.
+	// Use WantCaptureMouse instead.
 	FocusedFlagsAnyWindow = 1 << 2
 )
 
-// FocusedFlags combinations
+// This is a list of FocusedFlags combinations.
 const (
 	FocusedFlagsRootAndChildWindows = FocusedFlagsRootWindow | FocusedFlagsChildWindows
 )
