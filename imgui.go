@@ -676,8 +676,8 @@ func ColorEdit4V(label string, col *[4]float32, flags int) bool {
 	return C.iggColorEdit4(labelArg, ccol, C.int(flags)) != 0
 }
 
-// ColorPicker3 calls ColorPicker3(label, col, 0)
-func ColorPicker3(label string, col *[3]float32, flags int) bool {
+// ColorPicker3 calls ColorPicker3V(label, col, 0)
+func ColorPicker3(label string, col *[3]float32) bool {
 	return ColorPicker3V(label, col, 0)
 }
 
@@ -689,9 +689,9 @@ func ColorPicker3V(label string, col *[3]float32, flags int) bool {
 	return C.iggColorPicker3(labelArg, ccol, C.int(flags)) != 0
 }
 
-// ColorPicker4 calls ColorPicker4(label, col, 0)
-func ColorPicker4(label string, col *[4]float32, flags int) bool {
-	return ColorPicker4(label, col, 0)
+// ColorPicker4 calls ColorPicker4V(label, col, 0)
+func ColorPicker4(label string, col *[4]float32) bool {
+	return ColorPicker4V(label, col, 0)
 }
 
 // ColorPicker4V will show directly a color picker control for editing a color in 4D vector (rgba format).
