@@ -8,7 +8,6 @@ extern "C"
 #endif
 
 extern void iggTextUnformatted(char const *text);
-extern void iggTextDisabled(char const *text);
 extern void iggLabelText(char const *label, char const *text);
 
 extern IggBool iggButton(char const *label, IggVec2 const *size);

@@ -8,11 +8,6 @@ void iggTextUnformatted(char const *text)
    ImGui::TextUnformatted(text);
 }
 
-void iggTextDisabled(char const *text)
-{
-   ImGui::TextDisabled(text);
-}
-
 void iggLabelText(char const *label, char const *text)
 {
    ImGui::LabelText(label, "%s", text);
