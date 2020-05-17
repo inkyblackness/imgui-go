@@ -13,6 +13,7 @@ linters:
     - gochecknoglobals
     - gochecknoinits
     - goimports # disabled because of so many false-positives with "imgui-go"
+    - godot # TODO: enable this as soon as big refactoring is done (cpp in sub-directory).
     - gosec
     - maligned
     - dupl
