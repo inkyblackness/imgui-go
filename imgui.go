@@ -435,6 +435,12 @@ func RadioButton(id string, active bool) bool {
 	return C.iggRadioButton(idArg, castBool(active)) != 0
 }
 
+// Bullet draws a small circle and keeps the cursor on the same line.
+// Advance cursor x position by TreeNodeToLabelSpacing(), same distance that TreeNode() uses.
+func Bullet() {
+	C.iggBullet()
+}
+
 // ProgressBarV creates a progress bar.
 // size (for each axis) < 0.0f: align to end, 0.0f: auto, > 0.0f: specified size
 func ProgressBarV(fraction float32, size Vec2, overlay string) {

@@ -82,6 +82,7 @@ extern IggBool iggImageButton(IggTextureID textureID,
 	IggVec4 const *tintCol);
 extern IggBool iggCheckbox(char const *label, IggBool *selected);
 extern IggBool iggRadioButton(char const *label, IggBool active);
+extern void iggBullet();
 extern void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay);
 
 extern IggBool iggBeginCombo(char const *label, char const *previewValue, int flags);

@@ -323,6 +323,11 @@ IggBool iggRadioButton(char const *label, IggBool active)
    return ImGui::RadioButton(label, active != 0) ? 1 : 0;
 }
 
+void iggBullet()
+{
+   ImGui::Bullet();
+}
+
 void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay)
 {
    Vec2Wrapper sizeArg(size);
