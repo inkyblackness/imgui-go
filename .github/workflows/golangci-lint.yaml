@@ -1,0 +1,24 @@
+name: golangci-lint
+on: [push, pull-request]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+      - name: Print go version
+        run: go version
+      - name: Check out module
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Install golangci-lint
+        run: curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.21.0
+
+      - name: Run golangci-lint
+        run: $(go env GOPATH)/bin/golangci-lint run
