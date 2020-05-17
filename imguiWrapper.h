@@ -101,6 +101,7 @@ extern IggBool iggVSliderInt(char const *label, IggVec2 const *size, int *value,
 
 extern IggBool iggInputText(char const* label, char* buf, unsigned int bufSize, int flags, int callbackKey);
 extern IggBool iggInputTextMultiline(char const* label, char* buf, unsigned int bufSize, IggVec2 const *size, int flags, int callbackKey);
+extern IggBool iggInputTextWithHint(char const* label, char const* hint, char* buf, unsigned int bufSize, int flags, int callbackKey);
 
 extern IggBool iggInputInt(char const *label, int *value, int step, int step_fast, int flags);
 

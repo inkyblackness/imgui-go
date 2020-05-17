@@ -648,6 +648,37 @@ func InputTextMultiline(label string, text *string) bool {
 	return InputTextMultilineV(label, text, Vec2{}, 0, nil)
 }
 
+// InputTextWithHintV creates a text field for dynamic text input with a hint.
+//
+// Contrary to the original library, this wrapper does not limit the maximum number of possible characters.
+// Dynamic resizing of the internal buffer is handled within the wrapper and the user will never be called for such requests.
+//
+// The provided callback is called for any of the requested InputTextFlagsCallback* flags.
+//
+// To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
+func InputTextWithHintV(label string, hint string, text *string, flags int, cb InputTextCallback) bool {
+	if text == nil {
+		panic("text can't be nil")
+	}
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	hintArg, hintFin := wrapString(hint)
+	defer hintFin()
+	state := newInputTextState(*text, cb)
+	defer func() {
+		*text = state.buf.toGo()
+		state.release()
+	}()
+
+	return C.iggInputTextWithHint(labelArg, hintArg, (*C.char)(state.buf.ptr), C.uint(state.buf.size),
+		C.int(flags|inputTextFlagsCallbackResize), state.key) != 0
+}
+
+// InputTextWithHint calls InputTextWithHintV(label, hint, text, 0, nil)
+func InputTextWithHint(label string, hint string, text *string) bool {
+	return InputTextWithHintV(label, hint, text, 0, nil)
+}
+
 // InputIntV creates a input field for integer type.
 func InputIntV(label string, value *int32, step int, stepFast int, flags int) bool {
 	labelArg, labelFin := wrapString(label)
