@@ -1,5 +1,5 @@
 service:
-  golangci-lint-version: 1.21.x
+  golangci-lint-version: 1.27.x
 
 run:
   deadline: 5m
@@ -13,6 +13,7 @@ linters:
     - gochecknoglobals
     - gochecknoinits
     - goimports # disabled because of so many false-positives with "imgui-go"
+    - godot # TODO: enable this as soon as big refactoring is done (cpp in sub-directory).
     - gosec
     - maligned
     - dupl
