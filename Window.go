@@ -188,9 +188,9 @@ func PushTextWrapPosV(wrapPosX float32) {
 	C.iggPushTextWrapPos(C.float(wrapPosX))
 }
 
-// PushTextWrapPos calls PushTextWrapPosV(0.0).
+// PushTextWrapPos calls PushTextWrapPosV(0).
 func PushTextWrapPos() {
-	PushTextWrapPosV(0.0)
+	PushTextWrapPosV(0)
 }
 
 // PopTextWrapPos resets the last pushed position.

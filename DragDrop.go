@@ -3,9 +3,10 @@ package imgui
 // #include "wrapper/DragDrop.h"
 import "C"
 
-// BeginDragDropSource opens the scope for current draw and drop source.
-// Call when current ID is active.
-// When this returns true you need to: a) call SetDragDropPayload() exactly once, b) you may render the payload visual/description, c) call EndDragDropSource()
+// When this returns true you need to:
+// a) call SetDragDropPayload() exactly once,
+// b) you may render the payload visual/description,
+// c) call EndDragDropSource().
 func BeginDragDropSource(flags int) bool {
 	return C.iggBeginDragDropSource(C.int(flags)) != 0
 }
