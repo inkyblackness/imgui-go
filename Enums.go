@@ -182,7 +182,9 @@ const (
 	// ColorEditFlagsNoBorder disables border (which is enforced by default)
 	ColorEditFlagsNoBorder = 1 << 10
 
-	// User Options (right-click on widget to change some of them). You can set application defaults using SetColorEditOptions(). The idea is that you probably don't want to override them in most of your calls, let the user choose and/or call SetColorEditOptions() during startup.
+	// User Options (right-click on widget to change some of them). You can set application defaults using SetColorEditOptions().
+	// The idea is that you probably don't want to override them in most of your calls, let the user choose and/or call
+	// SetColorEditOptions() during startup.
 
 	// ColorEditFlagsAlphaBar shows vertical alpha bar/gradient in picker.
 	ColorEditFlagsAlphaBar = 1 << 16
@@ -190,7 +192,8 @@ const (
 	ColorEditFlagsAlphaPreview = 1 << 17
 	// ColorEditFlagsAlphaPreviewHalf displays half opaque / half checkerboard, instead of opaque.
 	ColorEditFlagsAlphaPreviewHalf = 1 << 18
-	// ColorEditFlagsHDR = (WIP) surrently only disable 0.0f..1.0f limits in RGBA edition (note: you probably want to use ImGuiColorEditFlags_Float flag as well).
+	// ColorEditFlagsHDR = (WIP) surrently only disable 0.0f..1.0f limits in RGBA edition.
+	// Note: you probably want to use ImGuiColorEditFlags_Float flag as well.
 	ColorEditFlagsHDR = 1 << 19
 	// ColorEditFlagsRGB sets the format as RGB
 	ColorEditFlagsRGB = 1 << 20
@@ -233,7 +236,9 @@ const (
 	// ColorPickerFlagsNoSidePreview disables bigger color preview on right side of the picker, use small colored square preview instead.
 	ColorPickerFlagsNoSidePreview = 1 << 8
 
-	// User Options (right-click on widget to change some of them). You can set application defaults using SetColorEditOptions(). The idea is that you probably don't want to override them in most of your calls, let the user choose and/or call SetColorPickerOptions() during startup.
+	// User Options (right-click on widget to change some of them). You can set application defaults using SetColorEditOptions().
+	// The idea is that you probably don't want to override them in most of your calls, let the user choose and/or call
+	// SetColorPickerOptions() during startup.
 
 	// ColorPickerFlagsAlphaBar shows vertical alpha bar/gradient in picker.
 	ColorPickerFlagsAlphaBar = 1 << 16
@@ -316,7 +321,7 @@ const (
 	ConfigFlagIsTouchScreen = 1 << 21
 )
 
-// BeginDragDropSource flags
+// This is a list of BeginDragDropSource flags.
 const (
 	// DragDropFlagsNone specifies the default behaviour.
 	DragDropFlagsNone = 0
@@ -332,7 +337,7 @@ const (
 	DragDropFlagsSourceExtern = 1 << 4
 )
 
-// AcceptDragDropPayload flags
+// This is a list of AcceptDragDropPayload flags.
 const (
 	// DragDropFlagsAcceptBeforeDelivery makes AcceptDragDropPayload() return true even before the mouse button is released. You can then call IsDelivery() to test if the payload needs to be delivered.
 	DragDropFlagsAcceptBeforeDelivery = 1 << 10
@@ -342,6 +347,7 @@ const (
 	DragDropFlagsAcceptPeekOnly = DragDropFlagsAcceptBeforeDelivery | DragDropFlagsAcceptNoDrawDefaultRect
 )
 
+// This is a list of FocusedFlags combinations.
 const (
 	// FocusedFlagsNone Return true if directly over the item/window, not obstructed by another window,
 	// not obstructed by an active popup or modal blocking inputs under them.
@@ -350,7 +356,9 @@ const (
 	FocusedFlagsChildWindows = 1 << 0
 	// FocusedFlagsRootWindow tests from root window (top most parent of the current hierarchy)
 	FocusedFlagsRootWindow = 1 << 1
-	// FocusedFlagsAnyWindow returns true if any window is focused. Important: If you are trying to tell how to dispatch your low-level inputs, do NOT use this. Use WantCaptureMouse instead.
+	// FocusedFlagsAnyWindow returns true if any window is focused.
+	// Important: If you are trying to tell how to dispatch your low-level inputs, do NOT use this.
+	// Use WantCaptureMouse instead.
 	FocusedFlagsAnyWindow = 1 << 2
 
 	FocusedFlagsRootAndChildWindows = FocusedFlagsRootWindow | FocusedFlagsChildWindows
@@ -381,6 +389,7 @@ const (
 	FreeTypeRasterizerFlagsMonochrome = 1 << 7
 )
 
+// This is a list of HoveredFlags combinations.
 const (
 	// HoveredFlagsNone Return true if directly over the item/window, not obstructed by another window,
 	// not obstructed by an active popup or modal blocking inputs under them.
@@ -452,7 +461,8 @@ const (
 )
 
 // Enumeration for MouseCursor()
-// User code may request binding to display given cursor by calling SetMouseCursor(), which is why we have some cursors that are marked unused here
+// User code may request binding to display given cursor by calling SetMouseCursor(),
+// which is why we have some cursors that are marked unused here.
 const (
 	// MouseCursorNone no mouse cursor
 	MouseCursorNone = -1
