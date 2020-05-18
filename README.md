@@ -2,7 +2,7 @@
 
 [![Go Doc](https://godoc.org/github.com/inkyblackness/imgui-go?status.svg)](https://godoc.org/github.com/inkyblackness/imgui-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/inkyblackness/imgui-go)](https://goreportcard.com/report/github.com/inkyblackness/imgui-go)
-[![GolangCI](https://golangci.com/badges/github.com/inkyblackness/imgui-go.svg)](https://golangci.com)
+[![Lint Status](https://github.com/inkyblackness/imgui-go/workflows/golangci-lint/badge.svg)](https://github.com/inkyblackness/imgui-go/actions)
 
 This library is a [Go](https://www.golang.org) wrapper for **[Dear ImGui](https://github.com/ocornut/imgui)**.
 
