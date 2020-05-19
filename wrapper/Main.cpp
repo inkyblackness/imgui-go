@@ -1,6 +1,6 @@
 #include "ConfiguredImGui.h"
 
-#include "Misc.h"
+#include "Main.h"
 
 char const *iggGetVersion()
 {
@@ -21,5 +21,3 @@ void iggEndFrame()
 {
    ImGui::EndFrame();
 }
-
-

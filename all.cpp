@@ -24,7 +24,7 @@
 #include "wrapper/IO.cpp"
 #include "wrapper/Layout.cpp"
 #include "wrapper/ListClipper.cpp"
-#include "wrapper/Misc.cpp"
+#include "wrapper/Main.cpp"
 #include "wrapper/Popup.cpp"
 #include "wrapper/Scroll.cpp"
 #include "wrapper/State.cpp"

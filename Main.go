@@ -1,6 +1,6 @@
 package imgui
 
-// #include "wrapper/Misc.h"
+// #include "wrapper/Main.h"
 import "C"
 
 // Version returns a version string e.g. "1.23".
