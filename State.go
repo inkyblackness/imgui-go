@@ -45,6 +45,23 @@ func IsWindowCollapsed() bool {
 	return C.iggIsWindowCollapsed() != 0
 }
 
+// This is a list of FocusedFlags combinations.
+const (
+	// FocusedFlagsNone Return true if directly over the item/window, not obstructed by another window,
+	// not obstructed by an active popup or modal blocking inputs under them.
+	FocusedFlagsNone = 0
+	// FocusedFlagsChildWindows returns true if any children of the window is focused
+	FocusedFlagsChildWindows = 1 << 0
+	// FocusedFlagsRootWindow tests from root window (top most parent of the current hierarchy)
+	FocusedFlagsRootWindow = 1 << 1
+	// FocusedFlagsAnyWindow returns true if any window is focused.
+	// Important: If you are trying to tell how to dispatch your low-level inputs, do NOT use this.
+	// Use WantCaptureMouse instead.
+	FocusedFlagsAnyWindow = 1 << 2
+
+	FocusedFlagsRootAndChildWindows = FocusedFlagsRootWindow | FocusedFlagsChildWindows
+)
+
 // IsWindowFocusedV returns if current window is focused or its root/child, depending on flags. See flags for options.
 func IsWindowFocusedV(flags int) bool {
 	return C.iggIsWindowFocused(C.int(flags)) != 0
@@ -54,6 +71,31 @@ func IsWindowFocusedV(flags int) bool {
 func IsWindowFocused() bool {
 	return IsWindowFocusedV(FocusedFlagsNone)
 }
+
+// This is a list of HoveredFlags combinations.
+const (
+	// HoveredFlagsNone Return true if directly over the item/window, not obstructed by another window,
+	// not obstructed by an active popup or modal blocking inputs under them.
+	HoveredFlagsNone = 0
+	// HoveredFlagsChildWindows IsWindowHovered() only: Return true if any children of the window is hovered.
+	HoveredFlagsChildWindows = 1 << 0
+	// HoveredFlagsRootWindow IsWindowHovered() only: Test from root window (top most parent of the current hierarchy).
+	HoveredFlagsRootWindow = 1 << 1
+	// HoveredFlagsAnyWindow IsWindowHovered() only: Return true if any window is hovered.
+	HoveredFlagsAnyWindow = 1 << 2
+	// HoveredFlagsAllowWhenBlockedByPopup Return true even if a popup window is normally blocking access to this item/window.
+	HoveredFlagsAllowWhenBlockedByPopup = 1 << 3
+	// HoveredFlagsAllowWhenBlockedByActiveItem Return true even if an active item is blocking access to this item/window.
+	// Useful for Drag and Drop patterns.
+	HoveredFlagsAllowWhenBlockedByActiveItem = 1 << 5
+	// HoveredFlagsAllowWhenOverlapped Return true even if the position is overlapped by another window
+	HoveredFlagsAllowWhenOverlapped = 1 << 6
+	// HoveredFlagsAllowWhenDisabled Return true even if the item is disabled
+	HoveredFlagsAllowWhenDisabled = 1 << 7
+
+	HoveredFlagsRectOnly            = HoveredFlagsAllowWhenBlockedByPopup | HoveredFlagsAllowWhenBlockedByActiveItem | HoveredFlagsAllowWhenOverlapped
+	HoveredFlagsRootAndChildWindows = HoveredFlagsRootWindow | HoveredFlagsChildWindows
+)
 
 // IsWindowHoveredV returns if current window is hovered (and typically: not blocked by a popup/modal).
 // See flags for options. NB: If you are trying to check whether your mouse should be dispatched to imgui or to your app,
