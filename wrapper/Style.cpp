@@ -10,7 +10,7 @@ IggGuiStyle iggGetCurrentStyle()
 
 void iggStyleColorsDark()
 {
-    ImGui::StyleColorsDark();
+   ImGui::StyleColorsDark();
 }
 
 void iggStyleColorsClassic()

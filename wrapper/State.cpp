@@ -28,11 +28,13 @@ IggBool iggIsItemVisible()
    return ImGui::IsItemVisible() ? 1 : 0;
 }
 
-IggBool iggIsWindowAppearing() {
+IggBool iggIsWindowAppearing()
+{
    return ImGui::IsWindowAppearing() ? 1 : 0;
 }
 
-IggBool iggIsWindowCollapsed() {
+IggBool iggIsWindowCollapsed()
+{
    return ImGui::IsWindowCollapsed() ? 1 : 0;
 }
 

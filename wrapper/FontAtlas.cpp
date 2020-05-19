@@ -57,11 +57,11 @@ IggFont iggAddFontDefaultV(IggFontAtlas handle, IggFontConfig config)
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
    ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(config);
    ImFont *font = fontAtlas->AddFontDefault(fontConfig);
-   return static_cast<IggFont>(font);  
+   return static_cast<IggFont>(font);
 }
 
 IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float sizePixels,
-      IggFontConfig config, IggGlyphRanges glyphRanges)
+   IggFontConfig config, IggGlyphRanges glyphRanges)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
    ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(config);
@@ -71,7 +71,7 @@ IggFont iggAddFontFromFileTTF(IggFontAtlas handle, char const *filename, float s
 }
 
 IggFont iggAddFontFromMemoryTTF(IggFontAtlas handle, char *font_data, int font_size, float sizePixels,
-      IggFontConfig config, IggGlyphRanges glyphRanges)
+   IggFontConfig config, IggGlyphRanges glyphRanges)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
    ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(config);
@@ -80,7 +80,6 @@ IggFont iggAddFontFromMemoryTTF(IggFontAtlas handle, char *font_data, int font_s
    return static_cast<IggFont>(font);
 }
 
-
 void iggFontAtlasSetTexDesiredWidth(IggFontAtlas handle, int value)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
@@ -88,14 +87,14 @@ void iggFontAtlasSetTexDesiredWidth(IggFontAtlas handle, int value)
 }
 
 void iggFontAtlasGetTexDataAsAlpha8(IggFontAtlas handle, unsigned char **pixels,
-                                    int *width, int *height, int *bytesPerPixel)
+   int *width, int *height, int *bytesPerPixel)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
    fontAtlas->GetTexDataAsAlpha8(pixels, width, height, bytesPerPixel);
 }
 
 void iggFontAtlasGetTexDataAsRGBA32(IggFontAtlas handle, unsigned char **pixels,
-                                    int *width, int *height, int *bytesPerPixel)
+   int *width, int *height, int *bytesPerPixel)
 {
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
    fontAtlas->GetTexDataAsRGBA32(pixels, width, height, bytesPerPixel);

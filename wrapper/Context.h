@@ -3,8 +3,7 @@
 #include "Types.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 extern IggContext iggCreateContext(IggFontAtlas sharedFontAtlas);

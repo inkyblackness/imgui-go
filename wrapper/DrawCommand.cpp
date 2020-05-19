@@ -33,4 +33,3 @@ void iggDrawCommandCallUserCallback(IggDrawCmd handle, IggDrawList listHandle)
    ImDrawList *list = reinterpret_cast<ImDrawList *>(listHandle);
    cmd->UserCallback(list, cmd);
 }
-

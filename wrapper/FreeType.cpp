@@ -3,6 +3,7 @@
 #include "ConfiguredImGui.h"
 
 #include "misc/freetype/imgui_freetype.h"
+
 #include "FreeType.h"
 
 int iggFreeTypeBuildFontAtlas(IggFontAtlas handle, unsigned int flags)

@@ -74,7 +74,7 @@ void iggInputTextCallbackDataDeleteBytes(IggInputTextCallbackData handle, int of
 void iggInputTextCallbackDataInsertBytes(IggInputTextCallbackData handle, int offset, char *bytes, int count)
 {
    ImGuiInputTextCallbackData *data = reinterpret_cast<ImGuiInputTextCallbackData *>(handle);
-   data->InsertChars(offset, bytes, bytes+count);
+   data->InsertChars(offset, bytes, bytes + count);
 }
 
 int iggInputTextCallbackDataGetCursorPos(IggInputTextCallbackData handle)

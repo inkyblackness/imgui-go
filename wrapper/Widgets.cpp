@@ -26,8 +26,8 @@ IggBool iggInvisibleButton(char const *label, IggVec2 const *size)
 }
 
 void iggImage(IggTextureID textureID,
-              IggVec2 const *size, IggVec2 const *uv0, IggVec2 const *uv1,
-              IggVec4 const *tintCol, IggVec4 const *borderCol)
+   IggVec2 const *size, IggVec2 const *uv0, IggVec2 const *uv1,
+   IggVec4 const *tintCol, IggVec4 const *borderCol)
 {
    Vec2Wrapper sizeArg(size);
    Vec2Wrapper uv0Arg(uv0);
@@ -38,9 +38,9 @@ void iggImage(IggTextureID textureID,
 }
 
 IggBool iggImageButton(IggTextureID textureID,
-                       IggVec2 const *size, IggVec2 const *uv0, IggVec2 const *uv1,
-                       int framePadding, IggVec4 const *bgCol,
-                       IggVec4 const *tintCol)
+   IggVec2 const *size, IggVec2 const *uv0, IggVec2 const *uv1,
+   int framePadding, IggVec4 const *bgCol,
+   IggVec4 const *tintCol)
 {
    Vec2Wrapper sizeArg(size);
    Vec2Wrapper uv0Arg(uv0);
@@ -116,17 +116,21 @@ static int iggInputTextCallbackWrapper(ImGuiInputTextCallbackData *data)
    return iggInputTextCallback(reinterpret_cast<IggInputTextCallbackData>(data), static_cast<int>(reinterpret_cast<size_t>(data->UserData)));
 }
 
-IggBool iggInputText(char const *label, char* buf, unsigned int bufSize, int flags, int callbackKey)
+IggBool iggInputText(char const *label, char *buf, unsigned int bufSize, int flags, int callbackKey)
 {
    return ImGui::InputText(label, buf, static_cast<size_t>(bufSize), flags,
-                           iggInputTextCallbackWrapper, reinterpret_cast<void *>(callbackKey)) ? 1 : 0;
+             iggInputTextCallbackWrapper, reinterpret_cast<void *>(callbackKey))
+      ? 1
+      : 0;
 }
 
-IggBool iggInputTextMultiline(char const *label, char* buf, unsigned int bufSize, IggVec2 const *size, int flags, int callbackKey)
+IggBool iggInputTextMultiline(char const *label, char *buf, unsigned int bufSize, IggVec2 const *size, int flags, int callbackKey)
 {
    Vec2Wrapper sizeArg(size);
    return ImGui::InputTextMultiline(label, buf, static_cast<size_t>(bufSize), *sizeArg, flags,
-                                    iggInputTextCallbackWrapper, reinterpret_cast<void *>(callbackKey)) ? 1 : 0;
+             iggInputTextCallbackWrapper, reinterpret_cast<void *>(callbackKey))
+      ? 1
+      : 0;
 }
 
 IggBool iggInputInt(char const *label, int *value, int step, int step_fast, int flags)
@@ -154,7 +158,7 @@ IggBool iggColorPicker4(char const *label, float *col, int flags)
    return ImGui::ColorPicker4(label, col, flags) ? 1 : 0;
 }
 
-IggBool iggCollapsingHeader(const char* label)
+IggBool iggCollapsingHeader(const char *label)
 {
    return ImGui::CollapsingHeader(label) ? 1 : 0;
 }
@@ -292,23 +296,28 @@ int iggGetColumnsCount()
    return ImGui::GetColumnsCount();
 }
 
-IggBool iggBeginTabBar(char const *str_id, int flags) {
-    return ImGui::BeginTabBar(str_id, flags) ? 1 : 0;
+IggBool iggBeginTabBar(char const *str_id, int flags)
+{
+   return ImGui::BeginTabBar(str_id, flags) ? 1 : 0;
 }
 
-void iggEndTabBar() {
-    ImGui::EndTabBar();
+void iggEndTabBar()
+{
+   ImGui::EndTabBar();
 }
 
-IggBool iggBeginTabItem(char const *label, IggBool *p_open, int flags) {
-    BoolWrapper openArg(p_open);
-    return ImGui::BeginTabItem(label, openArg, flags) ? 1 : 0;
+IggBool iggBeginTabItem(char const *label, IggBool *p_open, int flags)
+{
+   BoolWrapper openArg(p_open);
+   return ImGui::BeginTabItem(label, openArg, flags) ? 1 : 0;
 }
 
-void iggEndTabItem() {
-    ImGui::EndTabItem();
+void iggEndTabItem()
+{
+   ImGui::EndTabItem();
 }
 
-void iggSetTabItemClosed(char const * tab_or_docked_window_label) {
-    ImGui::SetTabItemClosed(tab_or_docked_window_label);
+void iggSetTabItemClosed(char const *tab_or_docked_window_label)
+{
+   ImGui::SetTabItemClosed(tab_or_docked_window_label);
 }
