@@ -84,6 +84,7 @@ Before this project was created, the following alternatives were considered - an
   * Was using old API (1.5x), 1.6x was attempted
   * Apparently semi-exposed the C++ API, especially through the structures
   * Adding this adds another dependency
+  * Note: `cimgui` has since switched to an auto-generated method. You can use that instead of this manually curated wrapper here.
 
 
 ## License
