@@ -2,7 +2,7 @@
 
 [![Go Doc](https://godoc.org/github.com/inkyblackness/imgui-go?status.svg)](https://godoc.org/github.com/inkyblackness/imgui-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/inkyblackness/imgui-go)](https://goreportcard.com/report/github.com/inkyblackness/imgui-go)
-[![GolangCI](https://golangci.com/badges/github.com/inkyblackness/imgui-go.svg)](https://golangci.com)
+[![Lint Status](https://github.com/inkyblackness/imgui-go/workflows/golangci-lint/badge.svg)](https://github.com/inkyblackness/imgui-go/actions)
 
 This library is a [Go](https://www.golang.org) wrapper for **[Dear ImGui](https://github.com/ocornut/imgui)**.
 
@@ -43,7 +43,7 @@ This library does not mirror the versions of the wrapped **Dear ImGui**. The sem
 * Minor changes: Extensions in API. Typically done through small version increments of **Dear ImGui** and/or exposing further features in a compatible way.
 * Patch changes: Bug fixes - either in the wrapper or the wrapped **Dear ImGui**, given that the API & behaviour remains the same.
 
-At the moment, this library uses version [1.74](https://github.com/ocornut/imgui/releases/tag/v1.74) of **Dear ImGui**.
+At the moment, this library uses version [1.76](https://github.com/ocornut/imgui/releases/tag/v1.76) of **Dear ImGui**.
 
 ## Examples
 A separate repository was created to host ported examples and reference implementations.

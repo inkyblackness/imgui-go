@@ -27,8 +27,10 @@ type GlyphRangesBuilder struct {
 // Build combines all the currently registered ranges and creates a new instance.
 // The returned ranges object needs to be explicitly freed in order to release resources.
 func (builder *GlyphRangesBuilder) Build() AllocatedGlyphRanges {
+	const bytesPerUint16 = 2
+	const uint16PerRangeEntry = 2
 	ranges := builder.mergedRanges()
-	raw := C.malloc(C.size_t(2 * ((len(ranges) * 2) + 1)))
+	raw := C.malloc(C.size_t(bytesPerUint16  * ((len(ranges) * uint16PerRangeEntry) + 1)))
 	rawSlice := (*[1 << 30]uint16)(raw)[:]
 	outIndex := 0
 	for _, r := range ranges {

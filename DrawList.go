@@ -1,6 +1,6 @@
 package imgui
 
-// #include "DrawListWrapper.h"
+// #include "wrapper/DrawList.h"
 import "C"
 import (
 	"unsafe"
@@ -91,7 +91,7 @@ func WindowDrawList() DrawList {
 	return DrawList(C.iggGetWindowDrawList())
 }
 
-// List of DrawCornerFlags
+// This is a list of DrawCornerFlags.
 const (
 	DrawCornerFlagsNone     = 0x0
 	DrawCornerFlagsTopLeft  = 0x1
@@ -105,20 +105,19 @@ const (
 	DrawCornerFlagsAll      = 0xF
 )
 
-// AddLine call AddLineV with a thickness value of 1.0
+// AddLine call AddLineV with a thickness value of 1.0.
 func (list DrawList) AddLine(p1 Vec2, p2 Vec2, col PackedColor) {
 	list.AddLineV(p1, p2, col, 1.0)
 }
 
-// AddLineV adds a line to draw list, extending from point p1 to p2
+// AddLineV adds a line to draw list, extending from point p1 to p2.
 func (list DrawList) AddLineV(p1 Vec2, p2 Vec2, col PackedColor, thickness float32) {
 	p1Arg, _ := p1.wrapped()
 	p2Arg, _ := p2.wrapped()
 	C.iggAddLine(list.handle(), p1Arg, p2Arg, C.IggPackedColor(col), C.float(thickness))
 }
 
-// AddRect calls AddRectV with rounding and thickness values of 1.0 and
-// DrawCornerFlagsAll
+// AddRect calls AddRectV with rounding and thickness values of 1.0 and DrawCornerFlagsAll.
 func (list DrawList) AddRect(min Vec2, max Vec2, col PackedColor) {
 	list.AddRectV(min, max, col, 1.0, DrawCornerFlagsAll, 1.0)
 }

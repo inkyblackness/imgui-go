@@ -1,6 +1,6 @@
 package imgui
 
-// #include "imguiWrapperTypes.h"
+// #include "wrapper/Types.h"
 // #include <memory.h>
 // #include <stdlib.h>
 import "C"

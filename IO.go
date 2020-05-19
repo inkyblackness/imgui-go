@@ -1,12 +1,17 @@
 package imgui
 
-// #include "IOWrapper.h"
+// #include "wrapper/IO.h"
 import "C"
 
 // IO is where your app communicate with ImGui. Access via CurrentIO().
 // Read 'Programmer guide' section in imgui.cpp file for general usage.
 type IO struct {
 	handle C.IggIO
+}
+
+// CurrentIO returns access to the ImGui communication struct for the currently active context.
+func CurrentIO() IO {
+	return IO{handle: C.iggGetCurrentIO()}
 }
 
 // WantCaptureMouse returns true if imgui will use the mouse inputs.
@@ -57,11 +62,11 @@ func (io IO) MetricsActiveWindows() int {
 }
 
 // MetricsActiveAllocations returns number of active allocations, updated by MemAlloc/MemFree
-// based on current context. May be off if you have multiple imgui contexts. 
+// based on current context. May be off if you have multiple imgui contexts.
 func (io IO) MetricsActiveAllocations() int {
 	return int(C.iggMetricsActiveAllocations(io.handle))
 }
-    
+
 // MouseDelta returns the mouse delta movement . Note that this is zero if either current or previous position
 // are invalid (-math.MaxFloat32,-math.MaxFloat32), so a disappearing/reappearing mouse won't have a huge delta.
 func (io IO) MouseDelta() Vec2 {
