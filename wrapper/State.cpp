@@ -90,3 +90,13 @@ void iggMousePos(IggVec2 *pos)
 {
    exportValue(*pos, ImGui::GetMousePos());
 }
+
+int iggGetMouseCursor()
+{
+   return ImGui::GetMouseCursor();
+}
+
+void iggSetMouseCursor(int cursor)
+{
+   ImGui::SetMouseCursor(cursor);
+}

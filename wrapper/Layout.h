@@ -7,6 +7,10 @@ extern "C"
 {
 #endif
 
+extern void iggPushID(char const *id);
+extern void iggPushIDInt(int id);
+extern void iggPopID(void);
+
 extern void iggSeparator(void);
 extern void iggSameLine(float posX, float spacingW);
 extern void iggSpacing(void);

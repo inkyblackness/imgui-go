@@ -3,10 +3,26 @@
 #include "Layout.h"
 #include "WrapperConverter.h"
 
+void iggPushID(char const *id)
+{
+   ImGui::PushID(id);
+}
+
+void iggPushIDInt(int id)
+{
+   ImGui::PushID(id);
+}
+
+void iggPopID(void)
+{
+   ImGui::PopID();
+}
+
 void iggSeparator(void)
 {
    ImGui::Separator();
 }
+
 void iggSameLine(float posX, float spacingW)
 {
    ImGui::SameLine(posX, spacingW);
