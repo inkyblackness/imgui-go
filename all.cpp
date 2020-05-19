@@ -1,7 +1,7 @@
 #define IMGUI_USER_CONFIG "wrapper/imconfig.h"
 
 // imgui code
-// imgui-<version> is added to include path in all.go
+// imgui/ is added to include path in all.go
 #include "imgui.cpp"
 #include "imgui_draw.cpp"
 #include "imgui_demo.cpp"
