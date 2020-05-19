@@ -1,4 +1,4 @@
-#include "imgui.h"
+#include "ConfiguredImGui.h"
 
 #include "Style.h"
 #include "WrapperConverter.h"

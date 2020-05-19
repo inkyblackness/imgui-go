@@ -1,4 +1,4 @@
-#define IMGUI_USER_CONFIG "wrapper/imconfig.h"
+#include "wrapper/ConfiguredImGui.h"
 
 // imgui code
 // imgui/ is added to include path in all.go

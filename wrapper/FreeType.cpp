@@ -1,6 +1,6 @@
 #ifdef IMGUI_FREETYPE_ENABLED
 
-#include "imgui.h"
+#include "ConfiguredImGui.h"
 
 #include "misc/freetype/imgui_freetype.h"
 #include "FreeType.h"
