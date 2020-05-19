@@ -29,6 +29,7 @@ const (
 	DragDropFlagsAcceptPeekOnly = DragDropFlagsAcceptBeforeDelivery | DragDropFlagsAcceptNoDrawDefaultRect
 )
 
+// BeginDragDropSource registers the currently active item as drag'n'drop source.
 // When this returns true you need to:
 // a) call SetDragDropPayload() exactly once,
 // b) you may render the payload visual/description,
