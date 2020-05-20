@@ -43,7 +43,7 @@ func TestGlyphRangesBuilderAdd(t *testing.T) {
 		result := builder.Build()
 		require.NotEqual(t, uintptr(0), uintptr(result.GlyphRanges))
 		for index, expected := range tc.expected {
-			resultPtr := unsafe.Pointer(uintptr(result.GlyphRanges) + uintptr(2*index))
+			resultPtr := unsafe.Pointer(uintptr(result.GlyphRanges) + uintptr(2*index)) // nolint: gosec
 			resultShort := (*uint16)(resultPtr)
 			assert.Equal(t, expected, *resultShort, fmt.Sprintf("%s: Index %d mismatch", tc.name, index))
 		}
@@ -79,7 +79,7 @@ func TestGlyphRangesBuilderAddExisting(t *testing.T) {
 		result := builder.Build()
 		require.NotEqual(t, uintptr(0), uintptr(result.GlyphRanges))
 		for index, expected := range tc.expected {
-			resultPtr := unsafe.Pointer(uintptr(result.GlyphRanges) + uintptr(2*index))
+			resultPtr := unsafe.Pointer(uintptr(result.GlyphRanges) + uintptr(2*index)) // nolint: gosec
 			resultShort := (*uint16)(resultPtr)
 			assert.Equal(t, expected, *resultShort, fmt.Sprintf("%s: Index %d mismatch", tc.name, index))
 		}
@@ -113,7 +113,7 @@ func TestGlyphRangesBuilderCompactsRanges(t *testing.T) {
 		result := builder.Build()
 		require.NotEqual(t, uintptr(0), uintptr(result.GlyphRanges))
 		for index, expected := range tc.expected {
-			resultPtr := unsafe.Pointer(uintptr(result.GlyphRanges) + uintptr(2*index))
+			resultPtr := unsafe.Pointer(uintptr(result.GlyphRanges) + uintptr(2*index)) // nolint: gosec
 			resultShort := (*uint16)(resultPtr)
 			assert.Equal(t, expected, *resultShort, fmt.Sprintf("%s: Index %d mismatch", tc.name, index))
 		}

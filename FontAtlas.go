@@ -17,7 +17,7 @@ type RGBA32Image struct {
 }
 
 // FontAtlas contains runtime data for multiple fonts,
-// bake multiple fonts into a single texture, TTF/OTF font loader
+// bake multiple fonts into a single texture, TTF/OTF font loader.
 type FontAtlas uintptr
 
 func (atlas FontAtlas) handle() C.IggFontAtlas {

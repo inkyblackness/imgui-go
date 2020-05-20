@@ -38,7 +38,7 @@ type ListClipper struct {
 	DisplayEnd   int
 }
 
-// wrapped return C struct and func for setting the values when done
+// wrapped returns C struct and func for setting the values when done.
 func (clipper *ListClipper) wrapped() (out *C.IggListClipper, finisher func()) {
 	if clipper == nil {
 		return nil, func() {}

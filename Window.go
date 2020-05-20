@@ -161,7 +161,8 @@ func ContentRegionAvail() Vec2 {
 	return value
 }
 
-// ContentRegionMax returns current content boundaries (typically window boundaries including scrolling, or current column boundaries), in windows coordinates
+// ContentRegionMax returns current content boundaries (typically window boundaries including scrolling,
+// or current column boundaries), in windows coordinates.
 func ContentRegionMax() Vec2 {
 	out := Vec2{}
 	outArg, outFin := out.wrapped()
@@ -178,7 +179,7 @@ func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2) {
 	C.iggSetNextWindowPos(posArg, C.int(cond), pivotArg)
 }
 
-// SetNextWindowPos calls SetNextWindowPosV(pos, 0, Vec{0,0})
+// SetNextWindowPos calls SetNextWindowPosV(pos, 0, Vec{0,0}).
 func SetNextWindowPos(pos Vec2) {
 	SetNextWindowPosV(pos, 0, Vec2{})
 }
@@ -195,12 +196,14 @@ func SetNextWindowSizeV(size Vec2, cond Condition) {
 	C.iggSetNextWindowSize(sizeArg, C.int(cond))
 }
 
-// SetNextWindowSize calls SetNextWindowSizeV(size, 0)
+// SetNextWindowSize calls SetNextWindowSizeV(size, 0).
 func SetNextWindowSize(size Vec2) {
 	SetNextWindowSizeV(size, 0)
 }
 
-// SetNextWindowSizeConstraints set next window size limits. use -1,-1 on either X/Y axis to preserve the current size. Use callback to apply non-trivial programmatic constraints.
+// SetNextWindowSizeConstraints set next window size limits.
+// Use -1,-1 on either X/Y axis to preserve the current size.
+// Use callback to apply non-trivial programmatic constraints.
 func SetNextWindowSizeConstraints(sizeMin Vec2, sizeMax Vec2) {
 	sizeMinArg, _ := sizeMin.wrapped()
 	sizeMaxArg, _ := sizeMax.wrapped()
