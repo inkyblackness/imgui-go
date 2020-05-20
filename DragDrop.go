@@ -1,6 +1,6 @@
 package imgui
 
-// #include "DragDropWrapper.h"
+// #include "wrapper/DragDrop.h"
 import "C"
 
 // This is a list of BeginDragDropSource flags.
@@ -19,7 +19,7 @@ const (
 	DragDropFlagsSourceExtern = 1 << 4
 )
 
-// AcceptDragDropPayload flags
+// This is a list of AcceptDragDropPayload flags.
 const (
 	// DragDropFlagsAcceptBeforeDelivery makes AcceptDragDropPayload() return true even before the mouse button is released. You can then call IsDelivery() to test if the payload needs to be delivered.
 	DragDropFlagsAcceptBeforeDelivery = 1 << 10
@@ -29,8 +29,7 @@ const (
 	DragDropFlagsAcceptPeekOnly = DragDropFlagsAcceptBeforeDelivery | DragDropFlagsAcceptNoDrawDefaultRect
 )
 
-// BeginDragDropSource opens the scope for current draw and drop source.
-// Call when current ID is active.
+// BeginDragDropSource registers the currently active item as drag'n'drop source.
 // When this returns true you need to:
 // a) call SetDragDropPayload() exactly once,
 // b) you may render the payload visual/description,

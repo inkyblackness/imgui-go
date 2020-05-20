@@ -54,16 +54,18 @@ Please make sure code is formatted according to `go fmt`, and use the following 
 
 ### Upgrade to newer Dear ImGui version
 
+To update the **Dear ImGui** sources, overwrite the files in the `imgui` subfolders. Please avoid any files not needed by the wrapper.
+
 An upgrade with _major_ changes in the API should be on purpose and with coordination. Such a change requires a bump of the major version of this wrapper.
 
 Otherwise, try to keep the API of this wrapper stable and keep compatible wrapper functions for changed/upgraded functions.
   
 On an upgrade of **Dear ImGui**, apart from updating the actual files, be sure to do the following steps:
-* In case `imconfig.h` is changed, be sure to keep the intentional changes: Obsolete functions should not be compiled, and the `iggAssert()` function must survive.
+* In case `imconfig.h` is changed, be sure the intentional overrides in `wrapper/ConfigOverride.h` stay in effect.
 * Have a look at any extended enumerations. The Go variant will need extension/change as well, otherwise the constants will be wrong.
 * Check for any documentation changes of exported functions. The Go documentation should reflect such changes as well.
-* Run `go test ./...` . There is at least one test that is bound to the version and needs change as well.
-* Update the screenshots of the examples, they show the version number.
+* Run `go test ./...` . There is at least one test which is bound to the version and needs change as well.
+* Update the screenshots of the examples, they show the version number. Use `imgui-go-examples` to create it.
 * Update the `README.md` file, it indicates the version number.
 * Check if the license of **Dear ImGui** has changed and update the `_licenses/imgui-LICENSE.txt` file. This may happen every year (copyright year).
 
@@ -83,7 +85,7 @@ func OldFunction() {
 }
 ```
 
-The `OldFunction` is implemented using the new API, and is marked as `Deprecated` in the comment.
+The `OldFunction` is implemented using the new API, and is marked as `Deprecated: <Alternative>` in the comment.
 IDEs tend to respect this and notify the user.
 
 If, however, a whole set of functionality is replaced, this then probably warrants a major version bump.

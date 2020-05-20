@@ -1,6 +1,6 @@
 package imgui
 
-// #include "imguiWrapperTypes.h"
+// #include "wrapper/Types.h"
 import "C"
 import "unsafe"
 

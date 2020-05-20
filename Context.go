@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-// #include "imguiWrapper.h"
+// #include "wrapper/Context.h"
 import "C"
 
 // Context specifies a scope of ImGui.
