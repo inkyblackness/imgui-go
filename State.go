@@ -15,12 +15,16 @@ func IsItemHoveredV(flags int) bool {
 	return C.iggIsItemHovered(C.int(flags)) != 0
 }
 
-// IsItemHovered calls IsItemHoveredV(HoveredFlagsNone)
+// IsItemHovered calls IsItemHoveredV(HoveredFlagsNone).
 func IsItemHovered() bool {
 	return IsItemHoveredV(HoveredFlagsNone)
 }
 
-// IsItemActive returns if the last item is active. (e.g. button being held, text field being edited. This will continuously return true while holding mouse button on an item. Items that don't interact will always return false)
+// IsItemActive returns if the last item is active.
+// e.g. button being held, text field being edited.
+//
+// This will continuously return true while holding mouse button on an item.
+// Items that don't interact will always return false.
 func IsItemActive() bool {
 	return C.iggIsItemActive() != 0
 }
@@ -30,7 +34,7 @@ func IsAnyItemActive() bool {
 	return C.iggIsAnyItemActive() != 0
 }
 
-// IsItemVisible returns true if the last item is visible
+// IsItemVisible returns true if the last item is visible.
 func IsItemVisible() bool {
 	return C.iggIsItemVisible() != 0
 }
@@ -67,7 +71,7 @@ func IsWindowFocusedV(flags int) bool {
 	return C.iggIsWindowFocused(C.int(flags)) != 0
 }
 
-// IsWindowFocused calls IsWindowFocusedV(FocusedFlagsNone)
+// IsWindowFocused calls IsWindowFocusedV(FocusedFlagsNone).
 func IsWindowFocused() bool {
 	return IsWindowFocusedV(FocusedFlagsNone)
 }
@@ -104,7 +108,7 @@ func IsWindowHoveredV(flags int) bool {
 	return C.iggIsWindowHovered(C.int(flags)) != 0
 }
 
-// IsWindowHovered calls IsWindowHoveredV(HoveredFlagsNone)
+// IsWindowHovered calls IsWindowHoveredV(HoveredFlagsNone).
 func IsWindowHovered() bool {
 	return IsWindowHoveredV(HoveredFlagsNone)
 }
@@ -115,7 +119,7 @@ func IsKeyDown(key int) bool {
 }
 
 // IsKeyPressedV returns true if the corresponding key was pressed (went from !Down to Down).
-// If repeat=true and the key is being held down then the press is repeated using io.KeyRepeatDelay and KeyRepeatRate
+// If repeat=true and the key is being held down then the press is repeated using io.KeyRepeatDelay and KeyRepeatRate.
 func IsKeyPressedV(key int, repeat bool) bool {
 	return C.iggIsKeyPressed(C.int(key), castBool(repeat)) != 0
 }
@@ -141,7 +145,7 @@ func IsAnyMouseDown() bool {
 }
 
 // IsMouseClickedV returns true if the mouse button was clicked (0=left, 1=right, 2=middle)
-// If repeat=true and the mouse button is being held down then the click is repeated using io.KeyRepeatDelay and KeyRepeatRate
+// If repeat=true and the mouse button is being held down then the click is repeated using io.KeyRepeatDelay and KeyRepeatRate.
 func IsMouseClickedV(button int, repeat bool) bool {
 	return C.iggIsMouseClicked(C.int(button), castBool(repeat)) != 0
 }

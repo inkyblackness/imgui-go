@@ -93,7 +93,7 @@ func Checkbox(id string, selected *bool) bool {
 }
 
 // ProgressBarV creates a progress bar.
-// size (for each axis) < 0.0f: align to end, 0.0f: auto, > 0.0f: specified size
+// size (for each axis) is < 0.0f: align to end, 0.0f: auto, > 0.0f: specified size.
 func ProgressBarV(fraction float32, size Vec2, overlay string) {
 	sizeArg, _ := size.wrapped()
 	overlayArg, overlayFin := wrapString(overlay)
@@ -238,7 +238,7 @@ func VSliderFloatV(label string, size Vec2, value *float32, min, max float32, fo
 	return C.iggVSliderFloat(labelArg, sizeArg, valueArg, C.float(min), C.float(max), formatArg, C.float(power)) != 0
 }
 
-// VSliderFloat calls VSliderIntV(label, size, value, min, max, "%.3f", 1.0
+// VSliderFloat calls VSliderIntV(label, size, value, min, max, "%.3f", 1.0).
 func VSliderFloat(label string, size Vec2, value *float32, min, max float32) bool {
 	return VSliderFloatV(label, size, value, min, max, "%.3f", 1.0)
 }
@@ -255,7 +255,7 @@ func VSliderIntV(label string, size Vec2, value *int32, min, max int32, format s
 	return C.iggVSliderInt(labelArg, sizeArg, valueArg, C.int(min), C.int(max), formatArg) != 0
 }
 
-// VSliderInt calls VSliderIntV(label, size, value, min, max, "%d"
+// VSliderInt calls VSliderIntV(label, size, value, min, max, "%d").
 func VSliderInt(label string, size Vec2, value *int32, min, max int32) bool {
 	return VSliderIntV(label, size, value, min, max, "%d")
 }
@@ -330,7 +330,7 @@ func InputTextV(label string, text *string, flags int, cb InputTextCallback) boo
 		C.int(flags|inputTextFlagsCallbackResize), state.key) != 0
 }
 
-// InputText calls InputTextV(label, string, 0, nil)
+// InputText calls InputTextV(label, string, 0, nil).
 func InputText(label string, text *string) bool {
 	return InputTextV(label, text, 0, nil)
 }
@@ -360,7 +360,7 @@ func InputTextMultilineV(label string, text *string, size Vec2, flags int, cb In
 		C.int(flags|inputTextFlagsCallbackResize), state.key) != 0
 }
 
-// InputTextMultiline calls InputTextMultilineV(label, text, Vec2{0,0}, 0, nil)
+// InputTextMultiline calls InputTextMultilineV(label, text, Vec2{0,0}, 0, nil).
 func InputTextMultiline(label string, text *string) bool {
 	return InputTextMultilineV(label, text, Vec2{}, 0, nil)
 }
@@ -438,7 +438,7 @@ const (
 	ColorEditFlagsInputHSV = 1 << 28
 )
 
-// ColorEdit3 calls ColorEdit3V(label, col, 0)
+// ColorEdit3 calls ColorEdit3V(label, col, 0).
 func ColorEdit3(label string, col *[3]float32) bool {
 	return ColorEdit3V(label, col, 0)
 }
@@ -451,7 +451,7 @@ func ColorEdit3V(label string, col *[3]float32, flags int) bool {
 	return C.iggColorEdit3(labelArg, ccol, C.int(flags)) != 0
 }
 
-// ColorEdit4 calls ColorEdit4V(label, col, 0)
+// ColorEdit4 calls ColorEdit4V(label, col, 0).
 func ColorEdit4(label string, col *[4]float32) bool {
 	return ColorEdit4V(label, col, 0)
 }
@@ -514,7 +514,7 @@ const (
 	ColorPickerFlagsInputHSV = 1 << 28
 )
 
-// ColorPicker3 calls ColorPicker3V(label, col, 0)
+// ColorPicker3 calls ColorPicker3V(label, col, 0).
 func ColorPicker3(label string, col *[3]float32) bool {
 	return ColorPicker3V(label, col, 0)
 }
@@ -527,7 +527,7 @@ func ColorPicker3V(label string, col *[3]float32, flags int) bool {
 	return C.iggColorPicker3(labelArg, ccol, C.int(flags)) != 0
 }
 
-// ColorPicker4 calls ColorPicker4V(label, col, 0)
+// ColorPicker4 calls ColorPicker4V(label, col, 0).
 func ColorPicker4(label string, col *[4]float32) bool {
 	return ColorPicker4V(label, col, 0)
 }
@@ -633,7 +633,7 @@ const (
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
 // flags are the SelectableFlags to apply.
 // size.x==0.0: use remaining width, size.x>0.0: specify width.
-// size.y==0.0: use label height, size.y>0.0: specify height
+// size.y==0.0: use label height, size.y>0.0: specify height.
 func SelectableV(label string, selected bool, flags int, size Vec2) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -641,7 +641,7 @@ func SelectableV(label string, selected bool, flags int, size Vec2) bool {
 	return C.iggSelectable(labelArg, castBool(selected), C.int(flags), sizeArg) != 0
 }
 
-// Selectable calls SelectableV(label, false, 0, Vec2{0, 0})
+// Selectable calls SelectableV(label, false, 0, Vec2{0, 0}).
 func Selectable(label string) bool {
 	return SelectableV(label, false, 0, Vec2{})
 }
@@ -864,7 +864,7 @@ func SetColumnWidth(index int, width float32) {
 	C.iggSetColumnWidth(C.int(index), C.float(width))
 }
 
-// ColumnOffset calls ColumnOffsetV(-1)
+// ColumnOffset calls ColumnOffsetV(-1).
 func ColumnOffset() float32 {
 	return ColumnOffsetV(-1)
 }
@@ -915,7 +915,7 @@ const (
 	TabBarFlagsFittingPolicyDefault = TabBarFlagsFittingPolicyResizeDown
 )
 
-// BeginTabBarV create and append into a TabBar
+// BeginTabBarV create and append into a TabBar.
 func BeginTabBarV(strID string, flags int) bool {
 	idArg, idFin := wrapString(strID)
 	defer idFin()
@@ -923,7 +923,7 @@ func BeginTabBarV(strID string, flags int) bool {
 	return C.iggBeginTabBar(idArg, C.int(flags)) != 0
 }
 
-// BeginTabBar calls BeginTabBarV(strId, 0)
+// BeginTabBar calls BeginTabBarV(strId, 0).
 func BeginTabBar(strID string) bool {
 	return BeginTabBarV(strID, 0)
 }
@@ -961,12 +961,13 @@ func BeginTabItemV(label string, open *bool, flags int) bool {
 	return C.iggBeginTabItem(labelArg, openArg, C.int(flags)) != 0
 }
 
-// BeginTabItem calls BeginTabItemV(label, nil, 0)
+// BeginTabItem calls BeginTabItemV(label, nil, 0).
 func BeginTabItem(label string) bool {
 	return BeginTabItemV(label, nil, 0)
 }
 
-// EndTabItem Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem()
+// EndTabItem finishes a tab item.
+// Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem().
 func EndTabItem() {
 	C.iggEndTabItem()
 }

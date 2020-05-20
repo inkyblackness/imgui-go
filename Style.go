@@ -58,7 +58,7 @@ const (
 	StyleVarSelectableTextAlign StyleVarID = 22
 )
 
-// StyleColor identifier
+// This is the list of StyleColor identifier.
 const (
 	StyleColorText                  StyleColorID = 0
 	StyleColorTextDisabled          StyleColorID = 1
@@ -118,17 +118,17 @@ func CurrentStyle() Style {
 	return Style(C.iggGetCurrentStyle())
 }
 
-// StyleColorsDark sets the new, recommended style (default)
+// StyleColorsDark sets the new, recommended style (default).
 func StyleColorsDark() {
 	C.iggStyleColorsDark()
 }
 
-// StyleColorsClassic sets the classic style
+// StyleColorsClassic sets the classic style.
 func StyleColorsClassic() {
 	C.iggStyleColorsClassic()
 }
 
-// StyleColorsLight sets the light style, best used with borders and a custom, thicker font
+// StyleColorsLight sets the light style, best used with borders and a custom, thicker font.
 func StyleColorsLight() {
 	C.iggStyleColorsLight()
 }

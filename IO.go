@@ -17,14 +17,17 @@ func CurrentIO() IO {
 // WantCaptureMouse returns true if imgui will use the mouse inputs.
 // Do not dispatch them to your main game/application in this case.
 // In either case, always pass on mouse inputs to imgui.
-// (e.g. unclicked mouse is hovering over an imgui window, widget is active, mouse was clicked over an imgui window, etc.)
+//
+// e.g. unclicked mouse is hovering over an imgui window, widget is active,
+// mouse was clicked over an imgui window, etc.
 func (io IO) WantCaptureMouse() bool {
 	return C.iggWantCaptureMouse(io.handle) != 0
 }
 
 // WantCaptureKeyboard returns true if imgui will use the keyboard inputs.
 // Do not dispatch them to your main game/application (in both cases, always pass keyboard inputs to imgui).
-// (e.g. InputText active, or an imgui window is focused and navigation is enabled, etc.).
+//
+// e.g. InputText active, or an imgui window is focused and navigation is enabled, etc.
 func (io IO) WantCaptureKeyboard() bool {
 	return C.iggWantCaptureKeyboard(io.handle) != 0
 }
@@ -41,22 +44,22 @@ func (io IO) Framerate() float32 {
 	return float32(C.iggFramerate(io.handle))
 }
 
-// MetricsRenderVertices returns vertices output during last call to Render()
+// MetricsRenderVertices returns vertices output during last call to Render().
 func (io IO) MetricsRenderVertices() int {
 	return int(C.iggMetricsRenderVertices(io.handle))
 }
 
-// MetricsRenderIndices returns indices output during last call to Render() = number of triangles * 3
+// MetricsRenderIndices returns indices output during last call to Render() = number of triangles * 3.
 func (io IO) MetricsRenderIndices() int {
 	return int(C.iggMetricsRenderIndices(io.handle))
 }
 
-// MetricsRenderWindows returns number of visible windows
+// MetricsRenderWindows returns number of visible windows.
 func (io IO) MetricsRenderWindows() int {
 	return int(C.iggMetricsRenderWindows(io.handle))
 }
 
-// MetricsActiveWindows returns number of active windows
+// MetricsActiveWindows returns number of active windows.
 func (io IO) MetricsActiveWindows() int {
 	return int(C.iggMetricsActiveWindows(io.handle))
 }
@@ -89,7 +92,7 @@ func (io IO) Fonts() FontAtlas {
 }
 
 // SetMousePosition sets the mouse position, in pixels.
-// Set to Vec2(-math.MaxFloat32,-mathMaxFloat32) if mouse is unavailable (on another screen, etc.)
+// Set to Vec2(-math.MaxFloat32,-mathMaxFloat32) if mouse is unavailable (on another screen, etc.).
 func (io IO) SetMousePosition(value Vec2) {
 	posArg, _ := value.wrapped()
 	C.iggIoSetMousePosition(io.handle, posArg)

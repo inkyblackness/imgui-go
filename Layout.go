@@ -46,7 +46,7 @@ func Dummy(size Vec2) {
 	C.iggDummy(sizeArg)
 }
 
-// Indent moves content position toward the right by style.IndentSpacing
+// Indent moves content position toward the right by style.IndentSpacing.
 func Indent() {
 	C.iggIndent(0)
 }
@@ -66,8 +66,8 @@ func UnindentV(indentW float32) {
 	C.iggUnindent(C.float(indentW))
 }
 
-// BeginGroup locks horizontal starting position + capture group bounding box into one "item"
-// (so you can use IsItemHovered() or layout primitives such as SameLine() on whole group, etc.)
+// BeginGroup locks horizontal starting position + capture group bounding box into one "item";
+// So you can use IsItemHovered() or layout primitives such as SameLine() on whole group, etc.
 func BeginGroup() {
 	C.iggBeginGroup()
 }
@@ -151,7 +151,7 @@ func FrameHeight() float32 {
 
 // FrameHeightWithSpacing returns the height of the current frame with the item
 // spacing added. This is equal to the font size plus the padding at the top
-// and bottom, plus the value of style.ItemSpacing.y
+// and bottom, plus the value of style.ItemSpacing.y.
 func FrameHeightWithSpacing() float32 {
 	return float32(C.iggGetFrameHeightWithSpacing())
 }
