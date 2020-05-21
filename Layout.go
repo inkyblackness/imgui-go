@@ -3,6 +3,23 @@ package imgui
 // #include "wrapper/Layout.h"
 import "C"
 
+// PushID pushes the given identifier into the ID stack. IDs are hash of the entire stack!
+func PushID(id string) {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	C.iggPushID(idArg)
+}
+
+// PushIDInt pushes the given identifier into the ID stack. IDs are hash of the entire stack!
+func PushIDInt(id int) {
+	C.iggPushIDInt(C.int(id))
+}
+
+// PopID removes the last pushed identifier from the ID stack.
+func PopID() {
+	C.iggPopID()
+}
+
 // Separator is generally horizontal. Inside a menu bar or in horizontal layout mode, this becomes a vertical separator.
 func Separator() {
 	C.iggSeparator()
@@ -29,7 +46,7 @@ func Dummy(size Vec2) {
 	C.iggDummy(sizeArg)
 }
 
-// Indent moves content position toward the right by style.IndentSpacing
+// Indent moves content position toward the right by style.IndentSpacing.
 func Indent() {
 	C.iggIndent(0)
 }
@@ -49,8 +66,8 @@ func UnindentV(indentW float32) {
 	C.iggUnindent(C.float(indentW))
 }
 
-// BeginGroup locks horizontal starting position + capture group bounding box into one "item"
-// (so you can use IsItemHovered() or layout primitives such as SameLine() on whole group, etc.)
+// BeginGroup locks horizontal starting position + capture group bounding box into one "item";
+// So you can use IsItemHovered() or layout primitives such as SameLine() on whole group, etc.
 func BeginGroup() {
 	C.iggBeginGroup()
 }
@@ -134,7 +151,7 @@ func FrameHeight() float32 {
 
 // FrameHeightWithSpacing returns the height of the current frame with the item
 // spacing added. This is equal to the font size plus the padding at the top
-// and bottom, plus the value of style.ItemSpacing.y
+// and bottom, plus the value of style.ItemSpacing.y.
 func FrameHeightWithSpacing() float32 {
 	return float32(C.iggGetFrameHeightWithSpacing())
 }

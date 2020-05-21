@@ -3,8 +3,7 @@
 #include "Types.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 extern IggBool iggIsItemClicked();
@@ -27,6 +26,8 @@ extern IggBool iggIsMouseClicked(int button, IggBool repeat);
 extern IggBool iggIsMouseReleased(int button);
 extern IggBool iggIsMouseDoubleClicked(int button);
 extern void iggMousePos(IggVec2 *pos);
+extern int iggGetMouseCursor();
+extern void iggSetMouseCursor(int cursor);
 
 #ifdef __cplusplus
 }

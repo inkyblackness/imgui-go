@@ -1,12 +1,28 @@
-#include "imgui.h"
+#include "ConfiguredImGui.h"
 
 #include "Layout.h"
 #include "WrapperConverter.h"
+
+void iggPushID(char const *id)
+{
+   ImGui::PushID(id);
+}
+
+void iggPushIDInt(int id)
+{
+   ImGui::PushID(id);
+}
+
+void iggPopID(void)
+{
+   ImGui::PopID();
+}
 
 void iggSeparator(void)
 {
    ImGui::Separator();
 }
+
 void iggSameLine(float posX, float spacingW)
 {
    ImGui::SameLine(posX, spacingW);
@@ -33,11 +49,13 @@ void iggEndGroup(void)
    ImGui::EndGroup();
 }
 
-void iggIndent(float indent_w) {
+void iggIndent(float indent_w)
+{
    ImGui::Indent(indent_w);
 }
 
-void iggUnindent(float indent_w) {
+void iggUnindent(float indent_w)
+{
    ImGui::Unindent(indent_w);
 }
 

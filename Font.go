@@ -26,7 +26,7 @@ func FontSize() float32 {
 	return float32(C.iggGetFontSize())
 }
 
-// CalcTextSize calculate the size of the text
+// CalcTextSize calculates the size of the text.
 func CalcTextSize(text string, hideTextAfterDoubleHash bool, wrapWidth float32) Vec2 {
 	CString := newStringBuffer(text)
 	defer CString.free()

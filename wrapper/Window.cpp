@@ -1,4 +1,4 @@
-#include "imgui.h"
+#include "ConfiguredImGui.h"
 
 #include "Window.h"
 #include "WrapperConverter.h"
@@ -62,9 +62,10 @@ void iggContentRegionAvail(IggVec2 *size)
    exportValue(*size, ImGui::GetContentRegionAvail());
 }
 
-void iggGetContentRegionMax(IggVec2 *out){
-    ImVec2 im_out = ImGui::GetContentRegionMax();
-    exportValue(*out, im_out);
+void iggGetContentRegionMax(IggVec2 *out)
+{
+   ImVec2 im_out = ImGui::GetContentRegionMax();
+   exportValue(*out, im_out);
 }
 
 void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
@@ -74,7 +75,8 @@ void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
    ImGui::SetNextWindowPos(*posArg, cond, *pivotArg);
 }
 
-void iggSetNextWindowCollapsed(IggBool collapsed, int cond) {
+void iggSetNextWindowCollapsed(IggBool collapsed, int cond)
+{
    ImGui::SetNextWindowCollapsed(collapsed, cond);
 }
 
@@ -84,7 +86,7 @@ void iggSetNextWindowSize(IggVec2 const *size, int cond)
    ImGui::SetNextWindowSize(*sizeArg, cond);
 }
 
-void iggSetNextWindowSizeConstraints(const IggVec2* size_min, const IggVec2* size_max)
+void iggSetNextWindowSizeConstraints(const IggVec2 *size_min, const IggVec2 *size_max)
 {
    Vec2Wrapper sizeMinArg(size_min);
    Vec2Wrapper sizeMaxArg(size_max);

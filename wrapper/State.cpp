@@ -1,4 +1,4 @@
-#include "imgui.h"
+#include "ConfiguredImGui.h"
 
 #include "State.h"
 #include "WrapperConverter.h"
@@ -28,11 +28,13 @@ IggBool iggIsItemVisible()
    return ImGui::IsItemVisible() ? 1 : 0;
 }
 
-IggBool iggIsWindowAppearing() {
+IggBool iggIsWindowAppearing()
+{
    return ImGui::IsWindowAppearing() ? 1 : 0;
 }
 
-IggBool iggIsWindowCollapsed() {
+IggBool iggIsWindowCollapsed()
+{
    return ImGui::IsWindowCollapsed() ? 1 : 0;
 }
 
@@ -89,4 +91,14 @@ IggBool iggIsMouseDoubleClicked(int button)
 void iggMousePos(IggVec2 *pos)
 {
    exportValue(*pos, ImGui::GetMousePos());
+}
+
+int iggGetMouseCursor()
+{
+   return ImGui::GetMouseCursor();
+}
+
+void iggSetMouseCursor(int cursor)
+{
+   ImGui::SetMouseCursor(cursor);
 }

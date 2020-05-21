@@ -11,12 +11,7 @@ linters:
   # and the remaining issues (if existing) aren't worth it.
   disable:
     - gochecknoglobals
-    - gochecknoinits
     - goimports # disabled because of so many false-positives with "imgui-go"
-    - godot # TODO: enable this as soon as big refactoring is done (cpp in sub-directory).
-    - gosec
-    - maligned
-    - dupl
     - wsl # this one has become too pedantic
 
 issues:

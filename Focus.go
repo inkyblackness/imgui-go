@@ -18,12 +18,12 @@ func IsAnyItemFocused() bool {
 	return C.iggIsAnyItemFocused() != 0
 }
 
-// SetKeyboardFocusHere calls SetKeyboardFocusHereV(0)
+// SetKeyboardFocusHere calls SetKeyboardFocusHereV(0).
 func SetKeyboardFocusHere() {
 	C.iggSetKeyboardFocusHere(0)
 }
 
-// SetKeyboardFocusHereV gives keyboard focus to next item
+// SetKeyboardFocusHereV gives keyboard focus to next item.
 func SetKeyboardFocusHereV(offset int) {
 	C.iggSetKeyboardFocusHere(C.int(offset))
 }

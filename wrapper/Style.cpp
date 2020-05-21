@@ -1,4 +1,4 @@
-#include "imgui.h"
+#include "ConfiguredImGui.h"
 
 #include "Style.h"
 #include "WrapperConverter.h"
@@ -10,7 +10,7 @@ IggGuiStyle iggGetCurrentStyle()
 
 void iggStyleColorsDark()
 {
-    ImGui::StyleColorsDark();
+   ImGui::StyleColorsDark();
 }
 
 void iggStyleColorsClassic()

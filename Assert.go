@@ -40,8 +40,8 @@ func SetAssertHandler(handler AssertHandler) {
 }
 
 //export iggAssert
-func iggAssert(result C.int, expression *C.char, file *C.char, line C.int) {
-	if (result == 0) && (assertHandler != nil) {
+func iggAssert(expression *C.char, file *C.char, line C.int) {
+	if assertHandler != nil {
 		assertHandler(C.GoString(expression), C.GoString(file), int(line))
 	}
 }
