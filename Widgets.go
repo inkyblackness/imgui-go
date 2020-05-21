@@ -92,6 +92,19 @@ func Checkbox(id string, selected *bool) bool {
 	return C.iggCheckbox(idArg, selectedArg) != 0
 }
 
+// RadioButton returning true if it is pressed and active indicates if it is selected.
+func RadioButton(id string, active bool) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	return C.iggRadioButton(idArg, castBool(active)) != 0
+}
+
+// Bullet draws a small circle and keeps the cursor on the same line.
+// Advance cursor x position by TreeNodeToLabelSpacing(), same distance that TreeNode() uses.
+func Bullet() {
+	C.iggBullet()
+}
+
 // ProgressBarV creates a progress bar.
 // size (for each axis) is < 0.0f: align to end, 0.0f: auto, > 0.0f: specified size.
 func ProgressBarV(fraction float32, size Vec2, overlay string) {
@@ -315,24 +328,51 @@ const (
 //
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
 func InputTextV(label string, text *string, flags int, cb InputTextCallback) bool {
+	return inputTextSingleline(label, nil, text, flags, cb)
+}
+
+// InputText calls InputTextV(label, text, 0, nil).
+func InputText(label string, text *string) bool {
+	return InputTextV(label, text, 0, nil)
+}
+
+// InputTextWithHintV creates a text field for dynamic text input with a hint.
+//
+// Contrary to the original library, this wrapper does not limit the maximum number of possible characters.
+// Dynamic resizing of the internal buffer is handled within the wrapper and the user will never be called for such requests.
+//
+// The provided callback is called for any of the requested InputTextFlagsCallback* flags.
+//
+// To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
+func InputTextWithHintV(label string, hint string, text *string, flags int, cb InputTextCallback) bool {
+	return inputTextSingleline(label, &hint, text, flags, cb)
+}
+
+// InputTextWithHint calls InputTextWithHintV(label, hint, text, 0, nil).
+func InputTextWithHint(label string, hint string, text *string) bool {
+	return InputTextWithHintV(label, hint, text, 0, nil)
+}
+
+func inputTextSingleline(label string, hint *string, text *string, flags int, cb InputTextCallback) bool {
 	if text == nil {
 		panic("text can't be nil")
 	}
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
+	var hintArg *C.char
+	var hintFin func()
+	if hint != nil {
+		hintArg, hintFin = wrapString(*hint)
+		defer hintFin()
+	}
 	state := newInputTextState(*text, cb)
 	defer func() {
 		*text = state.buf.toGo()
 		state.release()
 	}()
 
-	return C.iggInputText(labelArg, (*C.char)(state.buf.ptr), C.uint(state.buf.size),
+	return C.iggInputTextSingleline(labelArg, hintArg, (*C.char)(state.buf.ptr), C.uint(state.buf.size),
 		C.int(flags|inputTextFlagsCallbackResize), state.key) != 0
-}
-
-// InputText calls InputTextV(label, string, 0, nil).
-func InputText(label string, text *string) bool {
-	return InputTextV(label, text, 0, nil)
 }
 
 // InputTextMultilineV provides a field for dynamic text input of multiple lines.

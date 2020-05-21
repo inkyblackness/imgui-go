@@ -56,6 +56,16 @@ IggBool iggCheckbox(char const *label, IggBool *selected)
    return ImGui::Checkbox(label, selectedArg) ? 1 : 0;
 }
 
+IggBool iggRadioButton(char const *label, IggBool active)
+{
+   return ImGui::RadioButton(label, active != 0) ? 1 : 0;
+}
+
+void iggBullet()
+{
+   ImGui::Bullet();
+}
+
 void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay)
 {
    Vec2Wrapper sizeArg(size);
@@ -116,9 +126,9 @@ static int iggInputTextCallbackWrapper(ImGuiInputTextCallbackData *data)
    return iggInputTextCallback(reinterpret_cast<IggInputTextCallbackData>(data), static_cast<int>(reinterpret_cast<size_t>(data->UserData)));
 }
 
-IggBool iggInputText(char const *label, char *buf, unsigned int bufSize, int flags, int callbackKey)
+IggBool iggInputTextSingleline(char const *label, char const *hint, char *buf, unsigned int bufSize, int flags, int callbackKey)
 {
-   return ImGui::InputText(label, buf, static_cast<size_t>(bufSize), flags,
+   return ImGui::InputTextWithHint(label, hint, buf, static_cast<size_t>(bufSize), flags,
              iggInputTextCallbackWrapper, reinterpret_cast<void *>(callbackKey))
       ? 1
       : 0;
