@@ -1,7 +1,7 @@
 #include "wrapper/ConfiguredImGui.h"
 
 // imgui code
-// imgui/ is added to include path in all.go
+// imgui/ is added to include path in wrapper.go
 #include "imgui.cpp"
 #include "imgui_draw.cpp"
 #include "imgui_demo.cpp"

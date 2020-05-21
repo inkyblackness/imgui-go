@@ -7,7 +7,7 @@ import "C"
 
 // Note: imgui_freetype.cpp compilation gives these warnings, hence it's disabled in CXXFLAGS
 //
-// In file included from all.cpp:10:
+// In file included from wrapper.cpp:10:
 // .\imgui/misc/freetype/imgui_freetype.cpp:294:8: warning: 'ImFontBuildSrcGlyphFT' has a field 'ImFontBuildSrcGlyphFT::Info' whose type uses the anonymous namespace [-Wsubobject-linkage]
 //   294 | struct ImFontBuildSrcGlyphFT
 //       |        ^~~~~~~~~~~~~~~~~~~~~
