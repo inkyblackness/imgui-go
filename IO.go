@@ -17,14 +17,17 @@ func CurrentIO() IO {
 // WantCaptureMouse returns true if imgui will use the mouse inputs.
 // Do not dispatch them to your main game/application in this case.
 // In either case, always pass on mouse inputs to imgui.
-// (e.g. unclicked mouse is hovering over an imgui window, widget is active, mouse was clicked over an imgui window, etc.)
+//
+// e.g. unclicked mouse is hovering over an imgui window, widget is active,
+// mouse was clicked over an imgui window, etc.
 func (io IO) WantCaptureMouse() bool {
 	return C.iggWantCaptureMouse(io.handle) != 0
 }
 
 // WantCaptureKeyboard returns true if imgui will use the keyboard inputs.
 // Do not dispatch them to your main game/application (in both cases, always pass keyboard inputs to imgui).
-// (e.g. InputText active, or an imgui window is focused and navigation is enabled, etc.).
+//
+// e.g. InputText active, or an imgui window is focused and navigation is enabled, etc.
 func (io IO) WantCaptureKeyboard() bool {
 	return C.iggWantCaptureKeyboard(io.handle) != 0
 }
@@ -41,22 +44,22 @@ func (io IO) Framerate() float32 {
 	return float32(C.iggFramerate(io.handle))
 }
 
-// MetricsRenderVertices returns vertices output during last call to Render()
+// MetricsRenderVertices returns vertices output during last call to Render().
 func (io IO) MetricsRenderVertices() int {
 	return int(C.iggMetricsRenderVertices(io.handle))
 }
 
-// MetricsRenderIndices returns indices output during last call to Render() = number of triangles * 3
+// MetricsRenderIndices returns indices output during last call to Render() = number of triangles * 3.
 func (io IO) MetricsRenderIndices() int {
 	return int(C.iggMetricsRenderIndices(io.handle))
 }
 
-// MetricsRenderWindows returns number of visible windows
+// MetricsRenderWindows returns number of visible windows.
 func (io IO) MetricsRenderWindows() int {
 	return int(C.iggMetricsRenderWindows(io.handle))
 }
 
-// MetricsActiveWindows returns number of active windows
+// MetricsActiveWindows returns number of active windows.
 func (io IO) MetricsActiveWindows() int {
 	return int(C.iggMetricsActiveWindows(io.handle))
 }
@@ -89,7 +92,7 @@ func (io IO) Fonts() FontAtlas {
 }
 
 // SetMousePosition sets the mouse position, in pixels.
-// Set to Vec2(-math.MaxFloat32,-mathMaxFloat32) if mouse is unavailable (on another screen, etc.)
+// Set to Vec2(-math.MaxFloat32,-mathMaxFloat32) if mouse is unavailable (on another screen, etc.).
 func (io IO) SetMousePosition(value Vec2) {
 	posArg, _ := value.wrapped()
 	C.iggIoSetMousePosition(io.handle, posArg)
@@ -135,6 +138,33 @@ func (io IO) KeyRelease(key int) {
 	C.iggIoKeyRelease(io.handle, C.int(key))
 }
 
+// Constants to fill IO.KeyMap() lookup with indices into the IO.KeysDown[512] array.
+// The mapped indices are then the ones reported to IO.KeyPress() and IO.KeyRelease().
+const (
+	KeyTab         = 0
+	KeyLeftArrow   = 1
+	KeyRightArrow  = 2
+	KeyUpArrow     = 3
+	KeyDownArrow   = 4
+	KeyPageUp      = 5
+	KeyPageDown    = 6
+	KeyHome        = 7
+	KeyEnd         = 8
+	KeyInsert      = 9
+	KeyDelete      = 10
+	KeyBackspace   = 11
+	KeySpace       = 12
+	KeyEnter       = 13
+	KeyEscape      = 14
+	KeyKeyPadEnter = 15
+	KeyA           = 16 // for text edit CTRL+A: select all
+	KeyC           = 17 // for text edit CTRL+C: copy
+	KeyV           = 18 // for text edit CTRL+V: paste
+	KeyX           = 19 // for text edit CTRL+X: cut
+	KeyY           = 20 // for text edit CTRL+Y: redo
+	KeyZ           = 21 // for text edit CTRL+Z: undo
+)
+
 // KeyMap maps a key into the KeysDown array which represents your "native" keyboard state.
 func (io IO) KeyMap(imguiKey int, nativeKey int) {
 	C.iggIoKeyMap(io.handle, C.int(imguiKey), C.int(nativeKey))
@@ -175,10 +205,61 @@ func (io IO) SetIniFilename(value string) {
 	C.iggIoSetIniFilename(io.handle, valueArg)
 }
 
+const (
+	// ConfigFlagNone default = 0
+	ConfigFlagNone = 0
+	// ConfigFlagNavEnableKeyboard master keyboard navigation enable flag. NewFrame() will automatically fill
+	// io.NavInputs[] based on io.KeysDown[].
+	ConfigFlagNavEnableKeyboard = 1 << 0
+	// ConfigFlagNavEnableGamepad master gamepad navigation enable flag.
+	// This is mostly to instruct your imgui back-end to fill io.NavInputs[]. Back-end also needs to set
+	// BackendFlagHasGamepad.
+	ConfigFlagNavEnableGamepad = 1 << 1
+	// ConfigFlagNavEnableSetMousePos instruct navigation to move the mouse cursor. May be useful on TV/console systems
+	// where moving a virtual mouse is awkward. Will update io.MousePos and set io.WantSetMousePos=true. If enabled you
+	// MUST honor io.WantSetMousePos requests in your binding, otherwise ImGui will react as if the mouse is jumping
+	// around back and forth.
+	ConfigFlagNavEnableSetMousePos = 1 << 2
+	// ConfigFlagNavNoCaptureKeyboard instruct navigation to not set the io.WantCaptureKeyboard flag when io.NavActive
+	// is set.
+	ConfigFlagNavNoCaptureKeyboard = 1 << 3
+	// ConfigFlagNoMouse instruct imgui to clear mouse position/buttons in NewFrame(). This allows ignoring the mouse
+	// information set by the back-end.
+	ConfigFlagNoMouse = 1 << 4
+	// ConfigFlagNoMouseCursorChange instruct back-end to not alter mouse cursor shape and visibility. Use if the
+	// back-end cursor changes are interfering with yours and you don't want to use SetMouseCursor() to change mouse
+	// cursor. You may want to honor requests from imgui by reading GetMouseCursor() yourself instead.
+	ConfigFlagNoMouseCursorChange = 1 << 5
+
+	// User storage (to allow your back-end/engine to communicate to code that may be shared between multiple projects.
+	// Those flags are not used by core Dear ImGui)
+
+	// ConfigFlagIsSRGB application is SRGB-aware.
+	ConfigFlagIsSRGB = 1 << 20
+	// ConfigFlagIsTouchScreen application is using a touch screen instead of a mouse.
+	ConfigFlagIsTouchScreen = 1 << 21
+)
+
 // SetConfigFlags sets the gamepad/keyboard navigation options, etc.
 func (io IO) SetConfigFlags(flags int) {
 	C.iggIoSetConfigFlags(io.handle, C.int(flags))
 }
+
+const (
+	// BackendFlagNone default = 0
+	BackendFlagNone = 0
+	// BackendFlagHasGamepad back-end Platform supports gamepad and currently has one connected.
+	BackendFlagHasGamepad = 1 << 0
+	// BackendFlagHasMouseCursors back-end Platform supports honoring GetMouseCursor() value to change the OS cursor
+	// shape.
+	BackendFlagHasMouseCursors = 1 << 1
+	// BackendFlagHasSetMousePos back-end Platform supports io.WantSetMousePos requests to reposition the OS mouse
+	// position (only used if ImGuiConfigFlags_NavEnableSetMousePos is set).
+	BackendFlagHasSetMousePos = 1 << 2
+	// BackendFlagsRendererHasVtxOffset back-end Renderer supports ImDrawCmd::VtxOffset. This enables output of large
+	// meshes (64K+ vertices) while still using 16-bits indices.
+	BackendFlagsRendererHasVtxOffset = 1 << 3
+)
 
 // SetBackendFlags sets back-end capabilities.
 func (io IO) SetBackendFlags(flags int) {

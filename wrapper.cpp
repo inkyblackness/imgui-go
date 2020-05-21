@@ -1,7 +1,7 @@
-#define IMGUI_USER_CONFIG "wrapper/imconfig.h"
+#include "wrapper/ConfiguredImGui.h"
 
 // imgui code
-// imgui-<version> is added to include path in all.go
+// imgui/ is added to include path in wrapper.go
 #include "imgui.cpp"
 #include "imgui_draw.cpp"
 #include "imgui_demo.cpp"
@@ -12,7 +12,6 @@
 
 // imgui-go code
 #include "wrapper/Context.cpp"
-#include "wrapper/Extra.cpp"
 #include "wrapper/Focus.cpp"
 #include "wrapper/DragDrop.cpp"
 #include "wrapper/DrawCommand.cpp"
@@ -25,7 +24,7 @@
 #include "wrapper/IO.cpp"
 #include "wrapper/Layout.cpp"
 #include "wrapper/ListClipper.cpp"
-#include "wrapper/Misc.cpp"
+#include "wrapper/Main.cpp"
 #include "wrapper/Popup.cpp"
 #include "wrapper/Scroll.cpp"
 #include "wrapper/State.cpp"

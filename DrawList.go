@@ -133,8 +133,7 @@ func (list DrawList) AddRectV(min Vec2, max Vec2, col PackedColor, rounding floa
 	C.iggAddRect(list.handle(), minArg, maxArg, C.IggPackedColor(col), C.float(rounding), C.int(drawCornerFlags), C.float(thickness))
 }
 
-// AddRectFilled calls AddRectFilledV with a radius value of 1.0 and
-// DrawCornerFlagsAll
+// AddRectFilled calls AddRectFilledV(min, max, col, 1.0, DrawCornerFlagsAll).
 func (list DrawList) AddRectFilled(min Vec2, max Vec2, col PackedColor) {
 	list.AddRectFilledV(min, max, col, 1.0, DrawCornerFlagsAll)
 }
@@ -148,7 +147,7 @@ func (list DrawList) AddRectFilledV(min Vec2, max Vec2, col PackedColor, roundin
 	C.iggAddRectFilled(list.handle(), minArg, maxArg, C.IggPackedColor(col), C.float(rounding), C.int(drawCornerFlags))
 }
 
-// AddCircleFilled calls addCircleFilledV with a numSegments value of 12
+// AddCircleFilled calls AddCircleFilledV(center, radius, col, 12).
 func (list DrawList) AddCircleFilled(center Vec2, radius float32, col PackedColor) {
 	list.AddCircleFilledV(center, radius, col, 12)
 }
@@ -160,7 +159,7 @@ func (list DrawList) AddCircleFilledV(center Vec2, radius float32, col PackedCol
 	C.iggAddCircleFilled(list.handle(), centerArg, C.float(radius), C.IggPackedColor(col), C.int(numSegments))
 }
 
-// AddCircle calls addCircleV with a numSegments value of 12
+// AddCircle calls AddCircleV(center, radius, col, 12, 1.0).
 func (list DrawList) AddCircle(center Vec2, radius float32, col PackedColor) {
 	list.AddCircleV(center, radius, col, 12, 1.0)
 }
@@ -172,13 +171,12 @@ func (list DrawList) AddCircleV(center Vec2, radius float32, col PackedColor, nu
 	C.iggAddCircle(list.handle(), centerArg, C.float(radius), C.IggPackedColor(col), C.int(numSegments), C.float(thickness))
 }
 
-// AddTriangle calls addTriangleV with a thickness of 1.0
+// AddTriangle calls AddTriangleV(p1, p2, p3, col, 1.0).
 func (list DrawList) AddTriangle(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColor) {
 	list.AddTriangleV(p1, p2, p3, col, 1.0)
 }
 
-// AddTriangleV adds an unfilled triangle of points p1, p2, p3 to the draw
-// list.
+// AddTriangleV adds an unfilled triangle of points p1, p2, p3 to the draw list.
 func (list DrawList) AddTriangleV(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColor, thickness float32) {
 	p1Arg, _ := p1.wrapped()
 	p2Arg, _ := p2.wrapped()
@@ -186,8 +184,7 @@ func (list DrawList) AddTriangleV(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColor, th
 	C.iggAddTriangle(list.handle(), p1Arg, p2Arg, p3Arg, C.IggPackedColor(col), C.float(thickness))
 }
 
-// AddTriangleFilled adds an filled triangle of points p1, p2, p3 to the draw
-// list.
+// AddTriangleFilled adds an filled triangle of points p1, p2, p3 to the draw list.
 func (list DrawList) AddTriangleFilled(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColor) {
 	p1Arg, _ := p1.wrapped()
 	p2Arg, _ := p2.wrapped()

@@ -14,7 +14,8 @@ class TypeWrapper
 {
 public:
    TypeWrapper(IggType *iggValue)
-      :  iggValue(iggValue), imguiValue(nullptr)
+      : iggValue(iggValue)
+      , imguiValue(nullptr)
    {
       if (iggValue != nullptr)
       {
@@ -24,7 +25,8 @@ public:
    }
 
    TypeWrapper(IggType const *constIggValue)
-      :  iggValue(nullptr), imguiValue(nullptr)
+      : iggValue(nullptr)
+      , imguiValue(nullptr)
    {
       if (constIggValue != nullptr)
       {

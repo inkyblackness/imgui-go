@@ -21,7 +21,7 @@ func BeginPopupV(name string, flags int) bool {
 	return C.iggBeginPopup(nameArg, C.int(flags)) != 0
 }
 
-// BeginPopup calls BeginPopupV(name, nil, 0)
+// BeginPopup calls BeginPopupV(name, nil, 0).
 func BeginPopup(name string) bool {
 	return BeginPopupV(name, 0)
 }
@@ -36,7 +36,7 @@ func BeginPopupModalV(name string, open *bool, flags int) bool {
 	return C.iggBeginPopupModal(nameArg, openArg, C.int(flags)) != 0
 }
 
-// BeginPopupModal calls BeginPopupModalV(name, nil, 0)
+// BeginPopupModal calls BeginPopupModalV(name, nil, 0).
 func BeginPopupModal(name string) bool {
 	return BeginPopupModalV(name, nil, 0)
 }
@@ -49,7 +49,7 @@ func BeginPopupContextItemV(label string, mouseButton int) bool {
 	return C.iggBeginPopupContextItem(labelArg, C.int(mouseButton)) != 0
 }
 
-// BeginPopupContextItem calls BeginPopupContextItemV("", 1)
+// BeginPopupContextItem calls BeginPopupContextItemV("", 1).
 func BeginPopupContextItem() bool {
 	return BeginPopupContextItemV("", 1)
 }
