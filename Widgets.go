@@ -328,19 +328,7 @@ const (
 //
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
 func InputTextV(label string, text *string, flags int, cb InputTextCallback) bool {
-	if text == nil {
-		panic("text can't be nil")
-	}
-	labelArg, labelFin := wrapString(label)
-	defer labelFin()
-	state := newInputTextState(*text, cb)
-	defer func() {
-		*text = state.buf.toGo()
-		state.release()
-	}()
-
-	return C.iggInputTextWithHint(labelArg, nil, (*C.char)(state.buf.ptr), C.uint(state.buf.size),
-		C.int(flags|inputTextFlagsCallbackResize), state.key) != 0
+	return inputTextSingleline(label, nil, text, flags, cb)
 }
 
 // InputText calls InputTextV(label, text, 0, nil).
@@ -357,26 +345,34 @@ func InputText(label string, text *string) bool {
 //
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
 func InputTextWithHintV(label string, hint string, text *string, flags int, cb InputTextCallback) bool {
+	return inputTextSingleline(label, &hint, text, flags, cb)
+}
+
+// InputTextWithHint calls InputTextWithHintV(label, hint, text, 0, nil).
+func InputTextWithHint(label string, hint string, text *string) bool {
+	return InputTextWithHintV(label, hint, text, 0, nil)
+}
+
+func inputTextSingleline(label string, hint *string, text *string, flags int, cb InputTextCallback) bool {
 	if text == nil {
 		panic("text can't be nil")
 	}
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
-	hintArg, hintFin := wrapString(hint)
-	defer hintFin()
+	var hintArg *C.char
+	var hintFin func()
+	if hint != nil {
+		hintArg, hintFin = wrapString(*hint)
+		defer hintFin()
+	}
 	state := newInputTextState(*text, cb)
 	defer func() {
 		*text = state.buf.toGo()
 		state.release()
 	}()
 
-	return C.iggInputTextWithHint(labelArg, hintArg, (*C.char)(state.buf.ptr), C.uint(state.buf.size),
+	return C.iggInputTextSingleline(labelArg, hintArg, (*C.char)(state.buf.ptr), C.uint(state.buf.size),
 		C.int(flags|inputTextFlagsCallbackResize), state.key) != 0
-}
-
-// InputTextWithHint calls InputTextWithHintV(label, hint, text, 0, nil).
-func InputTextWithHint(label string, hint string, text *string) bool {
-	return InputTextWithHintV(label, hint, text, 0, nil)
 }
 
 // InputTextMultilineV provides a field for dynamic text input of multiple lines.

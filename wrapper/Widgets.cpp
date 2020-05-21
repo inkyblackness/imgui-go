@@ -126,7 +126,7 @@ static int iggInputTextCallbackWrapper(ImGuiInputTextCallbackData *data)
    return iggInputTextCallback(reinterpret_cast<IggInputTextCallbackData>(data), static_cast<int>(reinterpret_cast<size_t>(data->UserData)));
 }
 
-IggBool iggInputTextWithHint(char const *label, char const *hint, char *buf, unsigned int bufSize, int flags, int callbackKey)
+IggBool iggInputTextSingleline(char const *label, char const *hint, char *buf, unsigned int bufSize, int flags, int callbackKey)
 {
    return ImGui::InputTextWithHint(label, hint, buf, static_cast<size_t>(bufSize), flags,
              iggInputTextCallbackWrapper, reinterpret_cast<void *>(callbackKey))
