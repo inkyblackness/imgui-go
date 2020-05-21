@@ -1,6 +1,6 @@
 # Dear ImGui for Go
 
-[![Go Doc](https://godoc.org/github.com/inkyblackness/imgui-go?status.svg)](https://godoc.org/github.com/inkyblackness/imgui-go)
+[![Go Doc](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/inkyblackness/imgui-go/v2)
 [![Go Report Card](https://goreportcard.com/badge/github.com/inkyblackness/imgui-go)](https://goreportcard.com/report/github.com/inkyblackness/imgui-go)
 [![Lint Status](https://github.com/inkyblackness/imgui-go/workflows/golangci-lint/badge.svg)](https://github.com/inkyblackness/imgui-go/actions)
 
