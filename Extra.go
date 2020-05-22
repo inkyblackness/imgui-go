@@ -3,14 +3,14 @@ package imgui
 // #include "wrapper/Extra.h"
 import "C"
 
-// Spinner draws a rotating spinner
+// Spinner draws a rotating spinner.
 func Spinner(label string, radius float32, thickness int) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	C.iggSpinner(labelArg, C.float(radius), C.int(thickness))
 }
 
-// Splitter adds a movable splitter between to childs
+// Splitter adds a movable splitter between to childs.
 func Splitter(splitVertically bool, thickness float32, size1 *float32, size2 *float32) bool {
 	size1Arg, size1Fin := wrapFloat(size1)
 	defer size1Fin()
