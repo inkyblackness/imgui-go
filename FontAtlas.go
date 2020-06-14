@@ -105,7 +105,7 @@ func (atlas FontAtlas) AddFontFromMemoryTTFV(
 	fontDataC := C.malloc(C.size_t(len(fontData)))
 	cBuf := ptrToByteSlice(fontDataC)
 
-	copy(cBuf[:], fontData)
+	copy(cBuf, fontData)
 
 	fontHandle := C.iggAddFontFromMemoryTTF(atlas.handle(), (*C.char)(fontDataC), C.int(len(fontData)), C.float(sizePixels),
 		config.handle(), glyphRange.handle())
