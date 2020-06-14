@@ -21,7 +21,7 @@ func (glyphs GlyphRanges) extract() (result []glyphRange) {
 	if glyphs == 0 {
 		return
 	}
-	rawSlice := (*[1 << 30]uint16)(unsafe.Pointer(glyphs.handle()))[:]
+	rawSlice := ptrToUint16Slice(unsafe.Pointer(glyphs.handle()))
 	index := 0
 	// iterate until end of list or an arbitrary paranoia limit, should the list not be proper.
 	for (rawSlice[index] != 0) && (index < 1000) {

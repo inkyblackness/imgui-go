@@ -103,7 +103,7 @@ func (atlas FontAtlas) AddFontFromMemoryTTFV(
 	}
 
 	fontDataC := C.malloc(C.size_t(len(fontData)))
-	cBuf := (*[1 << 30]byte)(fontDataC)
+	cBuf := ptrToByteSlice(fontDataC)
 
 	copy(cBuf[:], fontData)
 
