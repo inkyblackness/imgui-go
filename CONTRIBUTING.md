@@ -21,6 +21,9 @@ If you can and want to make use of this library in your own projects, you are ha
 * Public Go API is documented. Copied documentation from **Dear ImGui** is acceptable and recommended, assuming it is adapted regarding type names. If there is no documentation in the original, try to spend some time figuring it out. In any case, please make the comments readable as complete English sentences, as recommended by Go.
 * API and version philosophies are respected (see README.md)
 
+_Ideally_, please also extend the demo window(s) of [inkyblackness/imgui-go-examples](https://github.com/inkyblackness/imgui-go-examples) - see `internal/demo/Window.go`.
+This way we also grow a Go-based demonstrator. 
+
 #### Clarification on API naming and signatures
 
 If a **Dear ImGui** function has the signature of
