@@ -31,7 +31,7 @@ func (builder *GlyphRangesBuilder) Build() AllocatedGlyphRanges {
 	const uint16PerRangeEntry = 2
 	ranges := builder.mergedRanges()
 	raw := C.malloc(C.size_t(bytesPerUint16 * ((len(ranges) * uint16PerRangeEntry) + 1)))
-	rawSlice := (*[1 << 30]uint16)(raw)[:]
+	rawSlice := ptrToUint16Slice(raw)
 	outIndex := 0
 	for _, r := range ranges {
 		rawSlice[outIndex+0] = r.from

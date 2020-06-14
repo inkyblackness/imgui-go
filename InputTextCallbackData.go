@@ -125,7 +125,7 @@ func (data InputTextCallbackData) Buffer() []byte {
 		return nil
 	}
 	textLen := data.bufTextLen()
-	return ((*[1 << 30]byte)(unsafe.Pointer(ptr)))[:textLen]
+	return ptrToByteSlice(unsafe.Pointer(ptr))[:textLen]
 }
 
 // MarkBufferModified indicates that the content of the buffer was modified during a callback.
