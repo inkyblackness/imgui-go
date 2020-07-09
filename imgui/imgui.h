@@ -756,6 +756,10 @@ namespace ImGui
     IMGUI_API void*         MemAlloc(size_t size);
     IMGUI_API void          MemFree(void* ptr);
 
+    // COPIED FROM imgui_internal.h, because including imgui_internal.h from go bindings doesnt work
+    IMGUI_API void          PushItemFlag(int option, bool enabled);
+    IMGUI_API void          PopItemFlag();
+
 } // namespace ImGui
 
 //-----------------------------------------------------------------------------
