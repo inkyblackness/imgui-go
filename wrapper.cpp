@@ -30,6 +30,7 @@
 #include "wrapper/Scroll.cpp"
 #include "wrapper/State.cpp"
 #include "wrapper/Style.cpp"
+#include "wrapper/Utils.cpp"
 #include "wrapper/Widgets.cpp"
 #include "wrapper/Window.cpp"
 #include "wrapper/WrapperConverter.cpp"
