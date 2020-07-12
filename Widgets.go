@@ -988,6 +988,8 @@ const (
 	TabItemFlagsNoCloseWithMiddleMouseButton = 1 << 2
 	// TabItemFlagsNoPushID Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem()
 	TabItemFlagsNoPushID = 1 << 3
+	// ImGuiTabItemFlags_NoTooltip Disable tooltip for the given tab
+	ImGuiTabItemFlags_NoTooltip = 1 << 4
 )
 
 // BeginTabItemV create a Tab. Returns true if the Tab is selected.

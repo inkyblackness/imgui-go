@@ -6,9 +6,11 @@ package imgui
 type Condition int
 
 const (
-	// ConditionAlways sets the variable.
-	ConditionAlways Condition = 1 << 0
-	// ConditionOnce sets the variable once per runtime session (only the first call with succeed).
+	// ConditionNone no condition (always set the variable), same as ConditionAlways
+	ConditionNone Condition = 0
+	// ConditionAlways no condition (always set the variable)
+	ConditionAlways = 1 << 0
+	// ConditionOnce sets the variable once per runtime session (only the first call will succeed)
 	ConditionOnce = 1 << 1
 	// ConditionFirstUseEver sets the variable if the object/window has no persistently saved data (no entry in .ini file).
 	ConditionFirstUseEver = 1 << 2
