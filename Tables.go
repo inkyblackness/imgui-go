@@ -120,12 +120,11 @@ const (
 //   of "available space" doesn't make sense.
 // - Even if not really useful, we allow 'innerWidth < outerSize.x' for consistency and to facilitate understanding
 //   of what the value does.
-func BeginTableV(id string, columnsCount int, flags TableFlags, outerSize Vec2, innerWidth float32) bool {
+func BeginTableV(id string, columnsCount int, flags int, outerSize Vec2, innerWidth float32) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
 	outerSizeArg, _ := outerSize.wrapped()
-	innerWidthArg, _ := innerWidth.wrapped()
-	return C.iggBeginTable(idArg, C.int(columnsCount), C.int(flags), outerSizeArg, innerWidthArg) != 0
+	return C.iggBeginTable(idArg, C.int(columnsCount), C.int(flags), outerSizeArg, C.float(innerWidth)) != 0
 }
 
 // BeginTable calls BeginTableV(id, columnsCount, 0, imgui.Vec2{}, 0.0).
@@ -140,8 +139,8 @@ func EndTable() {
 }
 
 // TableNextRowV appends into the first cell of a new row
-func TableNextRowV(flags TableRowFlags, minRowHeight float32) {
-	iggTableNextRow(C.int(flags), C.float(minRowHeight))
+func TableNextRowV(flags int, minRowHeight float32) {
+	C.iggTableNextRow(C.int(flags), C.float(minRowHeight))
 }
 
 // TableNextRow calls TableNextRowV(0, 0.0)
@@ -167,7 +166,7 @@ func TableGetColumnIndex() int {
 
 // TableGetColumnNameV returns NULL if column didn't have a name declared by TableSetupColumn(). Pass -1 to use current column.
 func TableGetColumnNameV(columnN int) string {
-	return C.GoString(C.iggTableGetColumnName(c.int(columnN)))
+	return C.GoString(C.iggTableGetColumnName(C.int(columnN)))
 }
 
 // TableGetColumnName calls TableGetColumnNameV(-1)
@@ -177,7 +176,7 @@ func TableGetColumnName() string {
 
 // TableGetColumnIsVisibleV returns true if column is visible. Same value is also returned by TableNextCell() and TableSetColumnIndex(). Pass -1 to use current column.
 func TableGetColumnIsVisibleV(columnN int) bool {
-	return C.iggTableGetColumnIsVisible(c.int(columnN)) != 0
+	return C.iggTableGetColumnIsVisible(C.int(columnN)) != 0
 }
 
 // TableGetColumnIsVisible calls TableGetColumnIsVisibleV(-1)
@@ -190,7 +189,7 @@ func TableGetColumnIsVisible() bool {
 // Equivalent to test ImGuiTableSortSpecs's ->ColumnsMask & (1 << column_n).
 // Pass -1 to use current column.
 func TableGetColumnIsSortedV(columnN int) bool {
-	return C.iggTableGetColumnIsSorted(c.int(columnN)) != 0
+	return C.iggTableGetColumnIsSorted(C.int(columnN)) != 0
 }
 
 // TableGetColumnIsSorted calls TableGetColumnIsSortedV(-1)
@@ -210,15 +209,15 @@ func TableGetHoveredColumn() int {
 // - The name passed to TableSetupColumn() is used by TableAutoHeaders() and by the context-menu
 // - Use TableAutoHeaders() to submit the whole header row, otherwise you may treat the header row as a regular row, manually call TableHeader() and other widgets.
 // - Headers are required to perform some interactions: reordering, sorting, context menu (FIXME-TABLE: context menu should work without!)
-func TableSetupColumnV(label string, flags TableColumnFlags, initWidthOrHeight float32, userID uint) {
+func TableSetupColumnV(label string, flags int, initWidthOrHeight float32, userID uint) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	C.iggTableSetupColumn(labelArg, C.int(flags), C.float(initWidthOrHeight), C.uint(userID))
 }
 
-// TableSetupColumn calls TabelSetupCollumnV(label, 0, -1.0, 0)
+// TableSetupColumn calls TableSetupColumnV(label, 0, -1.0, 0)
 func TableSetupColumn(label string) {
-	TabelSetupCollumnV(label, 0, -1.0, 0)
+	TableSetupColumnV(label, 0, -1.0, 0)
 }
 
 // TableAutoHeaders submits all headers cells based on data provided to TableSetupColumn() + submit context menu
