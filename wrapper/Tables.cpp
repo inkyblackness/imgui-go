@@ -55,7 +55,7 @@ int iggTableGetHoveredColumn(void)
 	return ImGui::TableGetHoveredColumn();	
 }
 
-void iggTableSetupColumn(char const *label, int flags, float init_width_or_weight, unsigned int user_id);
+void iggTableSetupColumn(char const *label, int flags, float init_width_or_weight, unsigned int user_id)
 {
 	ImGui::TableSetupColumn(label, flags, init_width_or_weight, user_id);
 }
