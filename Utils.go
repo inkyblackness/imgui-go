@@ -20,14 +20,14 @@ func Splitter(splitVertically bool, thickness float32, size1 *float32, size2 *fl
 }
 
 type ListClipper struct {
-	handle       C.iggListClipper
+	handle       C.IggListClipper
 	DisplayStart int
 	DisplayEnd   int
 }
 
 func ListClipperInit(count int) ListClipper {
 	var list_clipper ListClipper
-	list_clipper.handle = C.iggListCliperInit(C.int(count))
+	list_clipper.handle = C.iggListClipperInit(C.int(count))
 	return list_clipper
 }
 

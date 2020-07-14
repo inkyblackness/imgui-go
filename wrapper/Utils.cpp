@@ -59,16 +59,16 @@ IggBool iggSplitter(IggBool split_vertically, float thickness, float *size1, flo
     return SplitterBehavior(bb, id, split_vertically != 0 ? ImGuiAxis_X : ImGuiAxis_Y, size1, size2, 8.f, 8.f);
 }
 
-void *iggListClipperInit(int count)
+IggListClipper iggListClipperInit(int count)
 {
     static ImGuiListClipper clipper;
     clipper.Begin(count);
-    return (void*)&clipper;
+    return reinterpret_cast<IggListClipper>(&clipper);
 }
 
-bool iggListClipperStep(void *handle, int *display_start, int *display_end)
+bool iggListClipperStep(IggListClipper handle, int *display_start, int *display_end)
 {
-    ImGuiListClipper *clipper = (ImGuiListClipper*)handle;
+    ImGuiListClipper *clipper = reinterpret_cast<ImGuiListClipper *>(handle);
     bool step = clipper->Step();
     *display_start = clipper->DisplayStart;
     *display_end = clipper->DisplayEnd;
