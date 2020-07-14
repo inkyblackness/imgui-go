@@ -22,7 +22,7 @@ typedef void *IggInputTextCallbackData;
 typedef void *IggIO;
 typedef unsigned int IggPackedColor;
 typedef void *IggPayload;
-typedef void *IggListClipper
+typedef void *IggListClipper;
 
 typedef struct tagIggVec2
 {
