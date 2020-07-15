@@ -47,14 +47,15 @@ void iggSpinner(const char* label, float radius, int thickness) {
 
 IggBool iggSplitter(IggBool split_vertically, float thickness, float *size1, float *size2)
 {
-   using namespace ImGui;
-   ImGuiContext& g = *GImGui;
-   ImGuiWindow* window = g.CurrentWindow;
-   ImGuiID id = window->GetID("##Splitter");
-   ImRect bb;
-   bb.Min = window->DC.CursorPos + (split_vertically != 0 ? ImVec2(*size1, 0.0f) : ImVec2(0.0f, *size1));
-   bb.Max = bb.Min + CalcItemSize(split_vertically != 0 ? ImVec2(thickness, -1.f) : ImVec2(-1.f, thickness), 0.0f, 0.0f);
+    using namespace ImGui;
+    ImGuiContext& g = *GImGui;
+    ImGuiWindow* window = g.CurrentWindow;
+    ImGuiID id = window->GetID("##Splitter");
+    ImRect bb;
+    bb.Min = window->DC.CursorPos + (split_vertically != 0 ? ImVec2(*size1, 0.0f) : ImVec2(0.0f, *size1));
+    bb.Max = bb.Min + CalcItemSize(split_vertically != 0 ? ImVec2(thickness, -1.f) : ImVec2(-1.f, thickness), 0.0f, 0.0f);
 //IMGUI_API bool          SplitterBehavior(const ImRect& bb, ImGuiID id, ImGuiAxis axis, float* size1, float* size2, float min_size1, float min_size2, float hover_extend = 0.0f, float hover_visibility_delay = 0.0f);
     
-   return SplitterBehavior(bb, id, split_vertically != 0 ? ImGuiAxis_X : ImGuiAxis_Y, size1, size2, 8.f, 8.f);
+    return SplitterBehavior(bb, id, split_vertically != 0 ? ImGuiAxis_X : ImGuiAxis_Y, size1, size2, 8.f, 8.f);
 }
+
