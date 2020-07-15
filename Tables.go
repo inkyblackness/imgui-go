@@ -233,29 +233,33 @@ func TableHeader(label string) {
 }
 
 // Tables: Sorting
-// - Call TableGetSortSpecs() to retrieve latest sort specs for the table. Return value will be NULL if no sorting.
+// - Call TableGetSortSpecs() to retrieve latest sort specs for the table. Return value will be nil if no sorting.
 // - You can sort your data again when 'SpecsChanged == true'. It will be true with sorting specs have changed since last call, or the first time.
 // - Lifetime: don't hold on this pointer over multiple frames or past any subsequent call to BeginTable()!
 
 // Sorting specification for one column of a table (sizeof == 8 bytes)
-// type ImGuiTableSortSpecsColumn struct {
-//     ImGuiID                     ColumnUserID;       // User id of the column (if specified by a TableSetupColumn() call)
-//     ImU8                        ColumnIndex;        // Index of the column
-//     ImU8                        SortOrder;          // Index within parent ImGuiTableSortSpecs (always stored in order starting from 0, tables sorted on a single criteria will always have a 0 here)
-//     ImGuiSortDirection          SortDirection : 8;  // ImGuiSortDirection_Ascending or ImGuiSortDirection_Descending (you can use this or SortSign, whichever is more convenient for your sort function)
+type ImGuiTableSortSpecsColumn struct {
+	ColumnUserID  uint  // User id of the column (if specified by a TableSetupColumn() call)
+	ColumnIndex   uint8 // Index of the column
+	SortOrder     uint8 // Index within parent ImGuiTableSortSpecs (always stored in order starting from 0, tables sorted on a single criteria will always have a 0 here)
+	SortDirection int   // ImGuiSortDirection_Ascending or ImGuiSortDirection_Descending (you can use this or SortSign, whichever is more convenient for your sort function)
 
-//     ImGuiTableSortSpecsColumn() { ColumnUserID = 0; ColumnIndex = 0; SortOrder = 0; SortDirection = ImGuiSortDirection_Ascending; }
-// }
+	// ImGuiTableSortSpecsColumn() { ColumnUserID = 0; ColumnIndex = 0; SortOrder = 0; SortDirection = ImGuiSortDirection_Ascending; }
+}
 
 // Sorting specifications for a table (often handling sort specs for a single column, occasionally more)
 // Obtained by calling TableGetSortSpecs()
-// type ImGuiTableSortSpecs struct {
-//     const ImGuiTableSortSpecsColumn* Specs;         // Pointer to sort spec array.
-//     int                         SpecsCount;         // Sort spec count. Most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
-//     bool                        SpecsChanged;       // Set to true by TableGetSortSpecs() call if the specs have changed since the previous call. Use this to sort again!
-//     ImU64                       ColumnsMask;        // Set to the mask of column indexes included in the Specs array. e.g. (1 << N) when column N is sorted.
+type ImGuiTableSortSpecs struct {
+	ImGuiTableSortSpecsColumn *Specs // Pointer to sort spec array.
+	SpecsCount                int    // Sort spec count. Most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
+	SpecsChanged              bool   // Set to true by TableGetSortSpecs() call if the specs have changed since the previous call. Use this to sort again!
+	ColumnsMask               uint64 // Set to the mask of column indexes included in the Specs array. e.g. (1 << N) when column N is sorted.
 
-//     ImGuiTableSortSpecs()       { Specs = NULL; SpecsCount = 0; SpecsChanged = false; ColumnsMask = 0x00; }
-// }
+	// ImGuiTableSortSpecs()       { Specs = nil; SpecsCount = 0; SpecsChanged = false; ColumnsMask = 0x00; }
+}
 
-// IMGUI_API const ImGuiTableSortSpecs* TableGetSortSpecs();           // get latest sort specs for the table (NULL if not sorting).
+
+// TableGetSortSpecs gets latest sort specs for the table (nil if not sorting).
+func ImGuiTableSortSpecs* TableGetSortSpecs() {
+
+}
