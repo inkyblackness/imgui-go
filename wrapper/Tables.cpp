@@ -69,3 +69,25 @@ void iggTableHeader(char const *label)
 {
 	ImGui::TableHeader(label);
 }
+
+static void exportTableSortSpecs(IggTableSortSpecs &out, ImGuiTableSortSpecs const &in)
+{
+	for (int n = 0; n < in.SpecsCount; n++)
+	{
+		out.Specs[n].ColumnUserID = in.Specs[n].ColumnUserID;
+		out.Specs[n].ColumnIndex = in.Specs[n].ColumnIndex;
+		out.Specs[n].SortOrder = in.Specs[n].SortOrder;
+		out.Specs[n].SortDirection = in.Specs[n].SortDirection;
+	}
+	out.SpecsCount = in.SpecsCount;
+	out.SpecsChanged = in.SpecsChanged;
+	out.ColumnsMask = in.ColumnsMask;
+}
+
+IggBool iggTableGetSortSpecs(IggTableSortSpecs *sort_specs)
+{
+	const ImGuiTableSortSpecs *ret = ImGui::TableGetSortSpecs();
+	if (ret == NULL) return 0;
+
+	exportTableSortSpecs(*sort_specs, *ret); return 1;
+}

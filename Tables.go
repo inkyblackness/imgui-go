@@ -164,7 +164,7 @@ func TableGetColumnIndex() int {
 	return int(C.iggTableGetColumnIndex())
 }
 
-// TableGetColumnNameV returns NULL if column didn't have a name declared by TableSetupColumn(). Pass -1 to use current column.
+// TableGetColumnNameV returns "" if column didn't have a name declared by TableSetupColumn(). Pass -1 to use current column.
 func TableGetColumnNameV(columnN int) string {
 	return C.GoString(C.iggTableGetColumnName(C.int(columnN)))
 }
@@ -238,28 +238,47 @@ func TableHeader(label string) {
 // - Lifetime: don't hold on this pointer over multiple frames or past any subsequent call to BeginTable()!
 
 // Sorting specification for one column of a table (sizeof == 8 bytes)
-type ImGuiTableSortSpecsColumn struct {
+type TableSortSpecsColumn struct {
 	ColumnUserID  uint  // User id of the column (if specified by a TableSetupColumn() call)
 	ColumnIndex   uint8 // Index of the column
 	SortOrder     uint8 // Index within parent ImGuiTableSortSpecs (always stored in order starting from 0, tables sorted on a single criteria will always have a 0 here)
 	SortDirection int   // ImGuiSortDirection_Ascending or ImGuiSortDirection_Descending (you can use this or SortSign, whichever is more convenient for your sort function)
-
-	// ImGuiTableSortSpecsColumn() { ColumnUserID = 0; ColumnIndex = 0; SortOrder = 0; SortDirection = ImGuiSortDirection_Ascending; }
 }
 
 // Sorting specifications for a table (often handling sort specs for a single column, occasionally more)
 // Obtained by calling TableGetSortSpecs()
-type ImGuiTableSortSpecs struct {
-	ImGuiTableSortSpecsColumn *Specs // Pointer to sort spec array.
-	SpecsCount                int    // Sort spec count. Most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
-	SpecsChanged              bool   // Set to true by TableGetSortSpecs() call if the specs have changed since the previous call. Use this to sort again!
-	ColumnsMask               uint64 // Set to the mask of column indexes included in the Specs array. e.g. (1 << N) when column N is sorted.
-
-	// ImGuiTableSortSpecs()       { Specs = nil; SpecsCount = 0; SpecsChanged = false; ColumnsMask = 0x00; }
+type TableSortSpecs struct {
+	Specs        [256]TableSortSpecsColumn // Sort spec array.
+	SpecsCount   int                       // Sort spec count. Most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
+	SpecsChanged bool                      // Set to true by TableGetSortSpecs() call if the specs have changed since the previous call. Use this to sort again!
+	ColumnsMask  uint64                    // Set to the mask of column indexes included in the Specs array. e.g. (1 << N) when column N is sorted.
 }
 
-
 // TableGetSortSpecs gets latest sort specs for the table (nil if not sorting).
-func ImGuiTableSortSpecs* TableGetSortSpecs() {
+func TableGetSortSpecs() *TableSortSpecs {
+	// TableSortSpecs.SpecsCount is most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
+	// since TableSortSpecsColumn.ColumnIndex is uint8, a maximum possible column count which could be referenced is 256, if
+	// we don't use TableSortSpecsColumn.ColumnUserID which would allow more columns to be referenced
+	// So we use static array with 256 TableSortSpecsColumn values, which allows to sort 256 columns simultaneously (already way too much...)
+	sort_specs := &C.IggTableSortSpecs{Specs: [256]C.IggTableSortSpecsColumn{}}
+	if C.iggTableGetSortSpecs(sort_specs) == 0 {
+		return nil
+	}
 
+	result := &TableSortSpecs{
+		SpecsCount:   int(sort_specs.SpecsCount),
+		SpecsChanged: sort_specs.SpecsChanged != 0,
+		ColumnsMask:  uint64(sort_specs.ColumnsMask),
+	}
+
+	for n := 0; n < int(sort_specs.SpecsCount); n += 1 {
+		result.Specs[n] = TableSortSpecsColumn{
+			ColumnUserID:  uint(sort_specs.Specs[n].ColumnUserID),
+			ColumnIndex:   uint8(sort_specs.Specs[n].ColumnIndex),
+			SortOrder:     uint8(sort_specs.Specs[n].SortOrder),
+			SortDirection: int(sort_specs.Specs[n].SortDirection),
+		}
+	}
+
+	return result
 }
