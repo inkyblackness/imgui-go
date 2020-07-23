@@ -112,9 +112,48 @@ func (buf stringBuffer) toGo() string {
 	if (buf.ptr == nil) || (buf.size < 1) {
 		return ""
 	}
+
 	ptrToByteSlice(buf.ptr)[buf.size-1] = 0
 	return C.GoString((*C.char)(buf.ptr))
 }
+
+// type stringsBuffer struct {
+// 	ptr   unsafe.Pointer
+// 	count int
+// }
+
+// func newStringsBuffer(values []string) *stringsBuffer {
+// 	var valuesPtr **C.char
+// 	valuesPtrValueSize := unsafe.Sizeof(*valuesPtr)
+// 	valuesPtr = (**C.char)(C.malloc(C.size_t(len(values)) * C.ulonglong(valuesPtrValueSize)))
+
+// 	for i, value := range values {
+// 		byteValue := []byte(value)
+// 		valueSize := len(byteValue) + 1
+// 		valuePtr := C.malloc(C.size_t(valueSize))
+// 		zeroOffset := valueSize - 1
+// 		valueBuf := ptrToByteSlice(valuePtr)
+// 		copy(valueBuf[:zeroOffset], byteValue)
+// 		valueBuf[zeroOffset] = 0
+
+// 		valuesBuf := ptrToByteSlice(unsafe.Pointer(uintptr(unsafe.Pointer(valuesPtr)) + uintptr(i)*valuesPtrValueSize))
+// 		binary.LittleEndian.PutUint64(valuesBuf, uint64(uintptr(valuePtr)))
+// 	}
+
+// 	return &stringsBuffer{ptr: unsafe.Pointer(valuesPtr), count: len(values)}
+// }
+
+// func (buf *stringsBuffer) free() {
+// 	// išvalom stringus
+// 	valuesPtrValueSize := unsafe.Sizeof(*(**C.char)(buf.ptr))
+// 	for i := 0; i < buf.count; i += 1 {
+// 		C.free(unsafe.Pointer(uintptr(buf.ptr) + uintptr(i)*valuesPtrValueSize))
+// 	}
+
+// 	// išvalom patį masyvą, kuris laiko stringų pointerius
+// 	C.free(buf.ptr)
+// 	buf.count = 0
+// }
 
 // unrealisticLargePointer is used to cast an arbitrary native pointer to a slice.
 // Its value is chosen to fit into a 32bit architecture, and still be large
