@@ -155,3 +155,49 @@ func FrameHeight() float32 {
 func FrameHeightWithSpacing() float32 {
 	return float32(C.iggGetFrameHeightWithSpacing())
 }
+
+func BeginHorizontalV(id string, size Vec2, align float32) {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	sizeArg, _ := size.wrapped()
+	C.iggBeginHorizontal(idArg, sizeArg, C.float(align))
+}
+
+func BeginHorizontal(id string) {
+	BeginHorizontalV(id, Vec2{}, -1.0)
+}
+
+func EndHorizontal() {
+	C.iggEndHorizontal()
+}
+
+func BeginVerticalV(id string, size Vec2, align float32) {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	sizeArg, _ := size.wrapped()
+	C.iggBeginVertical(idArg, sizeArg, C.float(align))
+}
+
+func BeginVertical(id string) {
+	BeginVerticalV(id, Vec2{}, -1.0)
+}
+
+func EndVertical() {
+	C.iggEndVertical()
+}
+
+func SpringV(weight float32, spacing float32) {
+	C.iggSpring(C.float(weight), C.float(spacing))
+}
+
+func Spring() {
+	SpringV(1.0, -1.0)
+}
+
+func SuspendLayout() {
+	C.iggSuspendLayout()
+}
+
+func ResumeLayout() {
+	C.iggResumeLayout()
+}
