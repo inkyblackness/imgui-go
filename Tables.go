@@ -13,10 +13,22 @@ import "C"
 // - See TableFlags and TableColumnsFlags enums for a description of available flags.
 
 // Flags for ImGui::BeginTable()
-// - Columns can either varying resizing policy: "Fixed", "Stretch" or "AlwaysAutoResize". Toggling ScrollX needs to alter default sizing policy.
-// - Sizing policy have many subtle side effects which may be hard to fully comprehend at first.. They'll eventually make sense.
-//   - with SizingPolicyFixedX (default is ScrollX is on):     Columns can be enlarged as needed. Enable scrollbar if ScrollX is enabled, otherwise extend parent window's contents rect. Only Fixed columns allowed. Weighted columns will calculate their width assuming no scrolling.
-//   - with SizingPolicyStretchX (default is ScrollX is off):  Fit all columns within available table width (so it doesn't make sense to use ScrollX with Stretch columns!). Fixed and Weighted columns allowed.
+// - Important! Sizing policies have particularly complex and subtle side effects, more so than you would expect.
+//   Read comments/demos carefully + experiment with live demos to get acquainted with them.
+// - The default sizing policy for columns depends on whether the ScrollX flag is set on the table:
+//   When ScrollX is off:
+//    - Table defaults to ImGuiTableFlags_SizingPolicyStretchX -> all Columns defaults to ImGuiTableColumnFlags_WidthStretch.
+//    - Columns sizing policy allowed: Fixed/Auto or Stretch.
+//    - Stretch Columns will share the width available in table.
+//    - Fixed Columns will generally obtain their requested width unless the Table cannot fit them all.
+//   When ScrollX is on:
+//    - Table defaults to ImGuiTableFlags_SizingPolicyFixedX -> all Columns defaults to ImGuiTableColumnFlags_WidthFixed.
+//    - Columns sizing policy allowed: Fixed/Auto mostly! Using Stretch columns OFTEN DOES NOT MAKE SENSE if ScrollX is on, UNLESS you have specified a value for 'inner_width' in BeginTable().
+//    - Fixed Columns can be enlarged as needed. Table will show an horizontal scrollbar if needed.
+//    - Stretch Columns, if any, will calculate their width using inner_width, assuming no scrolling (it really doesn't make sense to do otherwise).
+// - Mixing up columns with different sizing policy is possible BUT can be tricky and has some side-effects and restrictions.
+//   (their visible order and the scrolling state have subtle but necessary effects on how they can be manually resized).
+//   The typical use of mixing sizing policies is to have ScrollX disabled, one or two Stretch Column and many Fixed Columns.
 
 const (
 	// Features
@@ -28,34 +40,34 @@ const (
 	TableFlagsMultiSortable   = 1 << 4 // Allow sorting on multiple columns by holding Shift (sort_specs_count may be > 1). Call TableGetSortSpecs() to obtain sort specs.
 	TableFlagsNoSavedSettings = 1 << 5 // Disable persisting columns order, width and sort settings in the .ini file.
 	// Decoration
-	TableFlagsRowBg              = 1 << 6                                            // Use ImGuiCol_TableRowBg and ImGuiCol_TableRowBgAlt colors behind each rows.
-	TableFlagsBordersHInner      = 1 << 7                                            // Draw horizontal borders between rows.
-	TableFlagsBordersHOuter      = 1 << 8                                            // Draw horizontal borders at the top and bottom.
-	TableFlagsBordersVInner      = 1 << 9                                            // Draw vertical borders between columns.
-	TableFlagsBordersVOuter      = 1 << 10                                           // Draw vertical borders on the left and right sides.
-	TableFlagsBordersH           = TableFlagsBordersHInner | TableFlagsBordersHOuter // Draw horizontal borders.
-	TableFlagsBordersV           = TableFlagsBordersVInner | TableFlagsBordersVOuter // Draw vertical borders.
-	TableFlagsBordersInner       = TableFlagsBordersVInner | TableFlagsBordersHInner // Draw inner borders.
-	TableFlagsBordersOuter       = TableFlagsBordersVOuter | TableFlagsBordersHOuter // Draw outer borders.
+	TableFlagsRowBg              = 1 << 6                                            // Set each RowBg color with StyleColorTableRowBg or StyleColorTableRowBgAlt (equivalent to calling TableSetBgColor with TableBgFlagsRowBg0 on each row manually)
+	TableFlagsBordersInnerH      = 1 << 7                                            // Draw horizontal borders between rows.
+	TableFlagsBordersOuterH      = 1 << 8                                            // Draw horizontal borders at the top and bottom.
+	TableFlagsBordersInnerV      = 1 << 9                                            // Draw vertical borders between columns.
+	TableFlagsBordersOuterV      = 1 << 10                                           // Draw vertical borders on the left and right sides.
+	TableFlagsBordersH           = TableFlagsBordersInnerH | TableFlagsBordersOuterH // Draw horizontal borders.
+	TableFlagsBordersV           = TableFlagsBordersInnerV | TableFlagsBordersOuterV // Draw vertical borders.
+	TableFlagsBordersInner       = TableFlagsBordersInnerV | TableFlagsBordersInnerH // Draw inner borders.
+	TableFlagsBordersOuter       = TableFlagsBordersOuterV | TableFlagsBordersOuterH // Draw outer borders.
 	TableFlagsBorders            = TableFlagsBordersInner | TableFlagsBordersOuter   // Draw all borders.
-	TableFlagsBordersVFullHeight = 1 << 11                                           // Borders covers all rows even when Headers are being used. Allow resizing from any rows.
+	TableFlagsBordersFullHeightV = 1 << 11                                           // Borders covers all rows even when Headers are being used. Allow resizing from any rows.
 	// Padding, Sizing
-	TableFlagsNoClipX              = 1 << 12 // Disable pushing clipping rectangle for every individual columns (reduce draw command count, items will be able to overflow)
-	TableFlagsSizingPolicyFixedX   = 1 << 13 // Default if ScrollX is on. Columns will default to use _WidthFixed or _WidthAlwaysAutoResize policy. Read description above for more details.
-	TableFlagsSizingPolicyStretchX = 1 << 14 // Default if ScrollX is off. Columns will default to use _WidthStretch policy. Read description above for more details.
-	TableFlagsNoHeadersWidth       = 1 << 15 // Disable header width contribution to automatic width calculation.
-	TableFlagsNoHostExtendY        = 1 << 16 // (FIXME-TABLE: Reword as SizingPolicy?) Disable extending past the limit set by outer_size.y, only meaningful when neither of ScrollX|ScrollY are set (data below the limit will be clipped and not visible)
-	TableFlagsNoKeepColumnsVisible = 1 << 17 // (FIXME-TABLE) Disable code that keeps column always minimally visible when table width gets too small.
+	TableFlagsNoClipX              = 1 << 14 // Disable pushing clipping rectangle for every individual columns (reduce draw command count, items will be able to overflow)
+	TableFlagsSizingPolicyFixedX   = 1 << 15 // Default if ScrollX is on. Columns will default to use _WidthFixed or _WidthAlwaysAutoResize policy. Read description above for more details.
+	TableFlagsSizingPolicyStretchX = 1 << 16 // Default if ScrollX is off. Columns will default to use _WidthStretch policy. Read description above for more details.
+	TableFlagsNoHeadersWidth       = 1 << 17 // Disable header width contribution to automatic width calculation.
+	TableFlagsNoHostExtendY        = 1 << 18 // (FIXME-TABLE: Reword as SizingPolicy?) Disable extending past the limit set by outer_size.y, only meaningful when neither of ScrollX|ScrollY are set (data below the limit will be clipped and not visible)
+	TableFlagsNoKeepColumnsVisible = 1 << 19 // (FIXME-TABLE) Disable code that keeps column always minimally visible when table width gets too small and horizontal scrolling is off.
 	// Scrolling
-	TableFlagsScrollX                = 1 << 18 // Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
-	TableFlagsScrollY                = 1 << 19 // Enable vertical scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size.
+	TableFlagsScrollX                = 1 << 20 // Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
+	TableFlagsScrollY                = 1 << 21 // Enable vertical scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size.
 	TableFlagsScroll                 = TableFlagsScrollX | TableFlagsScrollY
-	TableFlagsScrollFreezeTopRow     = 1 << 20 // We can lock 1 to 3 rows (starting from the top). Use with ScrollY enabled.
-	TableFlagsScrollFreeze2Rows      = 2 << 20
-	TableFlagsScrollFreeze3Rows      = 3 << 20
-	TableFlagsScrollFreezeLeftColumn = 1 << 22 // We can lock 1 to 3 columns (starting from the left). Use with ScrollX enabled.
-	TableFlagsScrollFreeze2Columns   = 2 << 22
-	TableFlagsScrollFreeze3Columns   = 3 << 22
+	TableFlagsScrollFreezeTopRow     = 1 << 22 // We can lock 1 to 3 rows (starting from the top). Use with ScrollY enabled.
+	TableFlagsScrollFreeze2Rows      = 2 << 22
+	TableFlagsScrollFreeze3Rows      = 3 << 22
+	TableFlagsScrollFreezeLeftColumn = 1 << 24 // We can lock 1 to 3 columns (starting from the left). Use with ScrollX enabled.
+	TableFlagsScrollFreeze2Columns   = 2 << 24
+	TableFlagsScrollFreeze3Columns   = 3 << 24
 )
 
 // Flags for ImGui::TableSetupColumn()
@@ -85,6 +97,24 @@ const (
 const (
 	TableRowFlagsNone    = 0
 	TableRowFlagsHeaders = 1 << 0 // Identify header row (set default background color + width of its contents accounted different for auto column width)
+)
+
+// Enum for TableSetBgColor()
+// Background colors are rendering in 3 layers:
+//  - Layer 0: draw with RowBg0 color if set, otherwise draw with ColumnBg0 if set.
+//  - Layer 1: draw with RowBg1 color if set, otherwise draw with ColumnBg1 if set.
+//  - Layer 2: draw with CellBg color if set.
+// The purpose of the two row/columns layers is to let you decide if a background color changes should override or blend with the existing color.
+// When using ImGuiTableFlags_RowBg on the table, each row has the RowBg0 color automatically set for odd/even rows.
+// If you set the color of RowBg0 target, your color will override the existing RowBg0 color.
+// If you set the color of RowBg1 or ColumnBg1 target, your color will blend over the RowBg0 color.
+const (
+	TableBgTargetNone      = 0
+	TableBgTargetColumnBg0 = 1 // FIXME-TABLE: Todo. Set column background color 0 (generally used for background
+	TableBgTargetColumnBg1 = 2 // FIXME-TABLE: Todo. Set column background color 1 (generally used for selection marking)
+	TableBgTargetRowBg0    = 3 // Set row background color 0 (generally used for background, automatically set when ImGuiTableFlags_RowBg is used)
+	TableBgTargetRowBg1    = 4 // Set row background color 1 (generally used for selection marking)
+	TableBgTargetCellBg    = 5 // Set cell background color (top-most color)
 )
 
 // A sorting direction
@@ -202,6 +232,17 @@ func TableGetColumnIsSorted() bool {
 // return columnsCount if the unused space at the right of visible columns is hovered.
 func TableGetHoveredColumn() int {
 	return int(C.iggTableGetHoveredColumn())
+}
+
+// TableSetBgColorV changes the color of a cell, row, or column. See ImGuiTableBgTarget flags for details.
+func TableSetBgColorV(bgTarget int, color Vec4, columnN int) {
+	colorArg, _ := color.wrapped()
+	C.iggTableSetBgColor(C.int(bgTarget), colorArg, C.int(columnN))
+}
+
+// TableSetBgColor calls TableSetBgColorV(bgTarget, color, -1)
+func TableSetBgColor(bgTarget int, color Vec4) {
+	TableSetBgColorV(bgTarget, color, -1)
 }
 
 // Tables: Headers & Columns declaration

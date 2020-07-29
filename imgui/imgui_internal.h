@@ -643,6 +643,7 @@ enum ImGuiItemFlags_
     ImGuiItemFlags_NoNavDefaultFocus        = 1 << 4,  // false
     ImGuiItemFlags_SelectableDontClosePopup = 1 << 5,  // false    // MenuItem/Selectable() automatically closes current Popup window
     ImGuiItemFlags_MixedValue               = 1 << 6,  // false    // [BETA] Represent a mixed/indeterminate value, generally multi-selection where values differ. Currently only supported by Checkbox() (later should support all sorts of widgets)
+    ImGuiItemFlags_ReadOnly                 = 1 << 7,  // false    // [ALPHA] Allow hovering interactions but underlying value is not changed.
     ImGuiItemFlags_Default_                 = 0
 };
 
@@ -1826,11 +1827,11 @@ struct ImGuiTabBar
 
 #ifdef IMGUI_HAS_TABLE
 
-#define IM_COL32_DISABLE                IM_COL32(0,0,0,1)   // Special sentinel code
+#define IM_COL32_DISABLE                IM_COL32(0,0,0,1)   // Special sentinel code which cannot be used as a regular color.
 #define IMGUI_TABLE_MAX_COLUMNS         64                  // sizeof(ImU64) * 8. This is solely because we frequently encode columns set in a ImU64.
 #define IMGUI_TABLE_MAX_DRAW_CHANNELS   (2 + 64 * 2)        // See TableUpdateDrawChannels()
 
-// [Internal] sizeof() ~ 100
+// [Internal] sizeof() ~ 104
 // We use the terminology "Visible" to refer to a column that is not Hidden by user or settings. However it may still be out of view and clipped (see IsClipped).
 struct ImGuiTableColumn
 {
@@ -1840,6 +1841,7 @@ struct ImGuiTableColumn
     ImGuiTableColumnFlags   Flags;                          // Effective flags. See ImGuiTableColumnFlags_
     float                   MinX;                           // Absolute positions
     float                   MaxX;
+    float                   WidthOrWeightInitValue;         // Value passed to TableSetupColumn()
     float                   WidthStretchWeight;             // Master width weight when (Flags & _WidthStretch). Often around ~1.0f initially.
     float                   WidthRequest;                   // Master width absolute value when !(Flags & _WidthStretch). When Stretch this is derived every frame from WidthStretchWeight in TableUpdateLayout()
     float                   WidthGiven;                     // Final/actual width visible == (MaxX - MinX), locked in TableUpdateLayout(). May be >WidthRequest to honor minimum width, may be <WidthRequest to honor shrinking columns down in tight space.
@@ -1885,6 +1887,14 @@ struct ImGuiTableColumn
     }
 };
 
+// Transient cell data stored per row.
+// sizeof() ~ 6
+struct ImGuiTableCellData
+{
+    ImU32   BgColor;        // Actual color
+    ImS8    Column;         // Column number
+};
+
 struct ImGuiTable
 {
     ImGuiID                     ID;
@@ -1892,6 +1902,7 @@ struct ImGuiTable
     ImVector<char>              RawData;
     ImSpan<ImGuiTableColumn>    Columns;                    // Point within RawData[]
     ImSpan<ImS8>                DisplayOrderToIndex;        // Point within RawData[]. Store display order of columns (when not reordered, the values are 0...Count-1)
+    ImSpan<ImGuiTableCellData>  RowCellData;                // Point within RawData[]. Store cells background requests for current row.
     ImU64                       VisibleMaskByIndex;         // Column Index -> IsVisible map (== not hidden by user/api) in a format adequate for iterating column without touching cold data
     ImU64                       VisibleMaskByDisplayOrder;  // Column DisplayOrder -> IsVisible map
     ImU64                       VisibleUnclippedMaskByIndex;// Visible and not Clipped, aka "actually visible" "not hidden by some scrolling"
@@ -1912,7 +1923,7 @@ struct ImGuiTable
     ImGuiTableRowFlags          RowFlags : 16;              // Current row flags, see ImGuiTableRowFlags_
     ImGuiTableRowFlags          LastRowFlags : 16;
     int                         RowBgColorCounter;          // Counter for alternating background colors (can be fast-forwarded by e.g clipper)
-    ImU32                       RowBgColor;                 // Request for current row background color
+    ImU32                       RowBgColor[2];              // Background color override for current row.
     ImU32                       BorderColorStrong;
     ImU32                       BorderColorLight;
     float                       BorderX1;
@@ -1960,6 +1971,7 @@ struct ImGuiTable
     ImS8                        FreezeRowsCount;            // Actual frozen row count (== FreezeRowsRequest, or == 0 when no scrolling offset)
     ImS8                        FreezeColumnsRequest;       // Requested frozen columns count
     ImS8                        FreezeColumnsCount;         // Actual frozen columns count (== FreezeColumnsRequest, or == 0 when no scrolling offset)
+    ImS8                        RowCellDataCount;           // Number of RowCellData[] entries in current row
     bool                        IsLayoutLocked;             // Set by TableUpdateLayout() which is called when beginning the first row.
     bool                        IsInsideRow;                // Set when inside TableBeginRow()/TableEndRow().
     bool                        IsInitializing;
@@ -1998,7 +2010,7 @@ struct ImGuiTableColumnSettings
     ImS8    SortOrder;
     ImU8    SortDirection : 2;
     ImU8    IsVisible : 1;
-    ImU8    IsWeighted : 1;
+    ImU8    IsStretch : 1;
 
     ImGuiTableColumnSettings()
     {
@@ -2008,7 +2020,7 @@ struct ImGuiTableColumnSettings
         DisplayOrder = SortOrder = -1;
         SortDirection = ImGuiSortDirection_None;
         IsVisible = 1;
-        IsWeighted = 0;
+        IsStretch = 0;
     }
 };
 
@@ -2336,6 +2348,7 @@ IMGUI_API void              ImFontAtlasBuildInit(ImFontAtlas* atlas);
 IMGUI_API void              ImFontAtlasBuildSetupFont(ImFontAtlas* atlas, ImFont* font, ImFontConfig* font_config, float ascent, float descent);
 IMGUI_API void              ImFontAtlasBuildPackCustomRects(ImFontAtlas* atlas, void* stbrp_context_opaque);
 IMGUI_API void              ImFontAtlasBuildFinish(ImFontAtlas* atlas);
+IMGUI_API void              ImFontAtlasBuildRender1bppRectFromString(ImFontAtlas* atlas, int atlas_x, int atlas_y, int w, int h, const char* in_str, char in_marker_char, unsigned char in_marker_pixel_value);
 IMGUI_API void              ImFontAtlasBuildMultiplyCalcLookupTable(unsigned char out_table[256], float in_multiply_factor);
 IMGUI_API void              ImFontAtlasBuildMultiplyRectAlpha8(const unsigned char table[256], unsigned char* pixels, int x, int y, int w, int h, int stride);
 

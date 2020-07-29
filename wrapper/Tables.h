@@ -32,6 +32,7 @@ extern char const *iggTableGetColumnName(int column_n);
 extern IggBool     iggTableGetColumnIsVisible(int column_n);
 extern IggBool     iggTableGetColumnIsSorted(int column_n);
 extern int         iggTableGetHoveredColumn();
+extern void        iggTableSetBgColor(int bg_target, IggVec4 const *color, int column_n);
 extern void        iggTableSetupColumn(char const *label, int flags, float init_width_or_weight, unsigned int user_id);
 extern void        iggTableAutoHeaders();
 extern void        iggTableHeader(char const *label);

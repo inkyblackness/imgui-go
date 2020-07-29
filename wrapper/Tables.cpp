@@ -55,6 +55,13 @@ int iggTableGetHoveredColumn(void)
 	return ImGui::TableGetHoveredColumn();	
 }
 
+void iggTableSetBgColor(int bg_target, IggVec4 const *color, int column_n)
+{
+	Vec4Wrapper colorArg(color);
+	auto col = ImGui::GetColorU32(*colorArg);
+	ImGui::TableSetBgColor(bg_target, col, column_n);
+}
+
 void iggTableSetupColumn(char const *label, int flags, float init_width_or_weight, unsigned int user_id)
 {
 	ImGui::TableSetupColumn(label, flags, init_width_or_weight, user_id);
