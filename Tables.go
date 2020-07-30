@@ -289,19 +289,17 @@ type TableSortSpecsColumn struct {
 // Sorting specifications for a table (often handling sort specs for a single column, occasionally more)
 // Obtained by calling TableGetSortSpecs()
 type TableSortSpecs struct {
-	Specs        [256]TableSortSpecsColumn // Sort spec array.
-	SpecsCount   int                       // Sort spec count. Most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
-	SpecsChanged bool                      // Set to true by TableGetSortSpecs() call if the specs have changed since the previous call. Use this to sort again!
-	ColumnsMask  uint64                    // Set to the mask of column indexes included in the Specs array. e.g. (1 << N) when column N is sorted.
+	Specs        [64]TableSortSpecsColumn // Sort spec array.
+	SpecsCount   int                      // Sort spec count. Most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
+	SpecsChanged bool                     // Set to true by TableGetSortSpecs() call if the specs have changed since the previous call. Use this to sort again!
+	ColumnsMask  uint64                   // Set to the mask of column indexes included in the Specs array. e.g. (1 << N) when column N is sorted.
 }
 
 // TableGetSortSpecs gets latest sort specs for the table (nil if not sorting).
 func TableGetSortSpecs() *TableSortSpecs {
 	// TableSortSpecs.SpecsCount is most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
-	// since TableSortSpecsColumn.ColumnIndex is uint8, a maximum possible column count which could be referenced is 256, if
-	// we don't use TableSortSpecsColumn.ColumnUserID which would allow more columns to be referenced
-	// So we use static array with 256 TableSortSpecsColumn values, which allows to sort 256 columns simultaneously (already way too much...)
-	sort_specs := &C.IggTableSortSpecs{Specs: [256]C.IggTableSortSpecsColumn{}}
+	// We use static array with 64 TableSortSpecsColumn values since that's maximum ammount of columns
+	sort_specs := &C.IggTableSortSpecs{Specs: [64]C.IggTableSortSpecsColumn{}}
 	if C.iggTableGetSortSpecs(sort_specs) == 0 {
 		return nil
 	}

@@ -16,7 +16,7 @@ typedef struct tagIggTableSortSpecsColumn
 
 typedef struct tagIggTableSortSpecs
 {
-	IggTableSortSpecsColumn Specs[256];
+	IggTableSortSpecsColumn Specs[64];
 	int                     SpecsCount;
 	IggBool                 SpecsChanged;
 	unsigned long long      ColumnsMask;
