@@ -209,3 +209,20 @@ func MouseCursor() int {
 func SetMouseCursor(cursor int) {
 	C.iggSetMouseCursor(C.int(cursor))
 }
+
+
+func GetItemRectMax() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggGetItemRectMax(valueArg)
+	valueFin()
+	return value
+}
+
+func GetItemRectMin() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggGetItemRectMin(valueArg)
+	valueFin()
+	return value
+}
