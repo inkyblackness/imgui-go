@@ -209,3 +209,21 @@ func MouseCursor() int {
 func SetMouseCursor(cursor int) {
 	C.iggSetMouseCursor(C.int(cursor))
 }
+
+// ItemRectMax returns the lower-right bounding rectangle of the last item in screen space.
+func ItemRectMax() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggGetItemRectMax(valueArg)
+	valueFin()
+	return value
+}
+
+// ItemRectMin returns the upper-left bounding rectangle of the last item in screen space.
+func ItemRectMin() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggGetItemRectMin(valueArg)
+	valueFin()
+	return value
+}

@@ -29,6 +29,9 @@ extern void iggMousePos(IggVec2 *pos);
 extern int iggGetMouseCursor();
 extern void iggSetMouseCursor(int cursor);
 
+extern void iggGetItemRectMax(IggVec2 *pos);
+extern void iggGetItemRectMin(IggVec2 *pos);
+
 #ifdef __cplusplus
 }
 #endif

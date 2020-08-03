@@ -102,3 +102,13 @@ void iggSetMouseCursor(int cursor)
 {
    ImGui::SetMouseCursor(cursor);
 }
+
+
+void iggGetItemRectMin(IggVec2 *pos) {
+	exportValue(*pos, ImGui::GetItemRectMin());
+}
+
+void iggGetItemRectMax(IggVec2 *pos) {
+	exportValue(*pos, ImGui::GetItemRectMax());
+}
+
