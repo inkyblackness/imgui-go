@@ -7,6 +7,11 @@ char const *iggGetVersion()
    return ImGui::GetVersion();
 }
 
+double iggGetTime()
+{
+	return ImGui::GetTime();
+}
+
 void iggNewFrame()
 {
    ImGui::NewFrame();
