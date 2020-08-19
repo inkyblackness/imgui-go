@@ -27,6 +27,8 @@ extern void iggStyleSetColor(IggGuiStyle handle, int index, IggVec4 const *color
 
 extern void iggStyleScaleAllSizes(IggGuiStyle handle, float scale);
 
+extern void iggSetTouchExtraPadding(IggGuiStyle handle, IggVec2 const *value);
+
 #ifdef __cplusplus
 }
 #endif

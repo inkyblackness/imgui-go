@@ -227,3 +227,9 @@ func (style Style) SetColor(id StyleColorID, value Vec4) {
 func (style Style) ScaleAllSizes(scale float32) {
 	C.iggStyleScaleAllSizes(style.handle(), C.float(scale))
 }
+
+// SetTouchExtraPadding expand reactive bounding box for touch-based system where touch position is not accurate enough.
+func (style Style) SetTouchExtraPadding(value Vec2) {
+	valueArg, _ := value.wrapped()
+	C.iggSetTouchExtraPadding(style.handle(), valueArg)
+}

@@ -82,3 +82,9 @@ void iggStyleScaleAllSizes(IggGuiStyle handle, float scale)
    ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
    style->ScaleAllSizes(scale);
 }
+
+void iggSetTouchExtraPadding(IggGuiStyle handle, IggVec2 const *value)
+{
+   ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
+   importValue(style->TouchExtraPadding, *value);
+}
