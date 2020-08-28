@@ -20,6 +20,9 @@ extern float iggWindowWidth(void);
 extern float iggWindowHeight(void);
 extern void iggContentRegionAvail(IggVec2 *size);
 extern void iggGetContentRegionMax(IggVec2 *out);
+extern void iggGetWindowContentRegionMin(IggVec2 *out);
+extern void iggGetWindowContentRegionMax(IggVec2 *out);
+extern float iggGetWindowContentRegionWidth();
 
 extern void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot);
 extern void iggSetNextWindowSize(IggVec2 const *size, int cond);
