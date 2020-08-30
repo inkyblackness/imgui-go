@@ -16,6 +16,7 @@ extern void iggFontConfigSetPixelSnapH(IggFontConfig handle, IggBool value);
 extern void iggFontConfigSetGlyphMinAdvanceX(IggFontConfig handle, float value);
 extern void iggFontConfigSetGlyphMaxAdvanceX(IggFontConfig handle, float value);
 extern void iggFontConfigSetMergeMode(IggFontConfig handle, IggBool value);
+extern void iggFontConfigSetName(IggFontConfig handle, char const *value);
 extern int iggFontConfigGetFontDataOwnedByAtlas(IggFontConfig handle);
 
 #ifdef __cplusplus
