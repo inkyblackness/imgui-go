@@ -56,6 +56,14 @@ void iggFontConfigSetMergeMode(IggFontConfig handle, IggBool value)
    fontConfig->MergeMode = value;
 }
 
+void iggFontConfigSetName(IggFontConfig handle, char const *value)
+{
+   ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);
+   const size_t bufSize = sizeof(fontConfig->Name);
+   strncpy(fontConfig->Name, value, bufSize - 1);
+   fontConfig->Name[bufSize - 1] = '\0';
+}
+
 int iggFontConfigGetFontDataOwnedByAtlas(IggFontConfig handle)
 {
    ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);
