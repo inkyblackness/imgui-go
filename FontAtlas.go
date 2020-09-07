@@ -162,3 +162,8 @@ func (atlas FontAtlas) TextureDataRGBA32() *RGBA32Image {
 func (atlas FontAtlas) SetTextureID(id TextureID) {
 	C.iggFontAtlasSetTextureID(atlas.handle(), id.handle())
 }
+
+// Build pixels data. This is called automatically for you by the TextureData*** functions.
+func (atlas FontAtlas) Build() bool {
+	return C.iggFontAtlasBuild(atlas.handle()) != 0
+}

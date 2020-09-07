@@ -28,6 +28,7 @@ extern void iggFontAtlasGetTexDataAsAlpha8(IggFontAtlas handle, unsigned char **
 extern void iggFontAtlasGetTexDataAsRGBA32(IggFontAtlas handle, unsigned char **pixels,
    int *width, int *height, int *bytesPerPixel);
 extern void iggFontAtlasSetTextureID(IggFontAtlas handle, IggTextureID id);
+extern IggBool iggFontAtlasBuild(IggFontAtlas handle);
 
 #ifdef __cplusplus
 }
