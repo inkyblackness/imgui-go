@@ -58,8 +58,6 @@ const (
 	StyleVarButtonTextAlign StyleVarID = 22
 	// StyleVarSelectableTextAlign is a Vec2
 	StyleVarSelectableTextAlign StyleVarID = 23
-	// StyleVarLayoutAlign is a float
-	StyleVarLayoutAlign StyleVarID = 24
 )
 
 // This is the list of StyleColor identifier.

@@ -33,14 +33,6 @@ extern float iggGetTextLineHeightWithSpacing(void);
 extern float iggGetFrameHeight(void);
 extern float iggGetFrameHeightWithSpacing(void);
 
-extern void iggBeginHorizontal(char const *id, IggVec2 const *size, float align);
-extern void iggEndHorizontal();
-extern void iggBeginVertical(char const *id, IggVec2 const *size, float align);
-extern void iggEndVertical();
-extern void iggSpring(float weight, float spacing);
-extern void iggSuspendLayout();
-extern void iggResumeLayout();
-
 #ifdef __cplusplus
 }
 #endif
