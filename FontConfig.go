@@ -90,6 +90,19 @@ func (config FontConfig) SetMergeMode(value bool) {
 	}
 }
 
+// SetName sets a short display name for a font, for diagnostic purposes.
+// If the FontConfig does not provide a name, one will be synthesized for
+// fonts which are added from files.  When adding fonts from memory, this
+// method can be used to provide a name.
+// The name will be truncated if it is longer than the limit supported by imgui.
+func (config FontConfig) SetName(name string) {
+	if config != DefaultFontConfig {
+		nameArg, nameFin := wrapString(name)
+		defer nameFin()
+		C.iggFontConfigSetName(config.handle(), nameArg)
+	}
+}
+
 // getFontDataOwnedByAtlas gets the current ownership status of the font data.
 func (config FontConfig) getFontDataOwnedByAtlas() bool {
 	if config != DefaultFontConfig {

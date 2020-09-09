@@ -68,6 +68,23 @@ void iggGetContentRegionMax(IggVec2 *out)
    exportValue(*out, im_out);
 }
 
+void iggGetWindowContentRegionMin(IggVec2 *out)
+{
+	ImVec2 im_out = ImGui::GetWindowContentRegionMin();
+	exportValue(*out, im_out);
+}
+
+void iggGetWindowContentRegionMax(IggVec2 *out)
+{
+	ImVec2 im_out = ImGui::GetWindowContentRegionMax();
+	exportValue(*out, im_out);
+}
+
+float iggGetWindowContentRegionWidth()
+{
+	return ImGui::GetWindowContentRegionWidth();
+}
+
 void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
 {
    Vec2Wrapper posArg(pos);

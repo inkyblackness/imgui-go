@@ -216,6 +216,15 @@ func (style Style) SetColor(id StyleColorID, value Vec4) {
 	C.iggStyleSetColor(style.handle(), C.int(id), valueArg)
 }
 
+// Color gets a color value from the UI style.
+func (style Style) Color(id StyleColorID) Vec4 {
+	var value Vec4
+	valueArg, valueFin := value.wrapped()
+	C.iggStyleGetColor(style.handle(), C.int(id), valueArg)
+	valueFin()
+	return value
+}
+
 // ScaleAllSizes applies a scaling factor to all sizes.
 // To scale your entire UI (e.g. if you want your app to use High DPI or generally be DPI aware) you may use this helper function.
 // Scaling the fonts is done separately and is up to you.

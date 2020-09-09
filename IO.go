@@ -208,10 +208,10 @@ func (io IO) SetIniFilename(value string) {
 const (
 	// ConfigFlagNone default = 0
 	ConfigFlagNone = 0
-	// ConfigFlagNavEnableKeyboard master keyboard navigation enable flag. NewFrame() will automatically fill
+	// ConfigFlagNavEnableKeyboard main keyboard navigation enable flag. NewFrame() will automatically fill
 	// io.NavInputs[] based on io.KeysDown[].
 	ConfigFlagNavEnableKeyboard = 1 << 0
-	// ConfigFlagNavEnableGamepad master gamepad navigation enable flag.
+	// ConfigFlagNavEnableGamepad main gamepad navigation enable flag.
 	// This is mostly to instruct your imgui back-end to fill io.NavInputs[]. Back-end also needs to set
 	// BackendFlagHasGamepad.
 	ConfigFlagNavEnableGamepad = 1 << 1

@@ -171,6 +171,30 @@ func ContentRegionMax() Vec2 {
 	return out
 }
 
+// WindowContentRegionMin returns the content boundaries min (roughly (0,0)-Scroll), in window coordinates.
+func WindowContentRegionMin() Vec2 {
+	out := Vec2{}
+	outArg, outFin := out.wrapped()
+	C.iggGetWindowContentRegionMin(outArg)
+	outFin()
+	return out
+}
+
+// WindowContentRegionMax returns the content boundaries max (roughly (0,0)+Size-Scroll) where Size can be overridden
+// with SetNextWindowContentSize(), in window coordinates.
+func WindowContentRegionMax() Vec2 {
+	out := Vec2{}
+	outArg, outFin := out.wrapped()
+	C.iggGetWindowContentRegionMax(outArg)
+	outFin()
+	return out
+}
+
+// WindowContentRegionWidth returns the width of the content boundary, in window coordinates.
+func WindowContentRegionWidth() float32 {
+	return float32(C.iggGetWindowContentRegionWidth())
+}
+
 // SetNextWindowPosV sets next window position.
 // Call before Begin(). Use pivot=(0.5,0.5) to center on given point, etc.
 func SetNextWindowPosV(pos Vec2, cond Condition, pivot Vec2) {
