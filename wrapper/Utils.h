@@ -12,6 +12,7 @@ extern void iggLoadingIndicatorCircle(const char* label, float indicator_radius,
 extern void iggSpinner(const char* label, float radius, int thickness, IggVec4 const *color_arg);
 extern IggBool iggSplitter(IggBool split_vertically, float thickness, float *size1, float *size2);
 extern IggBool iggSelectableInput(const char* label, char* buf, int buf_size, int callback_key);
+extern IggBool iggToggleButton(const char* str_id, IggBool* selected);
 
 // typedef struct tagIggComboFilterState {
 //     int     activeIdx;         // Index of currently 'active' item by use of up/down keys

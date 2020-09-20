@@ -594,3 +594,40 @@ IggBool iggSelectableInput(const char *label, char *text, int text_size, int cal
     return value_changed;
 }
 
+IggBool iggToggleButton(const char* str_id, IggBool* selected) {
+    BoolWrapper selectedArg(selected);
+
+    ImVec2 p = ImGui::GetCursorScreenPos();
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+    float height = ImGui::GetFrameHeight();
+    float width = height * 1.75f;
+    float radius = height * 0.50f;
+
+    bool clicked = false;
+    ImGui::InvisibleButton(str_id, ImVec2(width, height));
+    if (ImGui::IsItemClicked()) {
+        *selectedArg = !*selectedArg;
+        clicked = true;
+    }
+
+    float t = *selectedArg ? 1.0f : 0.0f;
+
+    ImGuiContext& g = *GImGui;
+    float ANIM_TIME = 0.10f;
+    if (g.LastActiveId == g.CurrentWindow->GetID(str_id)) {
+        float t_anim = ImSaturate(g.LastActiveIdTimer / ANIM_TIME);
+        t = *selectedArg ? (t_anim) : (1.0f - t_anim);
+    }
+
+    ImU32 col_bg;
+    if (ImGui::IsItemHovered())
+        col_bg = ImGui::GetColorU32(ImLerp(ImVec4(0.12f, 0.20f, 0.28f, 1.0f), ImVec4(0.07f, 0.45f, 0.37f, 1.0f), t));
+    else
+        col_bg = ImGui::GetColorU32(ImLerp(ImVec4(0.20f, 0.25, 0.29f, 1.0f), ImVec4(0.08f, 0.55f, 0.45f, 1.0f), t));
+
+    draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), col_bg, height);
+    draw_list->AddCircleFilled(ImVec2(p.x + radius + t * (width - radius * 2.0f), p.y + radius), radius - 3.0f, ImGui::GetColorU32(ImLerp(ImVec4(0.72f, 0.77f, 0.83f, 1.0f), ImVec4(0.95f, 0.96f, 0.98f, 1.0f), t)), 20);
+
+    return clicked ? 1 : 0;
+}

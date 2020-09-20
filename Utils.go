@@ -93,3 +93,13 @@ func SelectableInput(label string, text *string) bool {
 
 	return C.iggSelectableInput(labelArg, (*C.char)(text_state.buf.ptr), C.int(text_state.buf.size), text_state.key) != 0
 }
+
+// ToggleButton creates a toggle button in the selected state.
+// The return value indicates if the selected state has changed.
+func ToggleButton(id string, selected *bool) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	selectedArg, selectedFin := wrapBool(selected)
+	defer selectedFin()
+	return C.iggToggleButton(idArg, selectedArg) != 0
+}
