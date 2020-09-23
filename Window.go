@@ -286,3 +286,13 @@ func PushTextWrapPos() {
 func PopTextWrapPos() {
 	C.iggPopTextWrapPos()
 }
+
+// PushButtonRepeat enables button to repeat press if held.
+func PushButtonRepeat(repeat bool) {
+	C.iggPushButtonRepeat(castBool(repeat))
+}
+
+// PopButtonRepeat pops most recent button repeat setting.
+func PopButtonRepeat() {
+	C.iggPopButtonRepeat()
+}
