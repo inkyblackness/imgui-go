@@ -37,6 +37,8 @@ extern void iggPopItemWidth(void);
 extern float iggCalcItemWidth(void);
 extern void iggPushTextWrapPos(float wrapPosX);
 extern void iggPopTextWrapPos(void);
+extern void iggPushButtonRepeat(IggBool repeat);
+extern void iggPopButtonRepeat(void);
 
 #ifdef __cplusplus
 }

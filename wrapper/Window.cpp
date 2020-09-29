@@ -150,3 +150,13 @@ void iggPopTextWrapPos(void)
 {
    ImGui::PopTextWrapPos();
 }
+
+void iggPushButtonRepeat(IggBool repeat)
+{
+   ImGui::PushButtonRepeat(repeat);
+}
+
+void iggPopButtonRepeat()
+{
+   ImGui::PopButtonRepeat();
+}
