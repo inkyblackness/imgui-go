@@ -20,9 +20,9 @@ void iggTableNextRow(int row_flags, float min_row_height)
 	ImGui::TableNextRow(row_flags, min_row_height);
 }
 
-IggBool iggTableNextCell(void)
+IggBool iggTableNextColumn(void)
 {
-	return ImGui::TableNextCell() ? 1 : 0;
+	return ImGui::TableNextColumn() ? 1 : 0;
 }
 
 IggBool iggTableSetColumnIndex(int column_n)
@@ -33,6 +33,31 @@ IggBool iggTableSetColumnIndex(int column_n)
 int iggTableGetColumnIndex(void)
 {
 	return ImGui::TableGetColumnIndex();
+}
+
+void iggTableSetupColumn(char const *label, int flags, float init_width_or_weight, unsigned int user_id)
+{
+	ImGui::TableSetupColumn(label, flags, init_width_or_weight, user_id);
+}
+
+void iggTableSetupScrollFreeze(int cols, int rows)
+{
+	ImGui::TableSetupScrollFreeze(cols, rows);
+}
+
+void iggTableHeadersRow(void)
+{
+	ImGui::TableHeadersRow();
+}
+
+void iggTableHeader(char const *label)
+{
+	ImGui::TableHeader(label);
+}
+
+int iggTableGetColumnCount(void)
+{
+	return ImGui::TableGetColumnCount();
 }
 
 char const *iggTableGetColumnName(int column_n)
@@ -62,22 +87,7 @@ void iggTableSetBgColor(int bg_target, IggVec4 const *color, int column_n)
 	ImGui::TableSetBgColor(bg_target, col, column_n);
 }
 
-void iggTableSetupColumn(char const *label, int flags, float init_width_or_weight, unsigned int user_id)
-{
-	ImGui::TableSetupColumn(label, flags, init_width_or_weight, user_id);
-}
-
-void iggTableAutoHeaders(void)
-{
-	ImGui::TableAutoHeaders();
-}
-
-void iggTableHeader(char const *label)
-{
-	ImGui::TableHeader(label);
-}
-
-static void exportTableSortSpecs(IggTableSortSpecs &out, ImGuiTableSortSpecs const &in)
+static void exportTableSortSpecs(IggTableSortSpecs &out, ImGuiTableSortSpecs &in)
 {
 	for (int n = 0; n < in.SpecsCount; n++)
 	{
@@ -86,14 +96,16 @@ static void exportTableSortSpecs(IggTableSortSpecs &out, ImGuiTableSortSpecs con
 		out.Specs[n].SortOrder = in.Specs[n].SortOrder;
 		out.Specs[n].SortDirection = in.Specs[n].SortDirection;
 	}
-	out.SpecsCount = in.SpecsCount;
-	out.SpecsChanged = in.SpecsChanged;
+	out.SpecsCount  = in.SpecsCount;
+	out.SpecsDirty  = in.SpecsDirty;
 	out.ColumnsMask = in.ColumnsMask;
+
+	out.SpecsDirtyInternal = (char*)&in.SpecsDirty;
 }
 
 IggBool iggTableGetSortSpecs(IggTableSortSpecs *sort_specs)
 {
-	const ImGuiTableSortSpecs *ret = ImGui::TableGetSortSpecs();
+	ImGuiTableSortSpecs *ret = ImGui::TableGetSortSpecs();
 	if (ret == NULL) return 0;
 
 	exportTableSortSpecs(*sort_specs, *ret); return 1;

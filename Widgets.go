@@ -163,8 +163,8 @@ func EndCombo() {
 // Flags for DragFloat(), DragInt(), SliderFloat(), SliderInt() etc.
 const (
 	SliderFlagsNone = 0
-	// SliderFlagsClampOnInput clamps value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
-	SliderFlagsClampOnInput = 1 << 4
+	// SliderFlagsAlwaysClamp clamps value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
+	SliderFlagsAlwaysClamp = 1 << 4
 	// SliderFlagsLogarithmic makes the widget logarithmic (linear otherwise). Consider using ImGuiSliderFlags_NoRoundToFormat with this if using a format-string with small amount of digits.
 	SliderFlagsLogarithmic = 1 << 5
 	// SliderFlagsNoRoundToFormat disables rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits)
@@ -883,6 +883,9 @@ func MenuItem(label string) bool {
 	return MenuItemV(label, "", false, true)
 }
 
+// Legacy Columns API (2020: prefer using Tables!)
+// - You can also use SameLine(pos_x) to mimic simplified columns.
+
 // Columns calls ColumnsV(1, "", false).
 func Columns() {
 	ColumnsV(1, "", false)
@@ -1005,8 +1008,14 @@ const (
 	TabItemFlagsNoCloseWithMiddleMouseButton = 1 << 2
 	// TabItemFlagsNoPushID Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem()
 	TabItemFlagsNoPushID = 1 << 3
-	// ImGuiTabItemFlags_NoTooltip Disable tooltip for the given tab
-	ImGuiTabItemFlags_NoTooltip = 1 << 4
+	// TabItemFlagsNoTooltip disables tooltip for the given tab
+	TabItemFlagsNoTooltip = 1 << 4
+	// TabItemFlagsNoReorder disables reordering this tab or having another tab cross over this tab
+	TabItemFlagsNoReorder = 1 << 5
+	// TabItemFlagsLeading enforces the tab position to the left of the tab bar (after the tab list popup button)
+	TabItemFlagsLeading = 1 << 6
+	// TabItemFlagsTrailing enforces the tab position to the right of the tab bar (before the scrolling buttons)
+	TabItemFlagsTrailing = 1 << 7
 )
 
 // BeginTabItemV create a Tab. Returns true if the Tab is selected.
@@ -1029,6 +1038,14 @@ func BeginTabItem(label string) bool {
 // Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem().
 func EndTabItem() {
 	C.iggEndTabItem()
+}
+
+// TabItemButton creates a Tab behaving like a button. return true when clicked. cannot be selected in the tab bar.
+func TabItemButton(label string, flags int) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+
+	return C.iggTabItemButton(labelArg, C.int(flags)) != 0
 }
 
 // SetTabItemClosed notify TabBar or Docking system of a closed tab/window ahead

@@ -37,20 +37,24 @@ void iggListClipperEnd(IggListClipper *clipper)
 
 static void importValue(ImGuiListClipper &out, IggListClipper const &in)
 {
-   out.StartPosY = in.StartPosY;
-   out.ItemsHeight = in.ItemsHeight;
-   out.ItemsCount = in.ItemsCount;
-   out.StepNo = in.StepNo;
    out.DisplayStart = in.DisplayStart;
    out.DisplayEnd = in.DisplayEnd;
+   out.ItemsCount = in.ItemsCount;
+
+   out.StepNo = in.StepNo;
+   out.ItemsFrozen = in.ItemsFrozen;
+   out.ItemsHeight = in.ItemsHeight;
+   out.StartPosY = in.StartPosY;
 }
 
 static void exportValue(IggListClipper &out, ImGuiListClipper const &in)
 {
-   out.StartPosY = in.StartPosY;
-   out.ItemsHeight = in.ItemsHeight;
-   out.ItemsCount = in.ItemsCount;
-   out.StepNo = in.StepNo;
    out.DisplayStart = in.DisplayStart;
    out.DisplayEnd = in.DisplayEnd;
+   out.ItemsCount = in.ItemsCount;
+
+   out.StepNo = in.StepNo;
+   out.ItemsFrozen = in.ItemsFrozen;
+   out.ItemsHeight = in.ItemsHeight;
+   out.StartPosY = in.StartPosY;
 }
