@@ -165,6 +165,11 @@ func IsMouseDoubleClicked(button int) bool {
 	return C.iggIsMouseDoubleClicked(C.int(button)) != 0
 }
 
+// IsMouseDragging returns true if the mouse button is being dragged.
+func IsMouseDragging(button int, threshold float64) bool {
+	return C.iggIsMouseDragging(C.int(button), C.float(threshold)) != 0
+}
+
 // MousePos returns the current window position in screen space.
 func MousePos() Vec2 {
 	var value Vec2
