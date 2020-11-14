@@ -9,6 +9,11 @@ extern "C" {
 extern IggBool iggIsItemClicked();
 extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsItemActive();
+extern IggBool iggIsItemEdited();
+extern IggBool iggIsItemActivated();
+extern IggBool iggIsItemDeactivated();
+extern IggBool iggIsItemDeactivatedAfterEdit();
+extern IggBool iggIsItemToggledOpen();
 extern IggBool iggIsAnyItemActive();
 extern IggBool iggIsItemVisible();
 

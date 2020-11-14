@@ -28,6 +28,31 @@ IggBool iggIsItemVisible()
    return ImGui::IsItemVisible() ? 1 : 0;
 }
 
+IggBool iggIsItemEdited()
+{
+   return ImGui::IsItemEdited() ? 1 : 0;
+}
+
+IggBool iggIsItemActivated()
+{
+   return ImGui::IsItemActivated() ? 1 : 0;
+}
+
+IggBool iggIsItemDeactivated()
+{
+   return ImGui::IsItemDeactivated() ? 1 : 0;
+}
+
+IggBool iggIsItemDeactivatedAfterEdit()
+{
+   return ImGui::IsItemDeactivatedAfterEdit() ? 1 : 0;
+}
+
+IggBool iggIsItemToggledOpen()
+{
+   return ImGui::IsItemToggledOpen() ? 1 : 0;
+}
+
 IggBool iggIsWindowAppearing()
 {
    return ImGui::IsWindowAppearing() ? 1 : 0;
