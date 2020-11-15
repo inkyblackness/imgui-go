@@ -9,6 +9,7 @@ extern "C" {
 extern IggBool iggIsItemClicked();
 extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsItemActive();
+extern void iggSetItemAllowOverlap();
 extern IggBool iggIsAnyItemActive();
 extern IggBool iggIsItemVisible();
 
