@@ -77,6 +77,12 @@ extern void iggMouseWheel(IggIO handle, float *mouseWheelH, float *mouseWheel)
    *mouseWheel = io->MouseWheel;
 }
 
+extern void iggDisplayFrameBufferScale(IggIO handle, IggVec2 *value)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   exportValue(*value, io->DisplayFramebufferScale);
+}
+
 IggFontAtlas iggIoGetFonts(IggIO handle)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);

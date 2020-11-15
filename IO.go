@@ -87,6 +87,15 @@ func (io IO) MouseWheel() (float32, float32) {
 	return float32(mouseWheelH), float32(mouseWheel)
 }
 
+// DisplayFrameBufferScale returns scale factor for HDPI displays
+func (io IO) DisplayFrameBufferScale() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggDisplayFrameBufferScale(io.handle, valueArg)
+	valueFin()
+	return value
+}
+
 // SetDisplaySize sets the size in pixels.
 func (io IO) SetDisplaySize(value Vec2) {
 	out, _ := value.wrapped()
