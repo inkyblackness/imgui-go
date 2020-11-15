@@ -102,6 +102,12 @@ func (io IO) SetDisplaySize(value Vec2) {
 	C.iggIoSetDisplaySize(io.handle, out)
 }
 
+// SetDisplayFrameBufferScale sets the frame buffer scale factor.
+func (io IO) SetDisplayFrameBufferScale(value Vec2) {
+	out, _ := value.wrapped()
+	C.iggIoSetDisplayFrameBufferScale(io.handle, out)
+}
+
 // Fonts returns the font atlas to load and assemble one or more fonts into a single tightly packed texture.
 func (io IO) Fonts() FontAtlas {
 	return FontAtlas(C.iggIoGetFonts(io.handle))

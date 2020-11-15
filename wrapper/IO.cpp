@@ -95,6 +95,12 @@ void iggIoSetDisplaySize(IggIO handle, IggVec2 const *value)
    importValue(io->DisplaySize, *value);
 }
 
+void iggIoSetDisplayFrameBufferScale(IggIO handle, IggVec2 const *value)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   importValue(io->DisplayFramebufferScale, *value);
+}
+
 void iggIoSetMousePosition(IggIO handle, IggVec2 const *value)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
