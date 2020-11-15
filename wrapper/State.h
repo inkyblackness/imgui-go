@@ -19,6 +19,8 @@ extern IggBool iggIsItemToggledOpen();
 extern IggBool iggIsAnyItemActive();
 extern IggBool iggIsItemVisible();
 
+extern void iggSetItemAllowOverlap();
+
 extern IggBool iggIsWindowAppearing();
 extern IggBool iggIsWindowCollapsed();
 extern IggBool iggIsWindowFocused(int flags);
