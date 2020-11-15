@@ -80,12 +80,11 @@ func (io IO) MouseDelta() Vec2 {
 	return value
 }
 
-func (io IO) MouseWheel() Vec2 {
-	var value Vec2
-	valueArg, valueFin := value.wrapped()
-	C.iggMouseWheel(io.handle, valueArg)
-	valueFin()
-	return value
+// MouseWheel returns the mouse wheel movement.
+func (io IO) MouseWheel() (float32, float32) {
+	var mouseWheelH, mouseWheel C.float
+	C.iggMouseWheel(io.handle, &mouseWheelH, &mouseWheel)
+	return float32(mouseWheelH), float32(mouseWheel)
 }
 
 // SetDisplaySize sets the size in pixels.
