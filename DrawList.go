@@ -191,3 +191,10 @@ func (list DrawList) AddTriangleFilled(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColo
 	p3Arg, _ := p3.wrapped()
 	C.iggAddTriangleFilled(list.handle(), p1Arg, p2Arg, p3Arg, C.IggPackedColor(col))
 }
+
+func (list DrawList) AddText(pos Vec2, col PackedColor, text string) {
+	CString := newStringBuffer(text)
+	defer CString.free()
+	posArg, _ := pos.wrapped()
+	C.iggAddText(list.handle(), posArg, C.IggPackedColor(col), (*C.char)(CString.ptr), C.int(CString.size)-1)
+}
