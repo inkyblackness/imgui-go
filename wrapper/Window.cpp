@@ -136,6 +136,16 @@ void iggPopItemWidth(void)
    ImGui::PopItemWidth();
 }
 
+void iggPushItemFlag(int flag, IggBool enabled)
+{
+   ImGui::PushItemFlag(flag, enabled);
+}
+
+void iggPopItemFlag(void)
+{
+   ImGui::PopItemFlag();
+}
+
 float iggCalcItemWidth(void)
 {
    return ImGui::CalcItemWidth();
