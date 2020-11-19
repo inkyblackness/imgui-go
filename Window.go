@@ -76,6 +76,16 @@ const (
 	WindowFlagsNoDecoration = WindowFlagsNoTitleBar | WindowFlagsNoResize | WindowFlagsNoScrollbar | WindowFlagsNoCollapse
 	// WindowFlagsNoInputs combines WindowFlagsNoMouseInputs, WindowFlagsNoNavInputs and WindowFlagsNoNavFocus.
 	WindowFlagsNoInputs = WindowFlagsNoMouseInputs | WindowFlagsNoNavInputs | WindowFlagsNoNavFocus
+
+	ItemFlagsNone                     = 0
+	ItemFlagsNoTabStop                = 1 << 0
+	ItemFlagsButtonRepeat             = 1 << 1
+	ItemFlagsDisabled                 = 1 << 2
+	ItemFlagsNoNav                    = 1 << 3
+	ItemFlagsNoNavDefaultFocus        = 1 << 4
+	ItemFlagsSelectableDontClosePopup = 1 << 5
+	ItemFlagsMixedValue               = 1 << 6
+	ItemFlagsDefault                  = 0
 )
 
 // BeginV pushes a new window to the stack and start appending to it.
@@ -263,6 +273,14 @@ func PushItemWidth(width float32) {
 // PopItemWidth must be called for each call to PushItemWidth().
 func PopItemWidth() {
 	C.iggPopItemWidth()
+}
+
+func PushItemFlag(flag int, enabled bool) {
+	C.iggPushItemFlag(C.int(flag), castBool(enabled))
+}
+
+func PopItemFlag() {
+	C.iggPopItemFlag()
 }
 
 // CalcItemWidth returns the width of items given pushed settings and current cursor position.
