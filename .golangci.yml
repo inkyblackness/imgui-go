@@ -1,5 +1,5 @@
 service:
-  golangci-lint-version: 1.27.x
+  golangci-lint-version: 1.28.x
 
 run:
   deadline: 5m
@@ -12,6 +12,7 @@ linters:
   disable:
     - gochecknoglobals
     - goimports # disabled because of so many false-positives with "imgui-go"
+    - gofumpt # disabled because no extra need
     - wsl # this one has become too pedantic
 
 issues:
