@@ -41,14 +41,14 @@ func IsItemActivated() bool {
 	return C.iggIsItemActivated() != 0
 }
 
-// IsItemDeactivated returns true if the last item was made iinactive (item was
+// IsItemDeactivated returns true if the last item was made inactive (item was
 // previously active).
 func IsItemDeactivated() bool {
 	return C.iggIsItemDeactivated() != 0
 }
 
-// IsItemDeactivatedAfterEdit returns true if the last item was made iinactive
-// and made a value change when it was active (eg. Slider/Drag moved).
+// IsItemDeactivatedAfterEdit returns true if the last item was made inactive
+// and made a value change when it was active (e.g. Slider/Drag moved).
 func IsItemDeactivatedAfterEdit() bool {
 	return C.iggIsItemDeactivatedAfterEdit() != 0
 }
