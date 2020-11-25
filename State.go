@@ -29,6 +29,35 @@ func IsItemActive() bool {
 	return C.iggIsItemActive() != 0
 }
 
+// IsItemEdited return true if the last item was modified or was pressed. This
+// is generally the same as the "bool" return value of many widgets.
+func IsItemEdited() bool {
+	return C.iggIsItemEdited() != 0
+}
+
+// IsItemActivated returns true if the last item was made active (item was
+// previously inactive).
+func IsItemActivated() bool {
+	return C.iggIsItemActivated() != 0
+}
+
+// IsItemDeactivated returns true if the last item was made iinactive (item was
+// previously active).
+func IsItemDeactivated() bool {
+	return C.iggIsItemDeactivated() != 0
+}
+
+// IsItemDeactivatedAfterEdit returns true if the last item was made iinactive
+// and made a value change when it was active (eg. Slider/Drag moved).
+func IsItemDeactivatedAfterEdit() bool {
+	return C.iggIsItemDeactivatedAfterEdit() != 0
+}
+
+// IsItemToggledOpen returns true if the last item's open was toggled open.
+func IsItemToggledOpen() bool {
+	return C.iggIsItemToggledOpen() != 0
+}
+
 // IsAnyItemActive returns true if the any item is active.
 func IsAnyItemActive() bool {
 	return C.iggIsAnyItemActive() != 0
@@ -163,6 +192,11 @@ func IsMouseReleased(button int) bool {
 // IsMouseDoubleClicked returns true if the mouse button was double-clicked (0=left, 1=right, 2=middle).
 func IsMouseDoubleClicked(button int) bool {
 	return C.iggIsMouseDoubleClicked(C.int(button)) != 0
+}
+
+// IsMouseDragging returns true if the mouse button is being dragged.
+func IsMouseDragging(button int, threshold float64) bool {
+	return C.iggIsMouseDragging(C.int(button), C.float(threshold)) != 0
 }
 
 // MousePos returns the current window position in screen space.
