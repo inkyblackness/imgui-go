@@ -18,6 +18,7 @@ extern int iggMetricsRenderWindows(IggIO handle);
 extern int iggMetricsActiveWindows(IggIO handle);
 extern int iggMetricsActiveAllocations(IggIO handle);
 extern void iggMouseDelta(IggIO handle, IggVec2 *value);
+extern void iggMouseWheel(IggIO handle, float *mouseWheelH, float *mouseWheel);
 
 extern IggFontAtlas iggIoGetFonts(IggIO handle);
 

@@ -70,6 +70,13 @@ extern void iggMouseDelta(IggIO handle, IggVec2 *value)
    exportValue(*value, io->MouseDelta);
 }
 
+extern void iggMouseWheel(IggIO handle, float *mouseWheelH, float *mouseWheel)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   *mouseWheelH = io->MouseWheelH;
+   *mouseWheel = io->MouseWheel;
+}
+
 IggFontAtlas iggIoGetFonts(IggIO handle)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
