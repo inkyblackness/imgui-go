@@ -607,7 +607,7 @@ const (
 	TreeNodeFlagsNone = 0
 	// TreeNodeFlagsSelected draws as selected.
 	TreeNodeFlagsSelected = 1 << 0
-	// TreeNodeFlagsFramed draws full colored frame (e.g. for CollapsingHeader).
+	// TreeNodeFlagsFramed draws frame with background (e.g. for CollapsingHeader)
 	TreeNodeFlagsFramed = 1 << 1
 	// TreeNodeFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one.
 	TreeNodeFlagsAllowItemOverlap = 1 << 2

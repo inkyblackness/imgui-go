@@ -209,7 +209,7 @@ func MousePos() Vec2 {
 }
 
 // Enumeration for MouseCursor()
-// User code may request binding to display given cursor by calling SetMouseCursor(),
+// User code may request backend to display given cursor by calling SetMouseCursor(),
 // which is why we have some cursors that are marked unused here.
 const (
 	// MouseCursorNone no mouse cursor

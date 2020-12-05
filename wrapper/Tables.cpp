@@ -35,6 +35,11 @@ int iggTableGetColumnIndex(void)
 	return ImGui::TableGetColumnIndex();
 }
 
+int iggTableGetRowIndex(void)
+{
+	return ImGui::TableGetRowIndex();
+}
+
 void iggTableSetupColumn(char const *label, int flags, float init_width_or_weight, unsigned int user_id)
 {
 	ImGui::TableSetupColumn(label, flags, init_width_or_weight, user_id);
@@ -65,19 +70,9 @@ char const *iggTableGetColumnName(int column_n)
 	return ImGui::TableGetColumnName(column_n);
 }
 
-IggBool iggTableGetColumnIsVisible(int column_n)
+int iggTableGetColumnFlags(int column_n)
 {
-	return ImGui::TableGetColumnIsVisible(column_n) ? 1 : 0;
-}
-
-IggBool iggTableGetColumnIsSorted(int column_n)
-{
-	return ImGui::TableGetColumnIsSorted(column_n) ? 1 : 0;
-}
-
-int iggTableGetHoveredColumn(void)
-{
-	return ImGui::TableGetHoveredColumn();	
+	return ImGui::TableGetColumnFlags(column_n);
 }
 
 void iggTableSetBgColor(int bg_target, IggVec4 const *color, int column_n)
@@ -87,26 +82,36 @@ void iggTableSetBgColor(int bg_target, IggVec4 const *color, int column_n)
 	ImGui::TableSetBgColor(bg_target, col, column_n);
 }
 
-static void exportTableSortSpecs(IggTableSortSpecs &out, ImGuiTableSortSpecs &in)
+IggTableSortSpecs iggTableGetSortSpecs()
 {
-	for (int n = 0; n < in.SpecsCount; n++)
-	{
-		out.Specs[n].ColumnUserID = in.Specs[n].ColumnUserID;
-		out.Specs[n].ColumnIndex = in.Specs[n].ColumnIndex;
-		out.Specs[n].SortOrder = in.Specs[n].SortOrder;
-		out.Specs[n].SortDirection = in.Specs[n].SortDirection;
-	}
-	out.SpecsCount  = in.SpecsCount;
-	out.SpecsDirty  = in.SpecsDirty;
-	out.ColumnsMask = in.ColumnsMask;
-
-	out.SpecsDirtyInternal = (char*)&in.SpecsDirty;
+	return static_cast<IggTableSortSpecs>(ImGui::TableGetSortSpecs());
 }
 
-IggBool iggTableGetSortSpecs(IggTableSortSpecs *sort_specs)
+void iggTableSortSpecsGetSpec(IggTableSortSpecs handle, int index, IggTableColumnSortSpecs *out)
 {
-	ImGuiTableSortSpecs *ret = ImGui::TableGetSortSpecs();
-	if (ret == NULL) return 0;
+	ImGuiTableSortSpecs *sort_specs = reinterpret_cast<ImGuiTableSortSpecs *>(handle);
+	ImGuiTableColumnSortSpecs column_spec = sort_specs->Specs[index];
 
-	exportTableSortSpecs(*sort_specs, *ret); return 1;
+	out->ColumnUserID = column_spec.ColumnUserID;
+	out->ColumnIndex = column_spec.ColumnIndex;
+	out->SortOrder = column_spec.SortOrder;
+	out->SortDirection = column_spec.SortDirection;
+}
+
+int iggTableSortSpecsGetSpecsCount(IggTableSortSpecs handle)
+{
+	ImGuiTableSortSpecs *sort_specs = reinterpret_cast<ImGuiTableSortSpecs *>(handle);
+	return sort_specs->SpecsCount;
+}
+
+IggBool iggTableSortSpecsGetSpecsDirty(IggTableSortSpecs handle)
+{
+	ImGuiTableSortSpecs *sort_specs = reinterpret_cast<ImGuiTableSortSpecs *>(handle);
+	return sort_specs->SpecsDirty ? 1 : 0;
+}
+
+void iggTableSortSpecsSetSpecsDirty(IggTableSortSpecs handle, IggBool value)
+{
+	ImGuiTableSortSpecs *sort_specs = reinterpret_cast<ImGuiTableSortSpecs *>(handle);
+	sort_specs->SpecsDirty = value != 0;
 }

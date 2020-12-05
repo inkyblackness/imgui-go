@@ -3,8 +3,9 @@
 // imgui code
 // imgui/ is added to include path in wrapper.go
 #include "imgui.cpp"
-#include "imgui_draw.cpp"
 #include "imgui_demo.cpp"
+#include "imgui_draw.cpp"
+#include "imgui_tables.cpp"
 #include "imgui_widgets.cpp"
 #ifdef IMGUI_FREETYPE_ENABLED
 #include "misc/freetype/imgui_freetype.cpp"

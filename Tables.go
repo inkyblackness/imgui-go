@@ -4,107 +4,123 @@ package imgui
 import "C"
 
 // Tables
-// [ALPHA API] API may evolve!
-// - Full-featured replacement for old Columns API
+// [BETA API] API may evolve!
+// - Full-featured replacement for old Columns API.
 // - See Demo->Tables for details.
-// - See TableFlags and TableColumnsFlags enums for a description of available flags.
+// - See TableFlags and TableColumnFlags enums for a description of available flags.
 // The typical call flow is:
 // - 1. Call BeginTable()
 // - 2. Optionally call TableSetupColumn() to submit column name/flags/defaults
 // - 3. Optionally call TableSetupScrollFreeze() to request scroll freezing of columns/rows
 // - 4. Optionally call TableHeadersRow() to submit a header row (names will be pulled from data submitted to TableSetupColumns)
-// - 4. Populate contents
-//     - In most situations you can use TableNextRow() + TableSetColumnIndex(xx) to start appending into a column.
-//     - If you are using tables as a sort of grid, where every columns is holding the same type of contents,
-//       you may prefer using TableNextColumn() instead of TableNextRow() + TableSetColumnIndex().
-//       TableNextColumn() will automatically wrap-around into the next row if needed.
-//     - IMPORTANT: Comparatively to the old Columns() API, we need to call TableNextColumn() for the first column!
-//     - Here's a summary of possible call flow:
-//       ----------------------------------------------------------------------------------------------------------------
-//         TableNextRow() -> TableSetColumnIndex(0) -> Button("Hello 0") -> TableSetColumnIndex(1) -> Button("Hello 1")   // OK
-//         TableNextRow() -> TableNextColumn()         Button("Hello 0") -> TableNextColumn()      -> Button("Hello 1")   // OK
-//                           TableNextColumn()         Button("Hello 0") -> TableNextColumn()      -> Button("Hello 1")   // OK: TableNextColumn() automatically gets to next row!
-//         TableNextRow()                              Button("Hello 0") ................................................ // Not OK! Missing TableSetColumnIndex() or TableNextColumn()!
-//       ----------------------------------------------------------------------------------------------------------------
+// - 5. Populate contents
+//    - In most situations you can use TableNextRow() + TableSetColumnIndex(N) to start appending into a column.
+//    - If you are using tables as a sort of grid, where every columns is holding the same type of contents,
+//      you may prefer using TableNextColumn() instead of TableNextRow() + TableSetColumnIndex().
+//      TableNextColumn() will automatically wrap-around into the next row if needed.
+//    - IMPORTANT: Comparatively to the old Columns() API, we need to call TableNextColumn() for the first column!
+//    - Both TableSetColumnIndex() and TableNextColumn() return true when the column is visible or performing
+//      width measurements. Otherwise, you may skip submitting the contents of a cell/column, BUT ONLY if you know
+//      it is not going to contribute to row height.
+//      In many situations, you may skip submitting contents for every columns but one (e.g. the first one).
+//    - Summary of possible call flow:
+//      ----------------------------------------------------------------------------------------------------------
+//       TableNextRow() -> TableSetColumnIndex(0) -> Text("Hello 0") -> TableSetColumnIndex(1) -> Text("Hello 1")  // OK
+//       TableNextRow() -> TableNextColumn()      -> Text("Hello 0") -> TableNextColumn()      -> Text("Hello 1")  // OK
+//                         TableNextColumn()      -> Text("Hello 0") -> TableNextColumn()      -> Text("Hello 1")  // OK: TableNextColumn() automatically gets to next row!
+//       TableNextRow()                           -> Text("Hello 0")                                               // Not OK! Missing TableSetColumnIndex() or TableNextColumn()! Text will not appear!
+//      ----------------------------------------------------------------------------------------------------------
 // - 5. Call EndTable()
 
-// Flags for ImGui::BeginTable()
+// Flags for BeginTable()
 // - Important! Sizing policies have particularly complex and subtle side effects, more so than you would expect.
 //   Read comments/demos carefully + experiment with live demos to get acquainted with them.
 // - The default sizing policy for columns depends on whether the ScrollX flag is set on the table:
 //   When ScrollX is off:
-//    - Table defaults to ImGuiTableFlags_SizingPolicyStretchX -> all Columns defaults to ImGuiTableColumnFlags_WidthStretch.
-//    - Columns sizing policy allowed: Fixed/Auto or Stretch.
+//    - Table defaults to TableFlagsColumnsWidthStretch -> all Columns defaults to TableColumnFlagsWidthStretch.
+//    - Columns sizing policy allowed: Stretch (default) or Fixed/Auto.
 //    - Stretch Columns will share the width available in table.
 //    - Fixed Columns will generally obtain their requested width unless the Table cannot fit them all.
 //   When ScrollX is on:
-//    - Table defaults to ImGuiTableFlags_SizingPolicyFixedX -> all Columns defaults to ImGuiTableColumnFlags_WidthFixed.
-//    - Columns sizing policy allowed: Fixed/Auto mostly! Using Stretch columns OFTEN DOES NOT MAKE SENSE if ScrollX is on, UNLESS you have specified a value for 'inner_width' in BeginTable().
+//    - Table defaults to TableFlagsColumnsWidthFixed -> all Columns defaults to TableColumnFlagsWidthFixed.
+//    - Columns sizing policy allowed: Fixed/Auto mostly!
 //    - Fixed Columns can be enlarged as needed. Table will show an horizontal scrollbar if needed.
+//    - Using Stretch columns OFTEN DOES NOT MAKE SENSE if ScrollX is on, UNLESS you have specified a value for 'inner_width' in BeginTable().
 //    - Stretch Columns, if any, will calculate their width using inner_width, assuming no scrolling (it really doesn't make sense to do otherwise).
 // - Mixing up columns with different sizing policy is possible BUT can be tricky and has some side-effects and restrictions.
 //   (their visible order and the scrolling state have subtle but necessary effects on how they can be manually resized).
 //   The typical use of mixing sizing policies is to have ScrollX disabled, one or two Stretch Column and many Fixed Columns.
-
 const (
 	// Features
 	TableFlagsNone              = 0
 	TableFlagsResizable         = 1 << 0 // Allow resizing columns.
-	TableFlagsReorderable       = 1 << 1 // Allow reordering columns (need calling TableSetupColumn() + TableHeadersRow() to display headers)
-	TableFlagsHideable          = 1 << 2 // Allow hiding columns (with right-click on header) (FIXME-TABLE: allow without headers).
+	TableFlagsReorderable       = 1 << 1 // Allow reordering columns in header row (need calling TableSetupColumn() + TableHeadersRow() to display headers)
+	TableFlagsHideable          = 1 << 2 // Allow hiding/disabling columns in context menu.
 	TableFlagsSortable          = 1 << 3 // Allow sorting on one column (sort_specs_count will always be == 1). Call TableGetSortSpecs() to obtain sort specs.
 	TableFlagsMultiSortable     = 1 << 4 // Allow sorting on multiple columns by holding Shift (sort_specs_count may be > 1). Call TableGetSortSpecs() to obtain sort specs.
 	TableFlagsNoSavedSettings   = 1 << 5 // Disable persisting columns order, width and sort settings in the .ini file.
 	TableFlagsContextMenuInBody = 1 << 6 // Right-click on columns body/contents will display table context menu. By default it is available in TableHeadersRow().
-	// Decoration
-	TableFlagsRowBg              = 1 << 7                                            // Set each RowBg color with StyleColorTableRowBg or StyleColorTableRowBgAlt (equivalent to calling TableSetBgColor with TableBgFlagsRowBg0 on each row manually)
-	TableFlagsBordersInnerH      = 1 << 8                                            // Draw horizontal borders between rows.
-	TableFlagsBordersOuterH      = 1 << 9                                            // Draw horizontal borders at the top and bottom.
-	TableFlagsBordersInnerV      = 1 << 10                                           // Draw vertical borders between columns.
-	TableFlagsBordersOuterV      = 1 << 11                                           // Draw vertical borders on the left and right sides.
-	TableFlagsBordersH           = TableFlagsBordersInnerH | TableFlagsBordersOuterH // Draw horizontal borders.
-	TableFlagsBordersV           = TableFlagsBordersInnerV | TableFlagsBordersOuterV // Draw vertical borders.
-	TableFlagsBordersInner       = TableFlagsBordersInnerV | TableFlagsBordersInnerH // Draw inner borders.
-	TableFlagsBordersOuter       = TableFlagsBordersOuterV | TableFlagsBordersOuterH // Draw outer borders.
-	TableFlagsBorders            = TableFlagsBordersInner | TableFlagsBordersOuter   // Draw all borders.
-	TableFlagsBordersFullHeightV = 1 << 12                                           // Borders covers all rows even when Headers are being used. Allow resizing from any rows.
-	// Padding, Sizing
-	TableFlagsSizingPolicyFixedX   = 1 << 13 // Default if ScrollX is on. Columns will default to use _WidthFixed or _WidthAlwaysAutoResize policy. Read description above for more details.
-	TableFlagsSizingPolicyStretchX = 1 << 14 // Default if ScrollX is off. Columns will default to use _WidthStretch policy. Read description above for more details.
-	TableFlagsNoHeadersWidth       = 1 << 15 // Disable header width contribution to automatic width calculation.
-	TableFlagsNoHostExtendY        = 1 << 16 // (FIXME-TABLE: Reword as SizingPolicy?) Disable extending past the limit set by outer_size.y, only meaningful when neither of ScrollX|ScrollY are set (data below the limit will be clipped and not visible)
-	TableFlagsNoKeepColumnsVisible = 1 << 17 // (FIXME-TABLE) Disable code that keeps column always minimally visible when table width gets too small and horizontal scrolling is off.
-	TableFlagsNoClip               = 1 << 18 // Disable clipping rectangle for every individual columns (reduce draw command count, items will be able to overflow into other columns). Generally incompatible with ScrollFreeze options.
+	// Decorations
+	TableFlagsRowBg                      = 1 << 7                                            // Set each RowBg color with StyleColorTableRowBg or StyleColorTableRowBgAlt (equivalent to calling TableSetBgColor with TableBgFlagsRowBg0 on each row manually)
+	TableFlagsBordersInnerH              = 1 << 8                                            // Draw horizontal borders between rows.
+	TableFlagsBordersOuterH              = 1 << 9                                            // Draw horizontal borders at the top and bottom.
+	TableFlagsBordersInnerV              = 1 << 10                                           // Draw vertical borders between columns.
+	TableFlagsBordersOuterV              = 1 << 11                                           // Draw vertical borders on the left and right sides.
+	TableFlagsBordersH                   = TableFlagsBordersInnerH | TableFlagsBordersOuterH // Draw horizontal borders.
+	TableFlagsBordersV                   = TableFlagsBordersInnerV | TableFlagsBordersOuterV // Draw vertical borders.
+	TableFlagsBordersInner               = TableFlagsBordersInnerV | TableFlagsBordersInnerH // Draw inner borders.
+	TableFlagsBordersOuter               = TableFlagsBordersOuterV | TableFlagsBordersOuterH // Draw outer borders.
+	TableFlagsBorders                    = TableFlagsBordersInner | TableFlagsBordersOuter   // Draw all borders.
+	TableFlagsNoBordersInBody            = 1 << 12                                           // Disable vertical borders in columns Body (borders will always appears in Headers).
+	TableFlagsNoBordersInBodyUntilResize = 1 << 13                                           // Disable vertical borders in columns Body until hovered for resize (borders will always appears in Headers).
+	// Sizing
+	TableFlagsColumnsWidthStretch  = 1 << 14 // Default if ScrollX is off. Columns will default to use _WidthStretch. Read description above for more details.
+	TableFlagsColumnsWidthFixed    = 1 << 15 // Default if ScrollX is on. Columns will default to use _WidthFixed or _WidthAutoResize policy (if Resizable is off). Read description above for more details.
+	TableFlagsSameWidths           = 1 << 16 // Make all columns the same widths which is useful with Fixed columns policy (but granted by default with Stretch policy + no resize). Implicitly enable TableFlagsNoKeepColumnsVisible and disable TableFlagsResizable.
+	TableFlagsNoHeadersWidth       = 1 << 17 // Disable headers' contribution to automatic width calculation.
+	TableFlagsNoHostExtendY        = 1 << 18 // Disable extending past the limit set by outer_size.y, only meaningful when neither of ScrollX|ScrollY are set (data below the limit will be clipped and not visible)
+	TableFlagsNoKeepColumnsVisible = 1 << 19 // Disable keeping column always minimally visible when ScrollX is off and table gets too small.
+	TableFlagsPreciseWidths        = 1 << 20 // Disable distributing remainder width to stretched columns (width allocation on a 100-wide table with 3 columns: Without this flag: 33,33,34. With this flag: 33,33,33). With larger number of columns, resizing will appear to be less smooth.
+	TableFlagsNoClip               = 1 << 21 // Disable clipping rectangle for every individual columns (reduce draw command count, items will be able to overflow into other columns). Generally incompatible with TableSetupScrollFreeze().
+	// Padding
+	TableFlagsPadOuterX   = 1 << 22 // Default if BordersOuterV is on. Enable outer-most padding.
+	TableFlagsNoPadOuterX = 1 << 23 // Default if BordersOuterV is off. Disable outer-most padding.
+	TableFlagsNoPadInnerX = 1 << 24 // Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).
 	// Scrolling
-	TableFlagsScrollX = 1 << 19 // Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
-	TableFlagsScrollY = 1 << 20 // Enable vertical scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size.
-	TableFlagsScroll  = TableFlagsScrollX | TableFlagsScrollY
+	TableFlagsScrollX = 1 << 25 // Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
+	TableFlagsScrollY = 1 << 26 // Enable vertical scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size.
 )
 
-// Flags for ImGui::TableSetupColumn()
-// FIXME-TABLE: Rename to ImGuiColumns_*, stick old columns api flags in there under an obsolete api block
+// Flags for TableSetupColumn()
 const (
-	TableColumnFlagsNone                  = 0
-	TableColumnFlagsDefaultHide           = 1 << 0  // Default as a hidden column.
-	TableColumnFlagsDefaultSort           = 1 << 1  // Default as a sorting column.
-	TableColumnFlagsWidthFixed            = 1 << 2  // Column will keep a fixed size, preferable with horizontal scrolling enabled (default if table sizing policy is SizingPolicyFixedX and table is resizable).
-	TableColumnFlagsWidthStretch          = 1 << 3  // Column will stretch, preferable with horizontal scrolling disabled (default if table sizing policy is SizingPolicyStretchX).
-	TableColumnFlagsWidthAlwaysAutoResize = 1 << 4  // Column will keep resizing based on submitted contents (with a one frame delay) == Fixed with auto resize (default if table sizing policy is SizingPolicyFixedX and table is not resizable).
-	TableColumnFlagsNoResize              = 1 << 5  // Disable manual resizing.
-	TableColumnFlagsNoClipX               = 1 << 6  // Disable clipping for this column (all NoClipX columns will render in a same draw command).
-	TableColumnFlagsNoSort                = 1 << 7  // Disable ability to sort on this field (even if ImGuiTableFlags_Sortable is set on the table).
-	TableColumnFlagsNoSortAscending       = 1 << 8  // Disable ability to sort in the ascending direction.
-	TableColumnFlagsNoSortDescending      = 1 << 9  // Disable ability to sort in the descending direction.
-	TableColumnFlagsNoHide                = 1 << 10 // Disable hiding this column.
-	TableColumnFlagsNoHeaderWidth         = 1 << 11 // Header width don't contribute to automatic column width.
-	TableColumnFlagsPreferSortAscending   = 1 << 12 // Make the initial sort direction Ascending when first sorting on this column (default).
-	TableColumnFlagsPreferSortDescending  = 1 << 13 // Make the initial sort direction Descending when first sorting on this column.
-	TableColumnFlagsIndentEnable          = 1 << 14 // Use current Indent value when entering cell (default for 1st column).
-	TableColumnFlagsIndentDisable         = 1 << 15 // Ignore current Indent value when entering cell (default for columns after the 1st one). Indentation changes _within_ the cell will still be honored.
-	TableColumnFlagsNoReorder             = 1 << 16 // Disable reordering this column, this will also prevent other columns from crossing over this column.
+	// Input configuration flags
+	TableColumnFlagsNone                 = 0
+	TableColumnFlagsDefaultHide          = 1 << 0  // Default as a hidden/disabled column.
+	TableColumnFlagsDefaultSort          = 1 << 1  // Default as a sorting column.
+	TableColumnFlagsWidthStretch         = 1 << 2  // Column will stretch. Preferable with horizontal scrolling disabled (default if table sizing policy is _ColumnsWidthStretch).
+	TableColumnFlagsWidthFixed           = 1 << 3  // Column will not stretch. Preferable with horizontal scrolling enabled (default if table sizing policy is _ColumnsWidthFixed and table is resizable).
+	TableColumnFlagsWidthAutoResize      = 1 << 4  // Column will not stretch and keep resizing based on submitted contents (default if table sizing policy is _ColumnsWidthFixed and table is not resizable).
+	TableColumnFlagsNoResize             = 1 << 5  // Disable manual resizing.
+	TableColumnFlagsNoReorder            = 1 << 6  // Disable manual reordering this column, this will also prevent other columns from crossing over this column.
+	TableColumnFlagsNoHide               = 1 << 7  // Disable ability to hide/disable this column.
+	TableColumnFlagsNoClip               = 1 << 8  // Disable clipping for this column (all NoClip columns will render in a same draw command).
+	TableColumnFlagsNoSort               = 1 << 9  // Disable ability to sort on this field (even if TableFlagsSortable is set on the table).
+	TableColumnFlagsNoSortAscending      = 1 << 10 // Disable ability to sort in the ascending direction.
+	TableColumnFlagsNoSortDescending     = 1 << 11 // Disable ability to sort in the descending direction.
+	TableColumnFlagsNoHeaderWidth        = 1 << 12 // Header width don't contribute to automatic column width.
+	TableColumnFlagsPreferSortAscending  = 1 << 13 // Make the initial sort direction Ascending when first sorting on this column (default).
+	TableColumnFlagsPreferSortDescending = 1 << 14 // Make the initial sort direction Descending when first sorting on this column.
+	TableColumnFlagsIndentEnable         = 1 << 15 // Use current Indent value when entering cell (default for column 0).
+	TableColumnFlagsIndentDisable        = 1 << 16 // Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
+
+	// Output status flags, read-only via TableGetColumnFlags()
+	TableColumnFlagsIsEnabled = 1 << 20 // Status: is enabled == not hidden by user/api (referred to as "Hide" in _DefaultHide and _NoHide) flags.
+	TableColumnFlagsIsVisible = 1 << 21 // Status: is visible == is enabled AND not clipped by scrolling.
+	TableColumnFlagsIsSorted  = 1 << 22 // Status: is currently part of the sort specs
+	TableColumnFlagsIsHovered = 1 << 23 // Status: is hovered by mouse
 )
 
-// Flags for ImGui::TableNextRow()
+// Flags for TableNextRow()
 const (
 	TableRowFlagsNone    = 0
 	TableRowFlagsHeaders = 1 << 0 // Identify header row (set default background color + width of its contents accounted different for auto column width)
@@ -116,16 +132,16 @@ const (
 //  - Layer 1: draw with RowBg1 color if set, otherwise draw with ColumnBg1 if set.
 //  - Layer 2: draw with CellBg color if set.
 // The purpose of the two row/columns layers is to let you decide if a background color changes should override or blend with the existing color.
-// When using ImGuiTableFlags_RowBg on the table, each row has the RowBg0 color automatically set for odd/even rows.
+// When using TableFlagsRowBg on the table, each row has the RowBg0 color automatically set for odd/even rows.
 // If you set the color of RowBg0 target, your color will override the existing RowBg0 color.
 // If you set the color of RowBg1 or ColumnBg1 target, your color will blend over the RowBg0 color.
 const (
-	TableBgTargetNone      = 0
-	TableBgTargetColumnBg0 = 1 // FIXME-TABLE: Todo. Set column background color 0 (generally used for background
-	TableBgTargetColumnBg1 = 2 // FIXME-TABLE: Todo. Set column background color 1 (generally used for selection marking)
-	TableBgTargetRowBg0    = 3 // Set row background color 0 (generally used for background, automatically set when ImGuiTableFlags_RowBg is used)
-	TableBgTargetRowBg1    = 4 // Set row background color 1 (generally used for selection marking)
-	TableBgTargetCellBg    = 5 // Set cell background color (top-most color)
+	TableBgTargetNone = 0
+	// TableBgTargetColumnBg0 = 1 // FIXME-TABLE: Todo. Set column background color 0 (generally used for background
+	// TableBgTargetColumnBg1 = 2 // FIXME-TABLE: Todo. Set column background color 1 (generally used for selection marking)
+	TableBgTargetRowBg0 = 3 // Set row background color 0 (generally used for background, automatically set when TableFlagsRowBg is used)
+	TableBgTargetRowBg1 = 4 // Set row background color 1 (generally used for selection marking)
+	TableBgTargetCellBg = 5 // Set cell background color (top-most color)
 )
 
 // A sorting direction
@@ -190,12 +206,12 @@ func TableNextRow() {
 }
 
 // TableNextColumn appends into the next column (or first column of next row if currently in last column)
-// Return true if column is visible.
+// Return true when column is visible.
 func TableNextColumn() bool {
 	return C.iggTableNextColumn() != 0
 }
 
-// TableSetColumnIndex appends into the specified column. Return true if column is visible.
+// TableSetColumnIndex appends into the specified column. Return true when column is visible.
 func TableSetColumnIndex(columnN int) bool {
 	return C.iggTableSetColumnIndex(C.int(columnN)) != 0
 }
@@ -205,11 +221,16 @@ func TableGetColumnIndex() int {
 	return int(C.iggTableGetColumnIndex())
 }
 
+// TableGetRowIndex return current row index.
+func TableGetRowIndex() int {
+	return int(C.iggTableGetRowIndex())
+}
+
 // Tables: Headers & Columns declaration
-// - Use TableSetupColumn() to specify label, resizing policy, default width, id, various other flags etc.
+// - Use TableSetupColumn() to specify label, resizing policy, default width/weight, id, various other flags etc.
 //   Important: this will not display anything! The name passed to TableSetupColumn() is used by TableHeadersRow() and context-menus.
 // - Use TableHeadersRow() to create a row and automatically submit a TableHeader() for each column.
-//   Headers are required to perform some interactions: reordering, sorting, context menu (FIXME-TABLE: context menu should work without!)
+//   Headers are required to perform: reordering, sorting, and opening the context menu (but context menu can also be available in columns body using TableFlagsContextMenuInBody).
 // - You may manually submit headers using TableNextRow() + TableHeader() calls, but this is only useful in some advanced cases (e.g. adding custom widgets in header row).
 // - Use TableSetupScrollFreeze() to lock columns (from the right) or rows (from the top) so they stay visible when scrolled.
 func TableSetupColumnV(label string, flags int, initWidthOrHeight float32, userID uint) {
@@ -258,39 +279,17 @@ func TableGetColumnName() string {
 	return TableGetColumnNameV(-1)
 }
 
-// TableGetColumnIsVisibleV returns true if column is visible.
-// Same value is also returned by TableNextColumn() and TableSetColumnIndex().
-// Pass -1 to use current column.
-func TableGetColumnIsVisibleV(columnN int) bool {
-	return C.iggTableGetColumnIsVisible(C.int(columnN)) != 0
+// TableGetColumnFlags return column flags so you can query their Enabled/Visible/Sorted/Hovered status flags.
+func TableGetColumnFlagsV(columnN int) int {
+	return int(C.iggTableGetColumnFlags(C.int(columnN)))
 }
 
-// TableGetColumnIsVisible calls TableGetColumnIsVisibleV(-1)
-func TableGetColumnIsVisible() bool {
-	return TableGetColumnIsVisibleV(-1)
+// TableGetColumnFlags calls TableGetColumnFlagsV(-1)
+func TableGetColumnFlags() int {
+	return TableGetColumnFlagsV(-1)
 }
 
-// TableGetColumnIsSortedV returns true if column is included in the sort specs.
-// Rarely used, can be useful to tell if a data change should trigger resort.
-// Equivalent to test ImGuiTableSortSpecs's ->ColumnsMask & (1 << column_n).
-// Pass -1 to use current column.
-func TableGetColumnIsSortedV(columnN int) bool {
-	return C.iggTableGetColumnIsSorted(C.int(columnN)) != 0
-}
-
-// TableGetColumnIsSorted calls TableGetColumnIsSortedV(-1)
-func TableGetColumnIsSorted() bool {
-	return TableGetColumnIsSortedV(-1)
-}
-
-// TableGetHoveredColumn returns hovered column.
-// return -1 when table is not hovered.
-// return columnsCount if the unused space at the right of visible columns is hovered.
-func TableGetHoveredColumn() int {
-	return int(C.iggTableGetHoveredColumn())
-}
-
-// TableSetBgColorV changes the color of a cell, row, or column. See ImGuiTableBgTarget flags for details.
+// TableSetBgColorV changes the color of a cell, row, or column. See TableBgTarget flags for details.
 func TableSetBgColorV(bgTarget int, color Vec4, columnN int) {
 	colorArg, _ := color.wrapped()
 	C.iggTableSetBgColor(C.int(bgTarget), colorArg, C.int(columnN))
@@ -307,57 +306,72 @@ func TableSetBgColor(bgTarget int, color Vec4) {
 //   Make sure to set 'SpecsDirty = false' after sorting, else you may wastefully sort your data every frame!
 //   Lifetime: don't hold on this pointer over multiple frames or past any subsequent call to BeginTable().
 
-// Sorting specification for one column of a table (sizeof == 8 bytes)
-type TableSortSpecsColumn struct {
+// Sorting specification for one column of a table (sizeof == 12 bytes)
+type TableColumnSortSpecs struct {
 	ColumnUserID  uint  // User id of the column (if specified by a TableSetupColumn() call)
-	ColumnIndex   uint8 // Index of the column
-	SortOrder     uint8 // Index within parent ImGuiTableSortSpecs (always stored in order starting from 0, tables sorted on a single criteria will always have a 0 here)
-	SortDirection int   // ImGuiSortDirection_Ascending or ImGuiSortDirection_Descending (you can use this or SortSign, whichever is more convenient for your sort function)
+	ColumnIndex   int16 // Index of the column
+	SortOrder     int16 // Index within parent TableSortSpecs (always stored in order starting from 0, tables sorted on a single criteria will always have a 0 here)
+	SortDirection int   // SortDirectionAscending or SortDirectionDescending (you can use this or SortSign, whichever is more convenient for your sort function)
 }
 
 // Sorting specifications for a table (often handling sort specs for a single column, occasionally more)
 // Obtained by calling TableGetSortSpecs()
 // When 'SpecsDirty == true' you can sort your data. It will be true with sorting specs have changed since last call, or the first time.
 // Make sure to set 'SpecsDirty = false' after sorting, else you may wastefully sort your data every frame!
-type TableSortSpecs struct {
-	Specs       [64]TableSortSpecsColumn // Sort spec array.
-	SpecsCount  int                      // Sort spec count. Most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
-	SpecsDirty  bool                     // Set to true when specs have changed since last time! Use this to sort again, then clear the flag.
-	ColumnsMask uint64                   // Set to the mask of column indexes included in the Specs array. e.g. (1 << N) when column N is sorted.
-
-	// [Internal]
-	specsDirty *C.char // Needed to clear the flag after the sort
-}
+type TableSortSpecs uintptr
 
 // TableGetSortSpecs gets latest sort specs for the table (nil if not sorting).
-func TableGetSortSpecs() *TableSortSpecs {
-	// TableSortSpecs.SpecsCount is most often 1 unless e.g. ImGuiTableFlags_MultiSortable is enabled.
-	// We use static array with 64 TableSortSpecsColumn values since that's maximum ammount of columns
-	sort_specs := &C.IggTableSortSpecs{Specs: [64]C.IggTableSortSpecsColumn{}}
-	if C.iggTableGetSortSpecs(sort_specs) == 0 {
-		return nil
-	}
-
-	result := &TableSortSpecs{
-		SpecsCount:  int(sort_specs.SpecsCount),
-		SpecsDirty:  sort_specs.SpecsDirty != 0,
-		ColumnsMask: uint64(sort_specs.ColumnsMask),
-
-		specsDirty: sort_specs.SpecsDirtyInternal,
-	}
-
-	for n := 0; n < int(sort_specs.SpecsCount); n += 1 {
-		result.Specs[n] = TableSortSpecsColumn{
-			ColumnUserID:  uint(sort_specs.Specs[n].ColumnUserID),
-			ColumnIndex:   uint8(sort_specs.Specs[n].ColumnIndex),
-			SortOrder:     uint8(sort_specs.Specs[n].SortOrder),
-			SortDirection: int(sort_specs.Specs[n].SortDirection),
-		}
-	}
-
-	return result
+func TableGetSortSpecs() TableSortSpecs {
+	return TableSortSpecs(C.iggTableGetSortSpecs())
 }
 
-func (specs *TableSortSpecs) Clear() {
-	*specs.specsDirty = 0
+func (specs TableSortSpecs) handle() C.IggTableSortSpecs {
+	return C.IggTableSortSpecs(specs)
+}
+
+// Specs returns columns sort spec array
+func (specs TableSortSpecs) Specs() []TableColumnSortSpecs {
+	count := specs.SpecsCount()
+	column_specs := make([]TableColumnSortSpecs, count)
+	for i := 0; i < count; i++ {
+		out := &C.IggTableColumnSortSpecs{}
+		C.iggTableSortSpecsGetSpec(specs.handle(), C.int(i), out)
+
+		column_specs[i] = TableColumnSortSpecs{
+			ColumnUserID:  uint(out.ColumnUserID),
+			ColumnIndex:   int16(out.ColumnIndex),
+			SortOrder:     int16(out.SortOrder),
+			SortDirection: int(out.SortDirection),
+		}
+	}
+	return column_specs
+}
+
+// SpecsCount returns sort spec count. Most often 1 unless e.g. TableFlagsMultiSortable is enabled.
+func (specs TableSortSpecs) SpecsCount() int {
+	if specs == 0 {
+		return 0
+	}
+	return int(C.iggTableSortSpecsGetSpecsCount(specs.handle()))
+}
+
+// SpecsDirty returns if specs have changed since last time! Use this to sort again
+func (specs TableSortSpecs) SpecsDirty() bool {
+	if specs == 0 {
+		return false
+	}
+	return C.iggTableSortSpecsGetSpecsDirty(specs.handle()) != 0
+}
+
+// SetSpecsDirty sets SpecsDirty value to a given value, usually used to clear the flag (set to false)
+func (specs TableSortSpecs) SetSpecsDirty(value bool) {
+	if specs == 0 {
+		return
+	}
+	C.iggTableSortSpecsSetSpecsDirty(specs.handle(), castBool(value))
+}
+
+// ClearSpecsDirty calls specs.SetSpecsDirty(false)
+func (specs TableSortSpecs) ClearSpecsDirty() {
+	specs.SetSpecsDirty(false)
 }
