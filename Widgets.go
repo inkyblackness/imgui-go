@@ -23,7 +23,7 @@ func LabelText(label, text string) {
 	C.iggLabelText(labelArg, textArg)
 }
 
-// ButtonV returning true if it is pressed.
+// ButtonV returns true if it is clicked.
 func ButtonV(id string, size Vec2) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
@@ -36,17 +36,12 @@ func Button(id string) bool {
 	return ButtonV(id, Vec2{})
 }
 
-// InvisibleButtonV returning true if it is pressed.
-func InvisibleButtonV(id string, size Vec2) bool {
+// InvisibleButton returns true if it is clicked.
+func InvisibleButton(id string, size Vec2) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
 	sizeArg, _ := size.wrapped()
 	return C.iggInvisibleButton(idArg, sizeArg) != 0
-}
-
-// InvisibleButton calls InvisibleButtonV(id, Vec2{0,0}).
-func InvisibleButton(id string) bool {
-	return InvisibleButtonV(id, Vec2{})
 }
 
 // ImageV adds an image based on given texture ID.
@@ -92,7 +87,7 @@ func Checkbox(id string, selected *bool) bool {
 	return C.iggCheckbox(idArg, selectedArg) != 0
 }
 
-// RadioButton returning true if it is pressed and active indicates if it is selected.
+// RadioButton returns true if it is clicked and active indicates if it is selected.
 func RadioButton(id string, active bool) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
