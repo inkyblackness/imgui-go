@@ -30,12 +30,12 @@ import "C"
 // Step 3: the clipper validates that we have reached the expected Y position (corresponding to element DisplayEnd),
 // advance the cursor to the end of the list and then returns 'false' to end the loop.
 type ListClipper struct {
-	StartPosY    float32
-	ItemsHeight  float32
-	ItemsCount   int
-	StepNo       int
 	DisplayStart int
 	DisplayEnd   int
+	StartPosY    float32
+	ItemsCount   int
+	StepNo       int
+	ItemsHeight  float32
 }
 
 // wrapped returns C struct and func for setting the values when done.
@@ -44,20 +44,20 @@ func (clipper *ListClipper) wrapped() (out *C.IggListClipper, finisher func()) {
 		return nil, func() {}
 	}
 	out = &C.IggListClipper{
-		StartPosY:    C.float(clipper.StartPosY),
-		ItemsHeight:  C.float(clipper.ItemsHeight),
-		ItemsCount:   C.int(clipper.ItemsCount),
-		StepNo:       C.int(clipper.StepNo),
 		DisplayStart: C.int(clipper.DisplayStart),
 		DisplayEnd:   C.int(clipper.DisplayEnd),
+		StartPosY:    C.float(clipper.StartPosY),
+		ItemsCount:   C.int(clipper.ItemsCount),
+		StepNo:       C.int(clipper.StepNo),
+		ItemsHeight:  C.float(clipper.ItemsHeight),
 	}
 	finisher = func() {
-		clipper.StartPosY = float32(out.StartPosY)
-		clipper.ItemsHeight = float32(out.ItemsHeight)
-		clipper.ItemsCount = int(out.ItemsCount)
-		clipper.StepNo = int(out.StepNo)
 		clipper.DisplayStart = int(out.DisplayStart)
 		clipper.DisplayEnd = int(out.DisplayEnd)
+		clipper.StartPosY = float32(out.StartPosY)
+		clipper.ItemsCount = int(out.ItemsCount)
+		clipper.StepNo = int(out.StepNo)
+		clipper.ItemsHeight = float32(out.ItemsHeight)
 	}
 	return
 }
