@@ -6,6 +6,8 @@ package imgui
 type Condition int
 
 const (
+	// No condition (always set the variable), same as ConditionAlways
+	ImGuiCondNone = 0
 	// ConditionAlways sets the variable.
 	ConditionAlways Condition = 1 << 0
 	// ConditionOnce sets the variable once per runtime session (only the first call with succeed).
