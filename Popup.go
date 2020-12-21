@@ -82,7 +82,7 @@ func OpenPopup(id string) {
 	OpenPopupV(id, 0)
 }
 
-// OpenPopupOnItemClickV helper to open popup when clicked on last item. return true when just opened. (note: actually triggers on the mouse _released_ event to be consistent with popup behaviors)
+// OpenPopupOnItemClickV helper to open popup when clicked on last item. return true when just opened. (note: actually triggers on the mouse _released_ event to be consistent with popup behaviors).
 func OpenPopupOnItemClickV(id string, flags PopupFlags) {
 	idArg, idFin := wrapString(id)
 	defer idFin()

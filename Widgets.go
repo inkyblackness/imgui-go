@@ -36,7 +36,7 @@ func Button(id string) bool {
 	return ButtonV(id, Vec2{})
 }
 
-// ButtonFlags Flags for InvisibleButton()
+// ButtonFlags Flags for InvisibleButton().
 type ButtonFlags int
 
 const (
@@ -298,7 +298,7 @@ func DragInt2V(label string, values *[2]int32, speed float32, min, max int32, fo
 	return C.iggDragIntN(labelArg, cvalues, 2, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// DragInt2 calls DragInt2V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone)
+// DragInt2 calls DragInt2V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone).
 func DragInt2(label string, value *[2]int32) bool {
 	return DragInt2V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone)
 }
@@ -313,7 +313,7 @@ func DragInt3V(label string, values *[3]int32, speed float32, min, max int32, fo
 	return C.iggDragIntN(labelArg, cvalues, 3, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// DragInt3 calls DragInt3V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone)
+// DragInt3 calls DragInt3V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone).
 func DragInt3(label string, value *[3]int32) bool {
 	return DragInt3V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone)
 }
@@ -328,7 +328,7 @@ func DragInt4V(label string, values *[4]int32, speed float32, min, max int32, fo
 	return C.iggDragIntN(labelArg, cvalues, 4, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// DragInt4 calls DragInt4V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone)
+// DragInt4 calls DragInt4V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone).
 func DragInt4(label string, value *[4]int32) bool {
 	return DragInt4V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone)
 }
