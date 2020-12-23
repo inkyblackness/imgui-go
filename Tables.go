@@ -2,6 +2,7 @@ package imgui
 
 // #include "wrapper/Tables.h"
 import "C"
+import "math"
 
 // Tables
 // [BETA API] API may evolve!
@@ -33,23 +34,27 @@ import "C"
 // - 5. Call EndTable()
 
 // Flags for BeginTable()
-// - Important! Sizing policies have particularly complex and subtle side effects, more so than you would expect.
+// - Important! Sizing policies have complex and subtle side effects, more so than you would expect.
 //   Read comments/demos carefully + experiment with live demos to get acquainted with them.
-// - The default sizing policy for columns depends on whether the ScrollX flag is set on the table:
-//   When ScrollX is off:
+// - The DEFAULT policy depends on whether the _ScrollX flag is set on the table, and whether _AlwaysAutoResize flag is set on window.
+//   - TableFlagsColumnsWidthStretch is the default if ScrollX if off.
+//   - TableFlagsColumnsWidthFixed   is the default if ScrollX is on, or if host window has WindowFlagsAlwaysAutoResize.
+// - When ScrollX is off:
 //    - Table defaults to TableFlagsColumnsWidthStretch -> all Columns defaults to TableColumnFlagsWidthStretch.
-//    - Columns sizing policy allowed: Stretch (default) or Fixed/Auto.
-//    - Stretch Columns will share the width available in table.
-//    - Fixed Columns will generally obtain their requested width unless the Table cannot fit them all.
-//   When ScrollX is on:
-//    - Table defaults to TableFlagsColumnsWidthFixed -> all Columns defaults to TableColumnFlagsWidthFixed.
-//    - Columns sizing policy allowed: Fixed/Auto mostly!
+//    - Columns sizing policy allowed: Stretch (default), Fixed/Auto.
+//    - Fixed Columns will generally obtain their requested width (unless the table cannot fit them all).
+//    - Stretch Columns will share the remaining width.
+//    - Mixed Fixed/Stretch columns is possible but has various side-effects on resizing behaviors.
+//      The typical use of mixing sizing policies is: any number of LEADING Fixed columns, followed by one or two TRAILING Stretch columns.
+//      (this is because the visible order of columns have subtle but necessary effects on how they react to manual resizing).
+// - When ScrollX is on:
+//    - Table defaults to TableFlagsColumnsWidthFixed -> all Columns defaults to TableColumnFlagsWidthFixed or TableColumnFlagsWidthAuto.
+//    - Columns sizing policy allowed: Fixed/Auto mostly.
 //    - Fixed Columns can be enlarged as needed. Table will show an horizontal scrollbar if needed.
 //    - Using Stretch columns OFTEN DOES NOT MAKE SENSE if ScrollX is on, UNLESS you have specified a value for 'inner_width' in BeginTable().
-//    - Stretch Columns, if any, will calculate their width using inner_width, assuming no scrolling (it really doesn't make sense to do otherwise).
-// - Mixing up columns with different sizing policy is possible BUT can be tricky and has some side-effects and restrictions.
-//   (their visible order and the scrolling state have subtle but necessary effects on how they can be manually resized).
-//   The typical use of mixing sizing policies is to have ScrollX disabled, one or two Stretch Column and many Fixed Columns.
+//      If you specify a value for 'inner_width' then effectively the scrolling space is known and Stretch or mixed Fixed/Stretch columns become meaningful again.
+// - Read on documentation at the top of imgui_tables.cpp for details.
+
 const (
 	// Features
 	TableFlagsNone              = 0
@@ -74,23 +79,23 @@ const (
 	TableFlagsNoBordersInBodyUntilResize = 1 << 12                                           // Disable vertical borders in columns Body until hovered for resize (borders will always appears in Headers).
 	// Sizing
 	TableFlagsColumnsWidthStretch  = 1 << 13 // Default if ScrollX is off. Columns will default to use _WidthStretch. Read description above for more details.
-	TableFlagsColumnsWidthFixed    = 1 << 14 // Default if ScrollX is on. Columns will default to use _WidthFixed or _WidthAutoResize policy (if Resizable is off). Read description above for more details.
+	TableFlagsColumnsWidthFixed    = 1 << 14 // Default if ScrollX is on. Columns will default to use _WidthFixed or _WidthAuto policy (if Resizable is off). Read description above for more details.
 	TableFlagsSameWidths           = 1 << 15 // Make all columns the same widths which is useful with Fixed columns policy (but granted by default with Stretch policy + no resize). Implicitly enable TableFlagsNoKeepColumnsVisible and disable TableFlagsResizable.
-	TableFlagsNoHeadersWidth       = 1 << 16 // Disable headers' contribution to automatic width calculation.
-	TableFlagsNoHostExtendY        = 1 << 17 // Disable extending past the limit set by outer_size.y, only meaningful when neither of ScrollX|ScrollY are set (data below the limit will be clipped and not visible)
-	TableFlagsNoKeepColumnsVisible = 1 << 18 // Disable keeping column always minimally visible when ScrollX is off and table gets too small.
-	TableFlagsPreciseWidths        = 1 << 19 // Disable distributing remainder width to stretched columns (width allocation on a 100-wide table with 3 columns: Without this flag: 33,33,34. With this flag: 33,33,33). With larger number of columns, resizing will appear to be less smooth.
-	TableFlagsNoClip               = 1 << 20 // Disable clipping rectangle for every individual columns (reduce draw command count, items will be able to overflow into other columns). Generally incompatible with TableSetupScrollFreeze().
+	TableFlagsNoHostExtendY        = 1 << 16 // Disable extending table past the limit set by outer_size.y. Only meaningful when neither ScrollX nor ScrollY are set (data below the limit will be clipped and not visible)
+	TableFlagsNoKeepColumnsVisible = 1 << 17 // Disable keeping column always minimally visible when ScrollX is off and table gets too small. Not recommended if columns are resizable.
+	TableFlagsPreciseWidths        = 1 << 18 // Disable distributing remainder width to stretched columns (width allocation on a 100-wide table with 3 columns: Without this flag: 33,33,34. With this flag: 33,33,33). With larger number of columns, resizing will appear to be less smooth.
+	// Clipping
+	TableFlagsNoClip = 1 << 19 // Disable clipping rectangle for every individual columns (reduce draw command count, items will be able to overflow into other columns). Generally incompatible with TableSetupScrollFreeze().
 	// Padding
-	TableFlagsPadOuterX   = 1 << 21 // Default if BordersOuterV is on. Enable outer-most padding.
-	TableFlagsNoPadOuterX = 1 << 22 // Default if BordersOuterV is off. Disable outer-most padding.
-	TableFlagsNoPadInnerX = 1 << 23 // Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).
+	TableFlagsPadOuterX   = 1 << 20 // Default if BordersOuterV is on. Enable outer-most padding.
+	TableFlagsNoPadOuterX = 1 << 21 // Default if BordersOuterV is off. Disable outer-most padding.
+	TableFlagsNoPadInnerX = 1 << 22 // Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).
 	// Scrolling
-	TableFlagsScrollX = 1 << 24 // Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
-	TableFlagsScrollY = 1 << 25 // Enable vertical scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size.
+	TableFlagsScrollX = 1 << 23 // Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
+	TableFlagsScrollY = 1 << 24 // Enable vertical scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size.
 	// Sorting
-	TableFlagsSortMulti    = 1 << 26 // Hold shift when clicking headers to sort on multiple column. TableGetSortSpecs() may return specs where (SpecsCount > 1).
-	TableFlagsSortTristate = 1 << 27 // Allow no sorting, disable default sorting. TableGetSortSpecs() may return specs where (SpecsCount == 0).
+	TableFlagsSortMulti    = 1 << 25 // Hold shift when clicking headers to sort on multiple column. TableGetSortSpecs() may return specs where (SpecsCount > 1).
+	TableFlagsSortTristate = 1 << 26 // Allow no sorting, disable default sorting. TableGetSortSpecs() may return specs where (SpecsCount == 0).
 )
 
 // Flags for TableSetupColumn()
@@ -101,7 +106,7 @@ const (
 	TableColumnFlagsDefaultSort          = 1 << 1  // Default as a sorting column.
 	TableColumnFlagsWidthStretch         = 1 << 2  // Column will stretch. Preferable with horizontal scrolling disabled (default if table sizing policy is _ColumnsWidthStretch).
 	TableColumnFlagsWidthFixed           = 1 << 3  // Column will not stretch. Preferable with horizontal scrolling enabled (default if table sizing policy is _ColumnsWidthFixed and table is resizable).
-	TableColumnFlagsWidthAutoResize      = 1 << 4  // Column will not stretch and keep resizing based on submitted contents (default if table sizing policy is _ColumnsWidthFixed and table is not resizable).
+	TableColumnFlagsWidthAuto            = 1 << 4  // Column will not stretch and keep resizing based on submitted contents (default if table sizing policy is _ColumnsWidthFixed and table is not resizable). Generally compatible with using right-most fitting widgets (e.g. SetNextItemWidth(-FLT_MIN))
 	TableColumnFlagsNoResize             = 1 << 5  // Disable manual resizing.
 	TableColumnFlagsNoReorder            = 1 << 6  // Disable manual reordering this column, this will also prevent other columns from crossing over this column.
 	TableColumnFlagsNoHide               = 1 << 7  // Disable ability to hide/disable this column.
@@ -186,7 +191,7 @@ func BeginTableV(id string, columnsCount int, flags int, outerSize Vec2, innerWi
 
 // BeginTable calls BeginTableV(id, columnsCount, 0, imgui.Vec2{}, 0.0).
 func BeginTable(id string, columnsCount int) bool {
-	return BeginTableV(id, columnsCount, 0, Vec2{}, 0.0)
+	return BeginTableV(id, columnsCount, 0, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, 0.0)
 }
 
 // EndTable closes the scope for the previously opened table.

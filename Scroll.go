@@ -9,7 +9,7 @@ func GetScrollX() float32 {
 	return ScrollX()
 }
 
-// ScrollX returns the horizontal scrolling amount [0..GetScrollMaxX()].
+// ScrollX returns the horizontal scrolling amount [0 .. ScrollMaxX()].
 func ScrollX() float32 {
 	return float32(C.iggGetScrollX())
 }
@@ -20,7 +20,7 @@ func GetScrollY() float32 {
 	return ScrollY()
 }
 
-// ScrollY returns the vertical scrolling amount [0..GetScrollMaxY()].
+// ScrollY returns the vertical scrolling amount [0 .. ScrollMaxY()].
 func ScrollY() float32 {
 	return float32(C.iggGetScrollY())
 }
@@ -31,7 +31,7 @@ func GetScrollMaxX() float32 {
 	return ScrollMaxX()
 }
 
-// ScrollMaxX returns the maximum horizontal scrolling amount: ContentSize.X - WindowSize.X .
+// ScrollMaxX returns the maximum horizontal scrolling amount ~~ ContentSize.x - WindowSize.x - DecorationsSize.x
 func ScrollMaxX() float32 {
 	return float32(C.iggGetScrollMaxX())
 }
@@ -42,7 +42,7 @@ func GetScrollMaxY() float32 {
 	return ScrollMaxY()
 }
 
-// ScrollMaxY returns the maximum vertical scrolling amount: ContentSize.Y - WindowSize.Y .
+// ScrollMaxY returns the maximum vertical scrolling amount ~~ ContentSize.y - WindowSize.y - DecorationsSize.y
 func ScrollMaxY() float32 {
 	return float32(C.iggGetScrollMaxY())
 }
@@ -63,12 +63,12 @@ func SetScrollHereY(ratio float32) {
 	C.iggSetScrollHereY(C.float(ratio))
 }
 
-// SetScrollX sets horizontal scrolling amount [0..GetScrollMaxX()].
+// SetScrollX sets horizontal scrolling amount [0 .. ScrollMaxX()].
 func SetScrollX(scrollX float32) {
 	C.iggSetScrollX(C.float(scrollX))
 }
 
-// SetScrollY sets vertical scrolling amount [0..GetScrollMaxY()].
+// SetScrollY sets vertical scrolling amount [0 .. ScrollMaxY()].
 func SetScrollY(scrollY float32) {
 	C.iggSetScrollY(C.float(scrollY))
 }
