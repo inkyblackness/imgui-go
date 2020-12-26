@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+extern void iggClearActiveID(void);
+
 extern IggBool iggIsItemClicked();
 extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsItemActive();

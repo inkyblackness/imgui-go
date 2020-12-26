@@ -3,6 +3,14 @@ package imgui
 // #include "wrapper/State.h"
 import "C"
 
+// ClearActiveID removes focus from a currently item in edit mode.
+// An application that handles its own undo/redo stack needs to call this
+// function before changing the data a widget might currently own, such as
+// a TextEdit().
+func ClearActiveID() {
+	C.iggClearActiveID()
+}
+
 // IsItemClicked returns true if the current item is clicked with the left
 // mouse button.
 func IsItemClicked() bool {

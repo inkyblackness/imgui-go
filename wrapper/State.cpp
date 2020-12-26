@@ -3,6 +3,11 @@
 #include "State.h"
 #include "WrapperConverter.h"
 
+void iggClearActiveID(void)
+{
+   ImGui::ClearActiveID();
+}
+
 IggBool iggIsItemClicked()
 {
    return ImGui::IsItemClicked() ? 1 : 0;
