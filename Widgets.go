@@ -58,7 +58,7 @@ func InvisibleButtonV(id string, size Vec2, flags ButtonFlags) bool {
 	return C.iggInvisibleButton(idArg, sizeArg, C.int(flags)) != 0
 }
 
-// InvisibleButton calls InvisibleButtonV(id, Vec2{0,0}).
+// InvisibleButton calls InvisibleButtonV(id, Vec2{0,0}, ButtonFlagsNone).
 func InvisibleButton(id string) bool {
 	return InvisibleButtonV(id, Vec2{}, ButtonFlagsNone)
 }
