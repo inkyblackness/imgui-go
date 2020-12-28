@@ -51,9 +51,11 @@ The "verbose" variant should require all the parameters of the underlying functi
 
 ### Code Style
 
-Please make sure code is formatted according to `go fmt`, and use the following linter: [golangci-lint](https://github.com/golangci/golangci-lint).
+Please make sure Go code is formatted according to `go fmt`, and use the following linter: [golangci-lint](https://github.com/golangci/golangci-lint).
 
 > If there are linter errors that you didn't introduce, you don't have to clean them up - I might have missed them and will be handling them separately.
+
+For the C++ code under `/wrapper`, run `clang-format` (version 11 or newer) to adhere to the common formatting as specified by `/wrapper/.clang-format` file. 
 
 ### Upgrade to newer Dear ImGui version
 

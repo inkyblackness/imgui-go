@@ -118,8 +118,9 @@ IggBool iggIsMouseDoubleClicked(int button)
    return ImGui::IsMouseDoubleClicked(button);
 }
 
-IggBool iggIsMouseDragging(int button, float lock_threshold) {
-	return ImGui::IsMouseDragging(button, lock_threshold);
+IggBool iggIsMouseDragging(int button, float lock_threshold)
+{
+   return ImGui::IsMouseDragging(button, lock_threshold);
 }
 
 void iggMousePos(IggVec2 *pos)
@@ -137,11 +138,12 @@ void iggSetMouseCursor(int cursor)
    ImGui::SetMouseCursor(cursor);
 }
 
-void iggGetItemRectMin(IggVec2 *pos) {
-	exportValue(*pos, ImGui::GetItemRectMin());
+void iggGetItemRectMin(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetItemRectMin());
 }
 
-void iggGetItemRectMax(IggVec2 *pos) {
-	exportValue(*pos, ImGui::GetItemRectMax());
+void iggGetItemRectMax(IggVec2 *pos)
+{
+   exportValue(*pos, ImGui::GetItemRectMax());
 }
-

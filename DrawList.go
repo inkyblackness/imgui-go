@@ -147,9 +147,9 @@ func (list DrawList) AddRectFilledV(min Vec2, max Vec2, col PackedColor, roundin
 	C.iggAddRectFilled(list.handle(), minArg, maxArg, C.IggPackedColor(col), C.float(rounding), C.int(drawCornerFlags))
 }
 
-// AddCircleFilled calls AddCircleFilledV(center, radius, col, 12).
+// AddCircleFilled calls AddCircleFilledV(center, radius, col, 0).
 func (list DrawList) AddCircleFilled(center Vec2, radius float32, col PackedColor) {
-	list.AddCircleFilledV(center, radius, col, 12)
+	list.AddCircleFilledV(center, radius, col, 0)
 }
 
 // AddCircleFilledV adds a filled circle to the draw list. min is the
@@ -159,9 +159,9 @@ func (list DrawList) AddCircleFilledV(center Vec2, radius float32, col PackedCol
 	C.iggAddCircleFilled(list.handle(), centerArg, C.float(radius), C.IggPackedColor(col), C.int(numSegments))
 }
 
-// AddCircle calls AddCircleV(center, radius, col, 12, 1.0).
+// AddCircle calls AddCircleV(center, radius, col, 0, 1.0).
 func (list DrawList) AddCircle(center Vec2, radius float32, col PackedColor) {
-	list.AddCircleV(center, radius, col, 12, 1.0)
+	list.AddCircleV(center, radius, col, 0, 1.0)
 }
 
 // AddCircleV adds a unfilled circle to the draw list. min is the upper-left

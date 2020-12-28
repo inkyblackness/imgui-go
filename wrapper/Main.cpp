@@ -9,7 +9,7 @@ char const *iggGetVersion()
 
 double iggGetTime()
 {
-	return ImGui::GetTime();
+   return ImGui::GetTime();
 }
 
 void iggNewFrame()
