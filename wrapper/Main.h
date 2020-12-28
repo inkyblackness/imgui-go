@@ -13,7 +13,6 @@ extern void iggNewFrame(void);
 extern void iggRender(void);
 extern void iggEndFrame(void);
 
-
 #ifdef __cplusplus
 }
 #endif
