@@ -62,7 +62,7 @@ func BeginPopupModal(name string) bool {
 	return BeginPopupModalV(name, nil, 0)
 }
 
-// EndPopup finshes a popup. Only call EndPopup() if BeginPopupXXX() returns true!
+// EndPopup finishes a popup. Only call EndPopup() if BeginPopupXXX() returns true!
 func EndPopup() {
 	C.iggEndPopup()
 }
@@ -89,9 +89,9 @@ func OpenPopupOnItemClickV(id string, flags PopupFlags) {
 	C.iggOpenPopupOnItemClick(idArg, C.int(flags))
 }
 
-// OpenPopupOnItemClick calls OpenPopupOnItemClickV("", 0).
+// OpenPopupOnItemClick calls OpenPopupOnItemClickV("", PopupFlagsMouseButtonRight).
 func OpenPopupOnItemClick() {
-	OpenPopupOnItemClickV("", 1)
+	OpenPopupOnItemClickV("", PopupFlagsMouseButtonRight)
 }
 
 // CloseCurrentPopup closes the popup we have begin-ed into.
@@ -108,9 +108,9 @@ func BeginPopupContextItemV(id string, flags PopupFlags) bool {
 	return C.iggBeginPopupContextItem(idArg, C.int(flags)) != 0
 }
 
-// BeginPopupContextItem calls BeginPopupContextItemV("", 1).
+// BeginPopupContextItem calls BeginPopupContextItemV("", PopupFlagsMouseButtonRight).
 func BeginPopupContextItem() bool {
-	return BeginPopupContextItemV("", 1)
+	return BeginPopupContextItemV("", PopupFlagsMouseButtonRight)
 }
 
 // BeginPopupContextWindowV open+begin popup when clicked on current window.
@@ -120,9 +120,9 @@ func BeginPopupContextWindowV(id string, flags PopupFlags) bool {
 	return C.iggBeginPopupContextWindow(idArg, C.int(flags)) != 0
 }
 
-// BeginPopupContextWindow calls BeginPopupContextWindowV("", 1).
+// BeginPopupContextWindow calls BeginPopupContextWindowV("", PopupFlagsMouseButtonRight).
 func BeginPopupContextWindow() bool {
-	return BeginPopupContextWindowV("", 1)
+	return BeginPopupContextWindowV("", PopupFlagsMouseButtonRight)
 }
 
 // BeginPopupContextVoidV open+begin popup when clicked in void (where there are no windows).
@@ -132,19 +132,22 @@ func BeginPopupContextVoidV(id string, flags PopupFlags) bool {
 	return C.iggBeginPopupContextVoid(idArg, C.int(flags)) != 0
 }
 
-// BeginPopupContextVoid calls BeginPopupContextVoidV("", 1).
+// BeginPopupContextVoid calls BeginPopupContextVoidV("", PopupFlagsMouseButtonRight).
 func BeginPopupContextVoid() bool {
-	return BeginPopupContextVoidV("", 1)
+	return BeginPopupContextVoidV("", PopupFlagsMouseButtonRight)
 }
 
 // IsPopupOpenV return true if the popup is open.
+// IsPopupOpenV(id, PopupFlagsNone): return true if the popup is open at the current BeginPopup() level of the popup stack.
+// IsPopupOpenV(id, PopupFlagsAnyPopupID: return true if any popup is open at the current BeginPopup() level of the popup stack.
+// IsPopupOpenV(id, PopupFlagsAnyPopup): return true if any popup is open.
 func IsPopupOpenV(id string, flags PopupFlags) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
 	return C.iggIsPopupOpen(idArg, C.int(flags)) != 0
 }
 
-// IsPopupOpen clas IsPopupOpenV(id, 0).
+// IsPopupOpen calls IsPopupOpenV(id, PopupFlagsNone).
 func IsPopupOpen(id string) bool {
-	return IsPopupOpenV(id, 0)
+	return IsPopupOpenV(id, PopupFlagsNone)
 }
