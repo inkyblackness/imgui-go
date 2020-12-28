@@ -818,9 +818,14 @@ func ColorPicker4V(label string, col *[4]float32, flags int) bool {
 
 // CollapsingHeader adds a collapsing header.
 func CollapsingHeader(label string) bool {
+	return CollapsingHeaderV(label, 0)
+}
+
+// CollapsingHeader adds a collapsing header.
+func CollapsingHeaderV(label string, flags int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
-	return C.iggCollapsingHeader(labelArg) != 0
+	return C.iggCollapsingHeader(labelArg, C.int(flags)) != 0
 }
 
 const (
