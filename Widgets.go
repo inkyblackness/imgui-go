@@ -821,7 +821,7 @@ func CollapsingHeader(label string) bool {
 	return CollapsingHeaderV(label, 0)
 }
 
-// CollapsingHeader adds a collapsing header.
+// CollapsingHeaderV adds a collapsing header with TreeNode flags.
 func CollapsingHeaderV(label string, flags int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
