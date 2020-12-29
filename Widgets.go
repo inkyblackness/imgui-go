@@ -816,11 +816,16 @@ func ColorPicker4V(label string, col *[4]float32, flags int) bool {
 	return C.iggColorPicker4(labelArg, ccol, C.int(flags)) != 0
 }
 
-// CollapsingHeader adds a collapsing header.
+// CollapsingHeader calls CollapsingHeaderV(label, 0).
 func CollapsingHeader(label string) bool {
+	return CollapsingHeaderV(label, 0)
+}
+
+// CollapsingHeaderV adds a collapsing header with TreeNode flags.
+func CollapsingHeaderV(label string, flags int) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
-	return C.iggCollapsingHeader(labelArg) != 0
+	return C.iggCollapsingHeader(labelArg, C.int(flags)) != 0
 }
 
 const (

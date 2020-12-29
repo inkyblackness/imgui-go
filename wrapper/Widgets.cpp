@@ -193,9 +193,9 @@ IggBool iggColorPicker4(char const *label, float *col, int flags)
    return ImGui::ColorPicker4(label, col, flags) ? 1 : 0;
 }
 
-IggBool iggCollapsingHeader(const char *label)
+IggBool iggCollapsingHeader(const char *label, int flags)
 {
-   return ImGui::CollapsingHeader(label) ? 1 : 0;
+   return ImGui::CollapsingHeader(label, flags) ? 1 : 0;
 }
 
 IggBool iggTreeNode(char const *label, int flags)
