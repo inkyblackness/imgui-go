@@ -816,7 +816,7 @@ func ColorPicker4V(label string, col *[4]float32, flags int) bool {
 	return C.iggColorPicker4(labelArg, ccol, C.int(flags)) != 0
 }
 
-// CollapsingHeader adds a collapsing header.
+// CollapsingHeader calls CollapsingHeaderV(label, 0).
 func CollapsingHeader(label string) bool {
 	return CollapsingHeaderV(label, 0)
 }
