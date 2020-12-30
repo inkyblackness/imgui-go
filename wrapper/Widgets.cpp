@@ -198,6 +198,12 @@ IggBool iggCollapsingHeader(const char *label, int flags)
    return ImGui::CollapsingHeader(label, flags) ? 1 : 0;
 }
 
+
+IggBool iggTreeNodeID(char const *id, char const *label, int flags)
+{
+   return ImGui::TreeNodeEx(id, flags, label) ? 1 : 0;
+}
+
 IggBool iggTreeNode(char const *label, int flags)
 {
    return ImGui::TreeNodeEx(label, flags) ? 1 : 0;

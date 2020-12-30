@@ -52,6 +52,7 @@ extern IggBool iggColorEdit4(char const *label, float *col, int flags);
 extern IggBool iggColorPicker3(char const *label, float *col, int flags);
 extern IggBool iggColorPicker4(char const *label, float *col, int flags);
 
+extern IggBool iggTreeNodeID(char const *id, char const *label, int flags);
 extern IggBool iggTreeNode(char const *label, int flags);
 extern void iggTreePop(void);
 extern void iggSetNextItemOpen(IggBool open, int cond);

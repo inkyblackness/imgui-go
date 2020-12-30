@@ -871,6 +871,15 @@ const (
 	TreeNodeFlagsCollapsingHeader = TreeNodeFlagsFramed | TreeNodeFlagsNoTreePushOnOpen | TreeNodeFlagsNoAutoOpenOnLog
 )
 
+// TreeNodeIDV is similar to TreeNodeV but sets a ID different from the label
+func TreeNodeIDV(id string, label string, flags int) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	return C.iggTreeNodeID(idArg, labelArg, C.int(flags)) != 0
+}
+
 // TreeNodeV returns true if the tree branch is to be rendered. Call TreePop() in this case.
 func TreeNodeV(label string, flags int) bool {
 	labelArg, labelFin := wrapString(label)
