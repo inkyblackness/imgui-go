@@ -13,7 +13,7 @@ import "math"
 // - 1. Call BeginTable()
 // - 2. Optionally call TableSetupColumn() to submit column name/flags/defaults
 // - 3. Optionally call TableSetupScrollFreeze() to request scroll freezing of columns/rows
-// - 4. Optionally call TableHeadersRow() to submit a header row (names will be pulled from data submitted to TableSetupColumns)
+// - 4. Optionally call TableHeadersRow() to submit a header row. Names will be pulled from data provided TableSetupColumn() calls
 // - 5. Populate contents
 //    - In most situations you can use TableNextRow() + TableSetColumnIndex(N) to start appending into a column.
 //    - If you are using tables as a sort of grid, where every columns is holding the same type of contents,
@@ -37,10 +37,10 @@ import "math"
 // - Important! Sizing policies have complex and subtle side effects, more so than you would expect.
 //   Read comments/demos carefully + experiment with live demos to get acquainted with them.
 // - The DEFAULT policy depends on whether the _ScrollX flag is set on the table, and whether _AlwaysAutoResize flag is set on window.
-//   - TableFlagsColumnsWidthStretch is the default if ScrollX if off.
-//   - TableFlagsColumnsWidthFixed   is the default if ScrollX is on, or if host window has WindowFlagsAlwaysAutoResize.
+//   - TableFlagsSizingPolicyStretch is the default if ScrollX if off.
+//   - TableFlagsSizingPolicyFixed   is the default if ScrollX is on, or if host window has WindowFlagsAlwaysAutoResize.
 // - When ScrollX is off:
-//    - Table defaults to TableFlagsColumnsWidthStretch -> all Columns defaults to TableColumnFlagsWidthStretch.
+//    - Table defaults to TableFlagsSizingPolicyStretch -> all Columns defaults to TableColumnFlagsWidthStretch.
 //    - Columns sizing policy allowed: Stretch (default), Fixed/Auto.
 //    - Fixed Columns will generally obtain their requested width (unless the table cannot fit them all).
 //    - Stretch Columns will share the remaining width.
@@ -48,7 +48,7 @@ import "math"
 //      The typical use of mixing sizing policies is: any number of LEADING Fixed columns, followed by one or two TRAILING Stretch columns.
 //      (this is because the visible order of columns have subtle but necessary effects on how they react to manual resizing).
 // - When ScrollX is on:
-//    - Table defaults to TableFlagsColumnsWidthFixed -> all Columns defaults to TableColumnFlagsWidthFixed or TableColumnFlagsWidthAuto.
+//    - Table defaults to TableFlagsSizingPolicyFixed -> all Columns defaults to TableColumnFlagsWidthFixed or TableColumnFlagsWidthAuto.
 //    - Columns sizing policy allowed: Fixed/Auto mostly.
 //    - Fixed Columns can be enlarged as needed. Table will show an horizontal scrollbar if needed.
 //    - Using Stretch columns OFTEN DOES NOT MAKE SENSE if ScrollX is on, UNLESS you have specified a value for 'inner_width' in BeginTable().
@@ -58,10 +58,10 @@ import "math"
 const (
 	// Features
 	TableFlagsNone              = 0
-	TableFlagsResizable         = 1 << 0 // Allow resizing columns.
-	TableFlagsReorderable       = 1 << 1 // Allow reordering columns in header row (need calling TableSetupColumn() + TableHeadersRow() to display headers)
-	TableFlagsHideable          = 1 << 2 // Allow hiding/disabling columns in context menu.
-	TableFlagsSortable          = 1 << 3 // Allow sorting on one column (sort_specs_count will always be == 1). Call TableGetSortSpecs() to obtain sort specs.
+	TableFlagsResizable         = 1 << 0 // Enable resizing columns.
+	TableFlagsReorderable       = 1 << 1 // Enable reordering columns in header row (need calling TableSetupColumn() + TableHeadersRow() to display headers)
+	TableFlagsHideable          = 1 << 2 // Enable hiding/disabling columns in context menu.
+	TableFlagsSortable          = 1 << 3 // Enable sorting. Call TableGetSortSpecs() to obtain sort specs. Also see TableFlagsSortMulti and TableFlagsSortTristate.
 	TableFlagsNoSavedSettings   = 1 << 4 // Disable persisting columns order, width and sort settings in the .ini file.
 	TableFlagsContextMenuInBody = 1 << 5 // Right-click on columns body/contents will display table context menu. By default it is available in TableHeadersRow().
 	// Decorations
@@ -75,11 +75,12 @@ const (
 	TableFlagsBordersInner               = TableFlagsBordersInnerV | TableFlagsBordersInnerH // Draw inner borders.
 	TableFlagsBordersOuter               = TableFlagsBordersOuterV | TableFlagsBordersOuterH // Draw outer borders.
 	TableFlagsBorders                    = TableFlagsBordersInner | TableFlagsBordersOuter   // Draw all borders.
-	TableFlagsNoBordersInBody            = 1 << 11                                           // Disable vertical borders in columns Body (borders will always appears in Headers).
-	TableFlagsNoBordersInBodyUntilResize = 1 << 12                                           // Disable vertical borders in columns Body until hovered for resize (borders will always appears in Headers).
-	// Sizing
-	TableFlagsColumnsWidthStretch  = 1 << 13 // Default if ScrollX is off. Columns will default to use _WidthStretch. Read description above for more details.
-	TableFlagsColumnsWidthFixed    = 1 << 14 // Default if ScrollX is on. Columns will default to use _WidthFixed or _WidthAuto policy (if Resizable is off). Read description above for more details.
+	TableFlagsNoBordersInBody            = 1 << 11                                           // [ALPHA] Disable vertical borders in columns Body (borders will always appears in Headers). -> May move to style
+	TableFlagsNoBordersInBodyUntilResize = 1 << 12                                           // [ALPHA] Disable vertical borders in columns Body until hovered for resize (borders will always appears in Headers). -> May move to style
+	// Sizing Policy
+	TableFlagsSizingPolicyFixed   = 1 << 13 // [Default if ScrollX is on]  Columns default to _WidthFixed (if resizable) or _WidthAuto (if not resizable), matching contents width.
+	TableFlagsSizingPolicyStretch = 1 << 14 // [Default if ScrollX is off] Columns default to _WidthStretch with same weights.
+	// Sizing Extra Options
 	TableFlagsSameWidths           = 1 << 15 // Make all columns the same widths which is useful with Fixed columns policy (but granted by default with Stretch policy + no resize). Implicitly enable TableFlagsNoKeepColumnsVisible and disable TableFlagsResizable.
 	TableFlagsNoHostExtendY        = 1 << 16 // Disable extending table past the limit set by outer_size.y. Only meaningful when neither ScrollX nor ScrollY are set (data below the limit will be clipped and not visible)
 	TableFlagsNoKeepColumnsVisible = 1 << 17 // Disable keeping column always minimally visible when ScrollX is off and table gets too small. Not recommended if columns are resizable.
@@ -104,9 +105,9 @@ const (
 	TableColumnFlagsNone                 = 0
 	TableColumnFlagsDefaultHide          = 1 << 0  // Default as a hidden/disabled column.
 	TableColumnFlagsDefaultSort          = 1 << 1  // Default as a sorting column.
-	TableColumnFlagsWidthStretch         = 1 << 2  // Column will stretch. Preferable with horizontal scrolling disabled (default if table sizing policy is _ColumnsWidthStretch).
-	TableColumnFlagsWidthFixed           = 1 << 3  // Column will not stretch. Preferable with horizontal scrolling enabled (default if table sizing policy is _ColumnsWidthFixed and table is resizable).
-	TableColumnFlagsWidthAuto            = 1 << 4  // Column will not stretch and keep resizing based on submitted contents (default if table sizing policy is _ColumnsWidthFixed and table is not resizable). Generally compatible with using right-most fitting widgets (e.g. SetNextItemWidth(-FLT_MIN))
+	TableColumnFlagsWidthStretch         = 1 << 2  // Column will stretch. Preferable with horizontal scrolling disabled (default if table sizing policy is _SizingPolicyStretch).
+	TableColumnFlagsWidthFixed           = 1 << 3  // Column will not stretch. Preferable with horizontal scrolling enabled (default if table sizing policy is _SizingPolicyFixed and table is resizable).
+	TableColumnFlagsWidthAuto            = 1 << 4  // Column will not stretch and keep resizing based on submitted contents (default if table sizing policy is _SizingPolicyFixed and table is not resizable). Generally compatible with using right-most fitting widgets (e.g. SetNextItemWidth(-FLT_MIN))
 	TableColumnFlagsNoResize             = 1 << 5  // Disable manual resizing.
 	TableColumnFlagsNoReorder            = 1 << 6  // Disable manual reordering this column, this will also prevent other columns from crossing over this column.
 	TableColumnFlagsNoHide               = 1 << 7  // Disable ability to hide/disable this column.

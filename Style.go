@@ -210,6 +210,24 @@ func (style Style) FramePadding() Vec2 {
 	return value
 }
 
+// WindowPadding is the padding within a window
+func (style Style) WindowPadding() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggStyleGetWindowPadding(style.handle(), valueArg)
+	valueFin()
+	return value
+}
+
+// CellPadding is the padding within a table cell
+func (style Style) CellPadding() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggStyleGetCellPadding(style.handle(), valueArg)
+	valueFin()
+	return value
+}
+
 // SetColor sets a color value of the UI style.
 func (style Style) SetColor(id StyleColorID, value Vec4) {
 	valueArg, _ := value.wrapped()
