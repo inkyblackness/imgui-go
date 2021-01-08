@@ -871,7 +871,7 @@ const (
 	TreeNodeFlagsCollapsingHeader = TreeNodeFlagsFramed | TreeNodeFlagsNoTreePushOnOpen | TreeNodeFlagsNoAutoOpenOnLog
 )
 
-// TreeNodeIDV is similar to TreeNodeV but sets a ID different from the label.
+// TreeNodeIDV is similar to TreeNodeV but allows a specific ID instead of using the label.
 func TreeNodeIDV(id string, label string, flags int) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
