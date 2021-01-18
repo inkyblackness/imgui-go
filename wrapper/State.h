@@ -11,7 +11,6 @@ extern void iggClearActiveID(void);
 extern IggBool iggIsItemClicked();
 extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsItemActive();
-
 extern IggBool iggIsItemEdited();
 extern IggBool iggIsItemActivated();
 extern IggBool iggIsItemDeactivated();
@@ -22,8 +21,6 @@ extern void iggSetItemAllowOverlap();
 
 extern IggBool iggIsAnyItemActive();
 extern IggBool iggIsItemVisible();
-
-extern void iggSetItemAllowOverlap();
 
 extern IggBool iggIsWindowAppearing();
 extern IggBool iggIsWindowCollapsed();
