@@ -11,11 +11,15 @@ extern void iggClearActiveID(void);
 extern IggBool iggIsItemClicked();
 extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsItemActive();
+
 extern IggBool iggIsItemEdited();
 extern IggBool iggIsItemActivated();
 extern IggBool iggIsItemDeactivated();
 extern IggBool iggIsItemDeactivatedAfterEdit();
 extern IggBool iggIsItemToggledOpen();
+
+extern void iggSetItemAllowOverlap();
+
 extern IggBool iggIsAnyItemActive();
 extern IggBool iggIsItemVisible();
 
