@@ -77,15 +77,24 @@ const (
 	// WindowFlagsNoInputs combines WindowFlagsNoMouseInputs, WindowFlagsNoNavInputs and WindowFlagsNoNavFocus.
 	WindowFlagsNoInputs = WindowFlagsNoMouseInputs | WindowFlagsNoNavInputs | WindowFlagsNoNavFocus
 
-	ItemFlagsNone                     = 0
-	ItemFlagsNoTabStop                = 1 << 0
-	ItemFlagsButtonRepeat             = 1 << 1
-	ItemFlagsDisabled                 = 1 << 2
-	ItemFlagsNoNav                    = 1 << 3
-	ItemFlagsNoNavDefaultFocus        = 1 << 4
+	// ItemFlagsNone default = 0
+	ItemFlagsNone = 0
+	// ItemFlagsNoTabStop has no tab stop
+	ItemFlagsNoTabStop = 1 << 0
+	// ItemFlagsButtonRepeat will return true multiple times based on io.KeyRepeatDelay and io.KeyRepeatRate settings.
+	ItemFlagsButtonRepeat = 1 << 1
+	// ItemFlagsDisabled [BETA] disable interactions but doesn't affect visuals yet. See github.com/ocornut/imgui/issues/211
+	ItemFlagsDisabled = 1 << 2
+	// ItemFlagsNoNav has no nav
+	ItemFlagsNoNav = 1 << 3
+	// ItemFlagsNoNavDefaultFocus has no nav default focus
+	ItemFlagsNoNavDefaultFocus = 1 << 4
+	// ItemFlagsSelectableDontClosePopup automatically closes current Popup window
 	ItemFlagsSelectableDontClosePopup = 1 << 5
-	ItemFlagsMixedValue               = 1 << 6
-	ItemFlagsDefault                  = 0
+	// ItemFlagsMixedValue [BETA] represent a mixed/indeterminate value, generally multi-selection where values differ. Currently only supported by Checkbox() (later should support all sorts of widgets)
+	ItemFlagsMixedValue = 1 << 6
+	// ItemFlagsDefault default = 0
+	ItemFlagsDefault = 0
 )
 
 // BeginV pushes a new window to the stack and start appending to it.
@@ -275,10 +284,12 @@ func PopItemWidth() {
 	C.iggPopItemWidth()
 }
 
+// PushItemFlag sets flags for the next item
 func PushItemFlag(flag int, enabled bool) {
 	C.iggPushItemFlag(C.int(flag), castBool(enabled))
 }
 
+// PopItemFlag pops flags for the next item
 func PopItemFlag() {
 	C.iggPopItemFlag()
 }

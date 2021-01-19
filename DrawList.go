@@ -192,6 +192,7 @@ func (list DrawList) AddTriangleFilled(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColo
 	C.iggAddTriangleFilled(list.handle(), p1Arg, p2Arg, p3Arg, C.IggPackedColor(col))
 }
 
+// AddText adds a text with position pos, color col and text text to the draw list.
 func (list DrawList) AddText(pos Vec2, col PackedColor, text string) {
 	CString := newStringBuffer(text)
 	defer CString.free()
