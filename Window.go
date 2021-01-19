@@ -284,12 +284,12 @@ func PopItemWidth() {
 	C.iggPopItemWidth()
 }
 
-// PushItemFlag sets flags for the next item
+// PushItemFlag sets flags for the next item.
 func PushItemFlag(flag int, enabled bool) {
 	C.iggPushItemFlag(C.int(flag), castBool(enabled))
 }
 
-// PopItemFlag pops flags for the next item
+// PopItemFlag pops flags for the next item.
 func PopItemFlag() {
 	C.iggPopItemFlag()
 }

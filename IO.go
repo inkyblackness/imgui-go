@@ -87,7 +87,7 @@ func (io IO) MouseWheel() (float32, float32) {
 	return float32(mouseWheelH), float32(mouseWheel)
 }
 
-// DisplayFrameBufferScale returns scale factor for HDPI displays
+// DisplayFrameBufferScale returns scale factor for HDPI displays.
 func (io IO) DisplayFrameBufferScale() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
