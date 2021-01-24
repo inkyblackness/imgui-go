@@ -3,6 +3,7 @@ package imgui
 // #include "wrapper/DrawList.h"
 import "C"
 import (
+	"image/color"
 	"unsafe"
 )
 
@@ -197,10 +198,9 @@ func (list DrawList) AddTriangleFilled(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColo
 	C.iggAddTriangleFilled(list.handle(), p1Arg, p2Arg, p3Arg, C.IggPackedColor(col))
 }
 
-// AddImage calls AddImageV(textureId, posMin, posMax, Vec2{0,0}, Vec2{1,1}, PackedColor(0xffffffff))
+// AddImage calls AddImageV(textureId, posMin, posMax, Vec2{0,0}, Vec2{1,1}, Packed(color.White)).
 func (list DrawList) AddImage(textureID TextureID, posMin Vec2, posMax Vec2) {
-	// use white tint by default
-	list.AddImageV(textureID, posMin, posMax, Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 1}, PackedColor(0xffffffff))
+	list.AddImageV(textureID, posMin, posMax, Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 1}, Packed(color.White))
 }
 
 // AddImageV adds an image based on given texture ID.
