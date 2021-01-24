@@ -91,6 +91,10 @@ func WindowDrawList() DrawList {
 	return DrawList(C.iggGetWindowDrawList())
 }
 
+func BackgroundDrawList() DrawList {
+	return DrawList(C.iggGetBackgroundDrawList())
+}
+
 // This is a list of DrawCornerFlags.
 const (
 	DrawCornerFlagsNone     = 0x0
@@ -190,4 +194,12 @@ func (list DrawList) AddTriangleFilled(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColo
 	p2Arg, _ := p2.wrapped()
 	p3Arg, _ := p3.wrapped()
 	C.iggAddTriangleFilled(list.handle(), p1Arg, p2Arg, p3Arg, C.IggPackedColor(col))
+}
+
+func (list DrawList) AddImage(textureID TextureID, pMin Vec2, pMax Vec2, uvMin Vec2, uvMax Vec2, col PackedColor) {
+	pMinArg, _ := pMin.wrapped()
+	pMaxArg, _ := pMax.wrapped()
+	uvMinArg, _ := uvMin.wrapped()
+	uvMaxArg, _ := uvMax.wrapped()
+	C.iggAddImage(list.handle(), C.IggTextureID(textureID), pMinArg, pMaxArg, uvMinArg, uvMaxArg, C.IggPackedColor(col))
 }

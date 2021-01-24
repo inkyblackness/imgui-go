@@ -105,7 +105,22 @@ void iggAddTriangleFilled(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 
    list->AddTriangleFilled(*p1Arg, *p2Arg, *p3Arg, col);
 }
 
+void iggAddImage(IggDrawList handle, IggTextureID textureID, IggVec2* pMin, IggVec2* pMax, IggVec2* uvMin, IggVec2* uvMax, IggPackedColor col) {
+  Vec2Wrapper pMinArg(pMin);
+  Vec2Wrapper pMaxArg(pMax);
+  Vec2Wrapper uvMinArg(uvMin);
+  Vec2Wrapper uvMaxArg(uvMax);
+
+  ImDrawList* list = reinterpret_cast<ImDrawList *>(handle);
+  list->AddImage(reinterpret_cast<ImTextureID>(textureID), *pMinArg, *pMaxArg, *uvMinArg, *uvMaxArg, col);
+}
+
 IggDrawList iggGetWindowDrawList()
 {
    return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetWindowDrawList()));
+}
+
+IggDrawList iggGetBackgroundDrawList()
+{
+   return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetBackgroundDrawList()));
 }
