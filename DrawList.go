@@ -10,7 +10,7 @@ import (
 // This is the low-level list of polygons that ImGui functions are filling.
 // At the end of the frame, all command lists are passed to your render function for rendering.
 //
-// Each ImGui window contains its own DrawList. You can use GetWindowDrawList() to access
+// Each ImGui window contains its own DrawList. You can use WindowDrawList() to access
 // the current window draw list and draw custom primitives.
 //
 // You can interleave normal ImGui calls and adding primitives to the current draw list.
@@ -91,6 +91,7 @@ func WindowDrawList() DrawList {
 	return DrawList(C.iggGetWindowDrawList())
 }
 
+// BackgroundDrawList returns the DrawList for the background behind all windows.
 func BackgroundDrawList() DrawList {
 	return DrawList(C.iggGetBackgroundDrawList())
 }
@@ -196,10 +197,17 @@ func (list DrawList) AddTriangleFilled(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColo
 	C.iggAddTriangleFilled(list.handle(), p1Arg, p2Arg, p3Arg, C.IggPackedColor(col))
 }
 
-func (list DrawList) AddImage(textureID TextureID, pMin Vec2, pMax Vec2, uvMin Vec2, uvMax Vec2, col PackedColor) {
-	pMinArg, _ := pMin.wrapped()
-	pMaxArg, _ := pMax.wrapped()
+// AddImage calls AddImageV(textureId, posMin, posMax, Vec2{0,0}, Vec2{1,1}, PackedColor(0xffffffff))
+func (list DrawList) AddImage(textureID TextureID, posMin Vec2, posMax Vec2) {
+	// use white tint by default
+	list.AddImageV(textureID, posMin, posMax, Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 1}, PackedColor(0xffffffff))
+}
+
+// AddImageV adds an image based on given texture ID.
+func (list DrawList) AddImageV(textureID TextureID, posMin Vec2, posMax Vec2, uvMin Vec2, uvMax Vec2, tintCol PackedColor) {
+	posMinArg, _ := posMin.wrapped()
+	posMaxArg, _ := posMax.wrapped()
 	uvMinArg, _ := uvMin.wrapped()
 	uvMaxArg, _ := uvMax.wrapped()
-	C.iggAddImage(list.handle(), C.IggTextureID(textureID), pMinArg, pMaxArg, uvMinArg, uvMaxArg, C.IggPackedColor(col))
+	C.iggAddImage(list.handle(), C.IggTextureID(textureID), posMinArg, posMaxArg, uvMinArg, uvMaxArg, C.IggPackedColor(tintCol))
 }
