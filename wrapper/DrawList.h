@@ -22,8 +22,10 @@ extern void iggAddCircleFilled(IggDrawList handle, IggVec2 const *center, float 
 extern void iggAddTriangle(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, IggPackedColor col, float thickness);
 extern void iggAddTriangleFilled(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, IggPackedColor col);
 extern void iggAddText(IggDrawList handle, IggVec2 const *pos, IggPackedColor col, const char *text, int length);
+extern void iggAddImage(IggDrawList handle, IggTextureID textureID, IggVec2* pMin, IggVec2* pMax, IggVec2* uvMin, IggVec2* uvMax, IggPackedColor col);
 
 extern IggDrawList iggGetWindowDrawList();
+extern IggDrawList iggGetBackgroundDrawList();
 
 #ifdef __cplusplus
 }

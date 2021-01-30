@@ -112,7 +112,22 @@ void iggAddText(IggDrawList handle, IggVec2 const *pos, IggPackedColor col, cons
    list->AddText(*posArg, col, text, text + length);
 }
 
+void iggAddImage(IggDrawList handle, IggTextureID textureID, IggVec2* pMin, IggVec2* pMax, IggVec2* uvMin, IggVec2* uvMax, IggPackedColor col) {
+  Vec2Wrapper pMinArg(pMin);
+  Vec2Wrapper pMaxArg(pMax);
+  Vec2Wrapper uvMinArg(uvMin);
+  Vec2Wrapper uvMaxArg(uvMax);
+
+  ImDrawList* list = reinterpret_cast<ImDrawList *>(handle);
+  list->AddImage(reinterpret_cast<ImTextureID>(textureID), *pMinArg, *pMaxArg, *uvMinArg, *uvMaxArg, col);
+}
+
 IggDrawList iggGetWindowDrawList()
 {
    return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetWindowDrawList()));
+}
+
+IggDrawList iggGetBackgroundDrawList()
+{
+   return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetBackgroundDrawList()));
 }

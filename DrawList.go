@@ -3,6 +3,7 @@ package imgui
 // #include "wrapper/DrawList.h"
 import "C"
 import (
+	"image/color"
 	"unsafe"
 )
 
@@ -10,7 +11,7 @@ import (
 // This is the low-level list of polygons that ImGui functions are filling.
 // At the end of the frame, all command lists are passed to your render function for rendering.
 //
-// Each ImGui window contains its own DrawList. You can use GetWindowDrawList() to access
+// Each ImGui window contains its own DrawList. You can use WindowDrawList() to access
 // the current window draw list and draw custom primitives.
 //
 // You can interleave normal ImGui calls and adding primitives to the current draw list.
@@ -89,6 +90,11 @@ func (list DrawList) IndexBuffer() (unsafe.Pointer, int) {
 // WindowDrawList returns the DrawList for the current window.
 func WindowDrawList() DrawList {
 	return DrawList(C.iggGetWindowDrawList())
+}
+
+// BackgroundDrawList returns the DrawList for the background behind all windows.
+func BackgroundDrawList() DrawList {
+	return DrawList(C.iggGetBackgroundDrawList())
 }
 
 // This is a list of DrawCornerFlags.
@@ -198,4 +204,18 @@ func (list DrawList) AddText(pos Vec2, col PackedColor, text string) {
 	defer CString.free()
 	posArg, _ := pos.wrapped()
 	C.iggAddText(list.handle(), posArg, C.IggPackedColor(col), (*C.char)(CString.ptr), C.int(CString.size)-1)
+}
+
+// AddImage calls AddImageV(textureId, posMin, posMax, Vec2{0,0}, Vec2{1,1}, Packed(color.White)).
+func (list DrawList) AddImage(textureID TextureID, posMin Vec2, posMax Vec2) {
+	list.AddImageV(textureID, posMin, posMax, Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 1}, Packed(color.White))
+}
+
+// AddImageV adds an image based on given texture ID.
+func (list DrawList) AddImageV(textureID TextureID, posMin Vec2, posMax Vec2, uvMin Vec2, uvMax Vec2, tintCol PackedColor) {
+	posMinArg, _ := posMin.wrapped()
+	posMaxArg, _ := posMax.wrapped()
+	uvMinArg, _ := uvMin.wrapped()
+	uvMaxArg, _ := uvMax.wrapped()
+	C.iggAddImage(list.handle(), C.IggTextureID(textureID), posMinArg, posMaxArg, uvMinArg, uvMaxArg, C.IggPackedColor(tintCol))
 }
