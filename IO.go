@@ -88,6 +88,7 @@ func (io IO) MouseWheel() (float32, float32) {
 }
 
 // DisplayFrameBufferScale returns scale factor for HDPI displays.
+// It is for retina display or other situations where window coordinates are different from framebuffer coordinates.
 func (io IO) DisplayFrameBufferScale() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()

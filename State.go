@@ -76,8 +76,9 @@ func IsItemVisible() bool {
 	return C.iggIsItemVisible() != 0
 }
 
-// SetItemAllowOverlap llows last item to be overlapped by a subsequent item.
+// SetItemAllowOverlap allows last item to be overlapped by a subsequent item.
 // Both may be activated during the same frame before the later one takes priority.
+// This is sometimes useful with invisible buttons, selectables, etc. to catch unused area.
 func SetItemAllowOverlap() {
 	C.iggSetItemAllowOverlap()
 }
