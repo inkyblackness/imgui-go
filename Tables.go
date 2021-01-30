@@ -334,7 +334,7 @@ func TableHeadersRow() {
 	C.iggTableHeadersRow()
 }
 
-// TableHeader submits one header cell manually (rarely used)
+// TableHeader submits one header cell manually (rarely used).
 func TableHeader(label string) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -344,7 +344,7 @@ func TableHeader(label string) {
 // Tables: Miscellaneous functions
 // - Most functions taking 'int column_n' treat the default value of -1 as the same as passing the current column index
 
-// TableGetColumnCount returns number of columns (value passed to BeginTable)
+// TableGetColumnCount returns number of columns (value passed to BeginTable).
 func TableGetColumnCount() int {
 	return int(C.iggTableGetColumnCount())
 }
@@ -364,7 +364,7 @@ func TableGetColumnNameV(columnN int) string {
 	return C.GoString(C.iggTableGetColumnName(C.int(columnN)))
 }
 
-// TableGetColumnName calls TableGetColumnNameV(-1)
+// TableGetColumnName calls TableGetColumnNameV(-1).
 func TableGetColumnName() string {
 	return TableGetColumnNameV(-1)
 }
@@ -374,7 +374,7 @@ func TableGetColumnFlagsV(columnN int) int {
 	return int(C.iggTableGetColumnFlags(C.int(columnN)))
 }
 
-// TableGetColumnFlags calls TableGetColumnFlagsV(-1)
+// TableGetColumnFlags calls TableGetColumnFlagsV(-1).
 func TableGetColumnFlags() int {
 	return TableGetColumnFlagsV(-1)
 }
@@ -385,7 +385,7 @@ func TableSetBgColorV(target int, color Vec4, columnN int) {
 	C.iggTableSetBgColor(C.int(target), colorArg, C.int(columnN))
 }
 
-// TableSetBgColor calls TableSetBgColorV(target, color, -1)
+// TableSetBgColor calls TableSetBgColorV(target, color, -1).
 func TableSetBgColor(target int, color Vec4) {
 	TableSetBgColorV(target, color, -1)
 }
@@ -397,7 +397,7 @@ func TableSetBgColor(target int, color Vec4) {
 //   wastefully sort your data every frame!
 // - Lifetime: don't hold on this pointer over multiple frames or past any subsequent call to BeginTable().
 
-// Sorting specification for one column of a table (sizeof == 12 bytes)
+// Sorting specification for one column of a table (sizeof == 12 bytes).
 type TableColumnSortSpecs struct {
 	ColumnUserID  uint  // User id of the column (if specified by a TableSetupColumn() call)
 	ColumnIndex   int16 // Index of the column
@@ -421,7 +421,7 @@ func (specs TableSortSpecs) handle() C.IggTableSortSpecs {
 	return C.IggTableSortSpecs(specs)
 }
 
-// Specs returns columns sort spec array
+// Specs returns columns sort spec array.
 func (specs TableSortSpecs) Specs() []TableColumnSortSpecs {
 	count := specs.SpecsCount()
 	columnSpecs := make([]TableColumnSortSpecs, count)
@@ -447,7 +447,7 @@ func (specs TableSortSpecs) SpecsCount() int {
 	return int(C.iggTableSortSpecsGetSpecsCount(specs.handle()))
 }
 
-// SpecsDirty returns if specs have changed since last time! Use this to sort again
+// SpecsDirty returns if specs have changed since last time! Use this to sort again.
 func (specs TableSortSpecs) SpecsDirty() bool {
 	if specs == 0 {
 		return false
@@ -455,7 +455,7 @@ func (specs TableSortSpecs) SpecsDirty() bool {
 	return C.iggTableSortSpecsGetSpecsDirty(specs.handle()) != 0
 }
 
-// SetSpecsDirty sets SpecsDirty value to a given value, usually used to clear the flag (set to false)
+// SetSpecsDirty sets SpecsDirty value to a given value, usually used to clear the flag (set to false).
 func (specs TableSortSpecs) SetSpecsDirty(value bool) {
 	if specs == 0 {
 		return
@@ -463,7 +463,7 @@ func (specs TableSortSpecs) SetSpecsDirty(value bool) {
 	C.iggTableSortSpecsSetSpecsDirty(specs.handle(), castBool(value))
 }
 
-// ClearSpecsDirty calls specs.SetSpecsDirty(false)
+// ClearSpecsDirty calls specs.SetSpecsDirty(false).
 func (specs TableSortSpecs) ClearSpecsDirty() {
 	specs.SetSpecsDirty(false)
 }
