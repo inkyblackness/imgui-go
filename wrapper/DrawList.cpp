@@ -105,6 +105,13 @@ void iggAddTriangleFilled(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 
    list->AddTriangleFilled(*p1Arg, *p2Arg, *p3Arg, col);
 }
 
+void iggAddText(IggDrawList handle, IggVec2 const *pos, IggPackedColor col, const char *text, int length)
+{
+   Vec2Wrapper posArg(pos);
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddText(*posArg, col, text, text + length);
+}
+
 IggDrawList iggGetWindowDrawList()
 {
    return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetWindowDrawList()));
