@@ -265,6 +265,39 @@ func PopItemWidth() {
 	C.iggPopItemWidth()
 }
 
+const (
+	// ItemFlagsNone default = 0
+	ItemFlagsNone = 0
+	// ItemFlagsNoTabStop has no tab stop.
+	ItemFlagsNoTabStop = 1 << 0
+	// ItemFlagsButtonRepeat will return true multiple times based on io.KeyRepeatDelay and io.KeyRepeatRate settings.
+	ItemFlagsButtonRepeat = 1 << 1
+	// ItemFlagsDisabled [BETA] disable interactions but doesn't affect visuals yet. See github.com/ocornut/imgui/issues/211
+	ItemFlagsDisabled = 1 << 2
+	// ItemFlagsNoNav has no nav.
+	ItemFlagsNoNav = 1 << 3
+	// ItemFlagsNoNavDefaultFocus has no nav default focus.
+	ItemFlagsNoNavDefaultFocus = 1 << 4
+	// ItemFlagsSelectableDontClosePopup automatically closes current Popup window.
+	ItemFlagsSelectableDontClosePopup = 1 << 5
+	// ItemFlagsMixedValue [BETA] represent a mixed/indeterminate value, generally multi-selection where values differ.
+	// Currently only supported by Checkbox() (later should support all sorts of widgets).
+	ItemFlagsMixedValue = 1 << 6
+	// ItemFlagsDefault default = 0
+	ItemFlagsDefault = 0
+)
+
+// PushItemFlag changes flags in the existing options for the next items until PopItemFlag() is called.
+// The integer of options is a bitfield of ItemFlags* combinations.
+func PushItemFlag(options int, enabled bool) {
+	C.iggPushItemFlag(C.int(options), castBool(enabled))
+}
+
+// PopItemFlag restores flags that were changed by the previous call to PushItemFlag().
+func PopItemFlag() {
+	C.iggPopItemFlag()
+}
+
 // CalcItemWidth returns the width of items given pushed settings and current cursor position.
 func CalcItemWidth() float32 {
 	return float32(C.iggCalcItemWidth())

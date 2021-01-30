@@ -34,7 +34,7 @@ func CalcTextSize(text string, hideTextAfterDoubleHash bool, wrapWidth float32) 
 	var vec2 Vec2
 	valueArg, returnFunc := vec2.wrapped()
 
-	C.iggCalcTextSize((*C.char)(CString.ptr), C.int(CString.size), castBool(hideTextAfterDoubleHash), C.float(wrapWidth), valueArg)
+	C.iggCalcTextSize((*C.char)(CString.ptr), C.int(CString.size)-1, castBool(hideTextAfterDoubleHash), C.float(wrapWidth), valueArg)
 	returnFunc()
 
 	return vec2
