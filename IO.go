@@ -333,3 +333,8 @@ func iggIoSetClipboardText(handle C.IggIO, text *C.char) {
 	}
 	board.SetText(C.GoString(text))
 }
+
+// SetConfigDragClickToInputText [BETA] Enable turning DragXXX widgets into text input with a simple mouse click-release (without moving). Not desirable on devices without a keyboard.
+func (io IO) SetConfigDragClickToInputText(value bool) {
+	C.iggSetConfigDragClickToInputText(io.handle, castBool(value))
+}

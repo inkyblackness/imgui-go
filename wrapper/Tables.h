@@ -28,7 +28,7 @@ extern void        iggTableHeader(char const *label);
 extern int         iggTableGetColumnCount();
 extern char const *iggTableGetColumnName(int column_n);
 extern int         iggTableGetColumnFlags(int column_n);
-extern void        iggTableSetBgColor(int bg_target, IggVec4 const *color, int column_n);
+extern void        iggTableSetBgColor(int target, IggVec4 const *color, int column_n);
 
 extern IggTableSortSpecs iggTableGetSortSpecs();
 extern void iggTableSortSpecsGetSpec(IggTableSortSpecs handle, int index, IggTableColumnSortSpecs *out);

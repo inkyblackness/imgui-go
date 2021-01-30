@@ -75,11 +75,11 @@ int iggTableGetColumnFlags(int column_n)
 	return ImGui::TableGetColumnFlags(column_n);
 }
 
-void iggTableSetBgColor(int bg_target, IggVec4 const *color, int column_n)
+void iggTableSetBgColor(int target, IggVec4 const *color, int column_n)
 {
 	Vec4Wrapper colorArg(color);
 	auto col = ImGui::GetColorU32(*colorArg);
-	ImGui::TableSetBgColor(bg_target, col, column_n);
+	ImGui::TableSetBgColor(target, col, column_n);
 }
 
 IggTableSortSpecs iggTableGetSortSpecs()
