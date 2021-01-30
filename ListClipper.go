@@ -3,14 +3,14 @@ package imgui
 // #include "wrapper/ListClipper.h"
 import "C"
 
-// Helper: Manually clip large list of items.
+// ListClipper is a helper to manually clip large list of items.
 // If you are submitting lots of evenly spaced items and you have a random access to the list, you can perform coarse
 // clipping based on visibility to save yourself from processing those items at all.
 // The clipper calculates the range of visible items and advance the cursor to compensate for the non-visible items we have skipped.
 // (Dear ImGui already clip items based on their bounds but it needs to measure text size to do so, whereas manual coarse clipping before submission makes this cost and your own data fetching/submission cost almost null)
 // Usage:
 //   var clipper imgui.ListClipper
-//   clipper.Begin(1000);         // We have 1000 elements, evenly spaced.
+//   clipper.Begin(1000) // We have 1000 elements, evenly spaced.
 //   for clipper.Step() {
 //       for i := clipper.DisplayStart; i < clipper.DisplayEnd; i += 1 {
 //           imgui.Text(fmt.Sprintf("line number %d", i))
