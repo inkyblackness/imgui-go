@@ -210,7 +210,7 @@ func (style Style) FramePadding() Vec2 {
 	return value
 }
 
-// WindowPadding is the padding within a window
+// WindowPadding is the padding within a window.
 func (style Style) WindowPadding() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
@@ -219,7 +219,7 @@ func (style Style) WindowPadding() Vec2 {
 	return value
 }
 
-// CellPadding is the padding within a table cell
+// CellPadding is the padding within a table cell.
 func (style Style) CellPadding() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()

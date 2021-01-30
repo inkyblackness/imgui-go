@@ -148,7 +148,7 @@ const (
 	TableFlagsSortTristate = 1 << 27
 )
 
-// Flags for TableSetupColumn()
+// Flags for TableSetupColumn().
 const (
 	// Input configuration flags
 
@@ -199,7 +199,7 @@ const (
 	TableColumnFlagsIsHovered = 1 << 23
 )
 
-// Flags for TableNextRow()
+// Flags for TableNextRow().
 const (
 	// TableRowFlagsNone default = 0
 	TableRowFlagsNone = 0
@@ -217,7 +217,7 @@ const (
 // If you set the color of RowBg0 target, your color will override the existing RowBg0 color.
 // If you set the color of RowBg1 or ColumnBg1 target, your color will blend over the RowBg0 color.
 const (
-	// TableBgTargetNone no flags applied
+	// TableBgTargetNone default = 0
 	TableBgTargetNone = 0
 	// TableBgTargetRowBg0 sets row background color 0 (generally used for background, automatically set when TableFlagsRowBg is used)
 	TableBgTargetRowBg0 = 1
@@ -227,7 +227,7 @@ const (
 	TableBgTargetCellBg = 3
 )
 
-// A sorting direction
+// A sorting direction.
 const (
 	// SortDirectionNone no sort
 	SortDirectionNone = 0
@@ -282,12 +282,12 @@ func EndTable() {
 	C.iggEndTable()
 }
 
-// TableNextRowV appends into the first cell of a new row
+// TableNextRowV appends into the first cell of a new row.
 func TableNextRowV(flags int, minRowHeight float32) {
 	C.iggTableNextRow(C.int(flags), C.float(minRowHeight))
 }
 
-// TableNextRow calls TableNextRowV(0, 0.0)
+// TableNextRow calls TableNextRowV(0, 0.0).
 func TableNextRow() {
 	TableNextRowV(0, 0.0)
 }
@@ -319,17 +319,17 @@ func TableSetupColumnV(label string, flags int, initWidthOrHeight float32, userI
 	C.iggTableSetupColumn(labelArg, C.int(flags), C.float(initWidthOrHeight), C.uint(userID))
 }
 
-// TableSetupColumn calls TableSetupColumnV(label, 0, 0.0, 0)
+// TableSetupColumn calls TableSetupColumnV(label, 0, 0.0, 0).
 func TableSetupColumn(label string) {
 	TableSetupColumnV(label, 0, 0.0, 0)
 }
 
-// TableSetupScrollFreeze locks columns/rows so they stay visible when scrolled
+// TableSetupScrollFreeze locks columns/rows so they stay visible when scrolled.
 func TableSetupScrollFreeze(cols int, rows int) {
 	C.iggTableSetupScrollFreeze(C.int(cols), C.int(rows))
 }
 
-// TableHeadersRow submits all headers cells based on data provided to TableSetupColumn() + submit context menu
+// TableHeadersRow submits all headers cells based on data provided to TableSetupColumn() + submit context menu.
 func TableHeadersRow() {
 	C.iggTableHeadersRow()
 }
