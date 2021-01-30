@@ -397,7 +397,7 @@ func TableSetBgColor(target int, color Vec4) {
 //   wastefully sort your data every frame!
 // - Lifetime: don't hold on this pointer over multiple frames or past any subsequent call to BeginTable().
 
-// Sorting specification for one column of a table (sizeof == 12 bytes).
+// TableColumnSortSpecs is a sorting specification for one column of a table (sizeof == 12 bytes).
 type TableColumnSortSpecs struct {
 	ColumnUserID  uint  // User id of the column (if specified by a TableSetupColumn() call)
 	ColumnIndex   int16 // Index of the column
