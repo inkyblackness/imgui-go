@@ -42,20 +42,22 @@ const (
 	StyleVarItemInnerSpacing StyleVarID = 14
 	// StyleVarIndentSpacing is a float
 	StyleVarIndentSpacing StyleVarID = 15
+	// StyleVarCellPadding is a Vec2
+	StyleVarCellPadding StyleVarID = 16
 	// StyleVarScrollbarSize is a float
-	StyleVarScrollbarSize StyleVarID = 16
+	StyleVarScrollbarSize StyleVarID = 17
 	// StyleVarScrollbarRounding is a float
-	StyleVarScrollbarRounding StyleVarID = 17
+	StyleVarScrollbarRounding StyleVarID = 18
 	// StyleVarGrabMinSize is a float
-	StyleVarGrabMinSize StyleVarID = 18
+	StyleVarGrabMinSize StyleVarID = 19
 	// StyleVarGrabRounding is a float
-	StyleVarGrabRounding StyleVarID = 19
+	StyleVarGrabRounding StyleVarID = 20
 	// StyleVarTabRounding is a float
-	StyleVarTabRounding StyleVarID = 20
+	StyleVarTabRounding StyleVarID = 21
 	// StyleVarButtonTextAlign is a Vec2
-	StyleVarButtonTextAlign StyleVarID = 21
+	StyleVarButtonTextAlign StyleVarID = 22
 	// StyleVarSelectableTextAlign is a Vec2
-	StyleVarSelectableTextAlign StyleVarID = 22
+	StyleVarSelectableTextAlign StyleVarID = 23
 )
 
 // This is the list of StyleColor identifier.
@@ -102,12 +104,17 @@ const (
 	StyleColorPlotLinesHovered      StyleColorID = 39
 	StyleColorPlotHistogram         StyleColorID = 40
 	StyleColorPlotHistogramHovered  StyleColorID = 41
-	StyleColorTextSelectedBg        StyleColorID = 42
-	StyleColorDragDropTarget        StyleColorID = 43
-	StyleColorNavHighlight          StyleColorID = 44 // Gamepad/keyboard: current highlighted item
-	StyleColorNavWindowingHighlight StyleColorID = 45 // Highlight window when using CTRL+TAB
-	StyleColorNavWindowingDarkening StyleColorID = 46 // Darken/colorize entire screen behind the CTRL+TAB window list, when active
-	StyleColorModalWindowDarkening  StyleColorID = 47 // Darken/colorize entire screen behind a modal window, when one is active
+	StyleColorTableHeaderBg         StyleColorID = 42 // Table header background
+	StyleColorTableBorderStrong     StyleColorID = 43 // Table outer and header borders (prefer using Alpha=1.0 here)
+	StyleColorTableBorderLight      StyleColorID = 44 // Table inner borders (prefer using Alpha=1.0 here)
+	StyleColorTableRowBg            StyleColorID = 45 // Table row background (even rows)
+	StyleColorTableRowBgAlt         StyleColorID = 46 // Table row background (odd rows)
+	StyleColorTextSelectedBg        StyleColorID = 47
+	StyleColorDragDropTarget        StyleColorID = 48
+	StyleColorNavHighlight          StyleColorID = 49 // Gamepad/keyboard: current highlighted item
+	StyleColorNavWindowingHighlight StyleColorID = 50 // Highlight window when using CTRL+TAB
+	StyleColorNavWindowingDarkening StyleColorID = 51 // Darken/colorize entire screen behind the CTRL+TAB window list, when active
+	StyleColorModalWindowDarkening  StyleColorID = 52 // Darken/colorize entire screen behind a modal window, when one is active
 )
 
 // Style describes the overall graphical representation of the user interface.
@@ -203,6 +210,24 @@ func (style Style) FramePadding() Vec2 {
 	return value
 }
 
+// WindowPadding is the padding within a window
+func (style Style) WindowPadding() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggStyleGetWindowPadding(style.handle(), valueArg)
+	valueFin()
+	return value
+}
+
+// CellPadding is the padding within a table cell
+func (style Style) CellPadding() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggStyleGetCellPadding(style.handle(), valueArg)
+	valueFin()
+	return value
+}
+
 // SetColor sets a color value of the UI style.
 func (style Style) SetColor(id StyleColorID, value Vec4) {
 	valueArg, _ := value.wrapped()
@@ -226,4 +251,10 @@ func (style Style) Color(id StyleColorID) Vec4 {
 // If you need to change your scale multiples, call this over a freshly initialized style rather than scaling multiple times.
 func (style Style) ScaleAllSizes(scale float32) {
 	C.iggStyleScaleAllSizes(style.handle(), C.float(scale))
+}
+
+// SetTouchExtraPadding expand reactive bounding box for touch-based system where touch position is not accurate enough.
+func (style Style) SetTouchExtraPadding(value Vec2) {
+	valueArg, _ := value.wrapped()
+	C.iggSetTouchExtraPadding(style.handle(), valueArg)
 }

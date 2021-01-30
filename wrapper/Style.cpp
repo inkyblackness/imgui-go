@@ -68,6 +68,18 @@ void iggStyleGetFramePadding(IggGuiStyle handle, IggVec2 *value)
    exportValue(*value, style->FramePadding);
 }
 
+void iggStyleGetWindowPadding(IggGuiStyle handle, IggVec2 *value)
+{
+   ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
+   exportValue(*value, style->WindowPadding);
+}
+
+void iggStyleGetCellPadding(IggGuiStyle handle, IggVec2 *value)
+{
+   ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
+   exportValue(*value, style->CellPadding);
+}
+
 void iggStyleSetColor(IggGuiStyle handle, int colorID, IggVec4 const *value)
 {
    ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
@@ -90,4 +102,10 @@ void iggStyleScaleAllSizes(IggGuiStyle handle, float scale)
 {
    ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
    style->ScaleAllSizes(scale);
+}
+
+void iggSetTouchExtraPadding(IggGuiStyle handle, IggVec2 const *value)
+{
+   ImGuiStyle *style = reinterpret_cast<ImGuiStyle *>(handle);
+   importValue(style->TouchExtraPadding, *value);
 }

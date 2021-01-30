@@ -354,7 +354,7 @@ void iggEndTabItem()
 
 IggBool iggTabItemButton(char const *label, int flags)
 {
-   return ImGui::TabItemButton(label, flags);
+   return ImGui::TabItemButton(label, flags) ? 1 : 0;
 }
 
 void iggSetTabItemClosed(char const *tab_or_docked_window_label)

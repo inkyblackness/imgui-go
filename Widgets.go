@@ -23,7 +23,7 @@ func LabelText(label, text string) {
 	C.iggLabelText(labelArg, textArg)
 }
 
-// ButtonV returning true if it is pressed.
+// ButtonV returns true if it is clicked.
 func ButtonV(id string, size Vec2) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
@@ -106,7 +106,7 @@ func Checkbox(id string, selected *bool) bool {
 	return C.iggCheckbox(idArg, selectedArg) != 0
 }
 
-// RadioButton returning true if it is pressed and active indicates if it is selected.
+// RadioButton returns true if it is clicked and active indicates if it is selected.
 func RadioButton(id string, active bool) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
@@ -130,7 +130,7 @@ func ProgressBarV(fraction float32, size Vec2, overlay string) {
 
 // ProgressBar calls ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "").
 func ProgressBar(fraction float32) {
-	ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "")
+	ProgressBarV(fraction, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, "")
 }
 
 const (
@@ -553,6 +553,8 @@ const (
 	InputTextFlagsCharsScientific = 1 << 17
 	// inputTextFlagsCallbackResize for callback on buffer capacity change requests.
 	inputTextFlagsCallbackResize = 1 << 18
+	// ImGuiInputTextFlagsCallbackEdit for callback on any edit (note that InputText() already returns true on edit, the callback is useful mainly to manipulate the underlying buffer while focus is active)
+	ImGuiInputTextFlagsCallbackEdit = 1 << 19
 )
 
 // InputTextV creates a text field for dynamic text input.
@@ -833,7 +835,7 @@ const (
 	TreeNodeFlagsNone = 0
 	// TreeNodeFlagsSelected draws as selected.
 	TreeNodeFlagsSelected = 1 << 0
-	// TreeNodeFlagsFramed draws full colored frame (e.g. for CollapsingHeader).
+	// TreeNodeFlagsFramed draws frame with background (e.g. for CollapsingHeader)
 	TreeNodeFlagsFramed = 1 << 1
 	// TreeNodeFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one.
 	TreeNodeFlagsAllowItemOverlap = 1 << 2
@@ -909,6 +911,8 @@ const (
 	SelectableFlagsAllowDoubleClick = 1 << 2
 	// SelectableFlagsDisabled disallows selection and displays text in a greyed out color.
 	SelectableFlagsDisabled = 1 << 3
+	// SelectableFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one (WIP)
+	SelectableFlagsAllowItemOverlap = 1 << 4
 )
 
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
@@ -1106,6 +1110,9 @@ func MenuItemV(label string, shortcut string, selected bool, enabled bool) bool 
 func MenuItem(label string) bool {
 	return MenuItemV(label, "", false, true)
 }
+
+// Legacy Columns API (2020: prefer using Tables!)
+// - You can also use SameLine(pos_x) to mimic simplified columns.
 
 // Columns calls ColumnsV(1, "", false).
 func Columns() {
