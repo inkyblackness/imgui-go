@@ -265,11 +265,6 @@ func TableGetColumnCount() int {
 	return int(C.iggTableGetColumnCount())
 }
 
-// TableGetColumnNameV returns "" if column didn't have a name declared by TableSetupColumn(). Pass -1 to use current column.
-func TableGetColumnNameV(columnN int) string {
-	return C.GoString(C.iggTableGetColumnName(C.int(columnN)))
-}
-
 // TableGetColumnIndex return current column index.
 func TableGetColumnIndex() int {
 	return int(C.iggTableGetColumnIndex())
@@ -278,6 +273,11 @@ func TableGetColumnIndex() int {
 // TableGetRowIndex return current row index.
 func TableGetRowIndex() int {
 	return int(C.iggTableGetRowIndex())
+}
+
+// TableGetColumnNameV returns "" if column didn't have a name declared by TableSetupColumn(). Pass -1 to use current column.
+func TableGetColumnNameV(columnN int) string {
+	return C.GoString(C.iggTableGetColumnName(C.int(columnN)))
 }
 
 // TableGetColumnName calls TableGetColumnNameV(-1)
