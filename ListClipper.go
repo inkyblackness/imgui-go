@@ -10,7 +10,7 @@ import "C"
 // (Dear ImGui already clip items based on their bounds but it needs to measure text size to do so, whereas manual coarse clipping before submission makes this cost and your own data fetching/submission cost almost null)
 // Usage:
 //   var clipper imgui.ListClipper
-//   clipper.Begin(1000);         // We have 1000 elements, evenly spaced.
+//   clipper.Begin(1000) // We have 1000 elements, evenly spaced.
 //   for clipper.Step() {
 //       for i := clipper.DisplayStart; i < clipper.DisplayEnd; i += 1 {
 //           imgui.Text(fmt.Sprintf("line number %d", i))
