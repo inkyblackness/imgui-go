@@ -198,6 +198,14 @@ func (list DrawList) AddTriangleFilled(p1 Vec2, p2 Vec2, p3 Vec2, col PackedColo
 	C.iggAddTriangleFilled(list.handle(), p1Arg, p2Arg, p3Arg, C.IggPackedColor(col))
 }
 
+// AddText adds a text in specified color at given position pos.
+func (list DrawList) AddText(pos Vec2, col PackedColor, text string) {
+	CString := newStringBuffer(text)
+	defer CString.free()
+	posArg, _ := pos.wrapped()
+	C.iggAddText(list.handle(), posArg, C.IggPackedColor(col), (*C.char)(CString.ptr), C.int(CString.size)-1)
+}
+
 // AddImage calls AddImageV(textureId, posMin, posMax, Vec2{0,0}, Vec2{1,1}, Packed(color.White)).
 func (list DrawList) AddImage(textureID TextureID, posMin Vec2, posMax Vec2) {
 	list.AddImageV(textureID, posMin, posMax, Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 1}, Packed(color.White))

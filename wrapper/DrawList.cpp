@@ -105,6 +105,13 @@ void iggAddTriangleFilled(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 
    list->AddTriangleFilled(*p1Arg, *p2Arg, *p3Arg, col);
 }
 
+void iggAddText(IggDrawList handle, IggVec2 const *pos, IggPackedColor col, const char *text, int length)
+{
+   Vec2Wrapper posArg(pos);
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddText(*posArg, col, text, text + length);
+}
+
 void iggAddImage(IggDrawList handle, IggTextureID textureID, IggVec2* pMin, IggVec2* pMax, IggVec2* uvMin, IggVec2* uvMax, IggPackedColor col) {
   Vec2Wrapper pMinArg(pMin);
   Vec2Wrapper pMaxArg(pMax);
