@@ -43,7 +43,7 @@ This library does not mirror the versions of the wrapped **Dear ImGui**. The sem
 * Minor changes: Extensions in API. Typically done through small version increments of **Dear ImGui** and/or exposing further features in a compatible way.
 * Patch changes: Bug fixes - either in the wrapper or the wrapped **Dear ImGui**, given that the API & behaviour remains the same.
 
-At the moment, this library uses version [1.80](https://github.com/ocornut/imgui/releases/tag/v1.80) of **Dear ImGui**.
+At the moment, this library uses version [1.81](https://github.com/ocornut/imgui/releases/tag/v1.81) of **Dear ImGui**.
 
 ## Examples
 A separate repository was created to host ported examples and reference implementations.
@@ -63,14 +63,12 @@ go build -tags="imguifreetype"
 ```
 This extra is based on the reference implementation from **Dear ImGui**.
 
-This allows you to use the function `FontAtlas.BuildWithFreeType()`. If the build tag is not set, this function will always return an error. 
-
 If you set the build tag, yet the corresponding support has not been added to the library, you will receive a build error.
-Contributions to support more build environments are happily accepted. See files `FreeTypeEnabled*.go`.
+Contributions to support more build environments are happily accepted. See file `FreeType.go`.
 
 > If you are trying to do this on MS Windows with MinGW and receive an error like
 > `pkg-config: exec: "pkg-config": executable file not found in %PATH%`,
-> refer to [online guides](https://stackoverflow.com/questions/1710922/how-to-install-pkg-config-in-windows) on how to add this to your installation.  
+> refer to [online guides](https://stackoverflow.com/questions/1710922/how-to-install-pkg-config-in-windows) on how to add this to your installation.
 
 ## Alternatives
 
