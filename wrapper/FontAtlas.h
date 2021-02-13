@@ -30,6 +30,9 @@ extern void iggFontAtlasGetTexDataAsRGBA32(IggFontAtlas handle, unsigned char **
 extern void iggFontAtlasSetTextureID(IggFontAtlas handle, IggTextureID id);
 extern IggBool iggFontAtlasBuild(IggFontAtlas handle);
 
+extern unsigned int iggFontAtlasGetFontBuilderFlags(IggFontAtlas handle);
+extern void         iggFontAtlasSetFontBuilderFlags(IggFontAtlas handle, unsigned int flags);
+
 #ifdef __cplusplus
 }
 #endif

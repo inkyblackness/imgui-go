@@ -60,7 +60,9 @@ extern float iggGetTreeNodeToLabelSpacing(void);
 extern IggBool iggCollapsingHeader(const char *label, int flags);
 
 extern IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 const *size);
-extern IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemCount, int heightItems);
+extern IggBool iggBeginListBox(char const *label, IggVec2 const *size);
+extern void iggEndListBox();
+extern IggBool iggListBox(char const *label, int *currentItem, char const *const items[], int itemCount, int heightItems);
 
 extern void iggPlotLines(const char *label, const float *values, int valuesCount, int valuesOffset, const char *overlayText, float scaleMin, float scaleMax, IggVec2 const *graphSize);
 extern void iggPlotHistogram(const char *label, const float *values, int valuesCount, int valuesOffset, const char *overlayText, float scaleMin, float scaleMax, IggVec2 const *graphSize);

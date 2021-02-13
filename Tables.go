@@ -105,7 +105,7 @@ const (
 	TableFlagsSizingFixedSame = 2 << 13
 	// TableFlagsSizingStretchProp columns default to _WidthStretch with default weights proportional to each columns contents widths.
 	TableFlagsSizingStretchProp = 3 << 13
-	// TableFlagsSizingStretchSame columns default to _WidthStretch with default weights all equal, unless overriden by TableSetupColumn().
+	// TableFlagsSizingStretchSame columns default to _WidthStretch with default weights all equal, unless overridden by TableSetupColumn().
 	TableFlagsSizingStretchSame = 4 << 13
 
 	// Sizing Extra Options

@@ -69,3 +69,15 @@ int iggFontConfigGetFontDataOwnedByAtlas(IggFontConfig handle)
    ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);
    return fontConfig->FontDataOwnedByAtlas;
 }
+
+unsigned int iggFontConfigGetFontBuilderFlags(IggFontConfig handle)
+{
+   ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);
+   return fontConfig->FontBuilderFlags;
+}
+
+void iggFontConfigSetFontBuilderFlags(IggFontConfig handle, unsigned int flags)
+{
+   ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);
+   fontConfig->FontBuilderFlags = flags;
+}

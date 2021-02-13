@@ -224,7 +224,18 @@ IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 co
    return ImGui::Selectable(label, selected != 0, flags, *sizeArg) ? 1 : 0;
 }
 
-IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemsCount, int heightItems)
+IggBool iggBeginListBox(char const *label, IggVec2 const *size)
+{
+   Vec2Wrapper sizeArg(size);
+   return ImGui::BeginListBox(label, *sizeArg) ? 1 : 0;
+}
+
+void iggEndListBox()
+{
+   ImGui::EndListBox();
+}
+
+IggBool iggListBox(char const *label, int *currentItem, char const *const items[], int itemsCount, int heightItems)
 {
    return ImGui::ListBox(label, currentItem, items, itemsCount, heightItems) ? 1 : 0;
 }

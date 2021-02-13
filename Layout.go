@@ -105,7 +105,9 @@ func CursorStartPos() Vec2 {
 	return value
 }
 
-// CursorScreenPos returns the cursor position in absolute screen coordinates.
+// CursorScreenPos returns cursor position in absolute coordinates (useful to work with DrawList API).
+// Generally top-left == MainViewport().Pos() == (0,0) in single viewport mode,
+// and bottom-right == MainViewport().Pos()+Size == io.DisplaySize in single-viewport mode.
 func CursorScreenPos() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
@@ -120,7 +122,7 @@ func SetCursorPos(localPos Vec2) {
 	C.iggSetCursorPos(localPosArg)
 }
 
-// SetCursorScreenPos sets the cursor position in absolute screen coordinates.
+// SetCursorScreenPos sets cursor position in absolute coordinates.
 func SetCursorScreenPos(absPos Vec2) {
 	absPosArg, _ := absPos.wrapped()
 	C.iggSetCursorScreenPos(absPosArg)
