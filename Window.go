@@ -338,7 +338,7 @@ func PopButtonRepeat() {
 // Viewport A Platform Window (always only one in 'master' branch), in the future may represent Platform Monitor.
 type Viewport uintptr
 
-// ViewportFlags flags for viewport
+// ViewportFlags flags for viewport.
 type ViewportFlags int
 
 const (

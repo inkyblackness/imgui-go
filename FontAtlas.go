@@ -169,12 +169,12 @@ func (atlas FontAtlas) Build() bool {
 }
 
 // FontBuilderFlags returns shared flags (for all fonts) for custom font builder.
-func (altas FontAtlas) FontBuilderFlags() uint {
-	return uint(C.iggFontAtlasGetFontBuilderFlags(altas.handle()))
+func (atlas FontAtlas) FontBuilderFlags() uint {
+	return uint(C.iggFontAtlasGetFontBuilderFlags(atlas.handle()))
 }
 
 // SetFontBuilderFlags sets shared flags (for all fonts) for custom font builder.
 // THIS IS BUILD IMPLEMENTATION DEPENDENT. Per-font override is also available in FontConfig.
-func (altas FontAtlas) SetFontBuilderFlags(flags uint) {
-	C.iggFontAtlasSetFontBuilderFlags(altas.handle(), C.uint(flags))
+func (atlas FontAtlas) SetFontBuilderFlags(flags uint) {
+	C.iggFontAtlasSetFontBuilderFlags(atlas.handle(), C.uint(flags))
 }
