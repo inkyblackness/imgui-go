@@ -28,7 +28,7 @@ import "C"
 //       TableNextRow()                           -> Text("Hello 0")                                               // Not OK! Missing TableSetColumnIndex() or TableNextColumn()! Text will not appear!
 //       ----------------------------------------------------------------------------------------------------------
 // - 5. Call EndTable()
-
+//
 // Flags for BeginTable()
 // [BETA API] API may evolve slightly! If you use this, please update to the next version when it comes out!
 // - Important! Sizing policies have complex and subtle side effects, more so than you would expect.
@@ -303,7 +303,7 @@ func TableSetColumnIndex(columnN int) bool {
 	return C.iggTableSetColumnIndex(C.int(columnN)) != 0
 }
 
-// Tables: Headers & Columns declaration
+// TableSetupColumnV specify label, resizing policy, default width/weight, id, various other flags etc.
 // - Use TableSetupColumn() to specify label, resizing policy, default width/weight, id, various other flags etc.
 // - Use TableHeadersRow() to create a header row and automatically submit a TableHeader() for each column.
 //   Headers are required to perform: reordering, sorting, and opening the context menu.
@@ -311,8 +311,6 @@ func TableSetColumnIndex(columnN int) bool {
 // - You may manually submit headers using TableNextRow() + TableHeader() calls, but this is only useful in
 //   some advanced use cases (e.g. adding custom widgets in header row).
 // - Use TableSetupScrollFreeze() to lock columns/rows so they stay visible when scrolled.
-
-// TableSetupColumnV specify label, resizing policy, default width/weight, id, various other flags etc.
 func TableSetupColumnV(label string, flags int, initWidthOrHeight float32, userID uint) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -340,9 +338,6 @@ func TableHeader(label string) {
 	defer labelFin()
 	C.iggTableHeader(labelArg)
 }
-
-// Tables: Miscellaneous functions
-// - Most functions taking 'int column_n' treat the default value of -1 as the same as passing the current column index
 
 // TableGetColumnCount returns number of columns (value passed to BeginTable).
 func TableGetColumnCount() int {
@@ -390,12 +385,26 @@ func TableSetBgColor(target int, color Vec4) {
 	TableSetBgColorV(target, color, -1)
 }
 
-// Tables: Sorting
-// - Call TableGetSortSpecs() to retrieve latest sort specs for the table. NULL when not sorting.
-// - When 'SpecsDirty == true' you should sort your data. It will be true when sorting specs have changed
-//   since last call, or the first time. Make sure to set 'SpecsDirty = false' after sorting, else you may
+// TableSortSpecs is a sort specs
+// Sorting specifications for a table (often handling sort specs for a single column, occasionally more)
+// Obtained by calling TableGetSortSpecs()
+// When SpecsDirty() == true you can sort your data. It will be true with sorting specs have changed since last call, or the first time.
+// Make sure to call ClearSpecsDirty() or SetSpecsDirty(false) after sorting, else you may wastefully sort your data every frame!
+type TableSortSpecs uintptr
+
+// TableGetSortSpecs gets latest sort specs for the table (0 if not sorting).
+// - Call TableGetSortSpecs() to retrieve latest sort specs for the table. 0 when not sorting.
+// - When 'SpecsDirty() == true' you should sort your data. It will be true when sorting specs have changed
+//   since last call, or the first time. Make sure to call ClearSpecsDirty() or SetSpecsDirty(false) after sorting, else you may
 //   wastefully sort your data every frame!
 // - Lifetime: don't hold on this pointer over multiple frames or past any subsequent call to BeginTable().
+func TableGetSortSpecs() TableSortSpecs {
+	return TableSortSpecs(C.iggTableGetSortSpecs())
+}
+
+func (specs TableSortSpecs) handle() C.IggTableSortSpecs {
+	return C.IggTableSortSpecs(specs)
+}
 
 // TableColumnSortSpecs is a sorting specification for one column of a table (sizeof == 12 bytes).
 type TableColumnSortSpecs struct {
@@ -403,22 +412,6 @@ type TableColumnSortSpecs struct {
 	ColumnIndex   int16 // Index of the column
 	SortOrder     int16 // Index within parent TableSortSpecs (always stored in order starting from 0, tables sorted on a single criteria will always have a 0 here)
 	SortDirection int   // SortDirectionAscending or SortDirectionDescending (you can use this or SortSign, whichever is more convenient for your sort function)
-}
-
-// TableSortSpecs is a sort specs
-// Sorting specifications for a table (often handling sort specs for a single column, occasionally more)
-// Obtained by calling TableGetSortSpecs()
-// When 'SpecsDirty == true' you can sort your data. It will be true with sorting specs have changed since last call, or the first time.
-// Make sure to set 'SpecsDirty = false' after sorting, else you may wastefully sort your data every frame!
-type TableSortSpecs uintptr
-
-// TableGetSortSpecs gets latest sort specs for the table (nil if not sorting).
-func TableGetSortSpecs() TableSortSpecs {
-	return TableSortSpecs(C.iggTableGetSortSpecs())
-}
-
-func (specs TableSortSpecs) handle() C.IggTableSortSpecs {
-	return C.IggTableSortSpecs(specs)
 }
 
 // Specs returns columns sort spec array.

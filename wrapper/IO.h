@@ -45,8 +45,6 @@ extern void iggIoSetBackendFlags(IggIO handle, int flags);
 extern void iggIoRegisterClipboardFunctions(IggIO handle);
 extern void iggIoClearClipboardFunctions(IggIO handle);
 
-extern void iggSetConfigDragClickToInputText(IggIO handle, IggBool value);
-
 #ifdef __cplusplus
 }
 #endif

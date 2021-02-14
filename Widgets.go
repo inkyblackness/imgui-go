@@ -1135,16 +1135,15 @@ func MenuItem(label string) bool {
 	return MenuItemV(label, "", false, true)
 }
 
-// Legacy Columns API (2020: prefer using Tables!)
-// - You can also use SameLine(pos_x) to mimic simplified columns.
-
+// Columns API is Legacy (2021: prefer using Tables!).
+// - You can also use SameLineV(pos_x, 0) to mimic simplified columns.
+//
 // Columns calls ColumnsV(1, "", false).
 func Columns() {
 	ColumnsV(1, "", false)
 }
 
 // ColumnsV creates a column layout of the specified number of columns.
-// The brittle columns API will be superseded by an upcoming 'table' API.
 func ColumnsV(count int, label string, border bool) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()

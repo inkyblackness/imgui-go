@@ -228,9 +228,3 @@ void iggIoClearClipboardFunctions(IggIO handle)
    io.SetClipboardTextFn = nullptr;
    io.ClipboardUserData = nullptr;
 }
-
-void iggSetConfigDragClickToInputText(IggIO handle, IggBool value)
-{
-   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
-   io->ConfigDragClickToInputText = value != 0;
-}
