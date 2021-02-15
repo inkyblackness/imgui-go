@@ -41,13 +41,13 @@ type ButtonFlags int
 
 const (
 	// ButtonFlagsNone is no flag applied.
-	ButtonFlagsNone = 0
+	ButtonFlagsNone ButtonFlags = 0
 	// ButtonFlagsMouseButtonLeft reacts on left mouse button (default).
-	ButtonFlagsMouseButtonLeft = 1 << 0
+	ButtonFlagsMouseButtonLeft ButtonFlags = 1 << iota
 	// ButtonFlagsMouseButtonRight reacts on right mouse button.
-	ButtonFlagsMouseButtonRight = 1 << 1
+	ButtonFlagsMouseButtonRight
 	// ButtonFlagsMouseButtonMiddle reacts on center mouse button.
-	ButtonFlagsMouseButtonMiddle = 1 << 2
+	ButtonFlagsMouseButtonMiddle
 )
 
 // InvisibleButtonV returns true if it is clicked.
