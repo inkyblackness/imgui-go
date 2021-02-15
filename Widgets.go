@@ -23,7 +23,7 @@ func LabelText(label, text string) {
 	C.iggLabelText(labelArg, textArg)
 }
 
-// ButtonV returning true if it is pressed.
+// ButtonV returns true if it is clicked.
 func ButtonV(id string, size Vec2) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
@@ -50,7 +50,7 @@ const (
 	ButtonFlagsMouseButtonMiddle = 1 << 2
 )
 
-// InvisibleButtonV returning true if it is pressed.
+// InvisibleButtonV returns true if it is clicked.
 func InvisibleButtonV(id string, size Vec2, flags ButtonFlags) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
@@ -58,9 +58,9 @@ func InvisibleButtonV(id string, size Vec2, flags ButtonFlags) bool {
 	return C.iggInvisibleButton(idArg, sizeArg, C.int(flags)) != 0
 }
 
-// InvisibleButton calls InvisibleButtonV(id, Vec2{0,0}, ButtonFlagsNone).
-func InvisibleButton(id string) bool {
-	return InvisibleButtonV(id, Vec2{}, ButtonFlagsNone)
+// InvisibleButton calls InvisibleButtonV(id, size, ButtonFlagsNone).
+func InvisibleButton(id string, size Vec2) bool {
+	return InvisibleButtonV(id, size, ButtonFlagsNone)
 }
 
 // ImageV adds an image based on given texture ID.
@@ -106,7 +106,7 @@ func Checkbox(id string, selected *bool) bool {
 	return C.iggCheckbox(idArg, selectedArg) != 0
 }
 
-// RadioButton returning true if it is pressed and active indicates if it is selected.
+// RadioButton returns true if it is clicked and active indicates if it is selected.
 func RadioButton(id string, active bool) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
@@ -130,7 +130,7 @@ func ProgressBarV(fraction float32, size Vec2, overlay string) {
 
 // ProgressBar calls ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "").
 func ProgressBar(fraction float32) {
-	ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "")
+	ProgressBarV(fraction, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, "")
 }
 
 const (
@@ -174,25 +174,25 @@ func EndCombo() {
 	C.iggEndCombo()
 }
 
-// SlidersFlags for DragFloat(), DragInt(), SliderFloat(), SliderInt() etc.
+// SliderFlags for DragFloat(), DragInt(), SliderFloat(), SliderInt() etc.
 // We use the same sets of flags for DragXXX() and SliderXXX() functions as the features are the same and it makes it easier to swap them.
-type SlidersFlags int
+type SliderFlags int
 
 const (
-	// SlidersFlagsNone is no flag applied.
-	SlidersFlagsNone = 0
-	// SlidersFlagsAlwaysClamp clamps value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
-	SlidersFlagsAlwaysClamp = 1 << 4
-	// SlidersFlagsLogarithmic makes the widget logarithmic (linear otherwise). Consider using SliderFlagNoRoundToFormat with this if using a format-string with small amount of digits.
-	SlidersFlagsLogarithmic = 1 << 5
-	// SlidersFlagsNoRoundToFormat disables rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits)
-	SlidersFlagsNoRoundToFormat = 1 << 6
-	// SlidersFlagsNoInput disables CTRL+Click or Enter key allowing to input text directly into the widget
-	SlidersFlagsNoInput = 1 << 7
+	// SliderFlagsNone is no flag applied.
+	SliderFlagsNone = 0
+	// SliderFlagsAlwaysClamp clamps value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
+	SliderFlagsAlwaysClamp = 1 << 4
+	// SliderFlagsLogarithmic makes the widget logarithmic (linear otherwise). Consider using SliderFlagNoRoundToFormat with this if using a format-string with small amount of digits.
+	SliderFlagsLogarithmic = 1 << 5
+	// SliderFlagsNoRoundToFormat disables rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits)
+	SliderFlagsNoRoundToFormat = 1 << 6
+	// SliderFlagsNoInput disables CTRL+Click or Enter key allowing to input text directly into the widget
+	SliderFlagsNoInput = 1 << 7
 )
 
 // DragFloatV creates a draggable slider for floats.
-func DragFloatV(label string, value *float32, speed, min, max float32, format string, flags SlidersFlags) bool {
+func DragFloatV(label string, value *float32, speed, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	valueArg, valueFin := wrapFloat(value)
@@ -202,13 +202,13 @@ func DragFloatV(label string, value *float32, speed, min, max float32, format st
 	return C.iggDragFloat(labelArg, valueArg, C.float(speed), C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// DragFloat calls DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", SlidersFlagsNone).
+// DragFloat calls DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone).
 func DragFloat(label string, value *float32) bool {
-	return DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", SlidersFlagsNone)
+	return DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone)
 }
 
 // DragFloat2V creates a draggable slider for a 2D vector.
-func DragFloat2V(label string, values *[2]float32, speed, min, max float32, format string, flags SlidersFlags) bool {
+func DragFloat2V(label string, values *[2]float32, speed, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -217,13 +217,13 @@ func DragFloat2V(label string, values *[2]float32, speed, min, max float32, form
 	return C.iggDragFloatN(labelArg, cvalues, 2, C.float(speed), C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// DragFloat2 calls DragFloat2V(label, value, 1.0, 0.0, 0.0, "%.3f", SlidersFlagsNone).
+// DragFloat2 calls DragFloat2V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone).
 func DragFloat2(label string, value *[2]float32) bool {
-	return DragFloat2V(label, value, 1.0, 0.0, 0.0, "%.3f", SlidersFlagsNone)
+	return DragFloat2V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone)
 }
 
 // DragFloat3V creates a draggable slider for a 3D vector.
-func DragFloat3V(label string, values *[3]float32, speed, min, max float32, format string, flags SlidersFlags) bool {
+func DragFloat3V(label string, values *[3]float32, speed, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -232,13 +232,13 @@ func DragFloat3V(label string, values *[3]float32, speed, min, max float32, form
 	return C.iggDragFloatN(labelArg, cvalues, 3, C.float(speed), C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// DragFloat3 calls DragFloat3V(label, value, 1.0, 0.0, 0.0, "%.3f", SlidersFlagsNone).
+// DragFloat3 calls DragFloat3V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone).
 func DragFloat3(label string, value *[3]float32) bool {
-	return DragFloat3V(label, value, 1.0, 0.0, 0.0, "%.3f", SlidersFlagsNone)
+	return DragFloat3V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone)
 }
 
 // DragFloat4V creates a draggable slider for a 4D vector.
-func DragFloat4V(label string, values *[4]float32, speed, min, max float32, format string, flags SlidersFlags) bool {
+func DragFloat4V(label string, values *[4]float32, speed, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -247,13 +247,13 @@ func DragFloat4V(label string, values *[4]float32, speed, min, max float32, form
 	return C.iggDragFloatN(labelArg, cvalues, 4, C.float(speed), C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// DragFloat4 calls DragFloat4V(label, value, 1.0, 0.0, 0.0, "%.3f", SlidersFlagsNone).
+// DragFloat4 calls DragFloat4V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone).
 func DragFloat4(label string, value *[4]float32) bool {
-	return DragFloat4V(label, value, 1.0, 0.0, 0.0, "%.3f", SlidersFlagsNone)
+	return DragFloat4V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone)
 }
 
 // DragFloatRange2V creates a draggable slider in floats range.
-func DragFloatRange2V(label string, currentMin *float32, currentMax *float32, speed float32, min float32, max float32, format string, formatMax string, flags SlidersFlags) bool {
+func DragFloatRange2V(label string, currentMin *float32, currentMax *float32, speed float32, min float32, max float32, format string, formatMax string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	currentMinArg, currentMinFin := wrapFloat(currentMin)
@@ -267,13 +267,13 @@ func DragFloatRange2V(label string, currentMin *float32, currentMax *float32, sp
 	return C.iggDragFloatRange2V(labelArg, currentMinArg, currentMaxArg, C.float(speed), C.float(min), C.float(max), formatArg, formatMaxArg, C.int(flags)) != 0
 }
 
-// DragFloatRange2 calls DragFloatRange2V(label, currentMin, currentMax, 1, 0, 0, "%.3f", "%.3f", SlidersFlagsNone).
+// DragFloatRange2 calls DragFloatRange2V(label, currentMin, currentMax, 1, 0, 0, "%.3f", "%.3f", SliderFlagsNone).
 func DragFloatRange2(label string, currentMin *float32, currentMax *float32) bool {
-	return DragFloatRange2V(label, currentMin, currentMax, 1, 0, 0, "%.3f", "%.3f", SlidersFlagsNone)
+	return DragFloatRange2V(label, currentMin, currentMax, 1, 0, 0, "%.3f", "%.3f", SliderFlagsNone)
 }
 
 // DragIntV creates a draggable slider for integers.
-func DragIntV(label string, value *int32, speed float32, min, max int32, format string, flags SlidersFlags) bool {
+func DragIntV(label string, value *int32, speed float32, min, max int32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	valueArg, valueFin := wrapInt32(value)
@@ -283,13 +283,13 @@ func DragIntV(label string, value *int32, speed float32, min, max int32, format 
 	return C.iggDragInt(labelArg, valueArg, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// DragInt calls DragIntV(label, value, 1.0, 0, 0, "%d", SlidersFlagsNone).
+// DragInt calls DragIntV(label, value, 1.0, 0, 0, "%d", SliderFlagsNone).
 func DragInt(label string, value *int32) bool {
-	return DragIntV(label, value, 1.0, 0, 0, "%d", SlidersFlagsNone)
+	return DragIntV(label, value, 1.0, 0, 0, "%d", SliderFlagsNone)
 }
 
 // DragInt2V creates a draggable slider for a 2D vector.
-func DragInt2V(label string, values *[2]int32, speed float32, min, max int32, format string, flags SlidersFlags) bool {
+func DragInt2V(label string, values *[2]int32, speed float32, min, max int32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -298,13 +298,13 @@ func DragInt2V(label string, values *[2]int32, speed float32, min, max int32, fo
 	return C.iggDragIntN(labelArg, cvalues, 2, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// DragInt2 calls DragInt2V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone).
+// DragInt2 calls DragInt2V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone).
 func DragInt2(label string, value *[2]int32) bool {
-	return DragInt2V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone)
+	return DragInt2V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone)
 }
 
 // DragInt3V creates a draggable slider for a 3D vector.
-func DragInt3V(label string, values *[3]int32, speed float32, min, max int32, format string, flags SlidersFlags) bool {
+func DragInt3V(label string, values *[3]int32, speed float32, min, max int32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -313,13 +313,13 @@ func DragInt3V(label string, values *[3]int32, speed float32, min, max int32, fo
 	return C.iggDragIntN(labelArg, cvalues, 3, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// DragInt3 calls DragInt3V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone).
+// DragInt3 calls DragInt3V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone).
 func DragInt3(label string, value *[3]int32) bool {
-	return DragInt3V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone)
+	return DragInt3V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone)
 }
 
 // DragInt4V creates a draggable slider for a 4D vector.
-func DragInt4V(label string, values *[4]int32, speed float32, min, max int32, format string, flags SlidersFlags) bool {
+func DragInt4V(label string, values *[4]int32, speed float32, min, max int32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -328,13 +328,13 @@ func DragInt4V(label string, values *[4]int32, speed float32, min, max int32, fo
 	return C.iggDragIntN(labelArg, cvalues, 4, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// DragInt4 calls DragInt4V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone).
+// DragInt4 calls DragInt4V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone).
 func DragInt4(label string, value *[4]int32) bool {
-	return DragInt4V(label, value, 1.0, 0.0, 0.0, "%d", SlidersFlagsNone)
+	return DragInt4V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone)
 }
 
 // DragIntRange2V creates a draggable slider in ints range.
-func DragIntRange2V(label string, currentMin *int32, currentMax *int32, speed float32, min int, max int, format string, formatMax string, flags SlidersFlags) bool {
+func DragIntRange2V(label string, currentMin *int32, currentMax *int32, speed float32, min int, max int, format string, formatMax string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	currentMinArg, currentMinFin := wrapInt32(currentMin)
@@ -348,13 +348,13 @@ func DragIntRange2V(label string, currentMin *int32, currentMax *int32, speed fl
 	return C.iggDragIntRange2V(labelArg, currentMinArg, currentMaxArg, C.float(speed), C.int(min), C.int(max), formatArg, formatMaxArg, C.int(flags)) != 0
 }
 
-// DragIntRange2 calls DragIntRange2V(label, currentMin, currentMax, 1, 0, 0, "%d", "%d", SlidersFlagsNone).
+// DragIntRange2 calls DragIntRange2V(label, currentMin, currentMax, 1, 0, 0, "%d", "%d", SliderFlagsNone).
 func DragIntRange2(label string, currentMin *int32, currentMax *int32) bool {
-	return DragIntRange2V(label, currentMin, currentMax, 1, 0, 0, "%d", "%d", SlidersFlagsNone)
+	return DragIntRange2V(label, currentMin, currentMax, 1, 0, 0, "%d", "%d", SliderFlagsNone)
 }
 
 // SliderFloatV creates a slider for floats.
-func SliderFloatV(label string, value *float32, min, max float32, format string, flags SlidersFlags) bool {
+func SliderFloatV(label string, value *float32, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	valueArg, valueFin := wrapFloat(value)
@@ -364,13 +364,13 @@ func SliderFloatV(label string, value *float32, min, max float32, format string,
 	return C.iggSliderFloat(labelArg, valueArg, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderFloat calls SliderIntV(label, value, min, max, "%.3f", SlidersFlagsNone).
+// SliderFloat calls SliderIntV(label, value, min, max, "%.3f", SliderFlagsNone).
 func SliderFloat(label string, value *float32, min, max float32) bool {
-	return SliderFloatV(label, value, min, max, "%.3f", SlidersFlagsNone)
+	return SliderFloatV(label, value, min, max, "%.3f", SliderFlagsNone)
 }
 
 // SliderFloat2V creates slider for a 2D vector.
-func SliderFloat2V(label string, values *[2]float32, min, max float32, format string, flags SlidersFlags) bool {
+func SliderFloat2V(label string, values *[2]float32, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -379,13 +379,13 @@ func SliderFloat2V(label string, values *[2]float32, min, max float32, format st
 	return C.iggSliderFloatN(labelArg, cvalues, 2, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderFloat2 calls SliderFloat2V(label, values, min, max, "%.3f", SlidersFlagsNone).
+// SliderFloat2 calls SliderFloat2V(label, values, min, max, "%.3f", SliderFlagsNone).
 func SliderFloat2(label string, values *[2]float32, min, max float32) bool {
-	return SliderFloat2V(label, values, min, max, "%.3f", SlidersFlagsNone)
+	return SliderFloat2V(label, values, min, max, "%.3f", SliderFlagsNone)
 }
 
 // SliderFloat3V creates slider for a 3D vector.
-func SliderFloat3V(label string, values *[3]float32, min, max float32, format string, flags SlidersFlags) bool {
+func SliderFloat3V(label string, values *[3]float32, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -394,13 +394,13 @@ func SliderFloat3V(label string, values *[3]float32, min, max float32, format st
 	return C.iggSliderFloatN(labelArg, cvalues, 3, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderFloat3 calls SliderFloat3V(label, values, min, max, "%.3f", SlidersFlagsNone).
+// SliderFloat3 calls SliderFloat3V(label, values, min, max, "%.3f", SliderFlagsNone).
 func SliderFloat3(label string, values *[3]float32, min, max float32) bool {
-	return SliderFloat3V(label, values, min, max, "%.3f", SlidersFlagsNone)
+	return SliderFloat3V(label, values, min, max, "%.3f", SliderFlagsNone)
 }
 
 // SliderFloat4V creates slider for a 4D vector.
-func SliderFloat4V(label string, values *[4]float32, min, max float32, format string, flags SlidersFlags) bool {
+func SliderFloat4V(label string, values *[4]float32, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -409,13 +409,13 @@ func SliderFloat4V(label string, values *[4]float32, min, max float32, format st
 	return C.iggSliderFloatN(labelArg, cvalues, 4, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderFloat4 calls SliderFloat3V(label, values, min, max, "%.3f", SlidersFlagsNone).
+// SliderFloat4 calls SliderFloat3V(label, values, min, max, "%.3f", SliderFlagsNone).
 func SliderFloat4(label string, values *[4]float32, min, max float32) bool {
-	return SliderFloat4V(label, values, min, max, "%.3f", SlidersFlagsNone)
+	return SliderFloat4V(label, values, min, max, "%.3f", SliderFlagsNone)
 }
 
 // SliderIntV creates a slider for integers.
-func SliderIntV(label string, value *int32, min, max int32, format string, flags SlidersFlags) bool {
+func SliderIntV(label string, value *int32, min, max int32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	valueArg, valueFin := wrapInt32(value)
@@ -425,13 +425,13 @@ func SliderIntV(label string, value *int32, min, max int32, format string, flags
 	return C.iggSliderInt(labelArg, valueArg, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderInt calls SliderIntV(label, value, min, max, "%d", SlidersFlagsNone).
+// SliderInt calls SliderIntV(label, value, min, max, "%d", SliderFlagsNone).
 func SliderInt(label string, value *int32, min, max int32) bool {
-	return SliderIntV(label, value, min, max, "%d", SlidersFlagsNone)
+	return SliderIntV(label, value, min, max, "%d", SliderFlagsNone)
 }
 
 // SliderInt2V creates slider for a 2D vector.
-func SliderInt2V(label string, values *[2]int32, min, max int, format string, flags SlidersFlags) bool {
+func SliderInt2V(label string, values *[2]int32, min, max int, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -440,13 +440,13 @@ func SliderInt2V(label string, values *[2]int32, min, max int, format string, fl
 	return C.iggSliderIntN(labelArg, cvalues, 2, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderInt2 calls SliderInt2V(label, values, min, max, "%d", SlidersFlagsNone).
+// SliderInt2 calls SliderInt2V(label, values, min, max, "%d", SliderFlagsNone).
 func SliderInt2(label string, values *[2]int32, min, max int) bool {
-	return SliderInt2V(label, values, min, max, "%d", SlidersFlagsNone)
+	return SliderInt2V(label, values, min, max, "%d", SliderFlagsNone)
 }
 
 // SliderInt3V creates slider for a 3D vector.
-func SliderInt3V(label string, values *[3]int32, min, max int, format string, flags SlidersFlags) bool {
+func SliderInt3V(label string, values *[3]int32, min, max int, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -455,13 +455,13 @@ func SliderInt3V(label string, values *[3]int32, min, max int, format string, fl
 	return C.iggSliderIntN(labelArg, cvalues, 3, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderInt3 calls SliderInt3V(label, values, min, max, "%d", SlidersFlagsNone).
+// SliderInt3 calls SliderInt3V(label, values, min, max, "%d", SliderFlagsNone).
 func SliderInt3(label string, values *[3]int32, min, max int) bool {
-	return SliderInt3V(label, values, min, max, "%d", SlidersFlagsNone)
+	return SliderInt3V(label, values, min, max, "%d", SliderFlagsNone)
 }
 
 // SliderInt4V creates slider for a 4D vector.
-func SliderInt4V(label string, values *[4]int32, min, max int, format string, flags SlidersFlags) bool {
+func SliderInt4V(label string, values *[4]int32, min, max int, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
@@ -470,13 +470,13 @@ func SliderInt4V(label string, values *[4]int32, min, max int, format string, fl
 	return C.iggSliderIntN(labelArg, cvalues, 4, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderInt4 calls SliderInt4V(label, values, min, max, "%d", SlidersFlagsNone).
+// SliderInt4 calls SliderInt4V(label, values, min, max, "%d", SliderFlagsNone).
 func SliderInt4(label string, values *[4]int32, min, max int) bool {
-	return SliderInt4V(label, values, min, max, "%d", SlidersFlagsNone)
+	return SliderInt4V(label, values, min, max, "%d", SliderFlagsNone)
 }
 
 // VSliderFloatV creates a vertically oriented slider for floats.
-func VSliderFloatV(label string, size Vec2, value *float32, min, max float32, format string, flags SlidersFlags) bool {
+func VSliderFloatV(label string, size Vec2, value *float32, min, max float32, format string, flags SliderFlags) bool {
 	sizeArg, _ := size.wrapped()
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -487,13 +487,13 @@ func VSliderFloatV(label string, size Vec2, value *float32, min, max float32, fo
 	return C.iggVSliderFloat(labelArg, sizeArg, valueArg, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// VSliderFloat calls VSliderIntV(label, size, value, min, max, "%.3f", SlidersFlagsNone).
+// VSliderFloat calls VSliderIntV(label, size, value, min, max, "%.3f", SliderFlagsNone).
 func VSliderFloat(label string, size Vec2, value *float32, min, max float32) bool {
-	return VSliderFloatV(label, size, value, min, max, "%.3f", SlidersFlagsNone)
+	return VSliderFloatV(label, size, value, min, max, "%.3f", SliderFlagsNone)
 }
 
 // VSliderIntV creates a vertically oriented slider for integers.
-func VSliderIntV(label string, size Vec2, value *int32, min, max int32, format string, flags SlidersFlags) bool {
+func VSliderIntV(label string, size Vec2, value *int32, min, max int32, format string, flags SliderFlags) bool {
 	sizeArg, _ := size.wrapped()
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -504,9 +504,9 @@ func VSliderIntV(label string, size Vec2, value *int32, min, max int32, format s
 	return C.iggVSliderInt(labelArg, sizeArg, valueArg, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// VSliderInt calls VSliderIntV(label, size, value, min, max, "%d", SlidersFlagsNone).
+// VSliderInt calls VSliderIntV(label, size, value, min, max, "%d", SliderFlagsNone).
 func VSliderInt(label string, size Vec2, value *int32, min, max int32) bool {
-	return VSliderIntV(label, size, value, min, max, "%d", SlidersFlagsNone)
+	return VSliderIntV(label, size, value, min, max, "%d", SliderFlagsNone)
 }
 
 const (
@@ -553,6 +553,8 @@ const (
 	InputTextFlagsCharsScientific = 1 << 17
 	// inputTextFlagsCallbackResize for callback on buffer capacity change requests.
 	inputTextFlagsCallbackResize = 1 << 18
+	// ImGuiInputTextFlagsCallbackEdit for callback on any edit (note that InputText() already returns true on edit, the callback is useful mainly to manipulate the underlying buffer while focus is active)
+	ImGuiInputTextFlagsCallbackEdit = 1 << 19
 )
 
 // InputTextV creates a text field for dynamic text input.
@@ -833,7 +835,7 @@ const (
 	TreeNodeFlagsNone = 0
 	// TreeNodeFlagsSelected draws as selected.
 	TreeNodeFlagsSelected = 1 << 0
-	// TreeNodeFlagsFramed draws full colored frame (e.g. for CollapsingHeader).
+	// TreeNodeFlagsFramed draws frame with background (e.g. for CollapsingHeader)
 	TreeNodeFlagsFramed = 1 << 1
 	// TreeNodeFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one.
 	TreeNodeFlagsAllowItemOverlap = 1 << 2
@@ -909,6 +911,8 @@ const (
 	SelectableFlagsAllowDoubleClick = 1 << 2
 	// SelectableFlagsDisabled disallows selection and displays text in a greyed out color.
 	SelectableFlagsDisabled = 1 << 3
+	// SelectableFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one (WIP)
+	SelectableFlagsAllowItemOverlap = 1 << 4
 )
 
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
@@ -925,6 +929,30 @@ func SelectableV(label string, selected bool, flags int, size Vec2) bool {
 // Selectable calls SelectableV(label, false, 0, Vec2{0, 0}).
 func Selectable(label string) bool {
 	return SelectableV(label, false, 0, Vec2{})
+}
+
+// BeginListBoxV opens a framed scrolling region.
+// - This is essentially a thin wrapper to using BeginChild/EndChild with some stylistic changes.
+// - The BeginListBox()/EndListBox() api allows you to manage your contents and selection state however you want it, by creating e.g. Selectable() or any items.
+// - The simplified/old ListBox() api are helpers over BeginListBox()/EndListBox() which are kept available for convenience purpose. This is analoguous to how Combos are created.
+// - Choose frame width:   size.x > 0.0f: custom  /  size.x < 0.0f or -FLT_MIN: right-align   /  size.x = 0.0f (default): use current ItemWidth
+// - Choose frame height:  size.y > 0.0f: custom  /  size.y < 0.0f or -FLT_MIN: bottom-align  /  size.y = 0.0f (default): arbitrary default height which can fit ~7 items.
+func BeginListBoxV(label string, size Vec2) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	sizeArg, _ := size.wrapped()
+	return C.iggBeginListBox(labelArg, sizeArg) != 0
+}
+
+// BeginListBox calls BeginListBoxV(label, Vec2{}).
+func BeginListBox(label string) bool {
+	return BeginListBoxV(label, Vec2{})
+}
+
+// EndListBox closes the scope for the previously opened ListBox.
+// only call EndListBox() if BeginListBox() returned true!
+func EndListBox() {
+	C.iggEndListBox()
 }
 
 // ListBoxV creates a list of selectables of given items with equal height, enclosed with header and footer.
@@ -952,7 +980,7 @@ func ListBoxV(label string, currentItem *int32, items []string, heightItems int)
 		argv[i] = itemArg
 	}
 
-	return C.iggListBoxV(labelArg, valueArg, &argv[0], C.int(itemsCount), C.int(heightItems)) != 0
+	return C.iggListBox(labelArg, valueArg, &argv[0], C.int(itemsCount), C.int(heightItems)) != 0
 }
 
 // ListBox calls ListBoxV(label, currentItem, items, -1)
@@ -1107,13 +1135,15 @@ func MenuItem(label string) bool {
 	return MenuItemV(label, "", false, true)
 }
 
+// Columns API is Legacy (2021: prefer using Tables!).
+// - You can also use SameLineV(pos_x, 0) to mimic simplified columns.
+//
 // Columns calls ColumnsV(1, "", false).
 func Columns() {
 	ColumnsV(1, "", false)
 }
 
 // ColumnsV creates a column layout of the specified number of columns.
-// The brittle columns API will be superseded by an upcoming 'table' API.
 func ColumnsV(count int, label string, border bool) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()

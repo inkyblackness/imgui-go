@@ -111,3 +111,13 @@ func (config FontConfig) getFontDataOwnedByAtlas() bool {
 
 	return true
 }
+
+// FontBuilderFlags returns settings for custom font builder.
+func (config FontConfig) FontBuilderFlags() uint {
+	return uint(C.iggFontConfigGetFontBuilderFlags(config.handle()))
+}
+
+// SetFontBuilderFlags sets settings for custom font builder. THIS IS BUILDER IMPLEMENTATION DEPENDENT. Leave as zero if unsure.
+func (config FontConfig) SetFontBuilderFlags(flags uint) {
+	C.iggFontConfigSetFontBuilderFlags(config.handle(), C.uint(flags))
+}

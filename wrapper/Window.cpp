@@ -136,6 +136,11 @@ void iggPopItemWidth(void)
    ImGui::PopItemWidth();
 }
 
+void iggSetNextItemWidth(float width)
+{
+   ImGui::SetNextItemWidth(width);
+}
+
 void iggPushItemFlag(int options, IggBool enabled)
 {
    ImGui::PushItemFlag(options, enabled);
@@ -169,4 +174,51 @@ void iggPushButtonRepeat(IggBool repeat)
 void iggPopButtonRepeat()
 {
    ImGui::PopButtonRepeat();
+}
+
+IggViewport iggGetMainViewport()
+{
+   return static_cast<IggViewport>(ImGui::GetMainViewport());
+}
+
+int iggViewportGetFlags(IggViewport handle)
+{
+   ImGuiViewport *viewport = reinterpret_cast<ImGuiViewport *>(handle);
+   return viewport->Flags;
+}
+
+void iggViewportGetPos(IggViewport handle, IggVec2 *out)
+{
+   ImGuiViewport *viewport = reinterpret_cast<ImGuiViewport *>(handle);
+   exportValue(*out, viewport->Pos);
+}
+
+void iggViewportGetSize(IggViewport handle, IggVec2 *out)
+{
+   ImGuiViewport *viewport = reinterpret_cast<ImGuiViewport *>(handle);
+   exportValue(*out, viewport->Size);
+}
+
+void iggViewportGetWorkPos(IggViewport handle, IggVec2 *out)
+{
+   ImGuiViewport *viewport = reinterpret_cast<ImGuiViewport *>(handle);
+   exportValue(*out, viewport->WorkPos);
+}
+
+void iggViewportGetWorkSize(IggViewport handle, IggVec2 *out)
+{
+   ImGuiViewport *viewport = reinterpret_cast<ImGuiViewport *>(handle);
+   exportValue(*out, viewport->WorkSize);
+}
+
+void iggViewportGetCenter(IggViewport handle, IggVec2 *out)
+{
+   ImGuiViewport *viewport = reinterpret_cast<ImGuiViewport *>(handle);
+   exportValue(*out, viewport->GetCenter());
+}
+
+void iggViewportGetWorkCenter(IggViewport handle, IggVec2 *out)
+{
+   ImGuiViewport *viewport = reinterpret_cast<ImGuiViewport *>(handle);
+   exportValue(*out, viewport->GetWorkCenter());
 }

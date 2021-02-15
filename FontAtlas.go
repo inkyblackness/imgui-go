@@ -162,3 +162,19 @@ func (atlas FontAtlas) TextureDataRGBA32() *RGBA32Image {
 func (atlas FontAtlas) SetTextureID(id TextureID) {
 	C.iggFontAtlasSetTextureID(atlas.handle(), id.handle())
 }
+
+// Build pixels data. This is called automatically for you by the TextureData*** functions.
+func (atlas FontAtlas) Build() bool {
+	return C.iggFontAtlasBuild(atlas.handle()) != 0
+}
+
+// FontBuilderFlags returns shared flags (for all fonts) for custom font builder.
+func (atlas FontAtlas) FontBuilderFlags() uint {
+	return uint(C.iggFontAtlasGetFontBuilderFlags(atlas.handle()))
+}
+
+// SetFontBuilderFlags sets shared flags (for all fonts) for custom font builder.
+// THIS IS BUILD IMPLEMENTATION DEPENDENT. Per-font override is also available in FontConfig.
+func (atlas FontAtlas) SetFontBuilderFlags(flags uint) {
+	C.iggFontAtlasSetFontBuilderFlags(atlas.handle(), C.uint(flags))
+}

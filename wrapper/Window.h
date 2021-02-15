@@ -34,6 +34,7 @@ extern void iggSetNextWindowBgAlpha(float value);
 
 extern void iggPushItemWidth(float width);
 extern void iggPopItemWidth(void);
+extern void iggSetNextItemWidth(float width);
 extern void iggPushItemFlag(int flag, IggBool enabled);
 extern void iggPopItemFlag(void);
 extern float iggCalcItemWidth(void);
@@ -41,6 +42,15 @@ extern void iggPushTextWrapPos(float wrapPosX);
 extern void iggPopTextWrapPos(void);
 extern void iggPushButtonRepeat(IggBool repeat);
 extern void iggPopButtonRepeat(void);
+
+extern IggViewport iggGetMainViewport();
+extern int iggViewportGetFlags(IggViewport handle);
+extern void iggViewportGetPos(IggViewport handle, IggVec2 *out);
+extern void iggViewportGetSize(IggViewport handle, IggVec2 *out);
+extern void iggViewportGetWorkPos(IggViewport handle, IggVec2 *out);
+extern void iggViewportGetWorkSize(IggViewport handle, IggVec2 *out);
+extern void iggViewportGetCenter(IggViewport handle, IggVec2 *out);
+extern void iggViewportGetWorkCenter(IggViewport handle, IggVec2 *out);
 
 #ifdef __cplusplus
 }

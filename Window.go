@@ -253,9 +253,8 @@ func SetNextWindowBgAlpha(value float32) {
 	C.iggSetNextWindowBgAlpha(C.float(value))
 }
 
-// PushItemWidth sets width of items for the common item+label case, in pixels.
-// 0.0f = default to ~2/3 of windows width, >0.0f: width in pixels,
-// <0.0f align xx pixels to the right of window (so -1.0f always align width to the right side).
+// PushItemWidth pushes width of items for common large "item+label" widgets.
+// >0.0f: width in pixels, <0.0f align xx pixels to the right of window (so -math.SmallestNonzeroFloat32 always align width to the right side).
 func PushItemWidth(width float32) {
 	C.iggPushItemWidth(C.float(width))
 }
@@ -263,6 +262,12 @@ func PushItemWidth(width float32) {
 // PopItemWidth must be called for each call to PushItemWidth().
 func PopItemWidth() {
 	C.iggPopItemWidth()
+}
+
+// SetNextItemWidth sets width of the _next_ common large "item+label" widget.
+// >0.0f: width in pixels, <0.0f align xx pixels to the right of window (so -math.SmallestNonzeroFloat32 always align width to the right side).
+func SetNextItemWidth(width float32) {
+	C.iggSetNextItemWidth(C.float(width))
 }
 
 const (
@@ -328,4 +333,119 @@ func PushButtonRepeat(repeat bool) {
 // PopButtonRepeat pops most recent button repeat setting.
 func PopButtonRepeat() {
 	C.iggPopButtonRepeat()
+}
+
+// Viewport A Platform Window (always only one in 'master' branch), in the future may represent Platform Monitor.
+type Viewport uintptr
+
+// ViewportFlags flags for viewport.
+type ViewportFlags int
+
+const (
+	// ViewportFlagsNone default = 0.
+	ViewportFlagsNone ViewportFlags = 0
+	// ViewportFlagsIsPlatformWindow represents a Platform Window.
+	ViewportFlagsIsPlatformWindow = 1 << 0
+	// ViewportFlagsIsPlatformMonitor represents a Platform Monitor (unused yet).
+	ViewportFlagsIsPlatformMonitor = 1 << 1
+	// ViewportFlagsOwnedByApp Platform Window: is created/managed by the application (rather than a dear imgui backend).
+	ViewportFlagsOwnedByApp = 1 << 2
+)
+
+// MainViewport returns primary/default viewport.
+// - Currently represents the Platform Window created by the application which is hosting our Dear ImGui windows.
+// - In 'docking' branch with multi-viewport enabled, we extend this concept to have multiple active viewports.
+// - In the future we will extend this concept further to also represent Platform Monitor and support a "no main platform window" operation mode.
+func MainViewport() Viewport {
+	return Viewport(C.iggGetMainViewport())
+}
+
+func (viewport Viewport) handle() C.IggViewport {
+	return C.IggViewport(viewport)
+}
+
+// Flags returns viewports flags value.
+func (viewport Viewport) Flags() ViewportFlags {
+	if viewport == 0 {
+		return ViewportFlagsNone
+	}
+	return ViewportFlags(C.iggViewportGetFlags(viewport.handle()))
+}
+
+// Pos returns viewports Main Area: Position of the viewport (Dear Imgui coordinates are the same as OS desktop/native coordinates).
+func (viewport Viewport) Pos() Vec2 {
+	if viewport == 0 {
+		return Vec2{}
+	}
+
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggViewportGetPos(viewport.handle(), valueArg)
+	valueFin()
+	return value
+}
+
+// Size returns viewports Main Area: Size of the viewport.
+func (viewport Viewport) Size() Vec2 {
+	if viewport == 0 {
+		return Vec2{}
+	}
+
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggViewportGetSize(viewport.handle(), valueArg)
+	valueFin()
+	return value
+}
+
+// WorkPos returns viewports Work Area: Position of the viewport minus task bars, menus bars, status bars (>= Pos).
+func (viewport Viewport) WorkPos() Vec2 {
+	if viewport == 0 {
+		return Vec2{}
+	}
+
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggViewportGetWorkPos(viewport.handle(), valueArg)
+	valueFin()
+	return value
+}
+
+// WorkSize returns viewports Work Area: Size of the viewport minus task bars, menu bars, status bars (<= Size).
+func (viewport Viewport) WorkSize() Vec2 {
+	if viewport == 0 {
+		return Vec2{}
+	}
+
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggViewportGetWorkSize(viewport.handle(), valueArg)
+	valueFin()
+	return value
+}
+
+// Center returns center of the viewport.
+func (viewport Viewport) Center() Vec2 {
+	if viewport == 0 {
+		return Vec2{}
+	}
+
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggViewportGetCenter(viewport.handle(), valueArg)
+	valueFin()
+	return value
+}
+
+// WorkCenter returns center of the viewport minus task bars, menu bars, status bars.
+func (viewport Viewport) WorkCenter() Vec2 {
+	if viewport == 0 {
+		return Vec2{}
+	}
+
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggViewportGetWorkCenter(viewport.handle(), valueArg)
+	valueFin()
+	return value
 }

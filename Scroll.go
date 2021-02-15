@@ -39,12 +39,12 @@ func SetScrollHereY(ratio float32) {
 	C.iggSetScrollHereY(C.float(ratio))
 }
 
-// SetScrollX sets horizontal scrolling amount [0..GetScrollMaxX()].
+// SetScrollX sets horizontal scrolling amount [0 .. ScrollMaxX()].
 func SetScrollX(scrollX float32) {
 	C.iggSetScrollX(C.float(scrollX))
 }
 
-// SetScrollY sets vertical scrolling amount [0..GetScrollMaxY()].
+// SetScrollY sets vertical scrolling amount [0 .. ScrollMaxY()].
 func SetScrollY(scrollY float32) {
 	C.iggSetScrollY(C.float(scrollY))
 }

@@ -19,6 +19,9 @@ extern void iggFontConfigSetMergeMode(IggFontConfig handle, IggBool value);
 extern void iggFontConfigSetName(IggFontConfig handle, char const *value);
 extern int iggFontConfigGetFontDataOwnedByAtlas(IggFontConfig handle);
 
+extern unsigned int iggFontConfigGetFontBuilderFlags(IggFontConfig handle);
+extern void         iggFontConfigSetFontBuilderFlags(IggFontConfig handle, unsigned int flags);
+
 #ifdef __cplusplus
 }
 #endif
