@@ -180,15 +180,15 @@ type SliderFlags int
 
 const (
 	// SliderFlagsNone is no flag applied.
-	SliderFlagsNone = 0
+	SliderFlagsNone SliderFlags = 0
 	// SliderFlagsAlwaysClamp clamps value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
-	SliderFlagsAlwaysClamp = 1 << 4
+	SliderFlagsAlwaysClamp SliderFlags = 1 << (iota + 4)
 	// SliderFlagsLogarithmic makes the widget logarithmic (linear otherwise). Consider using SliderFlagNoRoundToFormat with this if using a format-string with small amount of digits.
-	SliderFlagsLogarithmic = 1 << 5
+	SliderFlagsLogarithmic
 	// SliderFlagsNoRoundToFormat disables rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits)
-	SliderFlagsNoRoundToFormat = 1 << 6
+	SliderFlagsNoRoundToFormat
 	// SliderFlagsNoInput disables CTRL+Click or Enter key allowing to input text directly into the widget
-	SliderFlagsNoInput = 1 << 7
+	SliderFlagsNoInput
 )
 
 // DragFloatV creates a draggable slider for floats.
