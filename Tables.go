@@ -214,34 +214,40 @@ const (
 	TableRowFlagsHeaders TableRowFlags = 1 << 0
 )
 
-// Enum for TableSetBgColor()
+// TableBgTarget for TableSetBgColor
+//
 // Background colors are rendering in 3 layers:
 //  - Layer 0: draw with RowBg0 color if set, otherwise draw with ColumnBg0 if set.
 //  - Layer 1: draw with RowBg1 color if set, otherwise draw with ColumnBg1 if set.
 //  - Layer 2: draw with CellBg color if set.
-// The purpose of the two row/columns layers is to let you decide if a background color changes should override or blend with the existing color.
+// The purpose of the two row/columns layers is to let you decide if a
+// background color changes should override or blend with the existing color.
 // When using TableFlagsRowBg on the table, each row has the RowBg0 color automatically set for odd/even rows.
 // If you set the color of RowBg0 target, your color will override the existing RowBg0 color.
 // If you set the color of RowBg1 or ColumnBg1 target, your color will blend over the RowBg0 color.
+type TableBgTarget int
+
 const (
 	// TableBgTargetNone default = 0
-	TableBgTargetNone = 0
+	TableBgTargetNone TableBgTarget = 0
 	// TableBgTargetRowBg0 sets row background color 0 (generally used for background, automatically set when TableFlagsRowBg is used)
-	TableBgTargetRowBg0 = 1
+	TableBgTargetRowBg0 TableBgTarget = 1
 	// TableBgTargetRowBg1 sets row background color 1 (generally used for selection marking)
-	TableBgTargetRowBg1 = 2
+	TableBgTargetRowBg1 TableBgTarget = 2
 	// TableBgTargetCellBg sets cell background color (top-most color)
-	TableBgTargetCellBg = 3
+	TableBgTargetCellBg TableBgTarget = 3
 )
 
-// A sorting direction.
+// SortDirection used in TableColumnSortSpecs, etc.
+type SortDirection int
+
 const (
 	// SortDirectionNone no sort
-	SortDirectionNone = 0
+	SortDirectionNone SortDirection = 0
 	// SortDirectionAscending sorts Ascending = 0->9, A->Z etc.
-	SortDirectionAscending = 1
+	SortDirectionAscending SortDirection = 1
 	// SortDirectionDescending sorts Descending = 9->0, Z->A etc.
-	SortDirectionDescending = 2
+	SortDirectionDescending SortDirection = 2
 )
 
 // BeginTableV creates a table
@@ -382,13 +388,13 @@ func TableGetColumnFlags() int {
 }
 
 // TableSetBgColorV changes the color of a cell, row, or column. See TableBgTarget flags for details.
-func TableSetBgColorV(target int, color Vec4, columnN int) {
+func TableSetBgColorV(target TableBgTarget, color Vec4, columnN int) {
 	colorArg, _ := color.wrapped()
 	C.iggTableSetBgColor(C.int(target), colorArg, C.int(columnN))
 }
 
 // TableSetBgColor calls TableSetBgColorV(target, color, -1).
-func TableSetBgColor(target int, color Vec4) {
+func TableSetBgColor(target TableBgTarget, color Vec4) {
 	TableSetBgColorV(target, color, -1)
 }
 
@@ -415,10 +421,10 @@ func (specs TableSortSpecs) handle() C.IggTableSortSpecs {
 
 // TableColumnSortSpecs is a sorting specification for one column of a table (sizeof == 12 bytes).
 type TableColumnSortSpecs struct {
-	ColumnUserID  uint  // User id of the column (if specified by a TableSetupColumn() call)
-	ColumnIndex   int16 // Index of the column
-	SortOrder     int16 // Index within parent TableSortSpecs (always stored in order starting from 0, tables sorted on a single criteria will always have a 0 here)
-	SortDirection int   // SortDirectionAscending or SortDirectionDescending (you can use this or SortSign, whichever is more convenient for your sort function)
+	ColumnUserID  uint          // User id of the column (if specified by a TableSetupColumn() call)
+	ColumnIndex   int16         // Index of the column
+	SortOrder     int16         // Index within parent TableSortSpecs (always stored in order starting from 0, tables sorted on a single criteria will always have a 0 here)
+	SortDirection SortDirection // SortDirectionAscending or SortDirectionDescending (you can use this or SortSign, whichever is more convenient for your sort function)
 }
 
 // Specs returns columns sort spec array.
@@ -433,7 +439,7 @@ func (specs TableSortSpecs) Specs() []TableColumnSortSpecs {
 			ColumnUserID:  uint(out.ColumnUserID),
 			ColumnIndex:   int16(out.ColumnIndex),
 			SortOrder:     int16(out.SortOrder),
-			SortDirection: int(out.SortDirection),
+			SortDirection: SortDirection(out.SortDirection),
 		}
 	}
 	return columnSpecs
