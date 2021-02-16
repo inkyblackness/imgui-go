@@ -93,25 +93,28 @@ func IsWindowCollapsed() bool {
 	return C.iggIsWindowCollapsed() != 0
 }
 
+// FocusedFlags for IsWindowFocusedV().
+type FocusedFlags int
+
 // This is a list of FocusedFlags combinations.
 const (
 	// FocusedFlagsNone Return true if directly over the item/window, not obstructed by another window,
 	// not obstructed by an active popup or modal blocking inputs under them.
-	FocusedFlagsNone = 0
+	FocusedFlagsNone FocusedFlags = 0
 	// FocusedFlagsChildWindows returns true if any children of the window is focused
-	FocusedFlagsChildWindows = 1 << 0
+	FocusedFlagsChildWindows FocusedFlags = 1 << 0
 	// FocusedFlagsRootWindow tests from root window (top most parent of the current hierarchy)
-	FocusedFlagsRootWindow = 1 << 1
+	FocusedFlagsRootWindow FocusedFlags = 1 << 1
 	// FocusedFlagsAnyWindow returns true if any window is focused.
 	// Important: If you are trying to tell how to dispatch your low-level inputs, do NOT use this.
 	// Use WantCaptureMouse instead.
-	FocusedFlagsAnyWindow = 1 << 2
+	FocusedFlagsAnyWindow FocusedFlags = 1 << 2
 
 	FocusedFlagsRootAndChildWindows = FocusedFlagsRootWindow | FocusedFlagsChildWindows
 )
 
 // IsWindowFocusedV returns if current window is focused or its root/child, depending on flags. See flags for options.
-func IsWindowFocusedV(flags int) bool {
+func IsWindowFocusedV(flags FocusedFlags) bool {
 	return C.iggIsWindowFocused(C.int(flags)) != 0
 }
 
