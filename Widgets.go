@@ -1200,28 +1200,31 @@ func ColumnsCount() int {
 	return int(C.iggGetColumnsCount())
 }
 
+// TabBarFlags for BeginTabBarV().
+type TabBarFlags int
+
 const (
 	// TabBarFlagsNone default = 0.
-	TabBarFlagsNone = 0
+	TabBarFlagsNone TabBarFlags = 0
 	// TabBarFlagsReorderable Allow manually dragging tabs to re-order them + New tabs are appended at the end of list
-	TabBarFlagsReorderable = 1 << 0
+	TabBarFlagsReorderable TabBarFlags = 1 << 0
 	// TabBarFlagsAutoSelectNewTabs Automatically select new tabs when they appear
-	TabBarFlagsAutoSelectNewTabs = 1 << 1
+	TabBarFlagsAutoSelectNewTabs TabBarFlags = 1 << 1
 	// TabBarFlagsTabListPopupButton Disable buttons to open the tab list popup
-	TabBarFlagsTabListPopupButton = 1 << 2
+	TabBarFlagsTabListPopupButton TabBarFlags = 1 << 2
 	// TabBarFlagsNoCloseWithMiddleMouseButton Disable behavior of closing tabs (that are submitted with p_open != NULL)
 	// with middle mouse button. You can still repro this behavior on user's side with if
 	// (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
-	TabBarFlagsNoCloseWithMiddleMouseButton = 1 << 3
+	TabBarFlagsNoCloseWithMiddleMouseButton TabBarFlags = 1 << 3
 	// TabBarFlagsNoTabListScrollingButtons Disable scrolling buttons (apply when fitting policy is
 	// TabBarFlagsFittingPolicyScroll)
-	TabBarFlagsNoTabListScrollingButtons = 1 << 4
+	TabBarFlagsNoTabListScrollingButtons TabBarFlags = 1 << 4
 	// TabBarFlagsNoTooltip Disable tooltips when hovering a tab
-	TabBarFlagsNoTooltip = 1 << 5
+	TabBarFlagsNoTooltip TabBarFlags = 1 << 5
 	// TabBarFlagsFittingPolicyResizeDown Resize tabs when they don't fit
-	TabBarFlagsFittingPolicyResizeDown = 1 << 6
+	TabBarFlagsFittingPolicyResizeDown TabBarFlags = 1 << 6
 	// TabBarFlagsFittingPolicyScroll Add scroll buttons when tabs don't fit
-	TabBarFlagsFittingPolicyScroll = 1 << 7
+	TabBarFlagsFittingPolicyScroll TabBarFlags = 1 << 7
 	// TabBarFlagsFittingPolicyMask combines
 	// TabBarFlagsFittingPolicyResizeDown and TabBarFlagsFittingPolicyScroll
 	TabBarFlagsFittingPolicyMask = TabBarFlagsFittingPolicyResizeDown | TabBarFlagsFittingPolicyScroll
@@ -1230,7 +1233,7 @@ const (
 )
 
 // BeginTabBarV create and append into a TabBar.
-func BeginTabBarV(strID string, flags int) bool {
+func BeginTabBarV(strID string, flags TabBarFlags) bool {
 	idArg, idFin := wrapString(strID)
 	defer idFin()
 
@@ -1247,33 +1250,36 @@ func EndTabBar() {
 	C.iggEndTabBar()
 }
 
+// TabItemFlags for BeginTabItemV(), BeginTabButtonV().
+type TabItemFlags int
+
 const (
 	// TabItemFlagsNone default = 0
-	TabItemFlagsNone = 0
+	TabItemFlagsNone TabItemFlags = 0
 	// TabItemFlagsUnsavedDocument Append '*' to title without affecting the ID, as a convenience to avoid using the
 	// ### operator. Also: tab is selected on closure and closure is deferred by one frame to allow code to undo it
 	// without flicker.
-	TabItemFlagsUnsavedDocument = 1 << 0
+	TabItemFlagsUnsavedDocument TabItemFlags = 1 << 0
 	// TabItemFlagsSetSelected Trigger flag to programmatically make the tab selected when calling BeginTabItem()
-	TabItemFlagsSetSelected = 1 << 1
+	TabItemFlagsSetSelected TabItemFlags = 1 << 1
 	// TabItemFlagsNoCloseWithMiddleMouseButton  Disable behavior of closing tabs (that are submitted with
 	// p_open != NULL) with middle mouse button. You can still repro this behavior on user's side with if
 	// (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
-	TabItemFlagsNoCloseWithMiddleMouseButton = 1 << 2
+	TabItemFlagsNoCloseWithMiddleMouseButton TabItemFlags = 1 << 2
 	// TabItemFlagsNoPushID Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem()
-	TabItemFlagsNoPushID = 1 << 3
+	TabItemFlagsNoPushID TabItemFlags = 1 << 3
 	// TabItemFlagsNoTooltip Disable tooltip for the given tab
-	TabItemFlagsNoTooltip = 1 << 4
+	TabItemFlagsNoTooltip TabItemFlags = 1 << 4
 	// TabItemFlagsNoReorder Disable reordering this tab or having another tab cross over this tab
-	TabItemFlagsNoReorder = 1 << 5
+	TabItemFlagsNoReorder TabItemFlags = 1 << 5
 	// TabItemFlagsLeading Enforce the tab position to the left of the tab bar (after the tab list popup button)
-	TabItemFlagsLeading = 1 << 6
+	TabItemFlagsLeading TabItemFlags = 1 << 6
 	// TabItemFlagsTrailing Enforce the tab position to the right of the tab bar (before the scrolling buttons)
-	TabItemFlagsTrailing = 1 << 7
+	TabItemFlagsTrailing TabItemFlags = 1 << 7
 )
 
 // BeginTabItemV create a Tab. Returns true if the Tab is selected.
-func BeginTabItemV(label string, open *bool, flags int) bool {
+func BeginTabItemV(label string, open *bool, flags TabItemFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 
@@ -1295,7 +1301,7 @@ func EndTabItem() {
 }
 
 // TabItemButtonV create a Tab behaving like a button. return true when clicked. cannot be selected in the tab bar.
-func TabItemButtonV(label string, flags int) bool {
+func TabItemButtonV(label string, flags TabItemFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	return C.iggTabItemButton(labelArg, C.int(flags)) != 0
