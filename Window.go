@@ -345,11 +345,11 @@ const (
 	// ViewportFlagsNone default = 0.
 	ViewportFlagsNone ViewportFlags = 0
 	// ViewportFlagsIsPlatformWindow represents a Platform Window.
-	ViewportFlagsIsPlatformWindow ViewportFlags = 1 << iota
+	ViewportFlagsIsPlatformWindow ViewportFlags = 1 << 0
 	// ViewportFlagsIsPlatformMonitor represents a Platform Monitor (unused yet).
-	ViewportFlagsIsPlatformMonitor
+	ViewportFlagsIsPlatformMonitor ViewportFlags = 1 << 1
 	// ViewportFlagsOwnedByApp Platform Window: is created/managed by the application (rather than a dear imgui backend).
-	ViewportFlagsOwnedByApp
+	ViewportFlagsOwnedByApp ViewportFlags = 1 << 2
 )
 
 // MainViewport returns primary/default viewport.

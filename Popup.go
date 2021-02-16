@@ -23,13 +23,13 @@ const (
 	// PopupFlagsMouseButtonMiddle For BeginPopupContext*(): open on Middle Mouse release. Guaranteed to always be == 2 (same as ImGuiMouseButton_Middle)
 	PopupFlagsMouseButtonMiddle PopupFlags = 2
 	// PopupFlagsNoOpenOverExistingPopup For OpenPopup*(), BeginPopupContext*(): don't open if there's already a popup at the same level of the popup stack
-	PopupFlagsNoOpenOverExistingPopup PopupFlags = 1 << (iota + 5)
+	PopupFlagsNoOpenOverExistingPopup PopupFlags = 1 << 5
 	// PopupFlagsNoOpenOverItems For BeginPopupContextWindow(): don't return true when hovering items, only when hovering empty space
-	PopupFlagsNoOpenOverItems
+	PopupFlagsNoOpenOverItems PopupFlags = 1 << 6
 	// PopupFlagsAnyPopupID For IsPopupOpen(): ignore the ImGuiID parameter and test for any popup.
-	PopupFlagsAnyPopupID
+	PopupFlagsAnyPopupID PopupFlags = 1 << 7
 	// PopupFlagsAnyPopupLevel For IsPopupOpen(): search/test at any level of the popup stack (default test in the current level)
-	PopupFlagsAnyPopupLevel
+	PopupFlagsAnyPopupLevel PopupFlags = 1 << 8
 	// PopupFlagsAnyPopup for any usage.
 	PopupFlagsAnyPopup = PopupFlagsAnyPopupID | PopupFlagsAnyPopupLevel
 )

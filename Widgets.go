@@ -43,11 +43,11 @@ const (
 	// ButtonFlagsNone is no flag applied.
 	ButtonFlagsNone ButtonFlags = 0
 	// ButtonFlagsMouseButtonLeft reacts on left mouse button (default).
-	ButtonFlagsMouseButtonLeft ButtonFlags = 1 << iota
+	ButtonFlagsMouseButtonLeft ButtonFlags = 1 << 0
 	// ButtonFlagsMouseButtonRight reacts on right mouse button.
-	ButtonFlagsMouseButtonRight
+	ButtonFlagsMouseButtonRight ButtonFlags = 1 << 1
 	// ButtonFlagsMouseButtonMiddle reacts on center mouse button.
-	ButtonFlagsMouseButtonMiddle
+	ButtonFlagsMouseButtonMiddle ButtonFlags = 1 << 2
 )
 
 // InvisibleButtonV returns true if it is clicked.
@@ -182,13 +182,13 @@ const (
 	// SliderFlagsNone is no flag applied.
 	SliderFlagsNone SliderFlags = 0
 	// SliderFlagsAlwaysClamp clamps value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
-	SliderFlagsAlwaysClamp SliderFlags = 1 << (iota + 4)
+	SliderFlagsAlwaysClamp SliderFlags = 1 << 0
 	// SliderFlagsLogarithmic makes the widget logarithmic (linear otherwise). Consider using SliderFlagNoRoundToFormat with this if using a format-string with small amount of digits.
-	SliderFlagsLogarithmic
+	SliderFlagsLogarithmic SliderFlags = 1 << 1
 	// SliderFlagsNoRoundToFormat disables rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits)
-	SliderFlagsNoRoundToFormat
+	SliderFlagsNoRoundToFormat SliderFlags = 1 << 2
 	// SliderFlagsNoInput disables CTRL+Click or Enter key allowing to input text directly into the widget
-	SliderFlagsNoInput
+	SliderFlagsNoInput SliderFlags = 1 << 3
 )
 
 // DragFloatV creates a draggable slider for floats.
