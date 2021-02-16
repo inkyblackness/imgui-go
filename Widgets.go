@@ -512,52 +512,55 @@ func VSliderInt(label string, size Vec2, value *int32, min, max int32) bool {
 	return VSliderIntV(label, size, value, min, max, "%d", SliderFlagsNone)
 }
 
+// InputTextFlags for InputTextV(), etc.
+type InputTextFlags int
+
 const (
 	// InputTextFlagsNone sets everything default.
-	InputTextFlagsNone = 0
+	InputTextFlagsNone InputTextFlags = 0
 	// InputTextFlagsCharsDecimal allows 0123456789.+-
-	InputTextFlagsCharsDecimal = 1 << 0
+	InputTextFlagsCharsDecimal InputTextFlags = 1 << 0
 	// InputTextFlagsCharsHexadecimal allow 0123456789ABCDEFabcdef
-	InputTextFlagsCharsHexadecimal = 1 << 1
+	InputTextFlagsCharsHexadecimal InputTextFlags = 1 << 1
 	// InputTextFlagsCharsUppercase turns a..z into A..Z.
-	InputTextFlagsCharsUppercase = 1 << 2
+	InputTextFlagsCharsUppercase InputTextFlags = 1 << 2
 	// InputTextFlagsCharsNoBlank filters out spaces, tabs.
-	InputTextFlagsCharsNoBlank = 1 << 3
+	InputTextFlagsCharsNoBlank InputTextFlags = 1 << 3
 	// InputTextFlagsAutoSelectAll selects entire text when first taking mouse focus.
-	InputTextFlagsAutoSelectAll = 1 << 4
+	InputTextFlagsAutoSelectAll InputTextFlags = 1 << 4
 	// InputTextFlagsEnterReturnsTrue returns 'true' when Enter is pressed (as opposed to when the value was modified).
-	InputTextFlagsEnterReturnsTrue = 1 << 5
+	InputTextFlagsEnterReturnsTrue InputTextFlags = 1 << 5
 	// InputTextFlagsCallbackCompletion for callback on pressing TAB (for completion handling).
-	InputTextFlagsCallbackCompletion = 1 << 6
+	InputTextFlagsCallbackCompletion InputTextFlags = 1 << 6
 	// InputTextFlagsCallbackHistory for callback on pressing Up/Down arrows (for history handling).
-	InputTextFlagsCallbackHistory = 1 << 7
+	InputTextFlagsCallbackHistory InputTextFlags = 1 << 7
 	// InputTextFlagsCallbackAlways for callback on each iteration. User code may query cursor position, modify text buffer.
-	InputTextFlagsCallbackAlways = 1 << 8
+	InputTextFlagsCallbackAlways InputTextFlags = 1 << 8
 	// InputTextFlagsCallbackCharFilter for callback on character inputs to replace or discard them.
 	// Modify 'EventChar' to replace or discard, or return 1 in callback to discard.
-	InputTextFlagsCallbackCharFilter = 1 << 9
+	InputTextFlagsCallbackCharFilter InputTextFlags = 1 << 9
 	// InputTextFlagsAllowTabInput when pressing TAB to input a '\t' character into the text field.
-	InputTextFlagsAllowTabInput = 1 << 10
+	InputTextFlagsAllowTabInput InputTextFlags = 1 << 10
 	// InputTextFlagsCtrlEnterForNewLine in multi-line mode, unfocus with Enter, add new line with Ctrl+Enter
 	// (default is opposite: unfocus with Ctrl+Enter, add line with Enter).
-	InputTextFlagsCtrlEnterForNewLine = 1 << 11
+	InputTextFlagsCtrlEnterForNewLine InputTextFlags = 1 << 11
 	// InputTextFlagsNoHorizontalScroll disables following the cursor horizontally.
-	InputTextFlagsNoHorizontalScroll = 1 << 12
+	InputTextFlagsNoHorizontalScroll InputTextFlags = 1 << 12
 	// InputTextFlagsAlwaysInsertMode sets insert mode.
-	InputTextFlagsAlwaysInsertMode = 1 << 13
+	InputTextFlagsAlwaysInsertMode InputTextFlags = 1 << 13
 	// InputTextFlagsReadOnly sets read-only mode.
-	InputTextFlagsReadOnly = 1 << 14
+	InputTextFlagsReadOnly InputTextFlags = 1 << 14
 	// InputTextFlagsPassword sets password mode, display all characters as '*'.
-	InputTextFlagsPassword = 1 << 15
+	InputTextFlagsPassword InputTextFlags = 1 << 15
 	// InputTextFlagsNoUndoRedo disables undo/redo. Note that input text owns the text data while active,
 	// if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
-	InputTextFlagsNoUndoRedo = 1 << 16
+	InputTextFlagsNoUndoRedo InputTextFlags = 1 << 16
 	// InputTextFlagsCharsScientific allows 0123456789.+-*/eE (Scientific notation input).
-	InputTextFlagsCharsScientific = 1 << 17
+	InputTextFlagsCharsScientific InputTextFlags = 1 << 17
 	// inputTextFlagsCallbackResize for callback on buffer capacity change requests.
-	inputTextFlagsCallbackResize = 1 << 18
+	inputTextFlagsCallbackResize InputTextFlags = 1 << 18
 	// ImGuiInputTextFlagsCallbackEdit for callback on any edit (note that InputText() already returns true on edit, the callback is useful mainly to manipulate the underlying buffer while focus is active)
-	ImGuiInputTextFlagsCallbackEdit = 1 << 19
+	ImGuiInputTextFlagsCallbackEdit InputTextFlags = 1 << 19
 )
 
 // InputTextV creates a text field for dynamic text input.
@@ -568,7 +571,7 @@ const (
 // The provided callback is called for any of the requested InputTextFlagsCallback* flags.
 //
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
-func InputTextV(label string, text *string, flags int, cb InputTextCallback) bool {
+func InputTextV(label string, text *string, flags InputTextFlags, cb InputTextCallback) bool {
 	return inputTextSingleline(label, nil, text, flags, cb)
 }
 
@@ -585,7 +588,7 @@ func InputText(label string, text *string) bool {
 // The provided callback is called for any of the requested InputTextFlagsCallback* flags.
 //
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
-func InputTextWithHintV(label string, hint string, text *string, flags int, cb InputTextCallback) bool {
+func InputTextWithHintV(label string, hint string, text *string, flags InputTextFlags, cb InputTextCallback) bool {
 	return inputTextSingleline(label, &hint, text, flags, cb)
 }
 
@@ -594,7 +597,7 @@ func InputTextWithHint(label string, hint string, text *string) bool {
 	return InputTextWithHintV(label, hint, text, 0, nil)
 }
 
-func inputTextSingleline(label string, hint *string, text *string, flags int, cb InputTextCallback) bool {
+func inputTextSingleline(label string, hint *string, text *string, flags InputTextFlags, cb InputTextCallback) bool {
 	if text == nil {
 		panic("text can't be nil")
 	}
@@ -624,7 +627,7 @@ func inputTextSingleline(label string, hint *string, text *string, flags int, cb
 // The provided callback is called for any of the requested InputTextFlagsCallback* flags.
 //
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
-func InputTextMultilineV(label string, text *string, size Vec2, flags int, cb InputTextCallback) bool {
+func InputTextMultilineV(label string, text *string, size Vec2, flags InputTextFlags, cb InputTextCallback) bool {
 	if text == nil {
 		panic("text can't be nil")
 	}
@@ -647,7 +650,7 @@ func InputTextMultiline(label string, text *string) bool {
 }
 
 // InputIntV creates a input field for integer type.
-func InputIntV(label string, value *int32, step int, stepFast int, flags int) bool {
+func InputIntV(label string, value *int32, step int, stepFast int, flags InputTextFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	valueArg, valueFin := wrapInt32(value)
