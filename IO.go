@@ -271,24 +271,27 @@ func (io IO) SetConfigFlags(flags ConfigFlags) {
 	C.iggIoSetConfigFlags(io.handle, C.int(flags))
 }
 
+// BackendFlags for IO.SetBackendFlags.
+type BackendFlags int
+
 const (
-	// BackendFlagNone default = 0
-	BackendFlagNone = 0
-	// BackendFlagHasGamepad back-end Platform supports gamepad and currently has one connected.
-	BackendFlagHasGamepad = 1 << 0
-	// BackendFlagHasMouseCursors back-end Platform supports honoring GetMouseCursor() value to change the OS cursor
+	// BackendFlagsNone default = 0
+	BackendFlagsNone BackendFlags = 0
+	// BackendFlagsHasGamepad back-end Platform supports gamepad and currently has one connected.
+	BackendFlagsHasGamepad BackendFlags = 1 << 0
+	// BackendFlagsHasMouseCursors back-end Platform supports honoring GetMouseCursor() value to change the OS cursor
 	// shape.
-	BackendFlagHasMouseCursors = 1 << 1
-	// BackendFlagHasSetMousePos back-end Platform supports io.WantSetMousePos requests to reposition the OS mouse
+	BackendFlagsHasMouseCursors BackendFlags = 1 << 1
+	// BackendFlagsHasSetMousePos back-end Platform supports io.WantSetMousePos requests to reposition the OS mouse
 	// position (only used if ImGuiConfigFlags_NavEnableSetMousePos is set).
-	BackendFlagHasSetMousePos = 1 << 2
+	BackendFlagsHasSetMousePos BackendFlags = 1 << 2
 	// BackendFlagsRendererHasVtxOffset back-end Renderer supports ImDrawCmd::VtxOffset. This enables output of large
 	// meshes (64K+ vertices) while still using 16-bits indices.
-	BackendFlagsRendererHasVtxOffset = 1 << 3
+	BackendFlagsRendererHasVtxOffset BackendFlags = 1 << 3
 )
 
 // SetBackendFlags sets back-end capabilities.
-func (io IO) SetBackendFlags(flags int) {
+func (io IO) SetBackendFlags(flags BackendFlags) {
 	C.iggIoSetBackendFlags(io.handle, C.int(flags))
 }
 
