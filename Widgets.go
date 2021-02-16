@@ -906,26 +906,29 @@ func TreeNodeToLabelSpacing() float32 {
 	return float32(C.iggGetTreeNodeToLabelSpacing())
 }
 
+// SelectableFlags for SelectableV().
+type SelectableFlags int
+
 const (
 	// SelectableFlagsNone default = 0
-	SelectableFlagsNone = 0
+	SelectableFlagsNone SelectableFlags = 0
 	// SelectableFlagsDontClosePopups makes clicking the selectable not close any parent popup windows.
-	SelectableFlagsDontClosePopups = 1 << 0
+	SelectableFlagsDontClosePopups SelectableFlags = 1 << 0
 	// SelectableFlagsSpanAllColumns allows the selectable frame to span all columns (text will still fit in current column).
-	SelectableFlagsSpanAllColumns = 1 << 1
+	SelectableFlagsSpanAllColumns SelectableFlags = 1 << 1
 	// SelectableFlagsAllowDoubleClick generates press events on double clicks too.
-	SelectableFlagsAllowDoubleClick = 1 << 2
+	SelectableFlagsAllowDoubleClick SelectableFlags = 1 << 2
 	// SelectableFlagsDisabled disallows selection and displays text in a greyed out color.
-	SelectableFlagsDisabled = 1 << 3
+	SelectableFlagsDisabled SelectableFlags = 1 << 3
 	// SelectableFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one (WIP)
-	SelectableFlagsAllowItemOverlap = 1 << 4
+	SelectableFlagsAllowItemOverlap SelectableFlags = 1 << 4
 )
 
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
 // flags are the SelectableFlags to apply.
 // size.x==0.0: use remaining width, size.x>0.0: specify width.
 // size.y==0.0: use label height, size.y>0.0: specify height.
-func SelectableV(label string, selected bool, flags int, size Vec2) bool {
+func SelectableV(label string, selected bool, flags SelectableFlags, size Vec2) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	sizeArg, _ := size.wrapped()
