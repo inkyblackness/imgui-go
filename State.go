@@ -19,7 +19,7 @@ func IsItemClicked() bool {
 
 // IsItemHoveredV returns true if the last item is hovered.
 // (and usable, aka not blocked by a popup, etc.). See HoveredFlags for more options.
-func IsItemHoveredV(flags int) bool {
+func IsItemHoveredV(flags HoveredFlags) bool {
 	return C.iggIsItemHovered(C.int(flags)) != 0
 }
 
@@ -123,26 +123,29 @@ func IsWindowFocused() bool {
 	return IsWindowFocusedV(FocusedFlagsNone)
 }
 
+// HoveredFlags for IsWindowHoveredV(), etc.
+type HoveredFlags int
+
 // This is a list of HoveredFlags combinations.
 const (
 	// HoveredFlagsNone Return true if directly over the item/window, not obstructed by another window,
 	// not obstructed by an active popup or modal blocking inputs under them.
-	HoveredFlagsNone = 0
+	HoveredFlagsNone HoveredFlags = 0
 	// HoveredFlagsChildWindows IsWindowHovered() only: Return true if any children of the window is hovered.
-	HoveredFlagsChildWindows = 1 << 0
+	HoveredFlagsChildWindows HoveredFlags = 1 << 0
 	// HoveredFlagsRootWindow IsWindowHovered() only: Test from root window (top most parent of the current hierarchy).
-	HoveredFlagsRootWindow = 1 << 1
+	HoveredFlagsRootWindow HoveredFlags = 1 << 1
 	// HoveredFlagsAnyWindow IsWindowHovered() only: Return true if any window is hovered.
-	HoveredFlagsAnyWindow = 1 << 2
+	HoveredFlagsAnyWindow HoveredFlags = 1 << 2
 	// HoveredFlagsAllowWhenBlockedByPopup Return true even if a popup window is normally blocking access to this item/window.
-	HoveredFlagsAllowWhenBlockedByPopup = 1 << 3
+	HoveredFlagsAllowWhenBlockedByPopup HoveredFlags = 1 << 3
 	// HoveredFlagsAllowWhenBlockedByActiveItem Return true even if an active item is blocking access to this item/window.
 	// Useful for Drag and Drop patterns.
-	HoveredFlagsAllowWhenBlockedByActiveItem = 1 << 5
+	HoveredFlagsAllowWhenBlockedByActiveItem HoveredFlags = 1 << 5
 	// HoveredFlagsAllowWhenOverlapped Return true even if the position is overlapped by another window
-	HoveredFlagsAllowWhenOverlapped = 1 << 6
+	HoveredFlagsAllowWhenOverlapped HoveredFlags = 1 << 6
 	// HoveredFlagsAllowWhenDisabled Return true even if the item is disabled
-	HoveredFlagsAllowWhenDisabled = 1 << 7
+	HoveredFlagsAllowWhenDisabled HoveredFlags = 1 << 7
 
 	HoveredFlagsRectOnly            = HoveredFlagsAllowWhenBlockedByPopup | HoveredFlagsAllowWhenBlockedByActiveItem | HoveredFlagsAllowWhenOverlapped
 	HoveredFlagsRootAndChildWindows = HoveredFlagsRootWindow | HoveredFlagsChildWindows
@@ -151,7 +154,7 @@ const (
 // IsWindowHoveredV returns if current window is hovered (and typically: not blocked by a popup/modal).
 // See flags for options. NB: If you are trying to check whether your mouse should be dispatched to imgui or to your app,
 // you should use the 'io.WantCaptureMouse' boolean for that!
-func IsWindowHoveredV(flags int) bool {
+func IsWindowHoveredV(flags HoveredFlags) bool {
 	return C.iggIsWindowHovered(C.int(flags)) != 0
 }
 
@@ -226,39 +229,43 @@ func MousePos() Vec2 {
 	return value
 }
 
-// Enumeration for MouseCursor()
+// MouseCursor for SetMouseCursor().
+//
 // User code may request backend to display given cursor by calling SetMouseCursor(),
 // which is why we have some cursors that are marked unused here.
+type MouseCursor int
+
 const (
 	// MouseCursorNone no mouse cursor
-	MouseCursorNone = -1
+	MouseCursorNone MouseCursor = -1
 	// MouseCursorArrow standard arrow mouse cursor
-	MouseCursorArrow = 0
+	MouseCursorArrow MouseCursor = 0
 	// MouseCursorTextInput when hovering over InputText, etc.
-	MouseCursorTextInput = 1
+	MouseCursorTextInput MouseCursor = 1
 	// MouseCursorResizeAll (Unused by imgui functions)
-	MouseCursorResizeAll = 2
+	MouseCursorResizeAll MouseCursor = 2
 	// MouseCursorResizeNS when hovering over an horizontal border
-	MouseCursorResizeNS = 3
+	MouseCursorResizeNS MouseCursor = 3
 	// MouseCursorResizeEW when hovering over a vertical border or a column
-	MouseCursorResizeEW = 4
+	MouseCursorResizeEW MouseCursor = 4
 	// MouseCursorResizeNESW when hovering over the bottom-left corner of a window
-	MouseCursorResizeNESW = 5
+	MouseCursorResizeNESW MouseCursor = 5
 	// MouseCursorResizeNWSE when hovering over the bottom-right corner of a window
-	MouseCursorResizeNWSE = 6
+	MouseCursorResizeNWSE MouseCursor = 6
 	// MouseCursorHand (Unused by imgui functions. Use for e.g. hyperlinks)
-	MouseCursorHand  = 7
-	MouseCursorCount = 8
+	MouseCursorHand MouseCursor = 7
+	// MouseCursorCount is the number of defined mouse cursors
+	MouseCursorCount MouseCursor = 8
 )
 
-// MouseCursor returns desired cursor type, reset in imgui.NewFrame(), this is updated during the frame.
+// CurrentMouseCursor returns desired cursor type, reset in imgui.NewFrame(), this is updated during the frame.
 // Valid before Render(). If you use software rendering by setting io.MouseDrawCursor ImGui will render those for you.
-func MouseCursor() int {
+func CurrentMouseCursor() int {
 	return int(C.iggGetMouseCursor())
 }
 
 // SetMouseCursor sets desired cursor type.
-func SetMouseCursor(cursor int) {
+func SetMouseCursor(cursor MouseCursor) {
 	C.iggSetMouseCursor(C.int(cursor))
 }
 
