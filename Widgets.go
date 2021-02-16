@@ -133,11 +133,11 @@ func ProgressBar(fraction float32) {
 	ProgressBarV(fraction, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, "")
 }
 
-// ComboFlags for BeginComboV()
+// ComboFlags for BeginComboV().
 type ComboFlags int
 
 const (
-	// ComboFlagsNone default = 0
+	// ComboFlagsNone default = 0.
 	ComboFlagsNone ComboFlags = 0
 	// ComboFlagsPopupAlignLeft aligns the popup toward the left by default.
 	ComboFlagsPopupAlignLeft ComboFlags = 1 << 0
@@ -188,9 +188,9 @@ const (
 	SliderFlagsAlwaysClamp SliderFlags = 1 << 0
 	// SliderFlagsLogarithmic makes the widget logarithmic (linear otherwise). Consider using SliderFlagNoRoundToFormat with this if using a format-string with small amount of digits.
 	SliderFlagsLogarithmic SliderFlags = 1 << 1
-	// SliderFlagsNoRoundToFormat disables rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits)
+	// SliderFlagsNoRoundToFormat disables rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits).
 	SliderFlagsNoRoundToFormat SliderFlags = 1 << 2
-	// SliderFlagsNoInput disables CTRL+Click or Enter key allowing to input text directly into the widget
+	// SliderFlagsNoInput disables CTRL+Click or Enter key allowing to input text directly into the widget.
 	SliderFlagsNoInput SliderFlags = 1 << 3
 )
 
@@ -518,9 +518,9 @@ type InputTextFlags int
 const (
 	// InputTextFlagsNone sets everything default.
 	InputTextFlagsNone InputTextFlags = 0
-	// InputTextFlagsCharsDecimal allows 0123456789.+-
+	// InputTextFlagsCharsDecimal allows 0123456789.+-.
 	InputTextFlagsCharsDecimal InputTextFlags = 1 << 0
-	// InputTextFlagsCharsHexadecimal allow 0123456789ABCDEFabcdef
+	// InputTextFlagsCharsHexadecimal allow 0123456789ABCDEFabcdef.
 	InputTextFlagsCharsHexadecimal InputTextFlags = 1 << 1
 	// InputTextFlagsCharsUppercase turns a..z into A..Z.
 	InputTextFlagsCharsUppercase InputTextFlags = 1 << 2
@@ -559,7 +559,7 @@ const (
 	InputTextFlagsCharsScientific InputTextFlags = 1 << 17
 	// inputTextFlagsCallbackResize for callback on buffer capacity change requests.
 	inputTextFlagsCallbackResize InputTextFlags = 1 << 18
-	// ImGuiInputTextFlagsCallbackEdit for callback on any edit (note that InputText() already returns true on edit, the callback is useful mainly to manipulate the underlying buffer while focus is active)
+	// ImGuiInputTextFlagsCallbackEdit for callback on any edit (note that InputText() already returns true on edit, the callback is useful mainly to manipulate the underlying buffer while focus is active).
 	ImGuiInputTextFlagsCallbackEdit InputTextFlags = 1 << 19
 )
 
@@ -668,7 +668,7 @@ func InputInt(label string, value *int32) bool {
 type ColorEditFlags int
 
 const (
-	// ColorEditFlagsNone default = 0
+	// ColorEditFlagsNone default = 0.
 	ColorEditFlagsNone ColorEditFlags = 0
 	// ColorEditFlagsNoAlpha ignores Alpha component (read 3 components from the input pointer).
 	ColorEditFlagsNoAlpha ColorEditFlags = 1 << 1
@@ -676,7 +676,7 @@ const (
 	ColorEditFlagsNoPicker ColorEditFlags = 1 << 2
 	// ColorEditFlagsNoOptions disables toggling options menu when right-clicking on inputs/small preview.
 	ColorEditFlagsNoOptions ColorEditFlags = 1 << 3
-	// ColorEditFlagsNoSmallPreview disables colored square preview next to the inputs. (e.g. to show only the inputs)
+	// ColorEditFlagsNoSmallPreview disables colored square preview next to the inputs. (e.g. to show only the inputs).
 	ColorEditFlagsNoSmallPreview ColorEditFlags = 1 << 4
 	// ColorEditFlagsNoInputs disables inputs sliders/text widgets (e.g. to show only the small preview colored square).
 	ColorEditFlagsNoInputs ColorEditFlags = 1 << 5
@@ -688,7 +688,7 @@ const (
 	ColorEditFlagsNoSidePreview ColorEditFlags = 1 << 8
 	// ColorEditFlagsNoDragDrop disables drag and drop target. ColorButton: disable drag and drop source.
 	ColorEditFlagsNoDragDrop ColorEditFlags = 1 << 9
-	// ColorEditFlagsNoBorder disables border (which is enforced by default)
+	// ColorEditFlagsNoBorder disables border (which is enforced by default).
 	ColorEditFlagsNoBorder ColorEditFlags = 1 << 10
 
 	// User Options (right-click on widget to change some of them). You can set application defaults using SetColorEditOptions().
@@ -704,11 +704,11 @@ const (
 	// ColorEditFlagsHDR = (WIP) surrently only disable 0.0f..1.0f limits in RGBA edition.
 	// Note: you probably want to use ImGuiColorEditFlags_Float flag as well.
 	ColorEditFlagsHDR ColorEditFlags = 1 << 19
-	// ColorEditFlagsRGB sets the format as RGB
+	// ColorEditFlagsRGB sets the format as RGB.
 	ColorEditFlagsRGB ColorEditFlags = 1 << 20
-	// ColorEditFlagsHSV sets the format as HSV
+	// ColorEditFlagsHSV sets the format as HSV.
 	ColorEditFlagsHSV ColorEditFlags = 1 << 21
-	// ColorEditFlagsHEX sets the format as HEX
+	// ColorEditFlagsHEX sets the format as HEX.
 	ColorEditFlagsHEX ColorEditFlags = 1 << 22
 	// ColorEditFlagsUint8 _display_ values formatted as 0..255.
 	ColorEditFlagsUint8 ColorEditFlags = 1 << 23
@@ -755,7 +755,7 @@ func ColorEdit4V(label string, col *[4]float32, flags ColorEditFlags) bool {
 type ColorPickerFlags int
 
 const (
-	// ColorPickerFlagsNone default = 0
+	// ColorPickerFlagsNone default = 0.
 	ColorPickerFlagsNone ColorPickerFlags = 0
 	// ColorPickerFlagsNoPicker disables picker when clicking on colored square.
 	ColorPickerFlagsNoPicker ColorPickerFlags = 1 << 2
@@ -763,7 +763,7 @@ const (
 	ColorPickerFlagsNoOptions ColorPickerFlags = 1 << 3
 	// ColorPickerFlagsNoAlpha ignoreс Alpha component (read 3 components from the input pointer).
 	ColorPickerFlagsNoAlpha ColorPickerFlags = 1 << 1
-	// ColorPickerFlagsNoSmallPreview disables colored square preview next to the inputs. (e.g. to show only the inputs)
+	// ColorPickerFlagsNoSmallPreview disables colored square preview next to the inputs. (e.g. to show only the inputs).
 	ColorPickerFlagsNoSmallPreview ColorPickerFlags = 1 << 4
 	// ColorPickerFlagsNoInputs disables inputs sliders/text widgets (e.g. to show only the small preview colored square).
 	ColorPickerFlagsNoInputs ColorPickerFlags = 1 << 5
@@ -784,11 +784,11 @@ const (
 	ColorPickerFlagsAlphaPreview ColorPickerFlags = 1 << 17
 	// ColorPickerFlagsAlphaPreviewHalf displays half opaque / half checkerboard, instead of opaque.
 	ColorPickerFlagsAlphaPreviewHalf ColorPickerFlags = 1 << 18
-	// ColorPickerFlagsRGB sets the format as RGB
+	// ColorPickerFlagsRGB sets the format as RGB.
 	ColorPickerFlagsRGB ColorPickerFlags = 1 << 20
-	// ColorPickerFlagsHSV sets the format as HSV
+	// ColorPickerFlagsHSV sets the format as HSV.
 	ColorPickerFlagsHSV ColorPickerFlags = 1 << 21
-	// ColorPickerFlagsHEX sets the format as HEX
+	// ColorPickerFlagsHEX sets the format as HEX.
 	ColorPickerFlagsHEX ColorPickerFlags = 1 << 22
 	// ColorPickerFlagsUint8 _display_ values formatted as 0..255.
 	ColorPickerFlagsUint8 ColorPickerFlags = 1 << 23
@@ -842,15 +842,15 @@ func CollapsingHeaderV(label string, flags TreeNodeFlags) bool {
 	return C.iggCollapsingHeader(labelArg, C.int(flags)) != 0
 }
 
-// TreeNodeFlags for TreeNodeV(), CollapsingHeaderV(), etc
+// TreeNodeFlags for TreeNodeV(), CollapsingHeaderV(), etc.
 type TreeNodeFlags int
 
 const (
-	// TreeNodeFlagsNone default = 0
+	// TreeNodeFlagsNone default = 0.
 	TreeNodeFlagsNone TreeNodeFlags = 0
 	// TreeNodeFlagsSelected draws as selected.
 	TreeNodeFlagsSelected TreeNodeFlags = 1 << 0
-	// TreeNodeFlagsFramed draws frame with background (e.g. for CollapsingHeader)
+	// TreeNodeFlagsFramed draws frame with background (e.g. for CollapsingHeader).
 	TreeNodeFlagsFramed TreeNodeFlags = 1 << 1
 	// TreeNodeFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one.
 	TreeNodeFlagsAllowItemOverlap TreeNodeFlags = 1 << 2
@@ -882,7 +882,7 @@ const (
 	// TreeNodeFlagsSpanFullWidth extends hit box to the left-most and right-most edges (bypass the indented area).
 	TreeNodeFlagsSpanFullWidth TreeNodeFlags = 1 << 12
 	// TreeNodeFlagsNavLeftJumpsBackHere (WIP) Nav: left direction may move to this TreeNode() from any of its child
-	// (items submitted between TreeNode and TreePop)
+	// (items submitted between TreeNode and TreePop).
 	TreeNodeFlagsNavLeftJumpsBackHere TreeNodeFlags = 1 << 13
 	// TreeNodeFlagsCollapsingHeader combines TreeNodeFlagsFramed and TreeNodeFlagsNoAutoOpenOnLog.
 	TreeNodeFlagsCollapsingHeader = TreeNodeFlagsFramed | TreeNodeFlagsNoTreePushOnOpen | TreeNodeFlagsNoAutoOpenOnLog
@@ -919,7 +919,7 @@ func TreeNodeToLabelSpacing() float32 {
 type SelectableFlags int
 
 const (
-	// SelectableFlagsNone default = 0
+	// SelectableFlagsNone default = 0.
 	SelectableFlagsNone SelectableFlags = 0
 	// SelectableFlagsDontClosePopups makes clicking the selectable not close any parent popup windows.
 	SelectableFlagsDontClosePopups SelectableFlags = 1 << 0
@@ -929,7 +929,7 @@ const (
 	SelectableFlagsAllowDoubleClick SelectableFlags = 1 << 2
 	// SelectableFlagsDisabled disallows selection and displays text in a greyed out color.
 	SelectableFlagsDisabled SelectableFlags = 1 << 3
-	// SelectableFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one (WIP)
+	// SelectableFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one (WIP).
 	SelectableFlagsAllowItemOverlap SelectableFlags = 1 << 4
 )
 
@@ -1221,29 +1221,29 @@ type TabBarFlags int
 const (
 	// TabBarFlagsNone default = 0.
 	TabBarFlagsNone TabBarFlags = 0
-	// TabBarFlagsReorderable Allow manually dragging tabs to re-order them + New tabs are appended at the end of list
+	// TabBarFlagsReorderable Allow manually dragging tabs to re-order them + New tabs are appended at the end of list.
 	TabBarFlagsReorderable TabBarFlags = 1 << 0
-	// TabBarFlagsAutoSelectNewTabs Automatically select new tabs when they appear
+	// TabBarFlagsAutoSelectNewTabs Automatically select new tabs when they appear.
 	TabBarFlagsAutoSelectNewTabs TabBarFlags = 1 << 1
-	// TabBarFlagsTabListPopupButton Disable buttons to open the tab list popup
+	// TabBarFlagsTabListPopupButton Disable buttons to open the tab list popup.
 	TabBarFlagsTabListPopupButton TabBarFlags = 1 << 2
 	// TabBarFlagsNoCloseWithMiddleMouseButton Disable behavior of closing tabs (that are submitted with p_open != NULL)
 	// with middle mouse button. You can still repro this behavior on user's side with if
 	// (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
 	TabBarFlagsNoCloseWithMiddleMouseButton TabBarFlags = 1 << 3
 	// TabBarFlagsNoTabListScrollingButtons Disable scrolling buttons (apply when fitting policy is
-	// TabBarFlagsFittingPolicyScroll)
+	// TabBarFlagsFittingPolicyScroll).
 	TabBarFlagsNoTabListScrollingButtons TabBarFlags = 1 << 4
-	// TabBarFlagsNoTooltip Disable tooltips when hovering a tab
+	// TabBarFlagsNoTooltip Disable tooltips when hovering a tab.
 	TabBarFlagsNoTooltip TabBarFlags = 1 << 5
-	// TabBarFlagsFittingPolicyResizeDown Resize tabs when they don't fit
+	// TabBarFlagsFittingPolicyResizeDown Resize tabs when they don't fit.
 	TabBarFlagsFittingPolicyResizeDown TabBarFlags = 1 << 6
-	// TabBarFlagsFittingPolicyScroll Add scroll buttons when tabs don't fit
+	// TabBarFlagsFittingPolicyScroll Add scroll buttons when tabs don't fit.
 	TabBarFlagsFittingPolicyScroll TabBarFlags = 1 << 7
 	// TabBarFlagsFittingPolicyMask combines
-	// TabBarFlagsFittingPolicyResizeDown and TabBarFlagsFittingPolicyScroll
+	// TabBarFlagsFittingPolicyResizeDown and TabBarFlagsFittingPolicyScroll.
 	TabBarFlagsFittingPolicyMask = TabBarFlagsFittingPolicyResizeDown | TabBarFlagsFittingPolicyScroll
-	// TabBarFlagsFittingPolicyDefault alias for TabBarFlagsFittingPolicyResizeDown
+	// TabBarFlagsFittingPolicyDefault alias for TabBarFlagsFittingPolicyResizeDown.
 	TabBarFlagsFittingPolicyDefault = TabBarFlagsFittingPolicyResizeDown
 )
 
@@ -1269,27 +1269,27 @@ func EndTabBar() {
 type TabItemFlags int
 
 const (
-	// TabItemFlagsNone default = 0
+	// TabItemFlagsNone default = 0.
 	TabItemFlagsNone TabItemFlags = 0
 	// TabItemFlagsUnsavedDocument Append '*' to title without affecting the ID, as a convenience to avoid using the
 	// ### operator. Also: tab is selected on closure and closure is deferred by one frame to allow code to undo it
 	// without flicker.
 	TabItemFlagsUnsavedDocument TabItemFlags = 1 << 0
-	// TabItemFlagsSetSelected Trigger flag to programmatically make the tab selected when calling BeginTabItem()
+	// TabItemFlagsSetSelected Trigger flag to programmatically make the tab selected when calling BeginTabItem().
 	TabItemFlagsSetSelected TabItemFlags = 1 << 1
 	// TabItemFlagsNoCloseWithMiddleMouseButton  Disable behavior of closing tabs (that are submitted with
 	// p_open != NULL) with middle mouse button. You can still repro this behavior on user's side with if
 	// (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
 	TabItemFlagsNoCloseWithMiddleMouseButton TabItemFlags = 1 << 2
-	// TabItemFlagsNoPushID Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem()
+	// TabItemFlagsNoPushID Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem().
 	TabItemFlagsNoPushID TabItemFlags = 1 << 3
-	// TabItemFlagsNoTooltip Disable tooltip for the given tab
+	// TabItemFlagsNoTooltip Disable tooltip for the given tab.
 	TabItemFlagsNoTooltip TabItemFlags = 1 << 4
-	// TabItemFlagsNoReorder Disable reordering this tab or having another tab cross over this tab
+	// TabItemFlagsNoReorder Disable reordering this tab or having another tab cross over this tab.
 	TabItemFlagsNoReorder TabItemFlags = 1 << 5
-	// TabItemFlagsLeading Enforce the tab position to the left of the tab bar (after the tab list popup button)
+	// TabItemFlagsLeading Enforce the tab position to the left of the tab bar (after the tab list popup button).
 	TabItemFlagsLeading TabItemFlags = 1 << 6
-	// TabItemFlagsTrailing Enforce the tab position to the right of the tab bar (before the scrolling buttons)
+	// TabItemFlagsTrailing Enforce the tab position to the right of the tab bar (before the scrolling buttons).
 	TabItemFlagsTrailing TabItemFlags = 1 << 7
 )
 

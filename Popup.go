@@ -16,19 +16,19 @@ type PopupFlags int
 const (
 	// PopupFlagsNone no popup flags apply.
 	PopupFlagsNone PopupFlags = 0
-	// PopupFlagsMouseButtonLeft For BeginPopupContext*(): open on Left Mouse release. Guaranteed to always be == 0 (same as ImGuiMouseButton_Left)
+	// PopupFlagsMouseButtonLeft For BeginPopupContext*(): open on Left Mouse release. Guaranteed to always be == 0 (same as ImGuiMouseButton_Left).
 	PopupFlagsMouseButtonLeft PopupFlags = 0
-	// PopupFlagsMouseButtonRight For BeginPopupContext*(): open on Right Mouse release. Guaranteed to always be == 1 (same as ImGuiMouseButton_Right)
+	// PopupFlagsMouseButtonRight For BeginPopupContext*(): open on Right Mouse release. Guaranteed to always be == 1 (same as ImGuiMouseButton_Right).
 	PopupFlagsMouseButtonRight PopupFlags = 1
-	// PopupFlagsMouseButtonMiddle For BeginPopupContext*(): open on Middle Mouse release. Guaranteed to always be == 2 (same as ImGuiMouseButton_Middle)
+	// PopupFlagsMouseButtonMiddle For BeginPopupContext*(): open on Middle Mouse release. Guaranteed to always be == 2 (same as ImGuiMouseButton_Middle).
 	PopupFlagsMouseButtonMiddle PopupFlags = 2
-	// PopupFlagsNoOpenOverExistingPopup For OpenPopup*(), BeginPopupContext*(): don't open if there's already a popup at the same level of the popup stack
+	// PopupFlagsNoOpenOverExistingPopup For OpenPopup*(), BeginPopupContext*(): don't open if there's already a popup at the same level of the popup stack.
 	PopupFlagsNoOpenOverExistingPopup PopupFlags = 1 << 5
-	// PopupFlagsNoOpenOverItems For BeginPopupContextWindow(): don't return true when hovering items, only when hovering empty space
+	// PopupFlagsNoOpenOverItems For BeginPopupContextWindow(): don't return true when hovering items, only when hovering empty space.
 	PopupFlagsNoOpenOverItems PopupFlags = 1 << 6
 	// PopupFlagsAnyPopupID For IsPopupOpen(): ignore the ImGuiID parameter and test for any popup.
 	PopupFlagsAnyPopupID PopupFlags = 1 << 7
-	// PopupFlagsAnyPopupLevel For IsPopupOpen(): search/test at any level of the popup stack (default test in the current level)
+	// PopupFlagsAnyPopupLevel For IsPopupOpen(): search/test at any level of the popup stack (default test in the current level).
 	PopupFlagsAnyPopupLevel PopupFlags = 1 << 8
 	// PopupFlagsAnyPopup for any usage.
 	PopupFlagsAnyPopup = PopupFlagsAnyPopupID | PopupFlagsAnyPopupLevel

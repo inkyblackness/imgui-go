@@ -232,7 +232,7 @@ func (io IO) SetIniFilename(value string) {
 type ConfigFlags int
 
 const (
-	// ConfigFlagsNone default = 0
+	// ConfigFlagsNone default = 0.
 	ConfigFlagsNone ConfigFlags = 0
 	// ConfigFlagsNavEnableKeyboard main keyboard navigation enable flag. NewFrame() will automatically fill
 	// io.NavInputs[] based on io.KeysDown[].
@@ -258,7 +258,7 @@ const (
 	ConfigFlagsNoMouseCursorChange ConfigFlags = 1 << 5
 
 	// User storage (to allow your back-end/engine to communicate to code that may be shared between multiple projects.
-	// Those flags are not used by core Dear ImGui)
+	// Those flags are not used by core Dear ImGui).
 
 	// ConfigFlagsIsSRGB application is SRGB-aware.
 	ConfigFlagsIsSRGB ConfigFlags = 1 << 20
@@ -275,7 +275,7 @@ func (io IO) SetConfigFlags(flags ConfigFlags) {
 type BackendFlags int
 
 const (
-	// BackendFlagsNone default = 0
+	// BackendFlagsNone default = 0.
 	BackendFlagsNone BackendFlags = 0
 	// BackendFlagsHasGamepad back-end Platform supports gamepad and currently has one connected.
 	BackendFlagsHasGamepad BackendFlags = 1 << 0

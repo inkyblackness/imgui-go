@@ -20,7 +20,7 @@ func ShowUserGuide() {
 type WindowFlags int
 
 const (
-	// WindowFlagsNone default = 0
+	// WindowFlagsNone default = 0.
 	WindowFlagsNone WindowFlags = 0
 	// WindowFlagsNoTitleBar disables title-bar.
 	WindowFlagsNoTitleBar WindowFlags = 1 << 0
@@ -65,7 +65,7 @@ const (
 	// WindowFlagsNoNavInputs has no gamepad/keyboard navigation within the window.
 	WindowFlagsNoNavInputs WindowFlags = 1 << 18
 	// WindowFlagsNoNavFocus has no focusing toward this window with gamepad/keyboard navigation
-	// (e.g. skipped by CTRL+TAB)
+	// (e.g. skipped by CTRL+TAB).
 	WindowFlagsNoNavFocus WindowFlags = 1 << 19
 	// WindowFlagsUnsavedDocument appends '*' to title without affecting the ID, as a convenience to avoid using the
 	// ### operator. When used in a tab/docking context, tab is selected on closure and closure is deferred by one
@@ -277,13 +277,13 @@ func SetNextItemWidth(width float32) {
 type ItemFlags int
 
 const (
-	// ItemFlagsNone default = 0
+	// ItemFlagsNone default = 0.
 	ItemFlagsNone ItemFlags = 0
 	// ItemFlagsNoTabStop has no tab stop.
 	ItemFlagsNoTabStop ItemFlags = 1 << 0
 	// ItemFlagsButtonRepeat will return true multiple times based on io.KeyRepeatDelay and io.KeyRepeatRate settings.
 	ItemFlagsButtonRepeat ItemFlags = 1 << 1
-	// ItemFlagsDisabled [BETA] disable interactions but doesn't affect visuals yet. See github.com/ocornut/imgui/issues/211
+	// ItemFlagsDisabled [BETA] disable interactions but doesn't affect visuals yet. See github.com/ocornut/imgui/issues/211.
 	ItemFlagsDisabled ItemFlags = 1 << 2
 	// ItemFlagsNoNav has no nav.
 	ItemFlagsNoNav ItemFlags = 1 << 3
@@ -294,7 +294,7 @@ const (
 	// ItemFlagsMixedValue [BETA] represent a mixed/indeterminate value, generally multi-selection where values differ.
 	// Currently only supported by Checkbox() (later should support all sorts of widgets).
 	ItemFlagsMixedValue ItemFlags = 1 << 6
-	// ItemFlagsDefault default = 0
+	// ItemFlagsDefault default = 0.
 	ItemFlagsDefault ItemFlags = 0
 )
 

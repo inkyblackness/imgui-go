@@ -14,7 +14,7 @@ import "C"
 // - The Default hinting mode usually looks good, but may distort glyphs in an unusual way.
 // - The Light hinting mode generates fuzzier glyphs but better matches Microsoft's rasterizer.
 // You can set those flags globaly in FontAtlas.SetFontBuilderFlags(flags)
-// You can set those flags on a per font basis in FontConfig.SetFontBuilderFlags(flags)
+// You can set those flags on a per font basis in FontConfig.SetFontBuilderFlags(flags).
 const (
 	// FreeTypeBuilderFlagsNoHinting disables hinting.
 	// This generally generates 'blurrier' bitmap glyphs when the glyph are rendered in any of the anti-aliased modes.

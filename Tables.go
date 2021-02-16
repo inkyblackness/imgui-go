@@ -56,13 +56,13 @@ type TableFlags int
 //      If you specify a value for 'inner_width' then effectively the scrolling space is known and Stretch or mixed Fixed/Stretch columns become meaningful again.
 // - Read on documentation at the top of imgui_tables.cpp for details.
 const (
-	// Features
+	// Features.
 
-	// TableFlagsNone default = 0
+	// TableFlagsNone default = 0.
 	TableFlagsNone TableFlags = 0
 	// TableFlagsResizable enables resizing columns.
 	TableFlagsResizable TableFlags = 1 << 0
-	// TableFlagsReorderable enables reordering columns in header row (need calling TableSetupColumn() + TableHeadersRow() to display headers)
+	// TableFlagsReorderable enables reordering columns in header row (need calling TableSetupColumn() + TableHeadersRow() to display headers).
 	TableFlagsReorderable TableFlags = 1 << 1
 	// TableFlagsHideable enables hiding/disabling columns in context menu.
 	TableFlagsHideable TableFlags = 1 << 2
@@ -73,9 +73,9 @@ const (
 	// TableFlagsContextMenuInBody right-click on columns body/contents will display table context menu. By default it is available in TableHeadersRow().
 	TableFlagsContextMenuInBody TableFlags = 1 << 5
 
-	// Decorations
+	// Decorations.
 
-	// TableFlagsRowBg Set each RowBg color with StyleColorTableRowBg or StyleColorTableRowBgAlt (equivalent to calling TableSetBgColor with TableBgFlagsRowBg0 on each row manually)
+	// TableFlagsRowBg Set each RowBg color with StyleColorTableRowBg or StyleColorTableRowBgAlt (equivalent to calling TableSetBgColor with TableBgFlagsRowBg0 on each row manually).
 	TableFlagsRowBg TableFlags = 1 << 6
 	// TableFlagsBordersInnerH draws horizontal borders between rows.
 	TableFlagsBordersInnerH TableFlags = 1 << 7
@@ -95,12 +95,12 @@ const (
 	TableFlagsBordersOuter = TableFlagsBordersOuterV | TableFlagsBordersOuterH
 	// TableFlagsBorders draws all borders.
 	TableFlagsBorders = TableFlagsBordersInner | TableFlagsBordersOuter
-	// TableFlagsNoBordersInBody [ALPHA] Disable vertical borders in columns Body (borders will always appears in Headers). -> May move to style
+	// TableFlagsNoBordersInBody [ALPHA] Disable vertical borders in columns Body (borders will always appears in Headers). -> May move to style.
 	TableFlagsNoBordersInBody TableFlags = 1 << 11
-	// TableFlagsNoBordersInBodyUntilResize [ALPHA] Disable vertical borders in columns Body until hovered for resize (borders will always appears in Headers). -> May move to style
+	// TableFlagsNoBordersInBodyUntilResize [ALPHA] Disable vertical borders in columns Body until hovered for resize (borders will always appears in Headers). -> May move to style.
 	TableFlagsNoBordersInBodyUntilResize TableFlags = 1 << 12
 
-	// Sizing Policy (read above for defaults)
+	// Sizing Policy (read above for defaults).
 
 	// TableFlagsSizingFixedFit columns default to _WidthFixed or _WidthAuto (if resizable or not resizable), matching contents width.
 	TableFlagsSizingFixedFit TableFlags = 1 << 13
@@ -111,7 +111,7 @@ const (
 	// TableFlagsSizingStretchSame columns default to _WidthStretch with default weights all equal, unless overridden by TableSetupColumn().
 	TableFlagsSizingStretchSame TableFlags = 4 << 13
 
-	// Sizing Extra Options
+	// Sizing Extra Options.
 
 	// TableFlagsNoHostExtendX makes outer width auto-fit to columns, overriding outer_size.x value. Only available when ScrollX/ScrollY are disabled and Stretch columns are not used.
 	TableFlagsNoHostExtendX TableFlags = 1 << 16
@@ -122,12 +122,12 @@ const (
 	// TableFlagsPreciseWidths disables distributing remainder width to stretched columns (width allocation on a 100-wide table with 3 columns: Without this flag: 33,33,34. With this flag: 33,33,33). With larger number of columns, resizing will appear to be less smooth.
 	TableFlagsPreciseWidths TableFlags = 1 << 19
 
-	// Clipping
+	// Clipping.
 
 	// TableFlagsNoClip disables clipping rectangle for every individual columns (reduce draw command count, items will be able to overflow into other columns). Generally incompatible with TableSetupScrollFreeze().
 	TableFlagsNoClip TableFlags = 1 << 20
 
-	// Padding
+	// Padding.
 
 	// TableFlagsPadOuterX Default if BordersOuterV is on. Enable outer-most padding. Generally desirable if you have headers.
 	TableFlagsPadOuterX TableFlags = 1 << 21
@@ -136,14 +136,14 @@ const (
 	// TableFlagsNoPadInnerX disables inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).
 	TableFlagsNoPadInnerX TableFlags = 1 << 23
 
-	// Scrolling
+	// Scrolling.
 
 	// TableFlagsScrollX enables horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
 	TableFlagsScrollX TableFlags = 1 << 24
 	// TableFlagsScrollY enables vertical scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size.
 	TableFlagsScrollY TableFlags = 1 << 25
 
-	// Sorting
+	// Sorting.
 
 	// TableFlagsSortMulti allows to hold shift when clicking headers to sort on multiple column. TableGetSortSpecs() may return specs where (SpecsCount > 1).
 	TableFlagsSortMulti TableFlags = 1 << 26
@@ -155,9 +155,9 @@ const (
 type TableColumnFlags int
 
 const (
-	// Input configuration flags
+	// Input configuration flags.
 
-	// TableColumnFlagsNone default = 0
+	// TableColumnFlagsNone default = 0.
 	TableColumnFlagsNone TableColumnFlags = 0
 	// TableColumnFlagsDefaultHide Default as a hidden/disabled column.
 	TableColumnFlagsDefaultHide TableColumnFlags = 1 << 0
@@ -192,15 +192,15 @@ const (
 	// TableColumnFlagsIndentDisable ignores current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
 	TableColumnFlagsIndentDisable TableColumnFlags = 1 << 15
 
-	// Output status flags, read-only via TableGetColumnFlags()
+	// Output status flags, read-only via TableGetColumnFlags().
 
 	// TableColumnFlagsIsEnabled Status: is enabled == not hidden by user/api (referred to as "Hide" in _DefaultHide and _NoHide) flags.
 	TableColumnFlagsIsEnabled TableColumnFlags = 1 << 20
 	// TableColumnFlagsIsVisible Status: is visible == is enabled AND not clipped by scrolling.
 	TableColumnFlagsIsVisible TableColumnFlags = 1 << 21
-	// TableColumnFlagsIsSorted Status: is currently part of the sort specs
+	// TableColumnFlagsIsSorted Status: is currently part of the sort specs.
 	TableColumnFlagsIsSorted TableColumnFlags = 1 << 22
-	// TableColumnFlagsIsHovered Status: is hovered by mouse
+	// TableColumnFlagsIsHovered Status: is hovered by mouse.
 	TableColumnFlagsIsHovered TableColumnFlags = 1 << 23
 )
 
@@ -208,9 +208,9 @@ const (
 type TableRowFlags int
 
 const (
-	// TableRowFlagsNone default = 0
+	// TableRowFlagsNone default = 0.
 	TableRowFlagsNone TableRowFlags = 0
-	// TableRowFlagsHeaders identify header row (set default background color + width of its contents accounted different for auto column width)
+	// TableRowFlagsHeaders identify header row (set default background color + width of its contents accounted different for auto column width).
 	TableRowFlagsHeaders TableRowFlags = 1 << 0
 )
 
@@ -228,13 +228,13 @@ const (
 type TableBgTarget int
 
 const (
-	// TableBgTargetNone default = 0
+	// TableBgTargetNone default = 0.
 	TableBgTargetNone TableBgTarget = 0
-	// TableBgTargetRowBg0 sets row background color 0 (generally used for background, automatically set when TableFlagsRowBg is used)
+	// TableBgTargetRowBg0 sets row background color 0 (generally used for background, automatically set when TableFlagsRowBg is used).
 	TableBgTargetRowBg0 TableBgTarget = 1
-	// TableBgTargetRowBg1 sets row background color 1 (generally used for selection marking)
+	// TableBgTargetRowBg1 sets row background color 1 (generally used for selection marking).
 	TableBgTargetRowBg1 TableBgTarget = 2
-	// TableBgTargetCellBg sets cell background color (top-most color)
+	// TableBgTargetCellBg sets cell background color (top-most color).
 	TableBgTargetCellBg TableBgTarget = 3
 )
 
@@ -242,7 +242,7 @@ const (
 type SortDirection int
 
 const (
-	// SortDirectionNone no sort
+	// SortDirectionNone no sort.
 	SortDirectionNone SortDirection = 0
 	// SortDirectionAscending sorts Ascending = 0->9, A->Z etc.
 	SortDirectionAscending SortDirection = 1

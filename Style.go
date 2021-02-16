@@ -7,53 +7,53 @@ import "C"
 type StyleVar int
 
 const (
-	// StyleVarAlpha is a float
+	// StyleVarAlpha is a float.
 	StyleVarAlpha StyleVar = 0
-	// StyleVarWindowPadding is a Vec2
+	// StyleVarWindowPadding is a Vec2.
 	StyleVarWindowPadding StyleVar = 1
-	// StyleVarWindowRounding is a float
+	// StyleVarWindowRounding is a float.
 	StyleVarWindowRounding StyleVar = 2
-	// StyleVarWindowBorderSize is a float
+	// StyleVarWindowBorderSize is a float.
 	StyleVarWindowBorderSize StyleVar = 3
-	// StyleVarWindowMinSize is a Vec2
+	// StyleVarWindowMinSize is a Vec2.
 	StyleVarWindowMinSize StyleVar = 4
-	// StyleVarWindowTitleAlign is a Vec2
+	// StyleVarWindowTitleAlign is a Vec2.
 	StyleVarWindowTitleAlign StyleVar = 5
-	// StyleVarChildRounding is a float
+	// StyleVarChildRounding is a float.
 	StyleVarChildRounding StyleVar = 6
-	// StyleVarChildBorderSize is a float
+	// StyleVarChildBorderSize is a float.
 	StyleVarChildBorderSize StyleVar = 7
-	// StyleVarPopupRounding is a float
+	// StyleVarPopupRounding is a float.
 	StyleVarPopupRounding StyleVar = 8
-	// StyleVarPopupBorderSize is a float
+	// StyleVarPopupBorderSize is a float.
 	StyleVarPopupBorderSize StyleVar = 9
-	// StyleVarFramePadding is a Vec2
+	// StyleVarFramePadding is a Vec2.
 	StyleVarFramePadding StyleVar = 10
-	// StyleVarFrameRounding is a float
+	// StyleVarFrameRounding is a float.
 	StyleVarFrameRounding StyleVar = 11
-	// StyleVarFrameBorderSize is a float
+	// StyleVarFrameBorderSize is a float.
 	StyleVarFrameBorderSize StyleVar = 12
-	// StyleVarItemSpacing is a Vec2
+	// StyleVarItemSpacing is a Vec2.
 	StyleVarItemSpacing StyleVar = 13
-	// StyleVarItemInnerSpacing is a Vec2
+	// StyleVarItemInnerSpacing is a Vec2.
 	StyleVarItemInnerSpacing StyleVar = 14
-	// StyleVarIndentSpacing is a float
+	// StyleVarIndentSpacing is a float.
 	StyleVarIndentSpacing StyleVar = 15
-	// StyleVarCellPadding is a Vec2
+	// StyleVarCellPadding is a Vec2.
 	StyleVarCellPadding StyleVar = 16
-	// StyleVarScrollbarSize is a float
+	// StyleVarScrollbarSize is a float.
 	StyleVarScrollbarSize StyleVar = 17
-	// StyleVarScrollbarRounding is a float
+	// StyleVarScrollbarRounding is a float.
 	StyleVarScrollbarRounding StyleVar = 18
-	// StyleVarGrabMinSize is a float
+	// StyleVarGrabMinSize is a float.
 	StyleVarGrabMinSize StyleVar = 19
-	// StyleVarGrabRounding is a float
+	// StyleVarGrabRounding is a float.
 	StyleVarGrabRounding StyleVar = 20
-	// StyleVarTabRounding is a float
+	// StyleVarTabRounding is a float.
 	StyleVarTabRounding StyleVar = 21
-	// StyleVarButtonTextAlign is a Vec2
+	// StyleVarButtonTextAlign is a Vec2.
 	StyleVarButtonTextAlign StyleVar = 22
-	// StyleVarSelectableTextAlign is a Vec2
+	// StyleVarSelectableTextAlign is a Vec2.
 	StyleVarSelectableTextAlign StyleVar = 23
 )
 

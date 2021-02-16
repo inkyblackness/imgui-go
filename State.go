@@ -101,9 +101,9 @@ const (
 	// FocusedFlagsNone Return true if directly over the item/window, not obstructed by another window,
 	// not obstructed by an active popup or modal blocking inputs under them.
 	FocusedFlagsNone FocusedFlags = 0
-	// FocusedFlagsChildWindows returns true if any children of the window is focused
+	// FocusedFlagsChildWindows returns true if any children of the window is focused.
 	FocusedFlagsChildWindows FocusedFlags = 1 << 0
-	// FocusedFlagsRootWindow tests from root window (top most parent of the current hierarchy)
+	// FocusedFlagsRootWindow tests from root window (top most parent of the current hierarchy).
 	FocusedFlagsRootWindow FocusedFlags = 1 << 1
 	// FocusedFlagsAnyWindow returns true if any window is focused.
 	// Important: If you are trying to tell how to dispatch your low-level inputs, do NOT use this.
@@ -142,9 +142,9 @@ const (
 	// HoveredFlagsAllowWhenBlockedByActiveItem Return true even if an active item is blocking access to this item/window.
 	// Useful for Drag and Drop patterns.
 	HoveredFlagsAllowWhenBlockedByActiveItem HoveredFlags = 1 << 5
-	// HoveredFlagsAllowWhenOverlapped Return true even if the position is overlapped by another window
+	// HoveredFlagsAllowWhenOverlapped Return true even if the position is overlapped by another window.
 	HoveredFlagsAllowWhenOverlapped HoveredFlags = 1 << 6
-	// HoveredFlagsAllowWhenDisabled Return true even if the item is disabled
+	// HoveredFlagsAllowWhenDisabled Return true even if the item is disabled.
 	HoveredFlagsAllowWhenDisabled HoveredFlags = 1 << 7
 
 	HoveredFlagsRectOnly            = HoveredFlagsAllowWhenBlockedByPopup | HoveredFlagsAllowWhenBlockedByActiveItem | HoveredFlagsAllowWhenOverlapped
@@ -236,25 +236,25 @@ func MousePos() Vec2 {
 type MouseCursor int
 
 const (
-	// MouseCursorNone no mouse cursor
+	// MouseCursorNone no mouse cursor.
 	MouseCursorNone MouseCursor = -1
-	// MouseCursorArrow standard arrow mouse cursor
+	// MouseCursorArrow standard arrow mouse cursor.
 	MouseCursorArrow MouseCursor = 0
 	// MouseCursorTextInput when hovering over InputText, etc.
 	MouseCursorTextInput MouseCursor = 1
-	// MouseCursorResizeAll (Unused by imgui functions)
+	// MouseCursorResizeAll (Unused by imgui functions).
 	MouseCursorResizeAll MouseCursor = 2
-	// MouseCursorResizeNS when hovering over an horizontal border
+	// MouseCursorResizeNS when hovering over an horizontal border.
 	MouseCursorResizeNS MouseCursor = 3
-	// MouseCursorResizeEW when hovering over a vertical border or a column
+	// MouseCursorResizeEW when hovering over a vertical border or a column.
 	MouseCursorResizeEW MouseCursor = 4
-	// MouseCursorResizeNESW when hovering over the bottom-left corner of a window
+	// MouseCursorResizeNESW when hovering over the bottom-left corner of a window.
 	MouseCursorResizeNESW MouseCursor = 5
-	// MouseCursorResizeNWSE when hovering over the bottom-right corner of a window
+	// MouseCursorResizeNWSE when hovering over the bottom-right corner of a window.
 	MouseCursorResizeNWSE MouseCursor = 6
-	// MouseCursorHand (Unused by imgui functions. Use for e.g. hyperlinks)
+	// MouseCursorHand (Unused by imgui functions. Use for e.g. hyperlinks).
 	MouseCursorHand MouseCursor = 7
-	// MouseCursorCount is the number of defined mouse cursors
+	// MouseCursorCount is the number of defined mouse cursors.
 	MouseCursorCount MouseCursor = 8
 )
 
