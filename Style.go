@@ -3,118 +3,118 @@ package imgui
 // #include "wrapper/Style.h"
 import "C"
 
-// StyleVar identifies a style variable in the UI style.
-type StyleVar int
+// StyleVarID identifies a style variable in the UI style.
+type StyleVarID int
 
 const (
 	// StyleVarAlpha is a float.
-	StyleVarAlpha StyleVar = 0
+	StyleVarAlpha StyleVarID = 0
 	// StyleVarWindowPadding is a Vec2.
-	StyleVarWindowPadding StyleVar = 1
+	StyleVarWindowPadding StyleVarID = 1
 	// StyleVarWindowRounding is a float.
-	StyleVarWindowRounding StyleVar = 2
+	StyleVarWindowRounding StyleVarID = 2
 	// StyleVarWindowBorderSize is a float.
-	StyleVarWindowBorderSize StyleVar = 3
+	StyleVarWindowBorderSize StyleVarID = 3
 	// StyleVarWindowMinSize is a Vec2.
-	StyleVarWindowMinSize StyleVar = 4
+	StyleVarWindowMinSize StyleVarID = 4
 	// StyleVarWindowTitleAlign is a Vec2.
-	StyleVarWindowTitleAlign StyleVar = 5
+	StyleVarWindowTitleAlign StyleVarID = 5
 	// StyleVarChildRounding is a float.
-	StyleVarChildRounding StyleVar = 6
+	StyleVarChildRounding StyleVarID = 6
 	// StyleVarChildBorderSize is a float.
-	StyleVarChildBorderSize StyleVar = 7
+	StyleVarChildBorderSize StyleVarID = 7
 	// StyleVarPopupRounding is a float.
-	StyleVarPopupRounding StyleVar = 8
+	StyleVarPopupRounding StyleVarID = 8
 	// StyleVarPopupBorderSize is a float.
-	StyleVarPopupBorderSize StyleVar = 9
+	StyleVarPopupBorderSize StyleVarID = 9
 	// StyleVarFramePadding is a Vec2.
-	StyleVarFramePadding StyleVar = 10
+	StyleVarFramePadding StyleVarID = 10
 	// StyleVarFrameRounding is a float.
-	StyleVarFrameRounding StyleVar = 11
+	StyleVarFrameRounding StyleVarID = 11
 	// StyleVarFrameBorderSize is a float.
-	StyleVarFrameBorderSize StyleVar = 12
+	StyleVarFrameBorderSize StyleVarID = 12
 	// StyleVarItemSpacing is a Vec2.
-	StyleVarItemSpacing StyleVar = 13
+	StyleVarItemSpacing StyleVarID = 13
 	// StyleVarItemInnerSpacing is a Vec2.
-	StyleVarItemInnerSpacing StyleVar = 14
+	StyleVarItemInnerSpacing StyleVarID = 14
 	// StyleVarIndentSpacing is a float.
-	StyleVarIndentSpacing StyleVar = 15
+	StyleVarIndentSpacing StyleVarID = 15
 	// StyleVarCellPadding is a Vec2.
-	StyleVarCellPadding StyleVar = 16
+	StyleVarCellPadding StyleVarID = 16
 	// StyleVarScrollbarSize is a float.
-	StyleVarScrollbarSize StyleVar = 17
+	StyleVarScrollbarSize StyleVarID = 17
 	// StyleVarScrollbarRounding is a float.
-	StyleVarScrollbarRounding StyleVar = 18
+	StyleVarScrollbarRounding StyleVarID = 18
 	// StyleVarGrabMinSize is a float.
-	StyleVarGrabMinSize StyleVar = 19
+	StyleVarGrabMinSize StyleVarID = 19
 	// StyleVarGrabRounding is a float.
-	StyleVarGrabRounding StyleVar = 20
+	StyleVarGrabRounding StyleVarID = 20
 	// StyleVarTabRounding is a float.
-	StyleVarTabRounding StyleVar = 21
+	StyleVarTabRounding StyleVarID = 21
 	// StyleVarButtonTextAlign is a Vec2.
-	StyleVarButtonTextAlign StyleVar = 22
+	StyleVarButtonTextAlign StyleVarID = 22
 	// StyleVarSelectableTextAlign is a Vec2.
-	StyleVarSelectableTextAlign StyleVar = 23
+	StyleVarSelectableTextAlign StyleVarID = 23
 )
 
-// StyleColor identifies a color in the UI style.
-type StyleColor int
+// StyleColorID identifies a color in the UI style.
+type StyleColorID int
 
 // This is the list of StyleColor identifier.
 const (
-	StyleColorText                  StyleColor = 0
-	StyleColorTextDisabled          StyleColor = 1
-	StyleColorWindowBg              StyleColor = 2
-	StyleColorChildBg               StyleColor = 3
-	StyleColorPopupBg               StyleColor = 4
-	StyleColorBorder                StyleColor = 5
-	StyleColorBorderShadow          StyleColor = 6
-	StyleColorFrameBg               StyleColor = 7
-	StyleColorFrameBgHovered        StyleColor = 8
-	StyleColorFrameBgActive         StyleColor = 9
-	StyleColorTitleBg               StyleColor = 10
-	StyleColorTitleBgActive         StyleColor = 11
-	StyleColorTitleBgCollapsed      StyleColor = 12
-	StyleColorMenuBarBg             StyleColor = 13
-	StyleColorScrollbarBg           StyleColor = 14
-	StyleColorScrollbarGrab         StyleColor = 15
-	StyleColorScrollbarGrabHovered  StyleColor = 16
-	StyleColorScrollbarGrabActive   StyleColor = 17
-	StyleColorCheckMark             StyleColor = 18
-	StyleColorSliderGrab            StyleColor = 19
-	StyleColorSliderGrabActive      StyleColor = 20
-	StyleColorButton                StyleColor = 21
-	StyleColorButtonHovered         StyleColor = 22
-	StyleColorButtonActive          StyleColor = 23
-	StyleColorHeader                StyleColor = 24
-	StyleColorHeaderHovered         StyleColor = 25
-	StyleColorHeaderActive          StyleColor = 26
-	StyleColorSeparator             StyleColor = 27
-	StyleColorSeparatorHovered      StyleColor = 28
-	StyleColorSeparatorActive       StyleColor = 29
-	StyleColorResizeGrip            StyleColor = 30
-	StyleColorResizeGripHovered     StyleColor = 31
-	StyleColorResizeGripActive      StyleColor = 32
-	StyleColorTab                   StyleColor = 33
-	StyleColorTabHovered            StyleColor = 34
-	StyleColorTabActive             StyleColor = 35
-	StyleColorTabUnfocused          StyleColor = 36
-	StyleColorTabUnfocusedActive    StyleColor = 37
-	StyleColorPlotLines             StyleColor = 38
-	StyleColorPlotLinesHovered      StyleColor = 39
-	StyleColorPlotHistogram         StyleColor = 40
-	StyleColorPlotHistogramHovered  StyleColor = 41
-	StyleColorTableHeaderBg         StyleColor = 42 // Table header background
-	StyleColorTableBorderStrong     StyleColor = 43 // Table outer and header borders (prefer using Alpha=1.0 here)
-	StyleColorTableBorderLight      StyleColor = 44 // Table inner borders (prefer using Alpha=1.0 here)
-	StyleColorTableRowBg            StyleColor = 45 // Table row background (even rows)
-	StyleColorTableRowBgAlt         StyleColor = 46 // Table row background (odd rows)
-	StyleColorTextSelectedBg        StyleColor = 47
-	StyleColorDragDropTarget        StyleColor = 48
-	StyleColorNavHighlight          StyleColor = 49 // Gamepad/keyboard: current highlighted item
-	StyleColorNavWindowingHighlight StyleColor = 50 // Highlight window when using CTRL+TAB
-	StyleColorNavWindowingDarkening StyleColor = 51 // Darken/colorize entire screen behind the CTRL+TAB window list, when active
-	StyleColorModalWindowDarkening  StyleColor = 52 // Darken/colorize entire screen behind a modal window, when one is active
+	StyleColorText                  StyleColorID = 0
+	StyleColorTextDisabled          StyleColorID = 1
+	StyleColorWindowBg              StyleColorID = 2
+	StyleColorChildBg               StyleColorID = 3
+	StyleColorPopupBg               StyleColorID = 4
+	StyleColorBorder                StyleColorID = 5
+	StyleColorBorderShadow          StyleColorID = 6
+	StyleColorFrameBg               StyleColorID = 7
+	StyleColorFrameBgHovered        StyleColorID = 8
+	StyleColorFrameBgActive         StyleColorID = 9
+	StyleColorTitleBg               StyleColorID = 10
+	StyleColorTitleBgActive         StyleColorID = 11
+	StyleColorTitleBgCollapsed      StyleColorID = 12
+	StyleColorMenuBarBg             StyleColorID = 13
+	StyleColorScrollbarBg           StyleColorID = 14
+	StyleColorScrollbarGrab         StyleColorID = 15
+	StyleColorScrollbarGrabHovered  StyleColorID = 16
+	StyleColorScrollbarGrabActive   StyleColorID = 17
+	StyleColorCheckMark             StyleColorID = 18
+	StyleColorSliderGrab            StyleColorID = 19
+	StyleColorSliderGrabActive      StyleColorID = 20
+	StyleColorButton                StyleColorID = 21
+	StyleColorButtonHovered         StyleColorID = 22
+	StyleColorButtonActive          StyleColorID = 23
+	StyleColorHeader                StyleColorID = 24
+	StyleColorHeaderHovered         StyleColorID = 25
+	StyleColorHeaderActive          StyleColorID = 26
+	StyleColorSeparator             StyleColorID = 27
+	StyleColorSeparatorHovered      StyleColorID = 28
+	StyleColorSeparatorActive       StyleColorID = 29
+	StyleColorResizeGrip            StyleColorID = 30
+	StyleColorResizeGripHovered     StyleColorID = 31
+	StyleColorResizeGripActive      StyleColorID = 32
+	StyleColorTab                   StyleColorID = 33
+	StyleColorTabHovered            StyleColorID = 34
+	StyleColorTabActive             StyleColorID = 35
+	StyleColorTabUnfocused          StyleColorID = 36
+	StyleColorTabUnfocusedActive    StyleColorID = 37
+	StyleColorPlotLines             StyleColorID = 38
+	StyleColorPlotLinesHovered      StyleColorID = 39
+	StyleColorPlotHistogram         StyleColorID = 40
+	StyleColorPlotHistogramHovered  StyleColorID = 41
+	StyleColorTableHeaderBg         StyleColorID = 42 // Table header background
+	StyleColorTableBorderStrong     StyleColorID = 43 // Table outer and header borders (prefer using Alpha=1.0 here)
+	StyleColorTableBorderLight      StyleColorID = 44 // Table inner borders (prefer using Alpha=1.0 here)
+	StyleColorTableRowBg            StyleColorID = 45 // Table row background (even rows)
+	StyleColorTableRowBgAlt         StyleColorID = 46 // Table row background (odd rows)
+	StyleColorTextSelectedBg        StyleColorID = 47
+	StyleColorDragDropTarget        StyleColorID = 48
+	StyleColorNavHighlight          StyleColorID = 49 // Gamepad/keyboard: current highlighted item
+	StyleColorNavWindowingHighlight StyleColorID = 50 // Highlight window when using CTRL+TAB
+	StyleColorNavWindowingDarkening StyleColorID = 51 // Darken/colorize entire screen behind the CTRL+TAB window list, when active
+	StyleColorModalWindowDarkening  StyleColorID = 52 // Darken/colorize entire screen behind a modal window, when one is active
 )
 
 // Style describes the overall graphical representation of the user interface.
@@ -142,7 +142,7 @@ func StyleColorsLight() {
 
 // PushStyleColor pushes the current style color for given ID on a stack and sets the given one.
 // To revert to the previous color, call PopStyleColor().
-func PushStyleColor(id StyleColor, color Vec4) {
+func PushStyleColor(id StyleColorID, color Vec4) {
 	colorArg, _ := color.wrapped()
 	C.iggPushStyleColor(C.int(id), colorArg)
 }
@@ -158,12 +158,12 @@ func PopStyleColor() {
 }
 
 // PushStyleVarFloat pushes a float value on the stack to temporarily modify a style variable.
-func PushStyleVarFloat(id StyleVar, value float32) {
+func PushStyleVarFloat(id StyleVarID, value float32) {
 	C.iggPushStyleVarFloat(C.int(id), C.float(value))
 }
 
 // PushStyleVarVec2 pushes a Vec2 value on the stack to temporarily modify a style variable.
-func PushStyleVarVec2(id StyleVar, value Vec2) {
+func PushStyleVarVec2(id StyleVarID, value Vec2) {
 	valueArg, _ := value.wrapped()
 	C.iggPushStyleVarVec2(C.int(id), valueArg)
 }
@@ -229,13 +229,13 @@ func (style Style) CellPadding() Vec2 {
 }
 
 // SetColor sets a color value of the UI style.
-func (style Style) SetColor(id StyleColor, value Vec4) {
+func (style Style) SetColor(id StyleColorID, value Vec4) {
 	valueArg, _ := value.wrapped()
 	C.iggStyleSetColor(style.handle(), C.int(id), valueArg)
 }
 
 // Color gets a color value from the UI style.
-func (style Style) Color(id StyleColor) Vec4 {
+func (style Style) Color(id StyleColorID) Vec4 {
 	var value Vec4
 	valueArg, valueFin := value.wrapped()
 	C.iggStyleGetColor(style.handle(), C.int(id), valueArg)

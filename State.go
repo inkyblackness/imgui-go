@@ -229,43 +229,43 @@ func MousePos() Vec2 {
 	return value
 }
 
-// MouseCursor for SetMouseCursor().
+// MouseCursorID for SetMouseCursor().
 //
 // User code may request backend to display given cursor by calling SetMouseCursor(),
 // which is why we have some cursors that are marked unused here.
-type MouseCursor int
+type MouseCursorID int
 
 const (
 	// MouseCursorNone no mouse cursor.
-	MouseCursorNone MouseCursor = -1
+	MouseCursorNone MouseCursorID = -1
 	// MouseCursorArrow standard arrow mouse cursor.
-	MouseCursorArrow MouseCursor = 0
+	MouseCursorArrow MouseCursorID = 0
 	// MouseCursorTextInput when hovering over InputText, etc.
-	MouseCursorTextInput MouseCursor = 1
+	MouseCursorTextInput MouseCursorID = 1
 	// MouseCursorResizeAll (Unused by imgui functions).
-	MouseCursorResizeAll MouseCursor = 2
+	MouseCursorResizeAll MouseCursorID = 2
 	// MouseCursorResizeNS when hovering over an horizontal border.
-	MouseCursorResizeNS MouseCursor = 3
+	MouseCursorResizeNS MouseCursorID = 3
 	// MouseCursorResizeEW when hovering over a vertical border or a column.
-	MouseCursorResizeEW MouseCursor = 4
+	MouseCursorResizeEW MouseCursorID = 4
 	// MouseCursorResizeNESW when hovering over the bottom-left corner of a window.
-	MouseCursorResizeNESW MouseCursor = 5
+	MouseCursorResizeNESW MouseCursorID = 5
 	// MouseCursorResizeNWSE when hovering over the bottom-right corner of a window.
-	MouseCursorResizeNWSE MouseCursor = 6
+	MouseCursorResizeNWSE MouseCursorID = 6
 	// MouseCursorHand (Unused by imgui functions. Use for e.g. hyperlinks).
-	MouseCursorHand MouseCursor = 7
+	MouseCursorHand MouseCursorID = 7
 	// MouseCursorCount is the number of defined mouse cursors.
-	MouseCursorCount MouseCursor = 8
+	MouseCursorCount MouseCursorID = 8
 )
 
-// CurrentMouseCursor returns desired cursor type, reset in imgui.NewFrame(), this is updated during the frame.
+// MouseCursor returns desired cursor type, reset in imgui.NewFrame(), this is updated during the frame.
 // Valid before Render(). If you use software rendering by setting io.MouseDrawCursor ImGui will render those for you.
-func CurrentMouseCursor() int {
+func MouseCursor() int {
 	return int(C.iggGetMouseCursor())
 }
 
 // SetMouseCursor sets desired cursor type.
-func SetMouseCursor(cursor MouseCursor) {
+func SetMouseCursor(cursor MouseCursorID) {
 	C.iggSetMouseCursor(C.int(cursor))
 }
 
