@@ -97,18 +97,30 @@ func BackgroundDrawList() DrawList {
 	return DrawList(C.iggGetBackgroundDrawList())
 }
 
-// This is a list of DrawCornerFlags.
+// DrawCornerFlags for DrawList.DrawRect(), etc.
+type DrawCornerFlags int
+
 const (
-	DrawCornerFlagsNone     = 0x0
-	DrawCornerFlagsTopLeft  = 0x1
-	DrawCornerFlagsTopRight = 0x2
-	DrawCornerFlagsBotLeft  = 0x4
-	DrawCornerFlagsBotRight = 0x8
-	DrawCornerFlagsTop      = DrawCornerFlagsTopLeft | DrawCornerFlagsTopRight
-	DrawCornerFlagsBot      = DrawCornerFlagsBotLeft | DrawCornerFlagsBotRight
-	DrawCornerFlagsLeft     = DrawCornerFlagsTopLeft | DrawCornerFlagsBotLeft
-	DrawCornerFlagsRight    = DrawCornerFlagsTopRight | DrawCornerFlagsBotRight
-	DrawCornerFlagsAll      = 0xF
+	// DrawCornerFlagsNone specifies the default behaviour.
+	DrawCornerFlagsNone DrawCornerFlags = 0
+	// DrawCornerFlagsTopLeft draw corner in the top left.
+	DrawCornerFlagsTopLeft DrawCornerFlags = 1 << 0
+	// DrawCornerFlagsTopRight draw corner in the top right.
+	DrawCornerFlagsTopRight DrawCornerFlags = 1 << 1
+	// DrawCornerFlagsBotLeft draw corner in the bottom left.
+	DrawCornerFlagsBotLeft DrawCornerFlags = 1 << 2
+	// DrawCornerFlagsBotRight draw corner in the bottom right.
+	DrawCornerFlagsBotRight DrawCornerFlags = 1 << 3
+	// DrawCornerFlagsTop draw corners at the top of the area.
+	DrawCornerFlagsTop DrawCornerFlags = DrawCornerFlagsTopLeft | DrawCornerFlagsTopRight
+	// DrawCornerFlagsBot draw corners at the bottom of the area.
+	DrawCornerFlagsBot DrawCornerFlags = DrawCornerFlagsBotLeft | DrawCornerFlagsBotRight
+	// DrawCornerFlagsLeft draw corners on the left of the area.
+	DrawCornerFlagsLeft DrawCornerFlags = DrawCornerFlagsTopLeft | DrawCornerFlagsBotLeft
+	// DrawCornerFlagsRight draw corners on the rigth of the area.
+	DrawCornerFlagsRight DrawCornerFlags = DrawCornerFlagsTopRight | DrawCornerFlagsBotRight
+	// DrawCornerFlagsAll draws all corners.
+	DrawCornerFlagsAll DrawCornerFlags = 0xF
 )
 
 // AddLine call AddLineV with a thickness value of 1.0.
@@ -133,10 +145,10 @@ func (list DrawList) AddRect(min Vec2, max Vec2, col PackedColor) {
 // 1 pixel are not rendered properly.
 //
 // drawCornerFlags indicate which corners of the rectangle are to be rounded.
-func (list DrawList) AddRectV(min Vec2, max Vec2, col PackedColor, rounding float32, drawCornerFlags int, thickness float32) {
+func (list DrawList) AddRectV(min Vec2, max Vec2, col PackedColor, rounding float32, flags DrawCornerFlags, thickness float32) {
 	minArg, _ := min.wrapped()
 	maxArg, _ := max.wrapped()
-	C.iggAddRect(list.handle(), minArg, maxArg, C.IggPackedColor(col), C.float(rounding), C.int(drawCornerFlags), C.float(thickness))
+	C.iggAddRect(list.handle(), minArg, maxArg, C.IggPackedColor(col), C.float(rounding), C.int(flags), C.float(thickness))
 }
 
 // AddRectFilled calls AddRectFilledV(min, max, col, 1.0, DrawCornerFlagsAll).
@@ -147,10 +159,10 @@ func (list DrawList) AddRectFilled(min Vec2, max Vec2, col PackedColor) {
 // AddRectFilledV adds a filled rectangle to the draw list. min is the
 // upper-left corner of the rectangle, and max is the lower right corner.
 // rectangles with dimensions of 1 pixel are not rendered properly.
-func (list DrawList) AddRectFilledV(min Vec2, max Vec2, col PackedColor, rounding float32, drawCornerFlags int) {
+func (list DrawList) AddRectFilledV(min Vec2, max Vec2, col PackedColor, rounding float32, flags DrawCornerFlags) {
 	minArg, _ := min.wrapped()
 	maxArg, _ := max.wrapped()
-	C.iggAddRectFilled(list.handle(), minArg, maxArg, C.IggPackedColor(col), C.float(rounding), C.int(drawCornerFlags))
+	C.iggAddRectFilled(list.handle(), minArg, maxArg, C.IggPackedColor(col), C.float(rounding), C.int(flags))
 }
 
 // AddCircleFilled calls AddCircleFilledV(center, radius, col, 0).

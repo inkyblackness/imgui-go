@@ -6,59 +6,59 @@ import "C"
 // StyleVarID identifies a style variable in the UI style.
 type StyleVarID int
 
-// StyleColorID identifies a color in the UI style.
-type StyleColorID int
-
 const (
-	// StyleVarAlpha is a float
+	// StyleVarAlpha is a float.
 	StyleVarAlpha StyleVarID = 0
-	// StyleVarWindowPadding is a Vec2
+	// StyleVarWindowPadding is a Vec2.
 	StyleVarWindowPadding StyleVarID = 1
-	// StyleVarWindowRounding is a float
+	// StyleVarWindowRounding is a float.
 	StyleVarWindowRounding StyleVarID = 2
-	// StyleVarWindowBorderSize is a float
+	// StyleVarWindowBorderSize is a float.
 	StyleVarWindowBorderSize StyleVarID = 3
-	// StyleVarWindowMinSize is a Vec2
+	// StyleVarWindowMinSize is a Vec2.
 	StyleVarWindowMinSize StyleVarID = 4
-	// StyleVarWindowTitleAlign is a Vec2
+	// StyleVarWindowTitleAlign is a Vec2.
 	StyleVarWindowTitleAlign StyleVarID = 5
-	// StyleVarChildRounding is a float
+	// StyleVarChildRounding is a float.
 	StyleVarChildRounding StyleVarID = 6
-	// StyleVarChildBorderSize is a float
+	// StyleVarChildBorderSize is a float.
 	StyleVarChildBorderSize StyleVarID = 7
-	// StyleVarPopupRounding is a float
+	// StyleVarPopupRounding is a float.
 	StyleVarPopupRounding StyleVarID = 8
-	// StyleVarPopupBorderSize is a float
+	// StyleVarPopupBorderSize is a float.
 	StyleVarPopupBorderSize StyleVarID = 9
-	// StyleVarFramePadding is a Vec2
+	// StyleVarFramePadding is a Vec2.
 	StyleVarFramePadding StyleVarID = 10
-	// StyleVarFrameRounding is a float
+	// StyleVarFrameRounding is a float.
 	StyleVarFrameRounding StyleVarID = 11
-	// StyleVarFrameBorderSize is a float
+	// StyleVarFrameBorderSize is a float.
 	StyleVarFrameBorderSize StyleVarID = 12
-	// StyleVarItemSpacing is a Vec2
+	// StyleVarItemSpacing is a Vec2.
 	StyleVarItemSpacing StyleVarID = 13
-	// StyleVarItemInnerSpacing is a Vec2
+	// StyleVarItemInnerSpacing is a Vec2.
 	StyleVarItemInnerSpacing StyleVarID = 14
-	// StyleVarIndentSpacing is a float
+	// StyleVarIndentSpacing is a float.
 	StyleVarIndentSpacing StyleVarID = 15
-	// StyleVarCellPadding is a Vec2
+	// StyleVarCellPadding is a Vec2.
 	StyleVarCellPadding StyleVarID = 16
-	// StyleVarScrollbarSize is a float
+	// StyleVarScrollbarSize is a float.
 	StyleVarScrollbarSize StyleVarID = 17
-	// StyleVarScrollbarRounding is a float
+	// StyleVarScrollbarRounding is a float.
 	StyleVarScrollbarRounding StyleVarID = 18
-	// StyleVarGrabMinSize is a float
+	// StyleVarGrabMinSize is a float.
 	StyleVarGrabMinSize StyleVarID = 19
-	// StyleVarGrabRounding is a float
+	// StyleVarGrabRounding is a float.
 	StyleVarGrabRounding StyleVarID = 20
-	// StyleVarTabRounding is a float
+	// StyleVarTabRounding is a float.
 	StyleVarTabRounding StyleVarID = 21
-	// StyleVarButtonTextAlign is a Vec2
+	// StyleVarButtonTextAlign is a Vec2.
 	StyleVarButtonTextAlign StyleVarID = 22
-	// StyleVarSelectableTextAlign is a Vec2
+	// StyleVarSelectableTextAlign is a Vec2.
 	StyleVarSelectableTextAlign StyleVarID = 23
 )
+
+// StyleColorID identifies a color in the UI style.
+type StyleColorID int
 
 // This is the list of StyleColor identifier.
 const (
