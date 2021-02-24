@@ -36,7 +36,8 @@ const (
 
 // BeginPopupV returns true if the popup is open, and you can start outputting to it.
 // Only call EndPopup() if BeginPopup() returns true.
-func BeginPopupV(name string, flags PopupFlags) bool {
+// WindowFlags are forwarded to the window.
+func BeginPopupV(name string, flags WindowFlags) bool {
 	nameArg, nameFin := wrapString(name)
 	defer nameFin()
 	return C.iggBeginPopup(nameArg, C.int(flags)) != 0
@@ -49,7 +50,8 @@ func BeginPopup(name string) bool {
 
 // BeginPopupModalV creates modal dialog (regular window with title bar, block interactions behind the modal window,
 // can't close the modal window by clicking outside).
-func BeginPopupModalV(name string, open *bool, flags PopupFlags) bool {
+// WindowFlags are forwarded to the window.
+func BeginPopupModalV(name string, open *bool, flags WindowFlags) bool {
 	nameArg, nameFin := wrapString(name)
 	defer nameFin()
 	openArg, openFin := wrapBool(open)

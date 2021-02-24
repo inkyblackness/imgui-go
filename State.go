@@ -260,8 +260,8 @@ const (
 
 // MouseCursor returns desired cursor type, reset in imgui.NewFrame(), this is updated during the frame.
 // Valid before Render(). If you use software rendering by setting io.MouseDrawCursor ImGui will render those for you.
-func MouseCursor() int {
-	return int(C.iggGetMouseCursor())
+func MouseCursor() MouseCursorID {
+	return MouseCursorID(C.iggGetMouseCursor())
 }
 
 // SetMouseCursor sets desired cursor type.
