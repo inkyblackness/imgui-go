@@ -61,6 +61,12 @@ IggBool iggRadioButton(char const *label, IggBool active)
    return ImGui::RadioButton(label, active != 0) ? 1 : 0;
 }
 
+int iggRadioButtonInt(char const *label, int v, int button)
+{
+	ImGui::RadioButton(label, &v, button);
+	return v;
+}
+
 void iggBullet()
 {
    ImGui::Bullet();
