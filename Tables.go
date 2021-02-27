@@ -378,12 +378,12 @@ func TableGetColumnName() string {
 }
 
 // TableGetColumnFlagsV return column flags so you can query their Enabled/Visible/Sorted/Hovered status flags. Pass -1 to use current column.
-func TableGetColumnFlagsV(columnN int) int {
-	return int(C.iggTableGetColumnFlags(C.int(columnN)))
+func TableGetColumnFlagsV(columnN int) TableColumnFlags {
+	return TableColumnFlags(C.iggTableGetColumnFlags(C.int(columnN)))
 }
 
 // TableGetColumnFlags calls TableGetColumnFlagsV(-1).
-func TableGetColumnFlags() int {
+func TableGetColumnFlags() TableColumnFlags {
 	return TableGetColumnFlagsV(-1)
 }
 

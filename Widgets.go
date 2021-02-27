@@ -128,7 +128,7 @@ func ProgressBarV(fraction float32, size Vec2, overlay string) {
 	C.iggProgressBar(C.float(fraction), sizeArg, overlayArg)
 }
 
-// ProgressBar calls ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "").
+// ProgressBar calls ProgressBarV(fraction, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, "").
 func ProgressBar(fraction float32) {
 	ProgressBarV(fraction, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, "")
 }
