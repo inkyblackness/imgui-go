@@ -20,7 +20,6 @@ extern IggBool iggImageButton(IggTextureID textureID,
    IggVec4 const *tintCol);
 extern IggBool iggCheckbox(char const *label, IggBool *selected);
 extern IggBool iggRadioButton(char const *label, IggBool active);
-extern IggBool iggRadioButtonInt(char const *label, int v, int button);
 extern void iggBullet();
 extern void iggProgressBar(float fraction, IggVec2 const *size, char const *overlay);
 

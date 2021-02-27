@@ -126,7 +126,7 @@ func RadioButton(id string, active bool) bool {
 func RadioButtonInt(id string, v *int, button int) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
-	ok := C.iggRadioButtonInt(idArg, C.int(*v), C.int(button)) != 0
+	ok := C.iggRadioButton(idArg, castBool(button == *v)) != 0
 	if ok {
 		*v = button
 	}
