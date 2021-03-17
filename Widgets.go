@@ -113,6 +113,26 @@ func RadioButton(id string, active bool) bool {
 	return C.iggRadioButton(idArg, castBool(active)) != 0
 }
 
+// RadioButtonInt modifies integer v. Returns true if it is selected.
+//
+// The radio button will be set if v == button. Useful for groups of radio
+// buttons. In the example below, "radio b" will be selected.
+//
+//		v := 1
+//		imgui.RadioButtonInt("radio a", &v, 0)
+//		imgui.RadioButtonInt("radio b", &v, 1)
+//		imgui.RadioButtonInt("radio c", &v, 2)
+//
+func RadioButtonInt(id string, v *int, button int) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	ok := C.iggRadioButton(idArg, castBool(button == *v)) != 0
+	if ok {
+		*v = button
+	}
+	return ok
+}
+
 // Bullet draws a small circle and keeps the cursor on the same line.
 // Advance cursor x position by TreeNodeToLabelSpacing(), same distance that TreeNode() uses.
 func Bullet() {
@@ -128,7 +148,7 @@ func ProgressBarV(fraction float32, size Vec2, overlay string) {
 	C.iggProgressBar(C.float(fraction), sizeArg, overlayArg)
 }
 
-// ProgressBar calls ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "").
+// ProgressBar calls ProgressBarV(fraction, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, "").
 func ProgressBar(fraction float32) {
 	ProgressBarV(fraction, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, "")
 }
