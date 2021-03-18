@@ -50,6 +50,18 @@ void iggFontConfigSetGlyphMaxAdvanceX(IggFontConfig handle, float value)
    fontConfig->GlyphMaxAdvanceX = value;
 }
 
+void iggFontConfigSetGlyphOffsetX(IggFontConfig handle, float value)
+{
+   ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);
+   fontConfig->GlyphOffset.x = value;
+}
+
+void iggFontConfigSetGlyphOffsetY(IggFontConfig handle, float value)
+{
+   ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);
+   fontConfig->GlyphOffset.y = value;
+}
+
 void iggFontConfigSetMergeMode(IggFontConfig handle, IggBool value)
 {
    ImFontConfig *fontConfig = reinterpret_cast<ImFontConfig *>(handle);

@@ -80,6 +80,23 @@ func (config FontConfig) SetGlyphMaxAdvanceX(value float32) {
 	}
 }
 
+// SetGlyphOffsetX sets the horizontal offset for all glyphs. Positive values
+// adjust the glyph to the right and negative values adjust the glyph to the
+// left.
+func (config FontConfig) SetGlyphOffsetX(value float32) {
+	if config != DefaultFontConfig {
+		C.iggFontConfigSetGlyphOffsetX(config.handle(), C.float(value))
+	}
+}
+
+// SetGlyphOffsetY sets the vertical offset for all glyphs. Positive values
+// adjust the glyph downward and negative value adjust the glyph upward.
+func (config FontConfig) SetGlyphOffsetY(value float32) {
+	if config != DefaultFontConfig {
+		C.iggFontConfigSetGlyphOffsetY(config.handle(), C.float(value))
+	}
+}
+
 // SetMergeMode merges the new fonts into the previous font if enabled. This way
 // you can combine multiple input fonts into one (e.g. ASCII font + icons +
 // Japanese glyphs). You may want to use GlyphOffset.y when merge font of
