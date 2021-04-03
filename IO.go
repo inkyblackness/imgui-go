@@ -297,11 +297,7 @@ func (io IO) SetBackendFlags(flags BackendFlags) {
 
 // SetMouseDrawCursor request ImGui to draw a mouse cursor for you (if you are on a platform without a mouse cursor).
 func (io IO) SetMouseDrawCursor(show bool) {
-	var showArg C.IggBool
-	if show {
-		showArg = 1
-	}
-	C.iggIoSetMouseDrawCursor(io.handle, showArg)
+	C.iggIoSetMouseDrawCursor(io.handle, castBool(show))
 }
 
 // Clipboard describes the access to the text clipboard of the window manager.
