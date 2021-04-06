@@ -43,7 +43,7 @@ This library does not mirror the versions of the wrapped **Dear ImGui**. The sem
 * Minor changes: Extensions in API. Typically done through small version increments of **Dear ImGui** and/or exposing further features in a compatible way.
 * Patch changes: Bug fixes - either in the wrapper or the wrapped **Dear ImGui**, given that the API & behaviour remains the same.
 
-At the moment, this library uses version [1.81](https://github.com/ocornut/imgui/releases/tag/v1.81) of **Dear ImGui**.
+At the moment, this library uses version [1.82](https://github.com/ocornut/imgui/releases/tag/v1.82) of **Dear ImGui**.
 
 ## Examples
 A separate repository was created to host ported examples and reference implementations.
