@@ -566,7 +566,7 @@ const (
 	InputTextFlagsCtrlEnterForNewLine InputTextFlags = 1 << 11
 	// InputTextFlagsNoHorizontalScroll disables following the cursor horizontally.
 	InputTextFlagsNoHorizontalScroll InputTextFlags = 1 << 12
-	// Deprecated: this was renamed to InputTextFlagsAlwaysOverwriteMode in imgui v1.82
+	// Deprecated: this was renamed to InputTextFlagsAlwaysOverwriteMode in imgui v1.82 and will be removed in the next major version.
 	InputTextFlagsAlwaysInsertMode InputTextFlags = 1 << 13
 	// InputTextFlagsAlwaysOverwriteMode sets overwrite mode.
 	InputTextFlagsAlwaysOverwriteMode InputTextFlags = 1 << 13
