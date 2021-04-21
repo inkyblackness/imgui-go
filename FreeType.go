@@ -39,4 +39,6 @@ const (
 	FreeTypeBuilderFlagsMonochrome = 1 << 7
 	// FreeTypeBuilderFlagsLoadColor enables FreeType color-layered glyphs.
 	FreeTypeBuilderFlagsLoadColor = 1 << 8
+	// FreeTypeBuilderFlagsBitmap enables FreeType bitmap glyphs
+	FreeTypeBuilderFlagsBitmap = 1 << 9
 )
