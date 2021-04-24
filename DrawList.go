@@ -97,10 +97,11 @@ func BackgroundDrawList() DrawList {
 	return DrawList(C.iggGetBackgroundDrawList())
 }
 
-// DrawFlags for DrawList functions
+// DrawFlags for DrawList.AddRectV, etc.
 type DrawFlags int
 
 const (
+	// DrawFlagsNone specified the default behaviour.
 	DrawFlagsNone DrawFlags = 0
 	// DrawFlagsClosed for PathStroke(), AddPolyline(): specify that shape should be closed.
 	DrawFlagsClosed DrawFlags = 1 << 0
@@ -113,18 +114,25 @@ const (
 	// DrawFlagsRoundCornersBottomRight for AddRect(), AddRectFilled(), PathRect(): enable rounding bottom-right corner only (when rounding > 0.0f, we default to all corners).
 	DrawFlagsRoundCornersBottomRight DrawFlags = 1 << 7
 	// DrawFlagsRoundCornersNone for AddRect(), AddRectFilled(), PathRect(): disable rounding on all corners (when rounding > 0.0f).
-	DrawFlagsRoundCornersNone     DrawFlags = 1 << 8
-	DrawFlagsRoundCornersTop      DrawFlags = DrawFlagsRoundCornersTopLeft | DrawFlagsRoundCornersTopRight
-	DrawFlagsRoundCornersBottom   DrawFlags = DrawFlagsRoundCornersBottomLeft | DrawFlagsRoundCornersBottomRight
-	DrawFlagsRoundCornersLeft     DrawFlags = DrawFlagsRoundCornersBottomLeft | DrawFlagsRoundCornersTopLeft
-	DrawFlagsRoundCornersRight    DrawFlags = DrawFlagsRoundCornersBottomRight | DrawFlagsRoundCornersTopRight
-	DrawFlagsRoundCornersAll      DrawFlags = DrawFlagsRoundCornersTopLeft | DrawFlagsRoundCornersTopRight | DrawFlagsRoundCornersBottomLeft | DrawFlagsRoundCornersBottomRight
-	DrawFlagsRoundCornersDefault_ DrawFlags = DrawFlagsRoundCornersAll // Default to ALL corners if none of the RoundCornersXX flags are specified.
-	DrawFlagsRoundCornersMask_    DrawFlags = DrawFlagsRoundCornersAll | DrawFlagsRoundCornersNone
+	DrawFlagsRoundCornersNone DrawFlags = 1 << 8
+	// DrawFlagsRoundCornersTop for AddRect(), AddRectFilled(), PathRect(): enable rounding top corners only (when rounding > 0.0f, we default to all corners).
+	DrawFlagsRoundCornersTop DrawFlags = DrawFlagsRoundCornersTopLeft | DrawFlagsRoundCornersTopRight
+	// DrawFlagsRoundCornersBottom for AddRect(), AddRectFilled(), PathRect(): enable rounding bottom corners only (when rounding > 0.0f, we default to all corners).
+	DrawFlagsRoundCornersBottom DrawFlags = DrawFlagsRoundCornersBottomLeft | DrawFlagsRoundCornersBottomRight
+	// DrawFlagsRoundCornersLeft for AddRect(), AddRectFilled(), PathRect(): enable rounding left corners only (when rounding > 0.0f, we default to all corners).
+	DrawFlagsRoundCornersLeft DrawFlags = DrawFlagsRoundCornersBottomLeft | DrawFlagsRoundCornersTopLeft
+	// DrawFlagsRoundCornersRight for AddRect(), AddRectFilled(), PathRect(): enable rounding right corners only (when rounding > 0.0f, we default to all corners).
+	DrawFlagsRoundCornersRight DrawFlags = DrawFlagsRoundCornersBottomRight | DrawFlagsRoundCornersTopRight
+	// DrawFlagsRoundCornersAll  for AddRect(), AddRectFilled(), PathRect(): enable rounding for all corners.
+	DrawFlagsRoundCornersAll DrawFlags = DrawFlagsRoundCornersTopLeft | DrawFlagsRoundCornersTopRight | DrawFlagsRoundCornersBottomLeft | DrawFlagsRoundCornersBottomRight
+	// DrawFlagsRoundCornersDefault default to ALL corners if none of the RoundCornersXX flags are specified.
+	DrawFlagsRoundCornersDefault DrawFlags = DrawFlagsRoundCornersAll
+	// DrawFlagsRoundCornersMask is the bitmask containing the corner flags.
+	DrawFlagsRoundCornersMask DrawFlags = DrawFlagsRoundCornersAll | DrawFlagsRoundCornersNone
 )
 
-// DrawCornerFlags is replaced by DrawFlags and will be removed in v5
-// Deprecated: Use DrawFlags
+// DrawCornerFlags is replaced by DrawFlags and will be removed in v5.
+// Deprecated: Use DrawFlags.
 type DrawCornerFlags = DrawFlags
 
 const (
