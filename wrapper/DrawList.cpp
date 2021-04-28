@@ -122,6 +122,20 @@ void iggAddImage(IggDrawList handle, IggTextureID textureID, IggVec2* pMin, IggV
   list->AddImage(reinterpret_cast<ImTextureID>(textureID), *pMinArg, *pMaxArg, *uvMinArg, *uvMaxArg, col);
 }
 
+void iggPushClipRect(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, IggBool intersectWithCurrentClipRect)
+{
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   Vec2Wrapper minArg(min);
+   Vec2Wrapper maxArg(max);
+   list->PushClipRect(*minArg, *maxArg, intersectWithCurrentClipRect != 0);
+}
+
+void iggPopClipRect(IggDrawList handle)
+{
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->PopClipRect();
+}
+
 IggDrawList iggGetWindowDrawList()
 {
    return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetWindowDrawList()));
