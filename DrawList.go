@@ -231,3 +231,25 @@ func (list DrawList) AddImageV(textureID TextureID, posMin Vec2, posMax Vec2, uv
 	uvMaxArg, _ := uvMax.wrapped()
 	C.iggAddImage(list.handle(), C.IggTextureID(textureID), posMinArg, posMaxArg, uvMinArg, uvMaxArg, C.IggPackedColor(tintCol))
 }
+
+// PushClipRect performs render-level scissoring.
+// It calls PushClipRectV(min, max, false).
+func (list DrawList) PushClipRect(min, max Vec2) {
+	list.PushClipRectV(min, max, false)
+}
+
+// PushClipRectV performs render-level scissoring.
+//
+// This is passed down to your render function but not used for CPU-side coarse
+// clipping. Prefer using higher-level imgui.PushClipRect() to affect logic
+// (hit-testing and widget culling).
+func (list DrawList) PushClipRectV(min, max Vec2, intersectWithCurrentClipRect bool) {
+	minArg, _ := min.wrapped()
+	maxArg, _ := max.wrapped()
+	C.iggPushClipRect(list.handle(), minArg, maxArg, castBool(intersectWithCurrentClipRect))
+}
+
+// PopClipRect removes the current clip rect and returns to the previous one.
+func (list DrawList) PopClipRect() {
+	C.iggPopClipRect(list.handle())
+}
