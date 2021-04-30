@@ -566,8 +566,11 @@ const (
 	InputTextFlagsCtrlEnterForNewLine InputTextFlags = 1 << 11
 	// InputTextFlagsNoHorizontalScroll disables following the cursor horizontally.
 	InputTextFlagsNoHorizontalScroll InputTextFlags = 1 << 12
-	// InputTextFlagsAlwaysInsertMode sets insert mode.
+	// InputTextFlagsAlwaysInsertMode was renamed to InputTextFlagsAlwaysOverwriteMode to reflect its actual behavior and will be removed in v5.
+	// Deprecated: Use InputTextFlagsAlwaysOverwriteMode.
 	InputTextFlagsAlwaysInsertMode InputTextFlags = 1 << 13
+	// InputTextFlagsAlwaysOverwriteMode sets overwrite mode.
+	InputTextFlagsAlwaysOverwriteMode InputTextFlags = 1 << 13
 	// InputTextFlagsReadOnly sets read-only mode.
 	InputTextFlagsReadOnly InputTextFlags = 1 << 14
 	// InputTextFlagsPassword sets password mode, display all characters as '*'.
