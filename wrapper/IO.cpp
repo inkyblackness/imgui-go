@@ -200,6 +200,13 @@ void iggIoSetBackendFlags(IggIO handle, int flags)
    io.BackendFlags = flags;
 }
 
+int iggIoGetBackendFlags(IggIO handle)
+{
+   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
+   return io.BackendFlags;
+}
+
+
 void iggIoSetMouseDrawCursor(IggIO handle, IggBool show)
 {
    ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);

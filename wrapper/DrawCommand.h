@@ -7,6 +7,8 @@ extern "C" {
 #endif
 
 extern void iggDrawCommandGetElementCount(IggDrawCmd handle, unsigned int *count);
+extern void iggDrawCommandGetIndexOffset(IggDrawCmd handle, unsigned int *count);
+extern void iggDrawCommandGetVertexOffset(IggDrawCmd handle, unsigned int *count);
 extern void iggDrawCommandGetClipRect(IggDrawCmd handle, IggVec4 *rect);
 extern void iggDrawCommandGetTextureID(IggDrawCmd handle, IggTextureID *id);
 extern IggBool iggDrawCommandHasUserCallback(IggDrawCmd handle);

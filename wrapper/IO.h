@@ -41,6 +41,7 @@ extern void iggIoAddInputCharactersUTF8(IggIO handle, char const *utf8Chars);
 extern void iggIoSetIniFilename(IggIO handle, char const *value);
 extern void iggIoSetConfigFlags(IggIO handle, int flags);
 extern void iggIoSetBackendFlags(IggIO handle, int flags);
+extern int iggIoGetBackendFlags(IggIO handle);
 extern void iggIoSetMouseDrawCursor(IggIO handle, IggBool show);
 
 extern void iggIoRegisterClipboardFunctions(IggIO handle);
