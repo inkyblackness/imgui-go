@@ -18,6 +18,23 @@ func (cmd DrawCommand) ElementCount() int {
 	return int(count)
 }
 
+// IndexOffset is the start offset in index buffer.
+// Always equal to sum of ElemCount drawn so far.
+func (cmd DrawCommand) IndexOffset() int {
+	var count C.uint
+	C.iggDrawCommandGetIndexOffset(cmd.handle(), &count)
+	return int(count)
+}
+
+// VertexOffset is the start offset in vertex buffer.
+// ImGuiBackendFlags_RendererHasVtxOffset: false always 0,
+// otherwise may be >0 to support meshes larger than 64K vertices with 16-bit indices.
+func (cmd DrawCommand) VertexOffset() int {
+	var count C.uint
+	C.iggDrawCommandGetVertexOffset(cmd.handle(), &count)
+	return int(count)
+}
+
 // ClipRect defines the clipping rectangle (x1, y1, x2, y2).
 func (cmd DrawCommand) ClipRect() (rect Vec4) {
 	rectArg, rectFin := rect.wrapped()
