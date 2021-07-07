@@ -23,6 +23,24 @@ void iggDrawDataGetCommandLists(IggDrawData handle, void **handles, int *count)
    *count = drawData->CmdListsCount;
 }
 
+void iggDrawDataDisplayPos(IggDrawData handle, IggVec2 *value)
+{
+   ImDrawData *drawData = reinterpret_cast<ImDrawData *>(handle);
+   exportValue(*value, drawData->DisplayPos);
+}
+
+void iggDrawDataDisplaySize(IggDrawData handle, IggVec2 *value)
+{
+   ImDrawData *drawData = reinterpret_cast<ImDrawData *>(handle);
+   exportValue(*value, drawData->DisplaySize);
+}
+
+void iggDrawDataFrameBufferScale(IggDrawData handle, IggVec2 *value)
+{
+   ImDrawData *drawData = reinterpret_cast<ImDrawData *>(handle);
+   exportValue(*value, drawData->FramebufferScale);
+}
+
 void iggDrawDataScaleClipRects(IggDrawData handle, IggVec2 const *scale)
 {
    ImDrawData *drawData = reinterpret_cast<ImDrawData *>(handle);
