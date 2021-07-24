@@ -39,6 +39,40 @@ func (data DrawData) CommandLists() []DrawList {
 	return list
 }
 
+// DisplayPos returns the top-left position of the viewport to render.
+// Use this as the top-left of the orthogonal projection matrix.
+// For the main viewport this is equal to MainViewport().Pos().
+// Usually {0, 0} in a single-viewport application.
+func (data DrawData) DisplayPos() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggDrawDataDisplayPos(data.handle(), valueArg)
+	valueFin()
+	return value
+}
+
+// DisplaySize returns the size of the viewport to render.
+// For the main viewport this is equal to MainViewport().Size().
+// Usually set by IO.SetDisplaySize().
+func (data DrawData) DisplaySize() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggDrawDataDisplaySize(data.handle(), valueArg)
+	valueFin()
+	return value
+}
+
+// FrameBufferScale returns the amount of pixels for each unit of DisplaySize().
+// Generally (1,1) on normal display, (2,2) on OSX with Retina display.
+// See also IO.DisplayFrameBufferScale().
+func (data DrawData) FrameBufferScale() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggDrawDataFrameBufferScale(data.handle(), valueArg)
+	valueFin()
+	return value
+}
+
 // ScaleClipRects is a helper to scale the ClipRect field of each DrawCmd.
 // Use if your final output buffer is at a different scale than ImGui expects,
 // or if there is a difference between your window resolution and framebuffer resolution.
