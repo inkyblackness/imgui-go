@@ -159,49 +159,53 @@ const (
 
 	// TableColumnFlagsNone default = 0.
 	TableColumnFlagsNone TableColumnFlags = 0
+	// TableColumnFlagsDisabled overrides disable flag: hide column, won't show in context menu (unlike calling TableSetColumnEnabled() which manipulates the user accessible state)
+	TableColumnFlagsDisabled TableColumnFlags = 1 << 0
 	// TableColumnFlagsDefaultHide Default as a hidden/disabled column.
-	TableColumnFlagsDefaultHide TableColumnFlags = 1 << 0
+	TableColumnFlagsDefaultHide TableColumnFlags = 1 << 1
 	// TableColumnFlagsDefaultSort Default as a sorting column.
-	TableColumnFlagsDefaultSort TableColumnFlags = 1 << 1
+	TableColumnFlagsDefaultSort TableColumnFlags = 1 << 2
 	// TableColumnFlagsWidthStretch column will stretch. Preferable with horizontal scrolling disabled (default if table sizing policy is _SizingStretchSame or _SizingStretchProp).
-	TableColumnFlagsWidthStretch TableColumnFlags = 1 << 2
+	TableColumnFlagsWidthStretch TableColumnFlags = 1 << 3
 	// TableColumnFlagsWidthFixed column will not stretch. Preferable with horizontal scrolling enabled (default if table sizing policy is _SizingFixedFit and table is resizable).
-	TableColumnFlagsWidthFixed TableColumnFlags = 1 << 3
+	TableColumnFlagsWidthFixed TableColumnFlags = 1 << 4
 	// TableColumnFlagsNoResize disables manual resizing.
-	TableColumnFlagsNoResize TableColumnFlags = 1 << 4
+	TableColumnFlagsNoResize TableColumnFlags = 1 << 5
 	// TableColumnFlagsNoReorder disables manual reordering this column, this will also prevent other columns from crossing over this column.
-	TableColumnFlagsNoReorder TableColumnFlags = 1 << 5
+	TableColumnFlagsNoReorder TableColumnFlags = 1 << 6
 	// TableColumnFlagsNoHide disables ability to hide/disable this column.
-	TableColumnFlagsNoHide TableColumnFlags = 1 << 6
+	TableColumnFlagsNoHide TableColumnFlags = 1 << 7
 	// TableColumnFlagsNoClip disables clipping for this column (all NoClip columns will render in a same draw command).
-	TableColumnFlagsNoClip TableColumnFlags = 1 << 7
+	TableColumnFlagsNoClip TableColumnFlags = 1 << 8
 	// TableColumnFlagsNoSort disables ability to sort on this field (even if TableFlagsSortable is set on the table).
-	TableColumnFlagsNoSort TableColumnFlags = 1 << 8
+	TableColumnFlagsNoSort TableColumnFlags = 1 << 9
 	// TableColumnFlagsNoSortAscending disables ability to sort in the ascending direction.
-	TableColumnFlagsNoSortAscending TableColumnFlags = 1 << 9
+	TableColumnFlagsNoSortAscending TableColumnFlags = 1 << 10
 	// TableColumnFlagsNoSortDescending disables ability to sort in the descending direction.
-	TableColumnFlagsNoSortDescending TableColumnFlags = 1 << 10
+	TableColumnFlagsNoSortDescending TableColumnFlags = 1 << 11
+	// TableColumnFlagsNoHeaderLabel makes TableHeadersRow() not submit label for this column. Convenient for some small columns. Name will still appear in context menu..
+	TableColumnFlagsNoHeaderLabel TableColumnFlags = 1 << 12
 	// TableColumnFlagsNoHeaderWidth disables header text width contribution to automatic column width.
-	TableColumnFlagsNoHeaderWidth TableColumnFlags = 1 << 11
+	TableColumnFlagsNoHeaderWidth TableColumnFlags = 1 << 13
 	// TableColumnFlagsPreferSortAscending makes the initial sort direction Ascending when first sorting on this column (default).
-	TableColumnFlagsPreferSortAscending TableColumnFlags = 1 << 12
+	TableColumnFlagsPreferSortAscending TableColumnFlags = 1 << 14
 	// TableColumnFlagsPreferSortDescending makes the initial sort direction Descending when first sorting on this column.
-	TableColumnFlagsPreferSortDescending TableColumnFlags = 1 << 13
+	TableColumnFlagsPreferSortDescending TableColumnFlags = 1 << 15
 	// TableColumnFlagsIndentEnable uses current Indent value when entering cell (default for column 0).
-	TableColumnFlagsIndentEnable TableColumnFlags = 1 << 14
+	TableColumnFlagsIndentEnable TableColumnFlags = 1 << 16
 	// TableColumnFlagsIndentDisable ignores current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
-	TableColumnFlagsIndentDisable TableColumnFlags = 1 << 15
+	TableColumnFlagsIndentDisable TableColumnFlags = 1 << 17
 
 	// Output status flags, read-only via TableGetColumnFlags().
 
 	// TableColumnFlagsIsEnabled Status: is enabled == not hidden by user/api (referred to as "Hide" in _DefaultHide and _NoHide) flags.
-	TableColumnFlagsIsEnabled TableColumnFlags = 1 << 20
+	TableColumnFlagsIsEnabled TableColumnFlags = 1 << 24
 	// TableColumnFlagsIsVisible Status: is visible == is enabled AND not clipped by scrolling.
-	TableColumnFlagsIsVisible TableColumnFlags = 1 << 21
+	TableColumnFlagsIsVisible TableColumnFlags = 1 << 25
 	// TableColumnFlagsIsSorted Status: is currently part of the sort specs.
-	TableColumnFlagsIsSorted TableColumnFlags = 1 << 22
+	TableColumnFlagsIsSorted TableColumnFlags = 1 << 26
 	// TableColumnFlagsIsHovered Status: is hovered by mouse.
-	TableColumnFlagsIsHovered TableColumnFlags = 1 << 23
+	TableColumnFlagsIsHovered TableColumnFlags = 1 << 27
 )
 
 // TableRowFlags for TableNextRowV().
