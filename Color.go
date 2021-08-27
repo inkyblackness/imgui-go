@@ -90,6 +90,15 @@ func ColorEdit4V(label string, col *[4]float32, flags ColorEditFlags) bool {
 	return C.iggColorEdit4(labelArg, ccol, C.int(flags)) != 0
 }
 
+// ColorButton displays a color square/button, hover for details, return true when pressed.
+func ColorButton(id string, col *[4]float32, flags ColorEditFlags, size Vec2) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	ccol := (*C.float)(&col[0])
+	sizeArg, _ := size.wrapped()
+	return C.iggColorButton(idArg, ccol, C.int(flags), sizeArg) != 0
+}
+
 // ColorPickerFlags for ColorPicker3V(), etc.
 type ColorPickerFlags int
 

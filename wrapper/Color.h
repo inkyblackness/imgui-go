@@ -8,6 +8,7 @@ extern "C" {
 
 extern IggBool iggColorEdit3(char const *label, float *col, int flags);
 extern IggBool iggColorEdit4(char const *label, float *col, int flags);
+extern IggBool iggColorButton(char const *label, float *col, int flags, IggVec2 const *size);
 extern IggBool iggColorPicker3(char const *label, float *col, int flags);
 extern IggBool iggColorPicker4(char const *label, float *col, int flags);
 
