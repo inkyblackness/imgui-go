@@ -28,6 +28,13 @@ const (
 	DragDropFlagsAcceptPeekOnly = DragDropFlagsAcceptBeforeDelivery | DragDropFlagsAcceptNoDrawDefaultRect
 )
 
+const (
+	// DragDropPayloadTypeColor3F is payload type for 3 floats component color.
+	DragDropPayloadTypeColor3F = "_COL3F"
+	// DragDropPayloadTypeColor4F is payload type for 4 floats component color.
+	DragDropPayloadTypeColor4F = "_COL4F"
+)
+
 // BeginDragDropSource registers the currently active item as drag'n'drop source.
 // When this returns true you need to:
 // a) call SetDragDropPayload() exactly once,
