@@ -220,7 +220,7 @@ func IsMouseDragging(button int, threshold float64) bool {
 	return C.iggIsMouseDragging(C.int(button), C.float(threshold)) != 0
 }
 
-// GetMouseDragDelta returns the delta from the initial clicking position while the mouse button is pressed or was just released. This is locked and return 0.0f until the mouse moves past a distance threshold at least once (if lockThreshold < -1.0f, uses io.MouseDraggingThreshold)
+// GetMouseDragDelta returns the delta from the initial clicking position while the mouse button is pressed or was just released. This is locked and return 0.0f until the mouse moves past a distance threshold at least once (if lockThreshold < -1.0f, uses io.MouseDraggingThreshold).
 func GetMouseDragDelta(button int, lockThreshold float32) Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
@@ -229,7 +229,7 @@ func GetMouseDragDelta(button int, lockThreshold float32) Vec2 {
 	return value
 }
 
-// ResetMouseDragDelta resets the drag delta
+// ResetMouseDragDelta resets the drag delta.
 func ResetMouseDragDelta(button int) {
 	C.iggResetMouseDragDelta(C.int(button))
 }
