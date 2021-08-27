@@ -47,11 +47,6 @@ extern IggBool iggInputTextMultiline(char const *label, char *buf, unsigned int 
 
 extern IggBool iggInputInt(char const *label, int *value, int step, int step_fast, int flags);
 
-extern IggBool iggColorEdit3(char const *label, float *col, int flags);
-extern IggBool iggColorEdit4(char const *label, float *col, int flags);
-extern IggBool iggColorPicker3(char const *label, float *col, int flags);
-extern IggBool iggColorPicker4(char const *label, float *col, int flags);
-
 extern IggBool iggTreeNode(char const *label, int flags);
 extern void iggTreePop(void);
 extern void iggSetNextItemOpen(IggBool open, int cond);

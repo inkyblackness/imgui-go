@@ -12,6 +12,7 @@
 #endif
 
 // imgui-go code
+#include "wrapper/Color.cpp"
 #include "wrapper/Context.cpp"
 #include "wrapper/Focus.cpp"
 #include "wrapper/DragDrop.cpp"
