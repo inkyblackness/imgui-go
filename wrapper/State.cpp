@@ -128,6 +128,16 @@ IggBool iggIsMouseDragging(int button, float lock_threshold)
    return ImGui::IsMouseDragging(button, lock_threshold);
 }
 
+void iggGetMouseDragDelta(IggVec2 *value, int button, float lock_threshold)
+{
+   exportValue(*value, ImGui::GetMouseDragDelta(button, lock_threshold));
+}
+
+void iggResetMouseDragDelta(int button)
+{
+   ImGui::ResetMouseDragDelta(button);
+}
+
 void iggMousePos(IggVec2 *pos)
 {
    exportValue(*pos, ImGui::GetMousePos());

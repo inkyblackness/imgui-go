@@ -198,9 +198,19 @@ func (io IO) KeyCtrl(leftCtrl int, rightCtrl int) {
 	C.iggIoKeyCtrl(io.handle, C.int(leftCtrl), C.int(rightCtrl))
 }
 
+// KeyCtrlPressed get the keyboard modifier control pressed
+func (io IO) KeyCtrlPressed() bool {
+	return C.iggIoKeyCtrlPressed(io.handle) != 0
+}
+
 // KeyShift sets the keyboard modifier shift pressed.
 func (io IO) KeyShift(leftShift int, rightShift int) {
 	C.iggIoKeyShift(io.handle, C.int(leftShift), C.int(rightShift))
+}
+
+// KeyShiftPressed get the keyboard modifier shif pressed
+func (io IO) KeyShiftPressed() bool {
+	return C.iggIoKeyShiftPressed(io.handle) != 0
 }
 
 // KeyAlt sets the keyboard modifier alt pressed.
@@ -208,9 +218,19 @@ func (io IO) KeyAlt(leftAlt int, rightAlt int) {
 	C.iggIoKeyAlt(io.handle, C.int(leftAlt), C.int(rightAlt))
 }
 
+// KeyAltPressed get the keyboard modifier alt pressed
+func (io IO) KeyAltPressed() bool {
+	return C.iggIoKeyAltPressed(io.handle) != 0
+}
+
 // KeySuper sets the keyboard modifier super pressed.
 func (io IO) KeySuper(leftSuper int, rightSuper int) {
 	C.iggIoKeySuper(io.handle, C.int(leftSuper), C.int(rightSuper))
+}
+
+// KeySuperPressed get the keyboard modifier super pressed
+func (io IO) KeySuperPressed() bool {
+	return C.iggIoKeySuperPressed(io.handle) != 0
 }
 
 // AddInputCharacters adds a new character into InputCharacters[].

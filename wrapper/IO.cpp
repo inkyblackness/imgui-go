@@ -156,10 +156,22 @@ void iggIoKeyCtrl(IggIO handle, int leftCtrl, int rightCtrl)
    io.KeyCtrl = io.KeysDown[leftCtrl] || io.KeysDown[rightCtrl];
 }
 
+IggBool iggIoKeyCtrlPressed(IggIO handle)
+{
+   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle); 
+   return io.KeyCtrl ? 1 : 0;
+}
+
 void iggIoKeyShift(IggIO handle, int leftShift, int rightShift)
 {
    ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
    io.KeyShift = io.KeysDown[leftShift] || io.KeysDown[rightShift];
+}
+
+IggBool iggIoKeyShiftPressed(IggIO handle)
+{
+   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle); 
+   return io.KeyShift ? 1 : 0;
 }
 
 void iggIoKeyAlt(IggIO handle, int leftAlt, int rightAlt)
@@ -168,10 +180,22 @@ void iggIoKeyAlt(IggIO handle, int leftAlt, int rightAlt)
    io.KeyAlt = io.KeysDown[leftAlt] || io.KeysDown[rightAlt];
 }
 
+IggBool iggIoKeyAltPressed(IggIO handle)
+{
+   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle); 
+   return io.KeyAlt ? 1 : 0;
+}
+
 void iggIoKeySuper(IggIO handle, int leftSuper, int rightSuper)
 {
    ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
    io.KeySuper = io.KeysDown[leftSuper] || io.KeysDown[rightSuper];
+}
+
+IggBool iggIoKeySuperPressed(IggIO handle)
+{
+   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle); 
+   return io.KeySuper? 1 : 0;
 }
 
 void iggIoAddInputCharactersUTF8(IggIO handle, char const *utf8Chars)
