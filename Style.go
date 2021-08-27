@@ -8,53 +8,55 @@ type StyleVarID int
 
 const (
 	// StyleVarAlpha is a float.
-	StyleVarAlpha StyleVarID = 0
+	StyleVarAlpha StyleVarID = iota
+	// StyleVarDisabledAlpha is a float.
+	StyleVarDisabledAlpha
 	// StyleVarWindowPadding is a Vec2.
-	StyleVarWindowPadding StyleVarID = 1
+	StyleVarWindowPadding
 	// StyleVarWindowRounding is a float.
-	StyleVarWindowRounding StyleVarID = 2
+	StyleVarWindowRounding
 	// StyleVarWindowBorderSize is a float.
-	StyleVarWindowBorderSize StyleVarID = 3
+	StyleVarWindowBorderSize
 	// StyleVarWindowMinSize is a Vec2.
-	StyleVarWindowMinSize StyleVarID = 4
+	StyleVarWindowMinSize
 	// StyleVarWindowTitleAlign is a Vec2.
-	StyleVarWindowTitleAlign StyleVarID = 5
+	StyleVarWindowTitleAlign
 	// StyleVarChildRounding is a float.
-	StyleVarChildRounding StyleVarID = 6
+	StyleVarChildRounding
 	// StyleVarChildBorderSize is a float.
-	StyleVarChildBorderSize StyleVarID = 7
+	StyleVarChildBorderSize
 	// StyleVarPopupRounding is a float.
-	StyleVarPopupRounding StyleVarID = 8
+	StyleVarPopupRounding
 	// StyleVarPopupBorderSize is a float.
-	StyleVarPopupBorderSize StyleVarID = 9
+	StyleVarPopupBorderSize
 	// StyleVarFramePadding is a Vec2.
-	StyleVarFramePadding StyleVarID = 10
+	StyleVarFramePadding
 	// StyleVarFrameRounding is a float.
-	StyleVarFrameRounding StyleVarID = 11
+	StyleVarFrameRounding
 	// StyleVarFrameBorderSize is a float.
-	StyleVarFrameBorderSize StyleVarID = 12
+	StyleVarFrameBorderSize
 	// StyleVarItemSpacing is a Vec2.
-	StyleVarItemSpacing StyleVarID = 13
+	StyleVarItemSpacing
 	// StyleVarItemInnerSpacing is a Vec2.
-	StyleVarItemInnerSpacing StyleVarID = 14
+	StyleVarItemInnerSpacing
 	// StyleVarIndentSpacing is a float.
-	StyleVarIndentSpacing StyleVarID = 15
+	StyleVarIndentSpacing
 	// StyleVarCellPadding is a Vec2.
-	StyleVarCellPadding StyleVarID = 16
+	StyleVarCellPadding
 	// StyleVarScrollbarSize is a float.
-	StyleVarScrollbarSize StyleVarID = 17
+	StyleVarScrollbarSize
 	// StyleVarScrollbarRounding is a float.
-	StyleVarScrollbarRounding StyleVarID = 18
+	StyleVarScrollbarRounding
 	// StyleVarGrabMinSize is a float.
-	StyleVarGrabMinSize StyleVarID = 19
+	StyleVarGrabMinSize
 	// StyleVarGrabRounding is a float.
-	StyleVarGrabRounding StyleVarID = 20
+	StyleVarGrabRounding
 	// StyleVarTabRounding is a float.
-	StyleVarTabRounding StyleVarID = 21
+	StyleVarTabRounding
 	// StyleVarButtonTextAlign is a Vec2.
-	StyleVarButtonTextAlign StyleVarID = 22
+	StyleVarButtonTextAlign
 	// StyleVarSelectableTextAlign is a Vec2.
-	StyleVarSelectableTextAlign StyleVarID = 23
+	StyleVarSelectableTextAlign
 )
 
 // StyleColorID identifies a color in the UI style.
