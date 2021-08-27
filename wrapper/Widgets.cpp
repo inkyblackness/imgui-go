@@ -19,10 +19,10 @@ IggBool iggButton(char const *label, IggVec2 const *size)
    return ImGui::Button(label, *sizeArg) ? 1 : 0;
 }
 
-IggBool iggInvisibleButton(char const *label, IggVec2 const *size)
+IggBool iggInvisibleButton(char const *label, IggVec2 const *size, int flags)
 {
    Vec2Wrapper sizeArg(size);
-   return ImGui::InvisibleButton(label, *sizeArg) ? 1 : 0;
+   return ImGui::InvisibleButton(label, *sizeArg, flags) ? 1 : 0;
 }
 
 void iggImage(IggTextureID textureID,
@@ -82,41 +82,66 @@ void iggEndCombo(void)
    ImGui::EndCombo();
 }
 
-IggBool iggDragFloat(char const *label, float *value, float speed, float min, float max, char const *format, float power)
+IggBool iggDragFloat(char const *label, float *value, float speed, float min, float max, char const *format, int flags)
 {
-   return ImGui::DragFloat(label, value, speed, min, max, format, power) ? 1 : 0;
+   return ImGui::DragFloat(label, value, speed, min, max, format, flags) ? 1 : 0;
 }
 
-IggBool iggDragInt(char const *label, int *value, float speed, int min, int max, char const *format)
+IggBool iggDragFloatN(char const *label, float *value, int n, float speed, float min, float max, char const *format, int flags)
 {
-   return ImGui::DragInt(label, value, speed, min, max, format) ? 1 : 0;
+   return ImGui::DragScalarN(label, ImGuiDataType_Float, (void *)value, n, speed, &min, &max, format, flags) ? 1 : 0;
 }
 
-IggBool iggSliderFloat(char const *label, float *value, float minValue, float maxValue, char const *format, float power)
+IggBool iggDragFloatRange2V(char const *label, float *currentMin, float *currentMax, float speed, float min, float max, char const *format, const char *formatMax, int flags)
 {
-   return ImGui::SliderFloat(label, value, minValue, maxValue, format, power) ? 1 : 0;
+   return ImGui::DragFloatRange2(label, currentMin, currentMax, speed, min, max, format, formatMax, flags) ? 1 : 0;
 }
 
-IggBool iggSliderFloatN(char const *label, float *value, int n, float minValue, float maxValue, char const *format, float power)
+IggBool iggDragInt(char const *label, int *value, float speed, int min, int max, char const *format, int flags)
 {
-   return ImGui::SliderScalarN(label, ImGuiDataType_Float, (void *)value, n, &minValue, &maxValue, format, power) ? 1 : 0;
+   return ImGui::DragInt(label, value, speed, min, max, format, flags) ? 1 : 0;
 }
 
-IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format)
+IggBool iggDragIntN(char const *label, int *value, int n, float speed, int min, int max, char const *format, int flags)
 {
-   return ImGui::SliderInt(label, value, minValue, maxValue, format) ? 1 : 0;
+   return ImGui::DragScalarN(label, ImGuiDataType_S32, (void *)value, n, speed, &min, &max, format, flags) ? 1 : 0;
 }
 
-IggBool iggVSliderFloat(char const *label, IggVec2 const *size, float *value, float minValue, float maxValue, char const *format, float power)
+IggBool iggDragIntRange2V(char const *label, int *currentMin, int *currentMax, float speed, int min, int max, char const *format, const char *formatMax, int flags)
+{
+   return ImGui::DragIntRange2(label, currentMin, currentMax, speed, min, max, format, formatMax, flags) ? 1 : 0;
+}
+
+IggBool iggSliderFloat(char const *label, float *value, float minValue, float maxValue, char const *format, int flags)
+{
+   return ImGui::SliderFloat(label, value, minValue, maxValue, format, flags) ? 1 : 0;
+}
+
+IggBool iggSliderFloatN(char const *label, float *value, int n, float minValue, float maxValue, char const *format, int flags)
+{
+   return ImGui::SliderScalarN(label, ImGuiDataType_Float, (void *)value, n, &minValue, &maxValue, format, flags) ? 1 : 0;
+}
+
+IggBool iggSliderInt(char const *label, int *value, int minValue, int maxValue, char const *format, int flags)
+{
+   return ImGui::SliderInt(label, value, minValue, maxValue, format, flags) ? 1 : 0;
+}
+
+IggBool iggSliderIntN(char const *label, int *value, int n, int minValue, int maxValue, char const *format, int flags)
+{
+   return ImGui::SliderScalarN(label, ImGuiDataType_S32, (void *)value, n, &minValue, &maxValue, format, flags) ? 1 : 0;
+}
+
+IggBool iggVSliderFloat(char const *label, IggVec2 const *size, float *value, float minValue, float maxValue, char const *format, int flags)
 {
    Vec2Wrapper sizeArg(size);
-   return ImGui::VSliderFloat(label, *sizeArg, value, minValue, maxValue, format, power) ? 1 : 0;
+   return ImGui::VSliderFloat(label, *sizeArg, value, minValue, maxValue, format, flags) ? 1 : 0;
 }
 
-IggBool iggVSliderInt(char const *label, IggVec2 const *size, int *value, int minValue, int maxValue, char const *format)
+IggBool iggVSliderInt(char const *label, IggVec2 const *size, int *value, int minValue, int maxValue, char const *format, int flags)
 {
    Vec2Wrapper sizeArg(size);
-   return ImGui::VSliderInt(label, *sizeArg, value, minValue, maxValue, format) ? 1 : 0;
+   return ImGui::VSliderInt(label, *sizeArg, value, minValue, maxValue, format, flags) ? 1 : 0;
 }
 
 extern "C" int iggInputTextCallback(IggInputTextCallbackData data, int key);
@@ -168,9 +193,9 @@ IggBool iggColorPicker4(char const *label, float *col, int flags)
    return ImGui::ColorPicker4(label, col, flags) ? 1 : 0;
 }
 
-IggBool iggCollapsingHeader(const char *label)
+IggBool iggCollapsingHeader(const char *label, int flags)
 {
-   return ImGui::CollapsingHeader(label) ? 1 : 0;
+   return ImGui::CollapsingHeader(label, flags) ? 1 : 0;
 }
 
 IggBool iggTreeNode(char const *label, int flags)
@@ -199,7 +224,18 @@ IggBool iggSelectable(char const *label, IggBool selected, int flags, IggVec2 co
    return ImGui::Selectable(label, selected != 0, flags, *sizeArg) ? 1 : 0;
 }
 
-IggBool iggListBoxV(char const *label, int *currentItem, char const *const items[], int itemsCount, int heightItems)
+IggBool iggBeginListBox(char const *label, IggVec2 const *size)
+{
+   Vec2Wrapper sizeArg(size);
+   return ImGui::BeginListBox(label, *sizeArg) ? 1 : 0;
+}
+
+void iggEndListBox()
+{
+   ImGui::EndListBox();
+}
+
+IggBool iggListBox(char const *label, int *currentItem, char const *const items[], int itemsCount, int heightItems)
 {
    return ImGui::ListBox(label, currentItem, items, itemsCount, heightItems) ? 1 : 0;
 }
@@ -325,6 +361,11 @@ IggBool iggBeginTabItem(char const *label, IggBool *p_open, int flags)
 void iggEndTabItem()
 {
    ImGui::EndTabItem();
+}
+
+IggBool iggTabItemButton(char const *label, int flags)
+{
+   return ImGui::TabItemButton(label, flags) ? 1 : 0;
 }
 
 void iggSetTabItemClosed(char const *tab_or_docked_window_label)

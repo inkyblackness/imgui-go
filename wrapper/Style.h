@@ -22,10 +22,15 @@ extern void iggStyleGetItemInnerSpacing(IggGuiStyle handle, IggVec2 *value);
 extern void iggStyleGetItemSpacing(IggGuiStyle handle, IggVec2 *value);
 
 extern void iggStyleGetFramePadding(IggGuiStyle handle, IggVec2 *value);
+extern void iggStyleGetWindowPadding(IggGuiStyle handle, IggVec2 *value);
+extern void iggStyleGetCellPadding(IggGuiStyle handle, IggVec2 *value);
 
 extern void iggStyleSetColor(IggGuiStyle handle, int index, IggVec4 const *color);
+extern void iggStyleGetColor(IggGuiStyle handle, int index, IggVec4 *value);
 
 extern void iggStyleScaleAllSizes(IggGuiStyle handle, float scale);
+
+extern void iggSetTouchExtraPadding(IggGuiStyle handle, IggVec2 const *value);
 
 #ifdef __cplusplus
 }

@@ -8,12 +8,14 @@ extern "C" {
 
 typedef struct tagIggListClipper
 {
-   float StartPosY;
-   float ItemsHeight;
-   int ItemsCount;
-   int StepNo;
    int DisplayStart;
    int DisplayEnd;
+   int ItemsCount;
+
+   int StepNo;
+   int ItemsFrozen;
+   float ItemsHeight;
+   float StartPosY;
 } IggListClipper;
 
 extern IggBool iggListClipperStep(IggListClipper *clipper);

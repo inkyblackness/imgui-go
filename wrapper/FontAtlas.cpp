@@ -105,3 +105,22 @@ void iggFontAtlasSetTextureID(IggFontAtlas handle, IggTextureID id)
    ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
    fontAtlas->SetTexID(reinterpret_cast<ImTextureID>(id));
 }
+
+IggBool iggFontAtlasBuild(IggFontAtlas handle)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   return fontAtlas->Build() ? 1 : 0;
+}
+
+unsigned int iggFontAtlasGetFontBuilderFlags(IggFontAtlas handle)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   return fontAtlas->FontBuilderFlags;
+}
+
+void iggFontAtlasSetFontBuilderFlags(IggFontAtlas handle, unsigned int flags)
+{
+   ImFontAtlas *fontAtlas = reinterpret_cast<ImFontAtlas *>(handle);
+   fontAtlas->FontBuilderFlags = flags;
+}
+

@@ -1,6 +1,6 @@
 package imgui
 
-// #cgo CPPFLAGS: -I./imgui
+// #cgo CPPFLAGS: -I./imgui -DIMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCTIONS
 // #cgo CXXFLAGS: -std=c++11
 // #cgo CXXFLAGS: -Wno-subobject-linkage
 import "C"

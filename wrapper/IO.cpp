@@ -70,6 +70,19 @@ extern void iggMouseDelta(IggIO handle, IggVec2 *value)
    exportValue(*value, io->MouseDelta);
 }
 
+extern void iggMouseWheel(IggIO handle, float *mouseWheelH, float *mouseWheel)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   *mouseWheelH = io->MouseWheelH;
+   *mouseWheel = io->MouseWheel;
+}
+
+extern void iggDisplayFrameBufferScale(IggIO handle, IggVec2 *value)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   exportValue(*value, io->DisplayFramebufferScale);
+}
+
 IggFontAtlas iggIoGetFonts(IggIO handle)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
@@ -80,6 +93,12 @@ void iggIoSetDisplaySize(IggIO handle, IggVec2 const *value)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
    importValue(io->DisplaySize, *value);
+}
+
+void iggIoSetDisplayFrameBufferScale(IggIO handle, IggVec2 const *value)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   importValue(io->DisplayFramebufferScale, *value);
 }
 
 void iggIoSetMousePosition(IggIO handle, IggVec2 const *value)
@@ -179,6 +198,19 @@ void iggIoSetBackendFlags(IggIO handle, int flags)
 {
    ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
    io.BackendFlags = flags;
+}
+
+int iggIoGetBackendFlags(IggIO handle)
+{
+   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
+   return io.BackendFlags;
+}
+
+
+void iggIoSetMouseDrawCursor(IggIO handle, IggBool show)
+{
+   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
+   io.MouseDrawCursor = show != 0;
 }
 
 extern "C" void iggIoSetClipboardText(IggIO handle, char *text);

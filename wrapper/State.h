@@ -6,9 +6,19 @@
 extern "C" {
 #endif
 
+extern void iggClearActiveID(void);
+
 extern IggBool iggIsItemClicked();
 extern IggBool iggIsItemHovered(int flags);
 extern IggBool iggIsItemActive();
+extern IggBool iggIsItemEdited();
+extern IggBool iggIsItemActivated();
+extern IggBool iggIsItemDeactivated();
+extern IggBool iggIsItemDeactivatedAfterEdit();
+extern IggBool iggIsItemToggledOpen();
+
+extern void iggSetItemAllowOverlap();
+
 extern IggBool iggIsAnyItemActive();
 extern IggBool iggIsItemVisible();
 
@@ -25,9 +35,13 @@ extern IggBool iggIsAnyMouseDown();
 extern IggBool iggIsMouseClicked(int button, IggBool repeat);
 extern IggBool iggIsMouseReleased(int button);
 extern IggBool iggIsMouseDoubleClicked(int button);
+extern IggBool iggIsMouseDragging(int button, float threshold);
 extern void iggMousePos(IggVec2 *pos);
 extern int iggGetMouseCursor();
 extern void iggSetMouseCursor(int cursor);
+
+extern void iggGetItemRectMax(IggVec2 *pos);
+extern void iggGetItemRectMin(IggVec2 *pos);
 
 #ifdef __cplusplus
 }

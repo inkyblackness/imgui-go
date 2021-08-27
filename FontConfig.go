@@ -80,6 +80,23 @@ func (config FontConfig) SetGlyphMaxAdvanceX(value float32) {
 	}
 }
 
+// SetGlyphOffsetX sets the horizontal offset for all glyphs. Positive values
+// adjust the glyph to the right and negative values adjust the glyph to the
+// left.
+func (config FontConfig) SetGlyphOffsetX(value float32) {
+	if config != DefaultFontConfig {
+		C.iggFontConfigSetGlyphOffsetX(config.handle(), C.float(value))
+	}
+}
+
+// SetGlyphOffsetY sets the vertical offset for all glyphs. Positive values
+// adjust the glyph downward and negative value adjust the glyph upward.
+func (config FontConfig) SetGlyphOffsetY(value float32) {
+	if config != DefaultFontConfig {
+		C.iggFontConfigSetGlyphOffsetY(config.handle(), C.float(value))
+	}
+}
+
 // SetMergeMode merges the new fonts into the previous font if enabled. This way
 // you can combine multiple input fonts into one (e.g. ASCII font + icons +
 // Japanese glyphs). You may want to use GlyphOffset.y when merge font of
@@ -90,6 +107,19 @@ func (config FontConfig) SetMergeMode(value bool) {
 	}
 }
 
+// SetName sets a short display name for a font, for diagnostic purposes.
+// If the FontConfig does not provide a name, one will be synthesized for
+// fonts which are added from files.  When adding fonts from memory, this
+// method can be used to provide a name.
+// The name will be truncated if it is longer than the limit supported by imgui.
+func (config FontConfig) SetName(name string) {
+	if config != DefaultFontConfig {
+		nameArg, nameFin := wrapString(name)
+		defer nameFin()
+		C.iggFontConfigSetName(config.handle(), nameArg)
+	}
+}
+
 // getFontDataOwnedByAtlas gets the current ownership status of the font data.
 func (config FontConfig) getFontDataOwnedByAtlas() bool {
 	if config != DefaultFontConfig {
@@ -97,4 +127,14 @@ func (config FontConfig) getFontDataOwnedByAtlas() bool {
 	}
 
 	return true
+}
+
+// FontBuilderFlags returns settings for custom font builder.
+func (config FontConfig) FontBuilderFlags() uint {
+	return uint(C.iggFontConfigGetFontBuilderFlags(config.handle()))
+}
+
+// SetFontBuilderFlags sets settings for custom font builder. THIS IS BUILDER IMPLEMENTATION DEPENDENT. Leave as zero if unsure.
+func (config FontConfig) SetFontBuilderFlags(flags uint) {
+	C.iggFontConfigSetFontBuilderFlags(config.handle(), C.uint(flags))
 }

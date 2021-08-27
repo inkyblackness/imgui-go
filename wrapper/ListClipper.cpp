@@ -21,7 +21,8 @@ IggBool iggListClipperStep(IggListClipper *clipper)
 
 void iggListClipperBegin(IggListClipper *clipper, int items_count, float items_height)
 {
-   ImGuiListClipper imguiClipper(items_count, items_height);
+   ImGuiListClipper imguiClipper;
+   imguiClipper.Begin(items_count, items_height);
    exportValue(*clipper, imguiClipper);
    // needs to be done to prevent assert fail, we don't call end because the cursor will move.
    imguiClipper.ItemsCount = -1;
@@ -37,20 +38,24 @@ void iggListClipperEnd(IggListClipper *clipper)
 
 static void importValue(ImGuiListClipper &out, IggListClipper const &in)
 {
-   out.StartPosY = in.StartPosY;
-   out.ItemsHeight = in.ItemsHeight;
-   out.ItemsCount = in.ItemsCount;
-   out.StepNo = in.StepNo;
    out.DisplayStart = in.DisplayStart;
    out.DisplayEnd = in.DisplayEnd;
+   out.ItemsCount = in.ItemsCount;
+
+   out.StepNo = in.StepNo;
+   out.ItemsFrozen = in.ItemsFrozen;
+   out.ItemsHeight = in.ItemsHeight;
+   out.StartPosY = in.StartPosY;
 }
 
 static void exportValue(IggListClipper &out, ImGuiListClipper const &in)
 {
-   out.StartPosY = in.StartPosY;
-   out.ItemsHeight = in.ItemsHeight;
-   out.ItemsCount = in.ItemsCount;
-   out.StepNo = in.StepNo;
    out.DisplayStart = in.DisplayStart;
    out.DisplayEnd = in.DisplayEnd;
+   out.ItemsCount = in.ItemsCount;
+
+   out.StepNo = in.StepNo;
+   out.ItemsFrozen = in.ItemsFrozen;
+   out.ItemsHeight = in.ItemsHeight;
+   out.StartPosY = in.StartPosY;
 }

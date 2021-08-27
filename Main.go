@@ -8,6 +8,11 @@ func Version() string {
 	return C.GoString(C.iggGetVersion())
 }
 
+// Time returns global imgui time. Incremented by io.DeltaTime every frame.
+func Time() float64 {
+	return float64(C.iggGetTime())
+}
+
 // NewFrame starts a new ImGui frame, you can submit any command from this point until Render()/EndFrame().
 func NewFrame() {
 	C.iggNewFrame()

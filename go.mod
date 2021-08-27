@@ -1,4 +1,4 @@
-module github.com/inkyblackness/imgui-go/v2
+module github.com/inkyblackness/imgui-go/v4
 
 require github.com/stretchr/testify v1.3.0
 

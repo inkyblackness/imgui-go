@@ -7,6 +7,7 @@ extern "C" {
 #endif
 
 extern char const *iggGetVersion(void);
+extern double iggGetTime(void);
 
 extern void iggNewFrame(void);
 extern void iggRender(void);

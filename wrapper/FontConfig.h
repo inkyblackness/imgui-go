@@ -15,8 +15,14 @@ extern void iggFontConfigSetOversampleV(IggFontConfig handle, int value);
 extern void iggFontConfigSetPixelSnapH(IggFontConfig handle, IggBool value);
 extern void iggFontConfigSetGlyphMinAdvanceX(IggFontConfig handle, float value);
 extern void iggFontConfigSetGlyphMaxAdvanceX(IggFontConfig handle, float value);
+extern void iggFontConfigSetGlyphOffsetX(IggFontConfig handle, float value);
+extern void iggFontConfigSetGlyphOffsetY(IggFontConfig handle, float value);
 extern void iggFontConfigSetMergeMode(IggFontConfig handle, IggBool value);
+extern void iggFontConfigSetName(IggFontConfig handle, char const *value);
 extern int iggFontConfigGetFontDataOwnedByAtlas(IggFontConfig handle);
+
+extern unsigned int iggFontConfigGetFontBuilderFlags(IggFontConfig handle);
+extern void         iggFontConfigSetFontBuilderFlags(IggFontConfig handle, unsigned int flags);
 
 #ifdef __cplusplus
 }

@@ -82,13 +82,13 @@ type InputTextCallbackData struct {
 }
 
 // EventFlag returns one of the InputTextFlagsCallback* constants to indicate the nature of the callback.
-func (data InputTextCallbackData) EventFlag() int {
-	return int(C.iggInputTextCallbackDataGetEventFlag(data.handle))
+func (data InputTextCallbackData) EventFlag() InputTextFlags {
+	return InputTextFlags(C.iggInputTextCallbackDataGetEventFlag(data.handle))
 }
 
 // Flags returns the set of flags that the user originally passed to InputText.
-func (data InputTextCallbackData) Flags() int {
-	return int(C.iggInputTextCallbackDataGetFlags(data.handle)) & ^inputTextFlagsCallbackResize
+func (data InputTextCallbackData) Flags() InputTextFlags {
+	return InputTextFlags(C.iggInputTextCallbackDataGetFlags(data.handle)) & ^inputTextFlagsCallbackResize
 }
 
 // EventChar returns the current character input. Only valid during CharFilter callback.

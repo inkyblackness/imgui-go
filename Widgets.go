@@ -23,7 +23,7 @@ func LabelText(label, text string) {
 	C.iggLabelText(labelArg, textArg)
 }
 
-// ButtonV returning true if it is pressed.
+// ButtonV returns true if it is clicked.
 func ButtonV(id string, size Vec2) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
@@ -36,17 +36,31 @@ func Button(id string) bool {
 	return ButtonV(id, Vec2{})
 }
 
-// InvisibleButtonV returning true if it is pressed.
-func InvisibleButtonV(id string, size Vec2) bool {
+// ButtonFlags Flags for InvisibleButton().
+type ButtonFlags int
+
+const (
+	// ButtonFlagsNone is no flag applied.
+	ButtonFlagsNone ButtonFlags = 0
+	// ButtonFlagsMouseButtonLeft reacts on left mouse button (default).
+	ButtonFlagsMouseButtonLeft ButtonFlags = 1 << 0
+	// ButtonFlagsMouseButtonRight reacts on right mouse button.
+	ButtonFlagsMouseButtonRight ButtonFlags = 1 << 1
+	// ButtonFlagsMouseButtonMiddle reacts on center mouse button.
+	ButtonFlagsMouseButtonMiddle ButtonFlags = 1 << 2
+)
+
+// InvisibleButtonV returns true if it is clicked.
+func InvisibleButtonV(id string, size Vec2, flags ButtonFlags) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
 	sizeArg, _ := size.wrapped()
-	return C.iggInvisibleButton(idArg, sizeArg) != 0
+	return C.iggInvisibleButton(idArg, sizeArg, C.int(flags)) != 0
 }
 
-// InvisibleButton calls InvisibleButtonV(id, Vec2{0,0}).
-func InvisibleButton(id string) bool {
-	return InvisibleButtonV(id, Vec2{})
+// InvisibleButton calls InvisibleButtonV(id, size, ButtonFlagsNone).
+func InvisibleButton(id string, size Vec2) bool {
+	return InvisibleButtonV(id, size, ButtonFlagsNone)
 }
 
 // ImageV adds an image based on given texture ID.
@@ -92,11 +106,31 @@ func Checkbox(id string, selected *bool) bool {
 	return C.iggCheckbox(idArg, selectedArg) != 0
 }
 
-// RadioButton returning true if it is pressed and active indicates if it is selected.
+// RadioButton returns true if it is clicked and active indicates if it is selected.
 func RadioButton(id string, active bool) bool {
 	idArg, idFin := wrapString(id)
 	defer idFin()
 	return C.iggRadioButton(idArg, castBool(active)) != 0
+}
+
+// RadioButtonInt modifies integer v. Returns true if it is selected.
+//
+// The radio button will be set if v == button. Useful for groups of radio
+// buttons. In the example below, "radio b" will be selected.
+//
+//		v := 1
+//		imgui.RadioButtonInt("radio a", &v, 0)
+//		imgui.RadioButtonInt("radio b", &v, 1)
+//		imgui.RadioButtonInt("radio c", &v, 2)
+//
+func RadioButtonInt(id string, v *int, button int) bool {
+	idArg, idFin := wrapString(id)
+	defer idFin()
+	ok := C.iggRadioButton(idArg, castBool(button == *v)) != 0
+	if ok {
+		*v = button
+	}
+	return ok
 }
 
 // Bullet draws a small circle and keeps the cursor on the same line.
@@ -114,35 +148,38 @@ func ProgressBarV(fraction float32, size Vec2, overlay string) {
 	C.iggProgressBar(C.float(fraction), sizeArg, overlayArg)
 }
 
-// ProgressBar calls ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "").
+// ProgressBar calls ProgressBarV(fraction, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, "").
 func ProgressBar(fraction float32) {
-	ProgressBarV(fraction, Vec2{X: -1, Y: 0}, "")
+	ProgressBarV(fraction, Vec2{X: -math.SmallestNonzeroFloat32, Y: 0}, "")
 }
 
+// ComboFlags for BeginComboV().
+type ComboFlags int
+
 const (
-	// ComboFlagNone default = 0
-	ComboFlagNone = 0
-	// ComboFlagPopupAlignLeft aligns the popup toward the left by default.
-	ComboFlagPopupAlignLeft = 1 << 0
-	// ComboFlagHeightSmall has max ~4 items visible.
+	// ComboFlagsNone default = 0.
+	ComboFlagsNone ComboFlags = 0
+	// ComboFlagsPopupAlignLeft aligns the popup toward the left by default.
+	ComboFlagsPopupAlignLeft ComboFlags = 1 << 0
+	// ComboFlagsHeightSmall has max ~4 items visible.
 	// Tip: If you want your combo popup to be a specific size you can use SetNextWindowSizeConstraints() prior to calling BeginCombo().
-	ComboFlagHeightSmall = 1 << 1
-	// ComboFlagHeightRegular has max ~8 items visible (default).
-	ComboFlagHeightRegular = 1 << 2
-	// ComboFlagHeightLarge has max ~20 items visible.
-	ComboFlagHeightLarge = 1 << 3
-	// ComboFlagHeightLargest has as many fitting items as possible.
-	ComboFlagHeightLargest = 1 << 4
-	// ComboFlagNoArrowButton displays on the preview box without the square arrow button.
-	ComboFlagNoArrowButton = 1 << 5
-	// ComboFlagNoPreview displays only a square arrow button.
-	ComboFlagNoPreview = 1 << 6
+	ComboFlagsHeightSmall ComboFlags = 1 << 1
+	// ComboFlagsHeightRegular has max ~8 items visible (default).
+	ComboFlagsHeightRegular ComboFlags = 1 << 2
+	// ComboFlagsHeightLarge has max ~20 items visible.
+	ComboFlagsHeightLarge ComboFlags = 1 << 3
+	// ComboFlagsHeightLargest has as many fitting items as possible.
+	ComboFlagsHeightLargest ComboFlags = 1 << 4
+	// ComboFlagsNoArrowButton displays on the preview box without the square arrow button.
+	ComboFlagsNoArrowButton ComboFlags = 1 << 5
+	// ComboFlagsNoPreview displays only a square arrow button.
+	ComboFlagsNoPreview ComboFlags = 1 << 6
 )
 
 // BeginComboV creates a combo box with complete control over the content to the user.
 // Call EndCombo() if this function returns true.
 // flags are the ComboFlags to apply.
-func BeginComboV(label, previewValue string, flags int) bool {
+func BeginComboV(label, previewValue string, flags ComboFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	previewValueArg, previewValueFin := wrapString(previewValue)
@@ -160,87 +197,309 @@ func EndCombo() {
 	C.iggEndCombo()
 }
 
+// SliderFlags for DragFloat(), DragInt(), SliderFloat(), SliderInt() etc.
+// We use the same sets of flags for DragXXX() and SliderXXX() functions as the features are the same and it makes it easier to swap them.
+type SliderFlags int
+
+const (
+	// SliderFlagsNone is no flag applied.
+	SliderFlagsNone SliderFlags = 0
+	// SliderFlagsAlwaysClamp clamps value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
+	SliderFlagsAlwaysClamp SliderFlags = 1 << 4
+	// SliderFlagsLogarithmic makes the widget logarithmic (linear otherwise). Consider using SliderFlagNoRoundToFormat with this if using a format-string with small amount of digits.
+	SliderFlagsLogarithmic SliderFlags = 1 << 5
+	// SliderFlagsNoRoundToFormat disables rounding underlying value to match precision of the display format string (e.g. %.3f values are rounded to those 3 digits).
+	SliderFlagsNoRoundToFormat SliderFlags = 1 << 6
+	// SliderFlagsNoInput disables CTRL+Click or Enter key allowing to input text directly into the widget.
+	SliderFlagsNoInput SliderFlags = 1 << 7
+)
+
 // DragFloatV creates a draggable slider for floats.
-func DragFloatV(label string, value *float32, speed, min, max float32, format string, power float32) bool {
+func DragFloatV(label string, value *float32, speed, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	valueArg, valueFin := wrapFloat(value)
 	defer valueFin()
 	formatArg, formatFin := wrapString(format)
 	defer formatFin()
-	return C.iggDragFloat(labelArg, valueArg, C.float(speed), C.float(min), C.float(max), formatArg, C.float(power)) != 0
+	return C.iggDragFloat(labelArg, valueArg, C.float(speed), C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// DragFloat calls DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", 1.0).
+// DragFloat calls DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone).
 func DragFloat(label string, value *float32) bool {
-	return DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", 1.0)
+	return DragFloatV(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone)
 }
 
-// DragIntV creates a draggable slider for integers.
-func DragIntV(label string, value *int32, speed float32, min, max int32, format string) bool {
-	labelArg, labelFin := wrapString(label)
-	defer labelFin()
-	valueArg, valueFin := wrapInt32(value)
-	defer valueFin()
-	formatArg, formatFin := wrapString(format)
-	defer formatFin()
-	return C.iggDragInt(labelArg, valueArg, C.float(speed), C.int(min), C.int(max), formatArg) != 0
-}
-
-// DragInt calls DragIntV(label, value, 1.0, 0, 0, "%d").
-func DragInt(label string, value *int32) bool {
-	return DragIntV(label, value, 1.0, 0, 0, "%d")
-}
-
-// SliderFloatV creates a slider for floats.
-func SliderFloatV(label string, value *float32, min, max float32, format string, power float32) bool {
-	labelArg, labelFin := wrapString(label)
-	defer labelFin()
-	valueArg, valueFin := wrapFloat(value)
-	defer valueFin()
-	formatArg, formatFin := wrapString(format)
-	defer formatFin()
-	return C.iggSliderFloat(labelArg, valueArg, C.float(min), C.float(max), formatArg, C.float(power)) != 0
-}
-
-// SliderFloat calls SliderIntV(label, value, min, max, "%.3f", 1.0).
-func SliderFloat(label string, value *float32, min, max float32) bool {
-	return SliderFloatV(label, value, min, max, "%.3f", 1.0)
-}
-
-// SliderFloat3V creates slider for a 3D vector.
-func SliderFloat3V(label string, values *[3]float32, min, max float32, format string, power float32) bool {
+// DragFloat2V creates a draggable slider for a 2D vector.
+func DragFloat2V(label string, values *[2]float32, speed, min, max float32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	formatArg, formatFin := wrapString(format)
 	defer formatFin()
 	cvalues := (*C.float)(&values[0])
-	return C.iggSliderFloatN(labelArg, cvalues, 3, C.float(min), C.float(max), formatArg, C.float(power)) != 0
+	return C.iggDragFloatN(labelArg, cvalues, 2, C.float(speed), C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderFloat3 calls SliderFloat3V(label, values, min, max, "%.3f", 1,0).
-func SliderFloat3(label string, values *[3]float32, min, max float32) bool {
-	return SliderFloat3V(label, values, min, max, "%.3f", 1.0)
+// DragFloat2 calls DragFloat2V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone).
+func DragFloat2(label string, value *[2]float32) bool {
+	return DragFloat2V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone)
 }
 
-// SliderIntV creates a slider for integers.
-func SliderIntV(label string, value *int32, min, max int32, format string) bool {
+// DragFloat3V creates a draggable slider for a 3D vector.
+func DragFloat3V(label string, values *[3]float32, speed, min, max float32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.float)(&values[0])
+	return C.iggDragFloatN(labelArg, cvalues, 3, C.float(speed), C.float(min), C.float(max), formatArg, C.int(flags)) != 0
+}
+
+// DragFloat3 calls DragFloat3V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone).
+func DragFloat3(label string, value *[3]float32) bool {
+	return DragFloat3V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone)
+}
+
+// DragFloat4V creates a draggable slider for a 4D vector.
+func DragFloat4V(label string, values *[4]float32, speed, min, max float32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.float)(&values[0])
+	return C.iggDragFloatN(labelArg, cvalues, 4, C.float(speed), C.float(min), C.float(max), formatArg, C.int(flags)) != 0
+}
+
+// DragFloat4 calls DragFloat4V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone).
+func DragFloat4(label string, value *[4]float32) bool {
+	return DragFloat4V(label, value, 1.0, 0.0, 0.0, "%.3f", SliderFlagsNone)
+}
+
+// DragFloatRange2V creates a draggable slider in floats range.
+func DragFloatRange2V(label string, currentMin *float32, currentMax *float32, speed float32, min float32, max float32, format string, formatMax string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	currentMinArg, currentMinFin := wrapFloat(currentMin)
+	defer currentMinFin()
+	currentMaxArg, currentMaxFin := wrapFloat(currentMax)
+	defer currentMaxFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	formatMaxArg, formatMaxFin := wrapString(formatMax)
+	defer formatMaxFin()
+	return C.iggDragFloatRange2V(labelArg, currentMinArg, currentMaxArg, C.float(speed), C.float(min), C.float(max), formatArg, formatMaxArg, C.int(flags)) != 0
+}
+
+// DragFloatRange2 calls DragFloatRange2V(label, currentMin, currentMax, 1, 0, 0, "%.3f", "%.3f", SliderFlagsNone).
+func DragFloatRange2(label string, currentMin *float32, currentMax *float32) bool {
+	return DragFloatRange2V(label, currentMin, currentMax, 1, 0, 0, "%.3f", "%.3f", SliderFlagsNone)
+}
+
+// DragIntV creates a draggable slider for integers.
+func DragIntV(label string, value *int32, speed float32, min, max int32, format string, flags SliderFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	valueArg, valueFin := wrapInt32(value)
 	defer valueFin()
 	formatArg, formatFin := wrapString(format)
 	defer formatFin()
-	return C.iggSliderInt(labelArg, valueArg, C.int(min), C.int(max), formatArg) != 0
+	return C.iggDragInt(labelArg, valueArg, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// SliderInt calls SliderIntV(label, value, min, max, "%d").
+// DragInt calls DragIntV(label, value, 1.0, 0, 0, "%d", SliderFlagsNone).
+func DragInt(label string, value *int32) bool {
+	return DragIntV(label, value, 1.0, 0, 0, "%d", SliderFlagsNone)
+}
+
+// DragInt2V creates a draggable slider for a 2D vector.
+func DragInt2V(label string, values *[2]int32, speed float32, min, max int32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.int)(&values[0])
+	return C.iggDragIntN(labelArg, cvalues, 2, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
+}
+
+// DragInt2 calls DragInt2V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone).
+func DragInt2(label string, value *[2]int32) bool {
+	return DragInt2V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone)
+}
+
+// DragInt3V creates a draggable slider for a 3D vector.
+func DragInt3V(label string, values *[3]int32, speed float32, min, max int32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.int)(&values[0])
+	return C.iggDragIntN(labelArg, cvalues, 3, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
+}
+
+// DragInt3 calls DragInt3V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone).
+func DragInt3(label string, value *[3]int32) bool {
+	return DragInt3V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone)
+}
+
+// DragInt4V creates a draggable slider for a 4D vector.
+func DragInt4V(label string, values *[4]int32, speed float32, min, max int32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.int)(&values[0])
+	return C.iggDragIntN(labelArg, cvalues, 4, C.float(speed), C.int(min), C.int(max), formatArg, C.int(flags)) != 0
+}
+
+// DragInt4 calls DragInt4V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone).
+func DragInt4(label string, value *[4]int32) bool {
+	return DragInt4V(label, value, 1.0, 0.0, 0.0, "%d", SliderFlagsNone)
+}
+
+// DragIntRange2V creates a draggable slider in ints range.
+func DragIntRange2V(label string, currentMin *int32, currentMax *int32, speed float32, min int, max int, format string, formatMax string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	currentMinArg, currentMinFin := wrapInt32(currentMin)
+	defer currentMinFin()
+	currentMaxArg, currentMaxFin := wrapInt32(currentMax)
+	defer currentMaxFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	formatMaxArg, formatMaxFin := wrapString(formatMax)
+	defer formatMaxFin()
+	return C.iggDragIntRange2V(labelArg, currentMinArg, currentMaxArg, C.float(speed), C.int(min), C.int(max), formatArg, formatMaxArg, C.int(flags)) != 0
+}
+
+// DragIntRange2 calls DragIntRange2V(label, currentMin, currentMax, 1, 0, 0, "%d", "%d", SliderFlagsNone).
+func DragIntRange2(label string, currentMin *int32, currentMax *int32) bool {
+	return DragIntRange2V(label, currentMin, currentMax, 1, 0, 0, "%d", "%d", SliderFlagsNone)
+}
+
+// SliderFloatV creates a slider for floats.
+func SliderFloatV(label string, value *float32, min, max float32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapFloat(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggSliderFloat(labelArg, valueArg, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
+}
+
+// SliderFloat calls SliderIntV(label, value, min, max, "%.3f", SliderFlagsNone).
+func SliderFloat(label string, value *float32, min, max float32) bool {
+	return SliderFloatV(label, value, min, max, "%.3f", SliderFlagsNone)
+}
+
+// SliderFloat2V creates slider for a 2D vector.
+func SliderFloat2V(label string, values *[2]float32, min, max float32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.float)(&values[0])
+	return C.iggSliderFloatN(labelArg, cvalues, 2, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
+}
+
+// SliderFloat2 calls SliderFloat2V(label, values, min, max, "%.3f", SliderFlagsNone).
+func SliderFloat2(label string, values *[2]float32, min, max float32) bool {
+	return SliderFloat2V(label, values, min, max, "%.3f", SliderFlagsNone)
+}
+
+// SliderFloat3V creates slider for a 3D vector.
+func SliderFloat3V(label string, values *[3]float32, min, max float32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.float)(&values[0])
+	return C.iggSliderFloatN(labelArg, cvalues, 3, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
+}
+
+// SliderFloat3 calls SliderFloat3V(label, values, min, max, "%.3f", SliderFlagsNone).
+func SliderFloat3(label string, values *[3]float32, min, max float32) bool {
+	return SliderFloat3V(label, values, min, max, "%.3f", SliderFlagsNone)
+}
+
+// SliderFloat4V creates slider for a 4D vector.
+func SliderFloat4V(label string, values *[4]float32, min, max float32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.float)(&values[0])
+	return C.iggSliderFloatN(labelArg, cvalues, 4, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
+}
+
+// SliderFloat4 calls SliderFloat3V(label, values, min, max, "%.3f", SliderFlagsNone).
+func SliderFloat4(label string, values *[4]float32, min, max float32) bool {
+	return SliderFloat4V(label, values, min, max, "%.3f", SliderFlagsNone)
+}
+
+// SliderIntV creates a slider for integers.
+func SliderIntV(label string, value *int32, min, max int32, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	valueArg, valueFin := wrapInt32(value)
+	defer valueFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	return C.iggSliderInt(labelArg, valueArg, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
+}
+
+// SliderInt calls SliderIntV(label, value, min, max, "%d", SliderFlagsNone).
 func SliderInt(label string, value *int32, min, max int32) bool {
-	return SliderIntV(label, value, min, max, "%d")
+	return SliderIntV(label, value, min, max, "%d", SliderFlagsNone)
+}
+
+// SliderInt2V creates slider for a 2D vector.
+func SliderInt2V(label string, values *[2]int32, min, max int, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.int)(&values[0])
+	return C.iggSliderIntN(labelArg, cvalues, 2, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
+}
+
+// SliderInt2 calls SliderInt2V(label, values, min, max, "%d", SliderFlagsNone).
+func SliderInt2(label string, values *[2]int32, min, max int) bool {
+	return SliderInt2V(label, values, min, max, "%d", SliderFlagsNone)
+}
+
+// SliderInt3V creates slider for a 3D vector.
+func SliderInt3V(label string, values *[3]int32, min, max int, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.int)(&values[0])
+	return C.iggSliderIntN(labelArg, cvalues, 3, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
+}
+
+// SliderInt3 calls SliderInt3V(label, values, min, max, "%d", SliderFlagsNone).
+func SliderInt3(label string, values *[3]int32, min, max int) bool {
+	return SliderInt3V(label, values, min, max, "%d", SliderFlagsNone)
+}
+
+// SliderInt4V creates slider for a 4D vector.
+func SliderInt4V(label string, values *[4]int32, min, max int, format string, flags SliderFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	formatArg, formatFin := wrapString(format)
+	defer formatFin()
+	cvalues := (*C.int)(&values[0])
+	return C.iggSliderIntN(labelArg, cvalues, 4, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
+}
+
+// SliderInt4 calls SliderInt4V(label, values, min, max, "%d", SliderFlagsNone).
+func SliderInt4(label string, values *[4]int32, min, max int) bool {
+	return SliderInt4V(label, values, min, max, "%d", SliderFlagsNone)
 }
 
 // VSliderFloatV creates a vertically oriented slider for floats.
-func VSliderFloatV(label string, size Vec2, value *float32, min, max float32, format string, power float32) bool {
+func VSliderFloatV(label string, size Vec2, value *float32, min, max float32, format string, flags SliderFlags) bool {
 	sizeArg, _ := size.wrapped()
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -248,16 +507,16 @@ func VSliderFloatV(label string, size Vec2, value *float32, min, max float32, fo
 	defer valueFin()
 	formatArg, formatFin := wrapString(format)
 	defer formatFin()
-	return C.iggVSliderFloat(labelArg, sizeArg, valueArg, C.float(min), C.float(max), formatArg, C.float(power)) != 0
+	return C.iggVSliderFloat(labelArg, sizeArg, valueArg, C.float(min), C.float(max), formatArg, C.int(flags)) != 0
 }
 
-// VSliderFloat calls VSliderIntV(label, size, value, min, max, "%.3f", 1.0).
+// VSliderFloat calls VSliderIntV(label, size, value, min, max, "%.3f", SliderFlagsNone).
 func VSliderFloat(label string, size Vec2, value *float32, min, max float32) bool {
-	return VSliderFloatV(label, size, value, min, max, "%.3f", 1.0)
+	return VSliderFloatV(label, size, value, min, max, "%.3f", SliderFlagsNone)
 }
 
 // VSliderIntV creates a vertically oriented slider for integers.
-func VSliderIntV(label string, size Vec2, value *int32, min, max int32, format string) bool {
+func VSliderIntV(label string, size Vec2, value *int32, min, max int32, format string, flags SliderFlags) bool {
 	sizeArg, _ := size.wrapped()
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -265,58 +524,66 @@ func VSliderIntV(label string, size Vec2, value *int32, min, max int32, format s
 	defer valueFin()
 	formatArg, formatFin := wrapString(format)
 	defer formatFin()
-	return C.iggVSliderInt(labelArg, sizeArg, valueArg, C.int(min), C.int(max), formatArg) != 0
+	return C.iggVSliderInt(labelArg, sizeArg, valueArg, C.int(min), C.int(max), formatArg, C.int(flags)) != 0
 }
 
-// VSliderInt calls VSliderIntV(label, size, value, min, max, "%d").
+// VSliderInt calls VSliderIntV(label, size, value, min, max, "%d", SliderFlagsNone).
 func VSliderInt(label string, size Vec2, value *int32, min, max int32) bool {
-	return VSliderIntV(label, size, value, min, max, "%d")
+	return VSliderIntV(label, size, value, min, max, "%d", SliderFlagsNone)
 }
+
+// InputTextFlags for InputTextV(), etc.
+type InputTextFlags int
 
 const (
 	// InputTextFlagsNone sets everything default.
-	InputTextFlagsNone = 0
-	// InputTextFlagsCharsDecimal allows 0123456789.+-
-	InputTextFlagsCharsDecimal = 1 << 0
-	// InputTextFlagsCharsHexadecimal allow 0123456789ABCDEFabcdef
-	InputTextFlagsCharsHexadecimal = 1 << 1
+	InputTextFlagsNone InputTextFlags = 0
+	// InputTextFlagsCharsDecimal allows 0123456789.+-.
+	InputTextFlagsCharsDecimal InputTextFlags = 1 << 0
+	// InputTextFlagsCharsHexadecimal allow 0123456789ABCDEFabcdef.
+	InputTextFlagsCharsHexadecimal InputTextFlags = 1 << 1
 	// InputTextFlagsCharsUppercase turns a..z into A..Z.
-	InputTextFlagsCharsUppercase = 1 << 2
+	InputTextFlagsCharsUppercase InputTextFlags = 1 << 2
 	// InputTextFlagsCharsNoBlank filters out spaces, tabs.
-	InputTextFlagsCharsNoBlank = 1 << 3
+	InputTextFlagsCharsNoBlank InputTextFlags = 1 << 3
 	// InputTextFlagsAutoSelectAll selects entire text when first taking mouse focus.
-	InputTextFlagsAutoSelectAll = 1 << 4
+	InputTextFlagsAutoSelectAll InputTextFlags = 1 << 4
 	// InputTextFlagsEnterReturnsTrue returns 'true' when Enter is pressed (as opposed to when the value was modified).
-	InputTextFlagsEnterReturnsTrue = 1 << 5
+	InputTextFlagsEnterReturnsTrue InputTextFlags = 1 << 5
 	// InputTextFlagsCallbackCompletion for callback on pressing TAB (for completion handling).
-	InputTextFlagsCallbackCompletion = 1 << 6
+	InputTextFlagsCallbackCompletion InputTextFlags = 1 << 6
 	// InputTextFlagsCallbackHistory for callback on pressing Up/Down arrows (for history handling).
-	InputTextFlagsCallbackHistory = 1 << 7
+	InputTextFlagsCallbackHistory InputTextFlags = 1 << 7
 	// InputTextFlagsCallbackAlways for callback on each iteration. User code may query cursor position, modify text buffer.
-	InputTextFlagsCallbackAlways = 1 << 8
+	InputTextFlagsCallbackAlways InputTextFlags = 1 << 8
 	// InputTextFlagsCallbackCharFilter for callback on character inputs to replace or discard them.
 	// Modify 'EventChar' to replace or discard, or return 1 in callback to discard.
-	InputTextFlagsCallbackCharFilter = 1 << 9
+	InputTextFlagsCallbackCharFilter InputTextFlags = 1 << 9
 	// InputTextFlagsAllowTabInput when pressing TAB to input a '\t' character into the text field.
-	InputTextFlagsAllowTabInput = 1 << 10
+	InputTextFlagsAllowTabInput InputTextFlags = 1 << 10
 	// InputTextFlagsCtrlEnterForNewLine in multi-line mode, unfocus with Enter, add new line with Ctrl+Enter
 	// (default is opposite: unfocus with Ctrl+Enter, add line with Enter).
-	InputTextFlagsCtrlEnterForNewLine = 1 << 11
+	InputTextFlagsCtrlEnterForNewLine InputTextFlags = 1 << 11
 	// InputTextFlagsNoHorizontalScroll disables following the cursor horizontally.
-	InputTextFlagsNoHorizontalScroll = 1 << 12
-	// InputTextFlagsAlwaysInsertMode sets insert mode.
-	InputTextFlagsAlwaysInsertMode = 1 << 13
+	InputTextFlagsNoHorizontalScroll InputTextFlags = 1 << 12
+	// InputTextFlagsAlwaysInsertMode was renamed to InputTextFlagsAlwaysOverwriteMode to reflect its actual behavior and will be removed in v5.
+	// Deprecated: Use InputTextFlagsAlwaysOverwriteMode.
+	InputTextFlagsAlwaysInsertMode InputTextFlags = 1 << 13
+	// InputTextFlagsAlwaysOverwriteMode sets overwrite mode.
+	InputTextFlagsAlwaysOverwriteMode InputTextFlags = 1 << 13
 	// InputTextFlagsReadOnly sets read-only mode.
-	InputTextFlagsReadOnly = 1 << 14
+	InputTextFlagsReadOnly InputTextFlags = 1 << 14
 	// InputTextFlagsPassword sets password mode, display all characters as '*'.
-	InputTextFlagsPassword = 1 << 15
+	InputTextFlagsPassword InputTextFlags = 1 << 15
 	// InputTextFlagsNoUndoRedo disables undo/redo. Note that input text owns the text data while active,
 	// if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
-	InputTextFlagsNoUndoRedo = 1 << 16
+	InputTextFlagsNoUndoRedo InputTextFlags = 1 << 16
 	// InputTextFlagsCharsScientific allows 0123456789.+-*/eE (Scientific notation input).
-	InputTextFlagsCharsScientific = 1 << 17
+	InputTextFlagsCharsScientific InputTextFlags = 1 << 17
 	// inputTextFlagsCallbackResize for callback on buffer capacity change requests.
-	inputTextFlagsCallbackResize = 1 << 18
+	inputTextFlagsCallbackResize InputTextFlags = 1 << 18
+	// ImGuiInputTextFlagsCallbackEdit for callback on any edit (note that InputText() already returns true on edit, the callback is useful mainly to manipulate the underlying buffer while focus is active).
+	ImGuiInputTextFlagsCallbackEdit InputTextFlags = 1 << 19
 )
 
 // InputTextV creates a text field for dynamic text input.
@@ -327,7 +594,7 @@ const (
 // The provided callback is called for any of the requested InputTextFlagsCallback* flags.
 //
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
-func InputTextV(label string, text *string, flags int, cb InputTextCallback) bool {
+func InputTextV(label string, text *string, flags InputTextFlags, cb InputTextCallback) bool {
 	return inputTextSingleline(label, nil, text, flags, cb)
 }
 
@@ -344,7 +611,7 @@ func InputText(label string, text *string) bool {
 // The provided callback is called for any of the requested InputTextFlagsCallback* flags.
 //
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
-func InputTextWithHintV(label string, hint string, text *string, flags int, cb InputTextCallback) bool {
+func InputTextWithHintV(label string, hint string, text *string, flags InputTextFlags, cb InputTextCallback) bool {
 	return inputTextSingleline(label, &hint, text, flags, cb)
 }
 
@@ -353,7 +620,7 @@ func InputTextWithHint(label string, hint string, text *string) bool {
 	return InputTextWithHintV(label, hint, text, 0, nil)
 }
 
-func inputTextSingleline(label string, hint *string, text *string, flags int, cb InputTextCallback) bool {
+func inputTextSingleline(label string, hint *string, text *string, flags InputTextFlags, cb InputTextCallback) bool {
 	if text == nil {
 		panic("text can't be nil")
 	}
@@ -383,7 +650,7 @@ func inputTextSingleline(label string, hint *string, text *string, flags int, cb
 // The provided callback is called for any of the requested InputTextFlagsCallback* flags.
 //
 // To implement a character limit, provide a callback that drops input characters when the requested length has been reached.
-func InputTextMultilineV(label string, text *string, size Vec2, flags int, cb InputTextCallback) bool {
+func InputTextMultilineV(label string, text *string, size Vec2, flags InputTextFlags, cb InputTextCallback) bool {
 	if text == nil {
 		panic("text can't be nil")
 	}
@@ -406,7 +673,7 @@ func InputTextMultiline(label string, text *string) bool {
 }
 
 // InputIntV creates a input field for integer type.
-func InputIntV(label string, value *int32, step int, stepFast int, flags int) bool {
+func InputIntV(label string, value *int32, step int, stepFast int, flags InputTextFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	valueArg, valueFin := wrapInt32(value)
@@ -420,62 +687,65 @@ func InputInt(label string, value *int32) bool {
 	return InputIntV(label, value, 1, 100, 0)
 }
 
+// ColorEditFlags for ColorEdit3V(), etc.
+type ColorEditFlags int
+
 const (
-	// ColorEditFlagsNone default = 0
-	ColorEditFlagsNone = 0
+	// ColorEditFlagsNone default = 0.
+	ColorEditFlagsNone ColorEditFlags = 0
 	// ColorEditFlagsNoAlpha ignores Alpha component (read 3 components from the input pointer).
-	ColorEditFlagsNoAlpha = 1 << 1
+	ColorEditFlagsNoAlpha ColorEditFlags = 1 << 1
 	// ColorEditFlagsNoPicker disables picker when clicking on colored square.
-	ColorEditFlagsNoPicker = 1 << 2
+	ColorEditFlagsNoPicker ColorEditFlags = 1 << 2
 	// ColorEditFlagsNoOptions disables toggling options menu when right-clicking on inputs/small preview.
-	ColorEditFlagsNoOptions = 1 << 3
-	// ColorEditFlagsNoSmallPreview disables colored square preview next to the inputs. (e.g. to show only the inputs)
-	ColorEditFlagsNoSmallPreview = 1 << 4
+	ColorEditFlagsNoOptions ColorEditFlags = 1 << 3
+	// ColorEditFlagsNoSmallPreview disables colored square preview next to the inputs. (e.g. to show only the inputs).
+	ColorEditFlagsNoSmallPreview ColorEditFlags = 1 << 4
 	// ColorEditFlagsNoInputs disables inputs sliders/text widgets (e.g. to show only the small preview colored square).
-	ColorEditFlagsNoInputs = 1 << 5
+	ColorEditFlagsNoInputs ColorEditFlags = 1 << 5
 	// ColorEditFlagsNoTooltip disables tooltip when hovering the preview.
-	ColorEditFlagsNoTooltip = 1 << 6
+	ColorEditFlagsNoTooltip ColorEditFlags = 1 << 6
 	// ColorEditFlagsNoLabel disables display of inline text label (the label is still forwarded to the tooltip and picker).
-	ColorEditFlagsNoLabel = 1 << 7
+	ColorEditFlagsNoLabel ColorEditFlags = 1 << 7
 	// ColorEditFlagsNoSidePreview disables bigger color preview on right side of the picker, use small colored square preview instead.
-	ColorEditFlagsNoSidePreview = 1 << 8
+	ColorEditFlagsNoSidePreview ColorEditFlags = 1 << 8
 	// ColorEditFlagsNoDragDrop disables drag and drop target. ColorButton: disable drag and drop source.
-	ColorEditFlagsNoDragDrop = 1 << 9
-	// ColorEditFlagsNoBorder disables border (which is enforced by default)
-	ColorEditFlagsNoBorder = 1 << 10
+	ColorEditFlagsNoDragDrop ColorEditFlags = 1 << 9
+	// ColorEditFlagsNoBorder disables border (which is enforced by default).
+	ColorEditFlagsNoBorder ColorEditFlags = 1 << 10
 
 	// User Options (right-click on widget to change some of them). You can set application defaults using SetColorEditOptions().
 	// The idea is that you probably don't want to override them in most of your calls, let the user choose and/or call
 	// SetColorEditOptions() during startup.
 
 	// ColorEditFlagsAlphaBar shows vertical alpha bar/gradient in picker.
-	ColorEditFlagsAlphaBar = 1 << 16
+	ColorEditFlagsAlphaBar ColorEditFlags = 1 << 16
 	// ColorEditFlagsAlphaPreview displays preview as a transparent color over a checkerboard, instead of opaque.
-	ColorEditFlagsAlphaPreview = 1 << 17
+	ColorEditFlagsAlphaPreview ColorEditFlags = 1 << 17
 	// ColorEditFlagsAlphaPreviewHalf displays half opaque / half checkerboard, instead of opaque.
-	ColorEditFlagsAlphaPreviewHalf = 1 << 18
+	ColorEditFlagsAlphaPreviewHalf ColorEditFlags = 1 << 18
 	// ColorEditFlagsHDR = (WIP) surrently only disable 0.0f..1.0f limits in RGBA edition.
 	// Note: you probably want to use ImGuiColorEditFlags_Float flag as well.
-	ColorEditFlagsHDR = 1 << 19
-	// ColorEditFlagsRGB sets the format as RGB
-	ColorEditFlagsRGB = 1 << 20
-	// ColorEditFlagsHSV sets the format as HSV
-	ColorEditFlagsHSV = 1 << 21
-	// ColorEditFlagsHEX sets the format as HEX
-	ColorEditFlagsHEX = 1 << 22
+	ColorEditFlagsHDR ColorEditFlags = 1 << 19
+	// ColorEditFlagsRGB sets the format as RGB.
+	ColorEditFlagsRGB ColorEditFlags = 1 << 20
+	// ColorEditFlagsHSV sets the format as HSV.
+	ColorEditFlagsHSV ColorEditFlags = 1 << 21
+	// ColorEditFlagsHEX sets the format as HEX.
+	ColorEditFlagsHEX ColorEditFlags = 1 << 22
 	// ColorEditFlagsUint8 _display_ values formatted as 0..255.
-	ColorEditFlagsUint8 = 1 << 23
+	ColorEditFlagsUint8 ColorEditFlags = 1 << 23
 	// ColorEditFlagsFloat _display_ values formatted as 0.0f..1.0f floats instead of 0..255 integers. No round-trip of value via integers.
-	ColorEditFlagsFloat = 1 << 24
+	ColorEditFlagsFloat ColorEditFlags = 1 << 24
 
 	// ColorEditFlagsPickerHueBar shows bar for Hue, rectangle for Sat/Value.
-	ColorEditFlagsPickerHueBar = 1 << 25
+	ColorEditFlagsPickerHueBar ColorEditFlags = 1 << 25
 	// ColorEditFlagsPickerHueWheel shows wheel for Hue, triangle for Sat/Value.
-	ColorEditFlagsPickerHueWheel = 1 << 26
+	ColorEditFlagsPickerHueWheel ColorEditFlags = 1 << 26
 	// ColorEditFlagsInputRGB enables input and output data in RGB format.
-	ColorEditFlagsInputRGB = 1 << 27
+	ColorEditFlagsInputRGB ColorEditFlags = 1 << 27
 	// ColorEditFlagsInputHSV enables input and output data in HSV format.
-	ColorEditFlagsInputHSV = 1 << 28
+	ColorEditFlagsInputHSV ColorEditFlags = 1 << 28
 )
 
 // ColorEdit3 calls ColorEdit3V(label, col, 0).
@@ -484,7 +754,7 @@ func ColorEdit3(label string, col *[3]float32) bool {
 }
 
 // ColorEdit3V will show a clickable little square which will open a color picker window for 3D vector (rgb format).
-func ColorEdit3V(label string, col *[3]float32, flags int) bool {
+func ColorEdit3V(label string, col *[3]float32, flags ColorEditFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	ccol := (*C.float)(&col[0])
@@ -497,61 +767,64 @@ func ColorEdit4(label string, col *[4]float32) bool {
 }
 
 // ColorEdit4V will show a clickable little square which will open a color picker window for 4D vector (rgba format).
-func ColorEdit4V(label string, col *[4]float32, flags int) bool {
+func ColorEdit4V(label string, col *[4]float32, flags ColorEditFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	ccol := (*C.float)(&col[0])
 	return C.iggColorEdit4(labelArg, ccol, C.int(flags)) != 0
 }
 
+// ColorPickerFlags for ColorPicker3V(), etc.
+type ColorPickerFlags int
+
 const (
-	// ColorPickerFlagsNone default = 0
-	ColorPickerFlagsNone = 0
+	// ColorPickerFlagsNone default = 0.
+	ColorPickerFlagsNone ColorPickerFlags = 0
 	// ColorPickerFlagsNoPicker disables picker when clicking on colored square.
-	ColorPickerFlagsNoPicker = 1 << 2
+	ColorPickerFlagsNoPicker ColorPickerFlags = 1 << 2
 	// ColorPickerFlagsNoOptions disables toggling options menu when right-clicking on inputs/small preview.
-	ColorPickerFlagsNoOptions = 1 << 3
+	ColorPickerFlagsNoOptions ColorPickerFlags = 1 << 3
 	// ColorPickerFlagsNoAlpha ignoreс Alpha component (read 3 components from the input pointer).
-	ColorPickerFlagsNoAlpha = 1 << 1
-	// ColorPickerFlagsNoSmallPreview disables colored square preview next to the inputs. (e.g. to show only the inputs)
-	ColorPickerFlagsNoSmallPreview = 1 << 4
+	ColorPickerFlagsNoAlpha ColorPickerFlags = 1 << 1
+	// ColorPickerFlagsNoSmallPreview disables colored square preview next to the inputs. (e.g. to show only the inputs).
+	ColorPickerFlagsNoSmallPreview ColorPickerFlags = 1 << 4
 	// ColorPickerFlagsNoInputs disables inputs sliders/text widgets (e.g. to show only the small preview colored square).
-	ColorPickerFlagsNoInputs = 1 << 5
+	ColorPickerFlagsNoInputs ColorPickerFlags = 1 << 5
 	// ColorPickerFlagsNoTooltip disables tooltip when hovering the preview.
-	ColorPickerFlagsNoTooltip = 1 << 6
+	ColorPickerFlagsNoTooltip ColorPickerFlags = 1 << 6
 	// ColorPickerFlagsNoLabel disables display of inline text label (the label is still forwarded to the tooltip and picker).
-	ColorPickerFlagsNoLabel = 1 << 7
+	ColorPickerFlagsNoLabel ColorPickerFlags = 1 << 7
 	// ColorPickerFlagsNoSidePreview disables bigger color preview on right side of the picker, use small colored square preview instead.
-	ColorPickerFlagsNoSidePreview = 1 << 8
+	ColorPickerFlagsNoSidePreview ColorPickerFlags = 1 << 8
 
 	// User Options (right-click on widget to change some of them). You can set application defaults using SetColorEditOptions().
 	// The idea is that you probably don't want to override them in most of your calls, let the user choose and/or call
 	// SetColorPickerOptions() during startup.
 
 	// ColorPickerFlagsAlphaBar shows vertical alpha bar/gradient in picker.
-	ColorPickerFlagsAlphaBar = 1 << 16
+	ColorPickerFlagsAlphaBar ColorPickerFlags = 1 << 16
 	// ColorPickerFlagsAlphaPreview displays preview as a transparent color over a checkerboard, instead of opaque.
-	ColorPickerFlagsAlphaPreview = 1 << 17
+	ColorPickerFlagsAlphaPreview ColorPickerFlags = 1 << 17
 	// ColorPickerFlagsAlphaPreviewHalf displays half opaque / half checkerboard, instead of opaque.
-	ColorPickerFlagsAlphaPreviewHalf = 1 << 18
-	// ColorPickerFlagsRGB sets the format as RGB
-	ColorPickerFlagsRGB = 1 << 20
-	// ColorPickerFlagsHSV sets the format as HSV
-	ColorPickerFlagsHSV = 1 << 21
-	// ColorPickerFlagsHEX sets the format as HEX
-	ColorPickerFlagsHEX = 1 << 22
+	ColorPickerFlagsAlphaPreviewHalf ColorPickerFlags = 1 << 18
+	// ColorPickerFlagsRGB sets the format as RGB.
+	ColorPickerFlagsRGB ColorPickerFlags = 1 << 20
+	// ColorPickerFlagsHSV sets the format as HSV.
+	ColorPickerFlagsHSV ColorPickerFlags = 1 << 21
+	// ColorPickerFlagsHEX sets the format as HEX.
+	ColorPickerFlagsHEX ColorPickerFlags = 1 << 22
 	// ColorPickerFlagsUint8 _display_ values formatted as 0..255.
-	ColorPickerFlagsUint8 = 1 << 23
+	ColorPickerFlagsUint8 ColorPickerFlags = 1 << 23
 	// ColorPickerFlagsFloat _display_ values formatted as 0.0f..1.0f floats instead of 0..255 integers. No round-trip of value via integers.
-	ColorPickerFlagsFloat = 1 << 24
+	ColorPickerFlagsFloat ColorPickerFlags = 1 << 24
 	// ColorPickerFlagsPickerHueBar bar for Hue, rectangle for Sat/Value.
-	ColorPickerFlagsPickerHueBar = 1 << 25
+	ColorPickerFlagsPickerHueBar ColorPickerFlags = 1 << 25
 	// ColorPickerFlagsPickerHueWheel wheel for Hue, triangle for Sat/Value.
-	ColorPickerFlagsPickerHueWheel = 1 << 26
+	ColorPickerFlagsPickerHueWheel ColorPickerFlags = 1 << 26
 	// ColorPickerFlagsInputRGB enables input and output data in RGB format.
-	ColorPickerFlagsInputRGB = 1 << 27
+	ColorPickerFlagsInputRGB ColorPickerFlags = 1 << 27
 	// ColorPickerFlagsInputHSV enables input and output data in HSV format.
-	ColorPickerFlagsInputHSV = 1 << 28
+	ColorPickerFlagsInputHSV ColorPickerFlags = 1 << 28
 )
 
 // ColorPicker3 calls ColorPicker3V(label, col, 0).
@@ -560,7 +833,7 @@ func ColorPicker3(label string, col *[3]float32) bool {
 }
 
 // ColorPicker3V will show directly a color picker control for editing a color in 3D vector (rgb format).
-func ColorPicker3V(label string, col *[3]float32, flags int) bool {
+func ColorPicker3V(label string, col *[3]float32, flags ColorPickerFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	ccol := (*C.float)(&col[0])
@@ -573,65 +846,73 @@ func ColorPicker4(label string, col *[4]float32) bool {
 }
 
 // ColorPicker4V will show directly a color picker control for editing a color in 4D vector (rgba format).
-func ColorPicker4V(label string, col *[4]float32, flags int) bool {
+func ColorPicker4V(label string, col *[4]float32, flags ColorPickerFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	ccol := (*C.float)(&col[0])
 	return C.iggColorPicker4(labelArg, ccol, C.int(flags)) != 0
 }
 
-// CollapsingHeader adds a collapsing header.
+// CollapsingHeader calls CollapsingHeaderV(label, 0).
 func CollapsingHeader(label string) bool {
-	labelArg, labelFin := wrapString(label)
-	defer labelFin()
-	return C.iggCollapsingHeader(labelArg) != 0
+	return CollapsingHeaderV(label, 0)
 }
 
+// CollapsingHeaderV adds a collapsing header with TreeNode flags.
+func CollapsingHeaderV(label string, flags TreeNodeFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	return C.iggCollapsingHeader(labelArg, C.int(flags)) != 0
+}
+
+// TreeNodeFlags for TreeNodeV(), CollapsingHeaderV(), etc.
+type TreeNodeFlags int
+
 const (
-	// TreeNodeFlagsNone default = 0
-	TreeNodeFlagsNone = 0
+	// TreeNodeFlagsNone default = 0.
+	TreeNodeFlagsNone TreeNodeFlags = 0
 	// TreeNodeFlagsSelected draws as selected.
-	TreeNodeFlagsSelected = 1 << 0
-	// TreeNodeFlagsFramed draws full colored frame (e.g. for CollapsingHeader).
-	TreeNodeFlagsFramed = 1 << 1
+	TreeNodeFlagsSelected TreeNodeFlags = 1 << 0
+	// TreeNodeFlagsFramed draws frame with background (e.g. for CollapsingHeader).
+	TreeNodeFlagsFramed TreeNodeFlags = 1 << 1
 	// TreeNodeFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one.
-	TreeNodeFlagsAllowItemOverlap = 1 << 2
+	TreeNodeFlagsAllowItemOverlap TreeNodeFlags = 1 << 2
 	// TreeNodeFlagsNoTreePushOnOpen doesn't do a TreePush() when open
 	// (e.g. for CollapsingHeader) = no extra indent nor pushing on ID stack.
-	TreeNodeFlagsNoTreePushOnOpen = 1 << 3
+	TreeNodeFlagsNoTreePushOnOpen TreeNodeFlags = 1 << 3
 	// TreeNodeFlagsNoAutoOpenOnLog doesn't automatically and temporarily open node when Logging is active
 	// (by default logging will automatically open tree nodes).
-	TreeNodeFlagsNoAutoOpenOnLog = 1 << 4
+	TreeNodeFlagsNoAutoOpenOnLog TreeNodeFlags = 1 << 4
 	// TreeNodeFlagsDefaultOpen defaults node to be open.
-	TreeNodeFlagsDefaultOpen = 1 << 5
+	TreeNodeFlagsDefaultOpen TreeNodeFlags = 1 << 5
 	// TreeNodeFlagsOpenOnDoubleClick needs double-click to open node.
-	TreeNodeFlagsOpenOnDoubleClick = 1 << 6
+	TreeNodeFlagsOpenOnDoubleClick TreeNodeFlags = 1 << 6
 	// TreeNodeFlagsOpenOnArrow opens only when clicking on the arrow part.
 	// If TreeNodeFlagsOpenOnDoubleClick is also set, single-click arrow or double-click all box to open.
-	TreeNodeFlagsOpenOnArrow = 1 << 7
+	TreeNodeFlagsOpenOnArrow TreeNodeFlags = 1 << 7
 	// TreeNodeFlagsLeaf allows no collapsing, no arrow (use as a convenience for leaf nodes).
-	TreeNodeFlagsLeaf = 1 << 8
+	TreeNodeFlagsLeaf TreeNodeFlags = 1 << 8
 	// TreeNodeFlagsBullet displays a bullet instead of an arrow.
-	TreeNodeFlagsBullet = 1 << 9
+	TreeNodeFlagsBullet TreeNodeFlags = 1 << 9
 	// TreeNodeFlagsFramePadding uses FramePadding (even for an unframed text node) to
 	// vertically align text baseline to regular widget height. Equivalent to calling AlignTextToFramePadding().
-	TreeNodeFlagsFramePadding = 1 << 10
+	TreeNodeFlagsFramePadding TreeNodeFlags = 1 << 10
 	// TreeNodeFlagsSpanAvailWidth extends hit box to the right-most edge, even if not framed.
 	// This is not the default in order to allow adding other items on the same line.
 	// In the future we may refactor the hit system to be front-to-back, allowing natural overlaps
 	// and then this can become the default.
-	TreeNodeFlagsSpanAvailWidth = 1 << 11
+	TreeNodeFlagsSpanAvailWidth TreeNodeFlags = 1 << 11
 	// TreeNodeFlagsSpanFullWidth extends hit box to the left-most and right-most edges (bypass the indented area).
-	TreeNodeFlagsSpanFullWidth = 1 << 12
+	TreeNodeFlagsSpanFullWidth TreeNodeFlags = 1 << 12
 	// TreeNodeFlagsNavLeftJumpsBackHere (WIP) Nav: left direction may move to this TreeNode() from any of its child
-	// (items submitted between TreeNode and TreePop)
-	TreeNodeFlagsNavLeftJumpsBackHere = 1 << 13
+	// (items submitted between TreeNode and TreePop).
+	TreeNodeFlagsNavLeftJumpsBackHere TreeNodeFlags = 1 << 13
 	// TreeNodeFlagsCollapsingHeader combines TreeNodeFlagsFramed and TreeNodeFlagsNoAutoOpenOnLog.
 	TreeNodeFlagsCollapsingHeader = TreeNodeFlagsFramed | TreeNodeFlagsNoTreePushOnOpen | TreeNodeFlagsNoAutoOpenOnLog
 )
 
 // TreeNodeV returns true if the tree branch is to be rendered. Call TreePop() in this case.
-func TreeNodeV(label string, flags int) bool {
+func TreeNodeV(label string, flags TreeNodeFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	return C.iggTreeNode(labelArg, C.int(flags)) != 0
@@ -657,24 +938,29 @@ func TreeNodeToLabelSpacing() float32 {
 	return float32(C.iggGetTreeNodeToLabelSpacing())
 }
 
+// SelectableFlags for SelectableV().
+type SelectableFlags int
+
 const (
-	// SelectableFlagsNone default = 0
-	SelectableFlagsNone = 0
+	// SelectableFlagsNone default = 0.
+	SelectableFlagsNone SelectableFlags = 0
 	// SelectableFlagsDontClosePopups makes clicking the selectable not close any parent popup windows.
-	SelectableFlagsDontClosePopups = 1 << 0
+	SelectableFlagsDontClosePopups SelectableFlags = 1 << 0
 	// SelectableFlagsSpanAllColumns allows the selectable frame to span all columns (text will still fit in current column).
-	SelectableFlagsSpanAllColumns = 1 << 1
+	SelectableFlagsSpanAllColumns SelectableFlags = 1 << 1
 	// SelectableFlagsAllowDoubleClick generates press events on double clicks too.
-	SelectableFlagsAllowDoubleClick = 1 << 2
+	SelectableFlagsAllowDoubleClick SelectableFlags = 1 << 2
 	// SelectableFlagsDisabled disallows selection and displays text in a greyed out color.
-	SelectableFlagsDisabled = 1 << 3
+	SelectableFlagsDisabled SelectableFlags = 1 << 3
+	// SelectableFlagsAllowItemOverlap hit testing to allow subsequent widgets to overlap this one (WIP).
+	SelectableFlagsAllowItemOverlap SelectableFlags = 1 << 4
 )
 
 // SelectableV returns true if the user clicked it, so you can modify your selection state.
 // flags are the SelectableFlags to apply.
 // size.x==0.0: use remaining width, size.x>0.0: specify width.
 // size.y==0.0: use label height, size.y>0.0: specify height.
-func SelectableV(label string, selected bool, flags int, size Vec2) bool {
+func SelectableV(label string, selected bool, flags SelectableFlags, size Vec2) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 	sizeArg, _ := size.wrapped()
@@ -684,6 +970,30 @@ func SelectableV(label string, selected bool, flags int, size Vec2) bool {
 // Selectable calls SelectableV(label, false, 0, Vec2{0, 0}).
 func Selectable(label string) bool {
 	return SelectableV(label, false, 0, Vec2{})
+}
+
+// BeginListBoxV opens a framed scrolling region.
+// - This is essentially a thin wrapper to using BeginChild/EndChild with some stylistic changes.
+// - The BeginListBox()/EndListBox() api allows you to manage your contents and selection state however you want it, by creating e.g. Selectable() or any items.
+// - The simplified/old ListBox() api are helpers over BeginListBox()/EndListBox() which are kept available for convenience purpose. This is analoguous to how Combos are created.
+// - Choose frame width:   size.x > 0.0f: custom  /  size.x < 0.0f or -FLT_MIN: right-align   /  size.x = 0.0f (default): use current ItemWidth
+// - Choose frame height:  size.y > 0.0f: custom  /  size.y < 0.0f or -FLT_MIN: bottom-align  /  size.y = 0.0f (default): arbitrary default height which can fit ~7 items.
+func BeginListBoxV(label string, size Vec2) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	sizeArg, _ := size.wrapped()
+	return C.iggBeginListBox(labelArg, sizeArg) != 0
+}
+
+// BeginListBox calls BeginListBoxV(label, Vec2{}).
+func BeginListBox(label string) bool {
+	return BeginListBoxV(label, Vec2{})
+}
+
+// EndListBox closes the scope for the previously opened ListBox.
+// only call EndListBox() if BeginListBox() returned true!
+func EndListBox() {
+	C.iggEndListBox()
 }
 
 // ListBoxV creates a list of selectables of given items with equal height, enclosed with header and footer.
@@ -711,7 +1021,7 @@ func ListBoxV(label string, currentItem *int32, items []string, heightItems int)
 		argv[i] = itemArg
 	}
 
-	return C.iggListBoxV(labelArg, valueArg, &argv[0], C.int(itemsCount), C.int(heightItems)) != 0
+	return C.iggListBox(labelArg, valueArg, &argv[0], C.int(itemsCount), C.int(heightItems)) != 0
 }
 
 // ListBox calls ListBoxV(label, currentItem, items, -1)
@@ -866,13 +1176,15 @@ func MenuItem(label string) bool {
 	return MenuItemV(label, "", false, true)
 }
 
+// Columns API is Legacy (2021: prefer using Tables!).
+// - You can also use SameLineV(pos_x, 0) to mimic simplified columns.
+//
 // Columns calls ColumnsV(1, "", false).
 func Columns() {
 	ColumnsV(1, "", false)
 }
 
 // ColumnsV creates a column layout of the specified number of columns.
-// The brittle columns API will be superseded by an upcoming 'table' API.
 func ColumnsV(count int, label string, border bool) {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
@@ -926,37 +1238,40 @@ func ColumnsCount() int {
 	return int(C.iggGetColumnsCount())
 }
 
+// TabBarFlags for BeginTabBarV().
+type TabBarFlags int
+
 const (
 	// TabBarFlagsNone default = 0.
-	TabBarFlagsNone = 0
-	// TabBarFlagsReorderable Allow manually dragging tabs to re-order them + New tabs are appended at the end of list
-	TabBarFlagsReorderable = 1 << 0
-	// TabBarFlagsAutoSelectNewTabs Automatically select new tabs when they appear
-	TabBarFlagsAutoSelectNewTabs = 1 << 1
-	// TabBarFlagsTabListPopupButton Disable buttons to open the tab list popup
-	TabBarFlagsTabListPopupButton = 1 << 2
+	TabBarFlagsNone TabBarFlags = 0
+	// TabBarFlagsReorderable Allow manually dragging tabs to re-order them + New tabs are appended at the end of list.
+	TabBarFlagsReorderable TabBarFlags = 1 << 0
+	// TabBarFlagsAutoSelectNewTabs Automatically select new tabs when they appear.
+	TabBarFlagsAutoSelectNewTabs TabBarFlags = 1 << 1
+	// TabBarFlagsTabListPopupButton Disable buttons to open the tab list popup.
+	TabBarFlagsTabListPopupButton TabBarFlags = 1 << 2
 	// TabBarFlagsNoCloseWithMiddleMouseButton Disable behavior of closing tabs (that are submitted with p_open != NULL)
 	// with middle mouse button. You can still repro this behavior on user's side with if
 	// (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
-	TabBarFlagsNoCloseWithMiddleMouseButton = 1 << 3
+	TabBarFlagsNoCloseWithMiddleMouseButton TabBarFlags = 1 << 3
 	// TabBarFlagsNoTabListScrollingButtons Disable scrolling buttons (apply when fitting policy is
-	// TabBarFlagsFittingPolicyScroll)
-	TabBarFlagsNoTabListScrollingButtons = 1 << 4
-	// TabBarFlagsNoTooltip Disable tooltips when hovering a tab
-	TabBarFlagsNoTooltip = 1 << 5
-	// TabBarFlagsFittingPolicyResizeDown Resize tabs when they don't fit
-	TabBarFlagsFittingPolicyResizeDown = 1 << 6
-	// TabBarFlagsFittingPolicyScroll Add scroll buttons when tabs don't fit
-	TabBarFlagsFittingPolicyScroll = 1 << 7
+	// TabBarFlagsFittingPolicyScroll).
+	TabBarFlagsNoTabListScrollingButtons TabBarFlags = 1 << 4
+	// TabBarFlagsNoTooltip Disable tooltips when hovering a tab.
+	TabBarFlagsNoTooltip TabBarFlags = 1 << 5
+	// TabBarFlagsFittingPolicyResizeDown Resize tabs when they don't fit.
+	TabBarFlagsFittingPolicyResizeDown TabBarFlags = 1 << 6
+	// TabBarFlagsFittingPolicyScroll Add scroll buttons when tabs don't fit.
+	TabBarFlagsFittingPolicyScroll TabBarFlags = 1 << 7
 	// TabBarFlagsFittingPolicyMask combines
-	// TabBarFlagsFittingPolicyResizeDown and TabBarFlagsFittingPolicyScroll
+	// TabBarFlagsFittingPolicyResizeDown and TabBarFlagsFittingPolicyScroll.
 	TabBarFlagsFittingPolicyMask = TabBarFlagsFittingPolicyResizeDown | TabBarFlagsFittingPolicyScroll
-	// TabBarFlagsFittingPolicyDefault alias for TabBarFlagsFittingPolicyResizeDown
+	// TabBarFlagsFittingPolicyDefault alias for TabBarFlagsFittingPolicyResizeDown.
 	TabBarFlagsFittingPolicyDefault = TabBarFlagsFittingPolicyResizeDown
 )
 
 // BeginTabBarV create and append into a TabBar.
-func BeginTabBarV(strID string, flags int) bool {
+func BeginTabBarV(strID string, flags TabBarFlags) bool {
 	idArg, idFin := wrapString(strID)
 	defer idFin()
 
@@ -973,25 +1288,36 @@ func EndTabBar() {
 	C.iggEndTabBar()
 }
 
+// TabItemFlags for BeginTabItemV(), BeginTabButtonV().
+type TabItemFlags int
+
 const (
-	// TabItemFlagsNone default = 0
-	TabItemFlagsNone = 0
+	// TabItemFlagsNone default = 0.
+	TabItemFlagsNone TabItemFlags = 0
 	// TabItemFlagsUnsavedDocument Append '*' to title without affecting the ID, as a convenience to avoid using the
 	// ### operator. Also: tab is selected on closure and closure is deferred by one frame to allow code to undo it
 	// without flicker.
-	TabItemFlagsUnsavedDocument = 1 << 0
-	// TabItemFlagsSetSelected Trigger flag to programmatically make the tab selected when calling BeginTabItem()
-	TabItemFlagsSetSelected = 1 << 1
+	TabItemFlagsUnsavedDocument TabItemFlags = 1 << 0
+	// TabItemFlagsSetSelected Trigger flag to programmatically make the tab selected when calling BeginTabItem().
+	TabItemFlagsSetSelected TabItemFlags = 1 << 1
 	// TabItemFlagsNoCloseWithMiddleMouseButton  Disable behavior of closing tabs (that are submitted with
 	// p_open != NULL) with middle mouse button. You can still repro this behavior on user's side with if
 	// (IsItemHovered() && IsMouseClicked(2)) *p_open = false.
-	TabItemFlagsNoCloseWithMiddleMouseButton = 1 << 2
-	// TabItemFlagsNoPushID Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem()
-	TabItemFlagsNoPushID = 1 << 3
+	TabItemFlagsNoCloseWithMiddleMouseButton TabItemFlags = 1 << 2
+	// TabItemFlagsNoPushID Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem().
+	TabItemFlagsNoPushID TabItemFlags = 1 << 3
+	// TabItemFlagsNoTooltip Disable tooltip for the given tab.
+	TabItemFlagsNoTooltip TabItemFlags = 1 << 4
+	// TabItemFlagsNoReorder Disable reordering this tab or having another tab cross over this tab.
+	TabItemFlagsNoReorder TabItemFlags = 1 << 5
+	// TabItemFlagsLeading Enforce the tab position to the left of the tab bar (after the tab list popup button).
+	TabItemFlagsLeading TabItemFlags = 1 << 6
+	// TabItemFlagsTrailing Enforce the tab position to the right of the tab bar (before the scrolling buttons).
+	TabItemFlagsTrailing TabItemFlags = 1 << 7
 )
 
 // BeginTabItemV create a Tab. Returns true if the Tab is selected.
-func BeginTabItemV(label string, open *bool, flags int) bool {
+func BeginTabItemV(label string, open *bool, flags TabItemFlags) bool {
 	labelArg, labelFin := wrapString(label)
 	defer labelFin()
 
@@ -1010,6 +1336,18 @@ func BeginTabItem(label string) bool {
 // Don't call PushID(tab->ID)/PopID() on BeginTabItem()/EndTabItem().
 func EndTabItem() {
 	C.iggEndTabItem()
+}
+
+// TabItemButtonV create a Tab behaving like a button. return true when clicked. cannot be selected in the tab bar.
+func TabItemButtonV(label string, flags TabItemFlags) bool {
+	labelArg, labelFin := wrapString(label)
+	defer labelFin()
+	return C.iggTabItemButton(labelArg, C.int(flags)) != 0
+}
+
+// TabItemButton calls TabItemButtonV(label, 0).
+func TabItemButton(label string) bool {
+	return TabItemButtonV(label, 0)
 }
 
 // SetTabItemClosed notify TabBar or Docking system of a closed tab/window ahead

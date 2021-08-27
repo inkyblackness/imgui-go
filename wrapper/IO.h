@@ -18,10 +18,12 @@ extern int iggMetricsRenderWindows(IggIO handle);
 extern int iggMetricsActiveWindows(IggIO handle);
 extern int iggMetricsActiveAllocations(IggIO handle);
 extern void iggMouseDelta(IggIO handle, IggVec2 *value);
-
+extern void iggMouseWheel(IggIO handle, float *mouseWheelH, float *mouseWheel);
+extern void iggDisplayFrameBufferScale(IggIO handle, IggVec2 *value);
 extern IggFontAtlas iggIoGetFonts(IggIO handle);
 
 extern void iggIoSetDisplaySize(IggIO handle, IggVec2 const *value);
+extern void iggIoSetDisplayFrameBufferScale(IggIO handle, IggVec2 const *value);
 extern void iggIoSetMousePosition(IggIO handle, IggVec2 const *value);
 extern void iggIoSetMouseButtonDown(IggIO handle, int index, IggBool value);
 extern void iggIoAddMouseWheelDelta(IggIO handle, float x, float y);
@@ -39,6 +41,8 @@ extern void iggIoAddInputCharactersUTF8(IggIO handle, char const *utf8Chars);
 extern void iggIoSetIniFilename(IggIO handle, char const *value);
 extern void iggIoSetConfigFlags(IggIO handle, int flags);
 extern void iggIoSetBackendFlags(IggIO handle, int flags);
+extern int iggIoGetBackendFlags(IggIO handle);
+extern void iggIoSetMouseDrawCursor(IggIO handle, IggBool show);
 
 extern void iggIoRegisterClipboardFunctions(IggIO handle);
 extern void iggIoClearClipboardFunctions(IggIO handle);
