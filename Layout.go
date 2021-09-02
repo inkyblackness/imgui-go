@@ -77,6 +77,16 @@ func EndGroup() {
 	C.iggEndGroup()
 }
 
+// BeginDisabled starts a disabled group.
+func BeginDisabled() {
+	C.iggBeginDisabled()
+}
+
+// EndDisabled must be called for each call to BeginDisabled().
+func EndDisabled() {
+	C.iggEndDisabled()
+}
+
 // CursorPos returns the cursor position in window coordinates (relative to window position).
 func CursorPos() Vec2 {
 	var value Vec2

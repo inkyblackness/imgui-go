@@ -49,6 +49,16 @@ void iggEndGroup(void)
    ImGui::EndGroup();
 }
 
+void iggBeginDisabled(void)
+{
+   ImGui::BeginDisabled();
+}
+
+void iggEndDisabled(void)
+{
+   ImGui::EndDisabled();
+}
+
 void iggIndent(float indent_w)
 {
    ImGui::Indent(indent_w);
