@@ -49,9 +49,9 @@ void iggEndGroup(void)
    ImGui::EndGroup();
 }
 
-void iggBeginDisabled(void)
+void iggBeginDisabled(IggBool disabled)
 {
-   ImGui::BeginDisabled();
+   ImGui::BeginDisabled(disabled);
 }
 
 void iggEndDisabled(void)

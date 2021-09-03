@@ -79,7 +79,12 @@ func EndGroup() {
 
 // BeginDisabled starts a disabled group.
 func BeginDisabled() {
-	C.iggBeginDisabled()
+	BeginDisabledV(true)
+}
+
+// BeginDisabled starts a disabled group.
+func BeginDisabledV(disabled bool) {
+	C.iggBeginDisabled(castBool(disabled))
 }
 
 // EndDisabled must be called for each call to BeginDisabled().
