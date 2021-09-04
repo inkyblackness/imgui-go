@@ -82,7 +82,7 @@ func BeginDisabled() {
 	BeginDisabledV(true)
 }
 
-// BeginDisabled starts a disabled group.
+// BeginDisabledV starts a disabled group only if parameter is true.
 func BeginDisabledV(disabled bool) {
 	C.iggBeginDisabled(castBool(disabled))
 }
