@@ -77,6 +77,10 @@ func EndGroup() {
 	C.iggEndGroup()
 }
 
+/*
+// Disabled API is beta as v1.84; they can change in such a way that require a
+// major version. So, it's better to leave them out until out of beta.
+
 // BeginDisabled starts a disabled group.
 func BeginDisabled() {
 	BeginDisabledV(true)
@@ -91,6 +95,7 @@ func BeginDisabledV(disabled bool) {
 func EndDisabled() {
 	C.iggEndDisabled()
 }
+*/
 
 // CursorPos returns the cursor position in window coordinates (relative to window position).
 func CursorPos() Vec2 {
