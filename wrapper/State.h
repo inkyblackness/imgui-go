@@ -36,6 +36,8 @@ extern IggBool iggIsMouseClicked(int button, IggBool repeat);
 extern IggBool iggIsMouseReleased(int button);
 extern IggBool iggIsMouseDoubleClicked(int button);
 extern IggBool iggIsMouseDragging(int button, float threshold);
+extern void iggGetMouseDragDelta(IggVec2 *value, int button, float lock_threshold);
+extern void iggResetMouseDragDelta(int button);
 extern void iggMousePos(IggVec2 *pos);
 extern int iggGetMouseCursor();
 extern void iggSetMouseCursor(int cursor);
