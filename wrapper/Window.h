@@ -40,6 +40,8 @@ extern void iggPopItemFlag(void);
 extern float iggCalcItemWidth(void);
 extern void iggPushTextWrapPos(float wrapPosX);
 extern void iggPopTextWrapPos(void);
+extern void iggPushAllowKeyboardFocus(IggBool allow);
+extern void iggPopAllowKeyboardFocus();
 extern void iggPushButtonRepeat(IggBool repeat);
 extern void iggPopButtonRepeat(void);
 
