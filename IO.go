@@ -24,6 +24,14 @@ func (io IO) WantCaptureMouse() bool {
 	return C.iggWantCaptureMouse(io.handle) != 0
 }
 
+// WantCaptureMouseUnlessPopupClose returns true if imgui will use the mouse inputs.
+// Alternative to WantCaptureMouse: (WantCaptureMouse == true &&
+// WantCaptureMouseUnlessPopupClose == false) when a click over void is
+// expected to close a popup.
+func (io IO) WantCaptureMouseUnlessPopupClose() bool {
+	return C.iggWantCaptureMouseUnlessPopupClose(io.handle) != 0
+}
+
 // WantCaptureKeyboard returns true if imgui will use the keyboard inputs.
 // Do not dispatch them to your main game/application (in both cases, always pass keyboard inputs to imgui).
 //

@@ -9,6 +9,7 @@ extern "C" {
 extern IggIO iggGetCurrentIO(void);
 
 extern IggBool iggWantCaptureMouse(IggIO handle);
+extern IggBool iggWantCaptureMouseUnlessPopupClose(IggIO handle);
 extern IggBool iggWantCaptureKeyboard(IggIO handle);
 extern IggBool iggWantTextInput(IggIO handle);
 extern float iggFramerate(IggIO handle);

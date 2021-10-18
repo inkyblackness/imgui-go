@@ -80,11 +80,6 @@ void iggGetWindowContentRegionMax(IggVec2 *out)
    exportValue(*out, im_out);
 }
 
-float iggGetWindowContentRegionWidth()
-{
-   return ImGui::GetWindowContentRegionWidth();
-}
-
 void iggSetNextWindowPos(IggVec2 const *pos, int cond, IggVec2 const *pivot)
 {
    Vec2Wrapper posArg(pos);

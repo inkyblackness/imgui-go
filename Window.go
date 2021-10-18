@@ -194,8 +194,13 @@ func WindowContentRegionMax() Vec2 {
 }
 
 // WindowContentRegionWidth returns the width of the content boundary, in window coordinates.
+//
+// DEPRECATED: in v1.85, GetWindowContentRegionWidth() function has been removed.
+// This function now returns GetWindowContentRegionMax().x - GetWindowContentRegionMin().x,
+// as per v1.85 release notes. Please note it's not very useful in practice, and
+// using GetContentRegionAvail().x is generally a better choice.
 func WindowContentRegionWidth() float32 {
-	return float32(C.iggGetWindowContentRegionWidth())
+	return WindowContentRegionMax().X - WindowContentRegionMin().X
 }
 
 // SetNextWindowPosV sets next window position.
