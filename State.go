@@ -109,6 +109,9 @@ const (
 	// Important: If you are trying to tell how to dispatch your low-level inputs, do NOT use this.
 	// Use WantCaptureMouse instead.
 	FocusedFlagsAnyWindow FocusedFlags = 1 << 2
+	// FocusedFlagsNoPopupHierarchy does not consider popup hierarchy (do not treat popup emitter
+	// as parent of popup) when used with FocusedFlagsChildWindows or FocusedFlagsRootWindow.
+	FocusedFlagsNoPopupHierarchy FocusedFlags = 1 << 3
 
 	FocusedFlagsRootAndChildWindows = FocusedFlagsRootWindow | FocusedFlagsChildWindows
 )
@@ -137,15 +140,18 @@ const (
 	HoveredFlagsRootWindow HoveredFlags = 1 << 1
 	// HoveredFlagsAnyWindow IsWindowHovered() only: Return true if any window is hovered.
 	HoveredFlagsAnyWindow HoveredFlags = 1 << 2
+	// HoveredFlagsNoPopupHierarchy makes only IsWindowHovered() not consider popup hierarchy (do not treat popup emitter
+	// as parent of popup) when used with HoveredFlagsRootWindow or HoveredFlagsRootWindow.
+	HoveredFlagsNoPopupHierarchy HoveredFlags = 1 << 3
 	// HoveredFlagsAllowWhenBlockedByPopup Return true even if a popup window is normally blocking access to this item/window.
-	HoveredFlagsAllowWhenBlockedByPopup HoveredFlags = 1 << 3
+	HoveredFlagsAllowWhenBlockedByPopup HoveredFlags = 1 << 5
 	// HoveredFlagsAllowWhenBlockedByActiveItem Return true even if an active item is blocking access to this item/window.
 	// Useful for Drag and Drop patterns.
-	HoveredFlagsAllowWhenBlockedByActiveItem HoveredFlags = 1 << 5
+	HoveredFlagsAllowWhenBlockedByActiveItem HoveredFlags = 1 << 7
 	// HoveredFlagsAllowWhenOverlapped Return true even if the position is overlapped by another window.
-	HoveredFlagsAllowWhenOverlapped HoveredFlags = 1 << 6
+	HoveredFlagsAllowWhenOverlapped HoveredFlags = 1 << 8
 	// HoveredFlagsAllowWhenDisabled Return true even if the item is disabled.
-	HoveredFlagsAllowWhenDisabled HoveredFlags = 1 << 7
+	HoveredFlagsAllowWhenDisabled HoveredFlags = 1 << 9
 
 	HoveredFlagsRectOnly            = HoveredFlagsAllowWhenBlockedByPopup | HoveredFlagsAllowWhenBlockedByActiveItem | HoveredFlagsAllowWhenOverlapped
 	HoveredFlagsRootAndChildWindows = HoveredFlagsRootWindow | HoveredFlagsChildWindows
@@ -220,8 +226,8 @@ func IsMouseDragging(button int, threshold float64) bool {
 	return C.iggIsMouseDragging(C.int(button), C.float(threshold)) != 0
 }
 
-// GetMouseDragDelta returns the delta from the initial clicking position while the mouse button is pressed or was just released. This is locked and return 0.0f until the mouse moves past a distance threshold at least once (if lockThreshold < -1.0f, uses io.MouseDraggingThreshold).
-func GetMouseDragDelta(button int, lockThreshold float32) Vec2 {
+// MouseDragDelta returns the delta from the initial clicking position while the mouse button is pressed or was just released. This is locked and return 0.0f until the mouse moves past a distance threshold at least once (if lockThreshold < -1.0f, uses io.MouseDraggingThreshold).
+func MouseDragDelta(button int, lockThreshold float32) Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()
 	C.iggGetMouseDragDelta(valueArg, C.int(button), C.float(lockThreshold))

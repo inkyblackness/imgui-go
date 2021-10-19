@@ -16,6 +16,8 @@ extern void iggSpacing(void);
 extern void iggDummy(IggVec2 const *size);
 extern void iggBeginGroup(void);
 extern void iggEndGroup(void);
+extern void iggBeginDisabled(IggBool disabled);
+extern void iggEndDisabled(void);
 extern void iggIndent(float indent_w);
 extern void iggUnindent(float indent_w);
 
