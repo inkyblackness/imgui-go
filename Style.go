@@ -242,6 +242,37 @@ func (style Style) CellPadding() Vec2 {
 	return value
 }
 
+// ItemInnerSpacing sets the horizontal and vertical spacing between elements of
+// a composed widget (e.g. a slider and its label).
+func (style Style) SetItemInnerSpacing(value Vec2) {
+	valueArg, _ := value.wrapped()
+	C.iggStyleSetItemInnerSpacing(style.handle(), valueArg)
+}
+
+// ItemSpacing sets horizontal and vertical spacing between widgets or lines.
+func (style Style) SetItemSpacing(value Vec2) {
+	valueArg, _ := value.wrapped()
+	C.iggStyleSetItemSpacing(style.handle(), valueArg)
+}
+
+// FramePadding sets the padding within a framed rectangle (used by most widgets).
+func (style Style) SetFramePadding(value Vec2) {
+	valueArg, _ := value.wrapped()
+	C.iggStyleSetFramePadding(style.handle(), valueArg)
+}
+
+// WindowPadding sets the padding within a window.
+func (style Style) SetWindowPadding(value Vec2) {
+	valueArg, _ := value.wrapped()
+	C.iggStyleSetWindowPadding(style.handle(), valueArg)
+}
+
+// CellPadding sets the padding within a table cell.
+func (style Style) SetCellPadding(value Vec2) {
+	valueArg, _ := value.wrapped()
+	C.iggStyleSetCellPadding(style.handle(), valueArg)
+}
+
 // SetColor sets a color value of the UI style.
 func (style Style) SetColor(id StyleColorID, value Vec4) {
 	valueArg, _ := value.wrapped()
@@ -265,6 +296,15 @@ func (style Style) Color(id StyleColorID) Vec4 {
 // If you need to change your scale multiples, call this over a freshly initialized style rather than scaling multiple times.
 func (style Style) ScaleAllSizes(scale float32) {
 	C.iggStyleScaleAllSizes(style.handle(), C.float(scale))
+}
+
+// TouchExtraPadding is the expansion for reactive bounding box for touch-based system where touch position is not accurate enough.
+func (style Style) TouchExtraPadding() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggGetTouchExtraPadding(style.handle(), valueArg)
+	valueFin()
+	return value
 }
 
 // SetTouchExtraPadding expand reactive bounding box for touch-based system where touch position is not accurate enough.

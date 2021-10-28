@@ -20,16 +20,22 @@ extern void iggPopStyleVar(int count);
 
 extern void iggStyleGetItemInnerSpacing(IggGuiStyle handle, IggVec2 *value);
 extern void iggStyleGetItemSpacing(IggGuiStyle handle, IggVec2 *value);
+extern void iggStyleSetItemInnerSpacing(IggGuiStyle handle, IggVec2 const *value);
+extern void iggStyleSetItemSpacing(IggGuiStyle handle, IggVec2 const *value);
 
 extern void iggStyleGetFramePadding(IggGuiStyle handle, IggVec2 *value);
 extern void iggStyleGetWindowPadding(IggGuiStyle handle, IggVec2 *value);
 extern void iggStyleGetCellPadding(IggGuiStyle handle, IggVec2 *value);
+extern void iggStyleSetFramePadding(IggGuiStyle handle, IggVec2 const *value);
+extern void iggStyleSetWindowPadding(IggGuiStyle handle, IggVec2 const *value);
+extern void iggStyleSetCellPadding(IggGuiStyle handle, IggVec2 const *value);
 
 extern void iggStyleSetColor(IggGuiStyle handle, int index, IggVec4 const *color);
 extern void iggStyleGetColor(IggGuiStyle handle, int index, IggVec4 *value);
 
 extern void iggStyleScaleAllSizes(IggGuiStyle handle, float scale);
 
+extern void iggGetTouchExtraPadding(IggGuiStyle handle, IggVec2 *value);
 extern void iggSetTouchExtraPadding(IggGuiStyle handle, IggVec2 const *value);
 
 extern float iggGetAlpha(IggGuiStyle handle);
