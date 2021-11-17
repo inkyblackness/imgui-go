@@ -16,6 +16,12 @@ IggBool iggWantCaptureMouse(IggIO handle)
    return io->WantCaptureMouse ? 1 : 0;
 }
 
+IggBool iggWantCaptureMouseUnlessPopupClose(IggIO handle)
+{
+   ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
+   return io->WantCaptureMouseUnlessPopupClose ? 1 : 0;
+}
+
 IggBool iggWantCaptureKeyboard(IggIO handle)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
