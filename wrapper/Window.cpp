@@ -166,6 +166,16 @@ void iggPopTextWrapPos(void)
    ImGui::PopTextWrapPos();
 }
 
+void iggPushAllowKeyboardFocus(IggBool allow)
+{
+   ImGui::PushAllowKeyboardFocus(allow);
+}
+
+void iggPopAllowKeyboardFocus()
+{
+   ImGui::PopAllowKeyboardFocus();
+}
+
 void iggPushButtonRepeat(IggBool repeat)
 {
    ImGui::PushButtonRepeat(repeat);
