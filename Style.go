@@ -242,7 +242,7 @@ func (style Style) CellPadding() Vec2 {
 	return value
 }
 
-// ItemInnerSpacing sets the horizontal and vertical spacing between elements of
+// SetItemInnerSpacing sets the horizontal and vertical spacing between elements of
 // a composed widget (e.g. a slider and its label).
 func (style Style) SetItemInnerSpacing(value Vec2) {
 	valueArg, _ := value.wrapped()
