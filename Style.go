@@ -249,25 +249,25 @@ func (style Style) SetItemInnerSpacing(value Vec2) {
 	C.iggStyleSetItemInnerSpacing(style.handle(), valueArg)
 }
 
-// ItemSpacing sets horizontal and vertical spacing between widgets or lines.
+// SetItemSpacing sets horizontal and vertical spacing between widgets or lines.
 func (style Style) SetItemSpacing(value Vec2) {
 	valueArg, _ := value.wrapped()
 	C.iggStyleSetItemSpacing(style.handle(), valueArg)
 }
 
-// FramePadding sets the padding within a framed rectangle (used by most widgets).
+// SetFramePadding sets the padding within a framed rectangle (used by most widgets).
 func (style Style) SetFramePadding(value Vec2) {
 	valueArg, _ := value.wrapped()
 	C.iggStyleSetFramePadding(style.handle(), valueArg)
 }
 
-// WindowPadding sets the padding within a window.
+// SetWindowPadding sets the padding within a window.
 func (style Style) SetWindowPadding(value Vec2) {
 	valueArg, _ := value.wrapped()
 	C.iggStyleSetWindowPadding(style.handle(), valueArg)
 }
 
-// CellPadding sets the padding within a table cell.
+// SetCellPadding sets the padding within a table cell.
 func (style Style) SetCellPadding(value Vec2) {
 	valueArg, _ := value.wrapped()
 	C.iggStyleSetCellPadding(style.handle(), valueArg)
