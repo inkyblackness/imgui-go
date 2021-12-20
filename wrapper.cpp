@@ -35,3 +35,4 @@
 #include "wrapper/Widgets.cpp"
 #include "wrapper/Window.cpp"
 #include "wrapper/WrapperConverter.cpp"
+#include "wrapper/Settings.cpp"
