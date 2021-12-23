@@ -240,7 +240,7 @@ func ResetMouseDragDelta(button int) {
 	C.iggResetMouseDragDelta(C.int(button))
 }
 
-// MousePos returns the current window position in screen space.
+// MousePos returns the current mouse position in screen space.
 func MousePos() Vec2 {
 	var value Vec2
 	valueArg, valueFin := value.wrapped()

@@ -78,7 +78,16 @@ func (io IO) MetricsActiveAllocations() int {
 	return int(C.iggMetricsActiveAllocations(io.handle))
 }
 
-// MouseDelta returns the mouse delta movement . Note that this is zero if either current or previous position
+// MousePosition returns the mouse position.
+func (io IO) MousePosition() Vec2 {
+	var value Vec2
+	valueArg, valueFin := value.wrapped()
+	C.iggIoGetMousePosition(io.handle, valueArg)
+	valueFin()
+	return value
+}
+
+// MouseDelta returns the mouse delta movement. Note that this is zero if either current or previous position
 // are invalid (-math.MaxFloat32,-math.MaxFloat32), so a disappearing/reappearing mouse won't have a huge delta.
 func (io IO) MouseDelta() Vec2 {
 	var value Vec2

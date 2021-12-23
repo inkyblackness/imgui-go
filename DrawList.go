@@ -201,6 +201,15 @@ func (list DrawList) AddRectFilled(min Vec2, max Vec2, col PackedColor) {
 	list.AddRectFilledV(min, max, col, 1.0, DrawCornerFlagsAll)
 }
 
+// AddRectFilledMultiColor adds a multicolor filled rectangle to the draw list.
+// min is the upper-left corner of the rectangle, and max is the lower right
+// corner. rectangles with dimensions of 1 pixel are not rendered properly.
+func (list DrawList) AddRectFilledMultiColor(min Vec2, max Vec2, colUpperLeft, colUpperRight, colBottomRight, colBottomLeft PackedColor) {
+	minArg, _ := min.wrapped()
+	maxArg, _ := max.wrapped()
+	C.iggAddRectFilledMultiColor(list.handle(), minArg, maxArg, C.IggPackedColor(colUpperLeft), C.IggPackedColor(colUpperRight), C.IggPackedColor(colBottomRight), C.IggPackedColor(colBottomLeft))
+}
+
 // AddRectFilledV adds a filled rectangle to the draw list. min is the
 // upper-left corner of the rectangle, and max is the lower right corner.
 // rectangles with dimensions of 1 pixel are not rendered properly.

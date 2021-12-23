@@ -69,6 +69,15 @@ void iggAddRectFilled(IggDrawList handle, IggVec2 const *min, IggVec2 const *max
    list->AddRectFilled(*minArg, *maxArg, col, rounding, flags);
 }
 
+void iggAddRectFilledMultiColor(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, IggPackedColor col_upper_left, IggPackedColor col_upper_right, IggPackedColor col_bottom_right, IggPackedColor col_bottom_left)
+{
+   Vec2Wrapper minArg(min);
+   Vec2Wrapper maxArg(max);
+
+   ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+   list->AddRectFilledMultiColor(*minArg, *maxArg, col_upper_left, col_upper_right, col_bottom_right, col_bottom_left);
+}
+
 void iggAddCircle(IggDrawList handle, IggVec2 const *center, float radius, IggPackedColor col, int numSegments, float thickness)
 {
    Vec2Wrapper centerArg(center);
