@@ -3,7 +3,10 @@ package imgui
 // #include "wrapper/Widgets.h"
 import "C"
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 // Text adds formatted text. See PushTextWrapPosV() or PushStyleColorV() for modifying the output.
 // Without any modified style stack, the text is unformatted.
@@ -14,6 +17,11 @@ func Text(text string) {
 	C.iggTextUnformatted(textArg)
 }
 
+// Textf calls Text(fmt.Sprintf(format, v...)
+func Textf(format string, v ...interface{}) {
+	Text(fmt.Sprintf(format, v...))
+}
+
 // LabelText adds text+label aligned the same way as value+label widgets.
 func LabelText(label, text string) {
 	labelArg, labelFin := wrapString(label)
@@ -21,6 +29,11 @@ func LabelText(label, text string) {
 	textArg, textFin := wrapString(text)
 	defer textFin()
 	C.iggLabelText(labelArg, textArg)
+}
+
+// LabelTextf calls LabelText(label, fmt.Sprintf(format, v...))
+func LabelTextf(label, format string, v ...interface{}) {
+	LabelText(label, fmt.Sprintf(format, v...))
 }
 
 // ButtonV returns true if it is clicked.
@@ -757,6 +770,11 @@ func TreeNode(label string) bool {
 	return TreeNodeV(label, 0)
 }
 
+// TreeNodeF calls TreeNode(fmt.Sprintf(format, v...))
+func TreeNodef(format string, v ...interface{}) bool {
+	return TreeNode(fmt.Sprintf(format, v...))
+}
+
 // TreePop finishes a tree branch. This has to be called for a matching TreeNodeV call returning true.
 func TreePop() {
 	C.iggTreePop()
@@ -936,6 +954,11 @@ func SetTooltip(text string) {
 	textArg, textFin := wrapString(text)
 	defer textFin()
 	C.iggSetTooltip(textArg)
+}
+
+// SetTooltipf calls SetTooltip(fmt.Sprintf(format, v...))
+func SetTooltipf(format string, v ...interface{}) {
+	SetTooltip(fmt.Sprintf(format, v...))
 }
 
 // BeginTooltip begins/appends to a tooltip window. Used to create full-featured tooltip (with any kind of contents).
