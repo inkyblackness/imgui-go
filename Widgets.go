@@ -17,7 +17,7 @@ func Text(text string) {
 	C.iggTextUnformatted(textArg)
 }
 
-// Textf calls Text(fmt.Sprintf(format, v...)
+// Textf calls Text(fmt.Sprintf(format, v...) .
 func Textf(format string, v ...interface{}) {
 	Text(fmt.Sprintf(format, v...))
 }
@@ -31,7 +31,7 @@ func LabelText(label, text string) {
 	C.iggLabelText(labelArg, textArg)
 }
 
-// LabelTextf calls LabelText(label, fmt.Sprintf(format, v...))
+// LabelTextf calls LabelText(label, fmt.Sprintf(format, v...)) .
 func LabelTextf(label, format string, v ...interface{}) {
 	LabelText(label, fmt.Sprintf(format, v...))
 }
@@ -770,7 +770,7 @@ func TreeNode(label string) bool {
 	return TreeNodeV(label, 0)
 }
 
-// TreeNodeF calls TreeNode(fmt.Sprintf(format, v...))
+// TreeNodeF calls TreeNode(fmt.Sprintf(format, v...)) .
 func TreeNodef(format string, v ...interface{}) bool {
 	return TreeNode(fmt.Sprintf(format, v...))
 }
@@ -956,7 +956,7 @@ func SetTooltip(text string) {
 	C.iggSetTooltip(textArg)
 }
 
-// SetTooltipf calls SetTooltip(fmt.Sprintf(format, v...))
+// SetTooltipf calls SetTooltip(fmt.Sprintf(format, v...)) .
 func SetTooltipf(format string, v ...interface{}) {
 	SetTooltip(fmt.Sprintf(format, v...))
 }
