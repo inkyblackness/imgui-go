@@ -770,7 +770,7 @@ func TreeNode(label string) bool {
 	return TreeNodeV(label, 0)
 }
 
-// TreeNodeF calls TreeNode(fmt.Sprintf(format, v...)) .
+// TreeNodef calls TreeNode(fmt.Sprintf(format, v...)) .
 func TreeNodef(format string, v ...interface{}) bool {
 	return TreeNode(fmt.Sprintf(format, v...))
 }
