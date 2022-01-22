@@ -29,12 +29,12 @@ Functions that don't have optional parameters don't come in a verbose variant.
 
 The **Dear ImGui** functions `IO()` and `Style()` have been renamed to be `CurrentIO()` and `CurrentStyle()`.
 This was done because their returned types have the same name, causing a name clash.
-With the `Current` prefix, they also better describe what they return.  
+With the `Current` prefix, they also better describe what they return.
 
 ## API philosophy
 This library does not intend to export all the functions of the wrapped **Dear ImGui**. The following filter applies as a rule of thumb:
 * Functions marked as "obsolete" are not available. (The corresponding C code isn't even compiled - disabled by define)
-* "Shortcut" Functions, which combine language features and/or other **Dear ImGui** functions, are not available. Prime example are the Text*() functions for instance: Text formatting should be done with fmt.Sprintf(), and style formatting with the corresponding Push/Pop functions.
+* "Shortcut" Functions, which combine language features and/or other **Dear ImGui** functions, are not available. There may be exceptions for this if the shortcut exists in Dear ImGui code base (e.g. `ImGui::Text` which does printf style string formatting)
 * Functions that are not needed by InkyBlackness are ignored. This doesn't mean that they can't be in the wrapper, they are simply not a priority. Feel free to propose an implementation or make a pull request, respecting the previous points :)
 
 ## Version philosophy
