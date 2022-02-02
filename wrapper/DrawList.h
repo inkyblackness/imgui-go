@@ -17,6 +17,7 @@ extern void iggGetVertexBufferLayout(size_t *entrySize, size_t *posOffset, size_
 extern void iggAddLine(IggDrawList handle, IggVec2 const *p1, IggVec2 const *p2, IggPackedColor col, float thickness);
 extern void iggAddRect(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, IggPackedColor col, float rounding, int flags, float thickness);
 extern void iggAddRectFilled(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, IggPackedColor col, float rounding, int flags);
+extern void iggAddRectFilledMultiColor(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, IggPackedColor col_upper_left, IggPackedColor col_upper_right, IggPackedColor col_bottom_right, IggPackedColor col_bottom_left);
 extern void iggAddCircle(IggDrawList handle, IggVec2 const *center, float radius, IggPackedColor col, int numSegments, float thickness);
 extern void iggAddCircleFilled(IggDrawList handle, IggVec2 const *center, float radius, IggPackedColor col, int numSegments);
 extern void iggAddTriangle(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, IggPackedColor col, float thickness);
