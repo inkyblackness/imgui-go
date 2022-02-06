@@ -25,10 +25,12 @@ rm -rf $DEST/*
 echo "Copying files"
 # Copy core files
 cp $TMP_IMGUI/*.{h,cpp} $DEST/
+echo "package dummy${DEST}" > $DEST/dummy.go
 
 # Copy freetype
 mkdir -p $DEST/misc/freetype
 cp $TMP_IMGUI/misc/freetype/*.{h,cpp} $DEST/misc/freetype
+echo "package dummyfreetype" > $DEST/misc/freetype/dummy.go
 
 # Copy license
 cp $TMP_IMGUI/LICENSE.txt _licenses/imgui-LICENSE.txt
