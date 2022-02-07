@@ -8,7 +8,7 @@ package imgui
 // https://github.com/golang/go/issues/26366
 //
 // How it works:
-//  - every directory which only includes c source files receives a dummy.go file.
+//  - every directory which only includes c source files receives a govendorkeep.go file.
 //  - every directory we want to preserve is included here as a _ import.
 //  - this file is given a build to exclude it from the regular build.
 
