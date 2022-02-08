@@ -1,5 +1,7 @@
 run:
   deadline: 5m
+  skip-files:
+    - ".*govendorkeep.go$"
 
 linters:
   enable-all: true
