@@ -1,7 +1,8 @@
 run:
   deadline: 5m
-  skip-files:
-    - ".*govendorkeep.go$"
+  skip-dirs:
+    - imgui
+    - wrapper
 
 linters:
   enable-all: true
