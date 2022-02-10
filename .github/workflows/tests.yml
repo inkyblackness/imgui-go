@@ -23,4 +23,5 @@ jobs:
       - name: Download modules
         run: go mod tidy -v
       - name: Run tests
-        run: go test -race ./...
+        run: go test -race $(go list -e ./... | grep -v v4/imgui | grep -v v4/wrapper)
+

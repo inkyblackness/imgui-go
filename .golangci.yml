@@ -1,5 +1,8 @@
 run:
   deadline: 5m
+  skip-dirs:
+    - imgui
+    - wrapper
 
 linters:
   enable-all: true
@@ -11,6 +14,14 @@ linters:
     - goimports # disabled because of so many false-positives with "imgui-go"
     - gofumpt # disabled because no extra need
     - wsl # this one has become too pedantic
+    - ifshort # was not available in v.1.28.3 and will be skipped for now
+    - exhaustivestruct # was not available in v.1.28.3 and will be skipped for now
+    - nlreturn # was not available in v.1.28.3 and will be skipped for now
+    - paralleltest # was not available in v.1.28.3 and will be skipped for now
+    - varnamelen # was not available in v.1.28.3 and will be skipped for now
+    - gci # was not available in v.1.28.3 and will be skipped for now
+    - forcetypeassert # was not available in v.1.28.3 and will be skipped for now
+    - gomnd # was not available in v.1.28.3 and will be skipped for now
 
 issues:
   exclude-use-default: false # disable filtering of defaults for better zero-issue policy
@@ -26,3 +37,5 @@ linters-settings:
   gocritic:
     disabled-checks:
       - dupSubExpr
+      - commentFormatting
+      - deprecatedComment
