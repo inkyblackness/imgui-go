@@ -168,18 +168,7 @@ func (io IO) SetFontGlobalScale(value float32) {
 	C.iggIoSetFontGlobalScale(io.handle, C.float(value))
 }
 
-/*
-// KeyPress sets the KeysDown flag.
-func (io IO) KeyPress(key int) {
-	C.iggIoKeyPress(io.handle, C.int(key))
-}
-
-// KeyRelease clears the KeysDown flag.
-func (io IO) KeyRelease(key int) {
-	C.iggIoKeyRelease(io.handle, C.int(key))
-}
-*/
-
+// Key is used to send Key events.
 type Key int
 
 // Constants to use with AddKeyEvent
