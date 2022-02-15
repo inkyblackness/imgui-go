@@ -113,23 +113,22 @@ void iggIoGetMousePosition(IggIO handle, IggVec2 *value)
    exportValue(*value, io->MousePos);
 }
 
-void iggIoSetMousePosition(IggIO handle, IggVec2 const *value)
+void iggIoAddMousePosEvent(IggIO handle, IggVec2 const *value)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
-   importValue(io->MousePos, *value);
+   io->AddMousePosEvent(value->x, value->y);
 }
 
-void iggIoSetMouseButtonDown(IggIO handle, int index, IggBool value)
+void iggIoAddMouseButtonEvent(IggIO handle, int index, IggBool value)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
-   io->MouseDown[index] = value != 0;
+   io->AddMouseButtonEvent(index, value != 0);
 }
 
 void iggIoAddMouseWheelDelta(IggIO handle, float horizontal, float vertical)
 {
    ImGuiIO *io = reinterpret_cast<ImGuiIO *>(handle);
-   io->MouseWheelH += horizontal;
-   io->MouseWheel += vertical;
+   io->AddMouseWheelEvent(horizontal, vertical);
 }
 
 void iggIoSetDeltaTime(IggIO handle, float value)
@@ -144,70 +143,10 @@ void iggIoSetFontGlobalScale(IggIO handle, float value)
    io->FontGlobalScale = value;
 }
 
-void iggIoKeyPress(IggIO handle, int key)
+void iggIoAddKeyEvent(IggIO handle, int key, IggBool down) 
 {
    ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.KeysDown[key] = true;
-}
-
-void iggIoKeyRelease(IggIO handle, int key)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.KeysDown[key] = false;
-}
-
-void iggIoKeyMap(IggIO handle, int imguiKey, int nativeKey)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.KeyMap[imguiKey] = nativeKey;
-}
-
-void iggIoKeyCtrl(IggIO handle, int leftCtrl, int rightCtrl)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.KeyCtrl = io.KeysDown[leftCtrl] || io.KeysDown[rightCtrl];
-}
-
-IggBool iggIoKeyCtrlPressed(IggIO handle)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle); 
-   return io.KeyCtrl ? 1 : 0;
-}
-
-void iggIoKeyShift(IggIO handle, int leftShift, int rightShift)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.KeyShift = io.KeysDown[leftShift] || io.KeysDown[rightShift];
-}
-
-IggBool iggIoKeyShiftPressed(IggIO handle)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle); 
-   return io.KeyShift ? 1 : 0;
-}
-
-void iggIoKeyAlt(IggIO handle, int leftAlt, int rightAlt)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.KeyAlt = io.KeysDown[leftAlt] || io.KeysDown[rightAlt];
-}
-
-IggBool iggIoKeyAltPressed(IggIO handle)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle); 
-   return io.KeyAlt ? 1 : 0;
-}
-
-void iggIoKeySuper(IggIO handle, int leftSuper, int rightSuper)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
-   io.KeySuper = io.KeysDown[leftSuper] || io.KeysDown[rightSuper];
-}
-
-IggBool iggIoKeySuperPressed(IggIO handle)
-{
-   ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle); 
-   return io.KeySuper? 1 : 0;
+   io.AddKeyEvent(key, down);
 }
 
 void iggIoAddInputCharactersUTF8(IggIO handle, char const *utf8Chars)
@@ -241,7 +180,6 @@ int iggIoGetBackendFlags(IggIO handle)
    ImGuiIO &io = *reinterpret_cast<ImGuiIO *>(handle);
    return io.BackendFlags;
 }
-
 
 void iggIoSetMouseDrawCursor(IggIO handle, IggBool show)
 {

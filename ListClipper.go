@@ -2,6 +2,7 @@ package imgui
 
 // #include "wrapper/ListClipper.h"
 import "C"
+import "unsafe"
 
 // ListClipper is a helper to manually clip large list of items.
 // If you are submitting lots of evenly spaced items and you have a random access to the list, you can perform coarse
@@ -26,12 +27,7 @@ type ListClipper struct {
 	DisplayStart int
 	DisplayEnd   int
 
-	// [Internal]
-	ItemsCount  int
-	StepNo      int
-	ItemsFrozen int
-	ItemsHeight float32
-	StartPosY   float32
+	imguiListClipper unsafe.Pointer
 }
 
 // wrapped returns C struct and func for setting the values when done.
@@ -40,24 +36,14 @@ func (clipper *ListClipper) wrapped() (out *C.IggListClipper, finisher func()) {
 		return nil, func() {}
 	}
 	out = &C.IggListClipper{
-		DisplayStart: C.int(clipper.DisplayStart),
-		DisplayEnd:   C.int(clipper.DisplayEnd),
-
-		ItemsCount:  C.int(clipper.ItemsCount),
-		StepNo:      C.int(clipper.StepNo),
-		ItemsFrozen: C.int(clipper.ItemsFrozen),
-		ItemsHeight: C.float(clipper.ItemsHeight),
-		StartPosY:   C.float(clipper.StartPosY),
+		DisplayStart:     C.int(clipper.DisplayStart),
+		DisplayEnd:       C.int(clipper.DisplayEnd),
+		imguiListClipper: clipper.imguiListClipper,
 	}
 	finisher = func() {
 		clipper.DisplayStart = int(out.DisplayStart)
 		clipper.DisplayEnd = int(out.DisplayEnd)
-
-		clipper.ItemsCount = int(out.ItemsCount)
-		clipper.StepNo = int(out.StepNo)
-		clipper.ItemsFrozen = int(out.ItemsFrozen)
-		clipper.ItemsHeight = float32(out.ItemsHeight)
-		clipper.StartPosY = float32(out.StartPosY)
+		clipper.imguiListClipper = out.imguiListClipper
 	}
 	return
 }

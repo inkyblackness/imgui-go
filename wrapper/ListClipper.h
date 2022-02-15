@@ -10,12 +10,7 @@ typedef struct tagIggListClipper
 {
    int DisplayStart;
    int DisplayEnd;
-   int ItemsCount;
-
-   int StepNo;
-   int ItemsFrozen;
-   float ItemsHeight;
-   float StartPosY;
+   void* imguiListClipper;
 } IggListClipper;
 
 extern IggBool iggListClipperStep(IggListClipper *clipper);

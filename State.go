@@ -170,23 +170,23 @@ func IsWindowHovered() bool {
 }
 
 // IsKeyDown returns true if the corresponding key is currently being held down.
-func IsKeyDown(key int) bool {
+func IsKeyDown(key Key) bool {
 	return C.iggIsKeyDown(C.int(key)) != 0
 }
 
 // IsKeyPressedV returns true if the corresponding key was pressed (went from !Down to Down).
 // If repeat=true and the key is being held down then the press is repeated using io.KeyRepeatDelay and KeyRepeatRate.
-func IsKeyPressedV(key int, repeat bool) bool {
+func IsKeyPressedV(key Key, repeat bool) bool {
 	return C.iggIsKeyPressed(C.int(key), castBool(repeat)) != 0
 }
 
 // IsKeyPressed calls IsKeyPressedV(key, true).
-func IsKeyPressed(key int) bool {
+func IsKeyPressed(key Key) bool {
 	return IsKeyPressedV(key, true)
 }
 
 // IsKeyReleased returns true if the corresponding key was released (went from Down to !Down).
-func IsKeyReleased(key int) bool {
+func IsKeyReleased(key Key) bool {
 	return C.iggIsKeyReleased(C.int(key)) != 0
 }
 

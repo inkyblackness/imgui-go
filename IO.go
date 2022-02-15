@@ -131,24 +131,24 @@ func (io IO) Fonts() FontAtlas {
 	return FontAtlas(C.iggIoGetFonts(io.handle))
 }
 
-// SetMousePosition sets the mouse position, in pixels.
+// AddMousePosEvent sets the mouse position, in pixels.
 // Set to Vec2(-math.MaxFloat32,-mathMaxFloat32) if mouse is unavailable (on another screen, etc.).
-func (io IO) SetMousePosition(value Vec2) {
+func (io IO) AddMousePosEvent(value Vec2) {
 	posArg, _ := value.wrapped()
-	C.iggIoSetMousePosition(io.handle, posArg)
+	C.iggIoAddMousePosEvent(io.handle, posArg)
 }
 
-// SetMouseButtonDown sets whether a specific mouse button is currently pressed.
+// AddMouseButtonEvent sets whether a specific mouse button is currently pressed.
 // Mouse buttons: left, right, middle + extras.
 // ImGui itself mostly only uses left button (BeginPopupContext** are using right button).
 // Other buttons allows us to track if the mouse is being used by your application +
 // available to user as a convenience via IsMouse** API.
-func (io IO) SetMouseButtonDown(index int, down bool) {
+func (io IO) AddMouseButtonEvent(index int, down bool) {
 	var downArg C.IggBool
 	if down {
 		downArg = 1
 	}
-	C.iggIoSetMouseButtonDown(io.handle, C.int(index), downArg)
+	C.iggIoAddMouseButtonEvent(io.handle, C.int(index), downArg)
 }
 
 // AddMouseWheelDelta adds the given offsets to the current mouse wheel values.
@@ -168,6 +168,7 @@ func (io IO) SetFontGlobalScale(value float32) {
 	C.iggIoSetFontGlobalScale(io.handle, C.float(value))
 }
 
+/*
 // KeyPress sets the KeysDown flag.
 func (io IO) KeyPress(key int) {
 	C.iggIoKeyPress(io.handle, C.int(key))
@@ -177,77 +178,168 @@ func (io IO) KeyPress(key int) {
 func (io IO) KeyRelease(key int) {
 	C.iggIoKeyRelease(io.handle, C.int(key))
 }
+*/
 
-// Constants to fill IO.KeyMap() lookup with indices into the IO.KeysDown[512] array.
-// The mapped indices are then the ones reported to IO.KeyPress() and IO.KeyRelease().
+type Key int
+
+// Constants to use with AddKeyEvent
 const (
-	KeyTab         = 0
-	KeyLeftArrow   = 1
-	KeyRightArrow  = 2
-	KeyUpArrow     = 3
-	KeyDownArrow   = 4
-	KeyPageUp      = 5
-	KeyPageDown    = 6
-	KeyHome        = 7
-	KeyEnd         = 8
-	KeyInsert      = 9
-	KeyDelete      = 10
-	KeyBackspace   = 11
-	KeySpace       = 12
-	KeyEnter       = 13
-	KeyEscape      = 14
-	KeyKeyPadEnter = 15
-	KeyA           = 16 // for text edit CTRL+A: select all
-	KeyC           = 17 // for text edit CTRL+C: copy
-	KeyV           = 18 // for text edit CTRL+V: paste
-	KeyX           = 19 // for text edit CTRL+X: cut
-	KeyY           = 20 // for text edit CTRL+Y: redo
-	KeyZ           = 21 // for text edit CTRL+Z: undo
+	KeyNone Key = 0
+	KeyTab  Key = 512 - 1 + iota // == KeyNamedKey_BEGIN
+	KeyLeftArrow
+	KeyRightArrow
+	KeyUpArrow
+	KeyDownArrow
+	KeyPageUp
+	KeyPageDown
+	KeyHome
+	KeyEnd
+	KeyInsert
+	KeyDelete
+	KeyBackspace
+	KeySpace
+	KeyEnter
+	KeyEscape
+	KeyLeftCtrl
+	KeyLeftShift
+	KeyLeftAlt
+	KeyLeftSuper
+	KeyRightCtrl
+	KeyRightShift
+	KeyRightAlt
+	KeyRightSuper
+	KeyMenu
+	Key0
+	Key1
+	Key2
+	Key3
+	Key4
+	Key5
+	Key6
+	Key7
+	Key8
+	Key9
+	KeyA
+	KeyB
+	KeyC
+	KeyD
+	KeyE
+	KeyF
+	KeyG
+	KeyH
+	KeyI
+	KeyJ
+	KeyK
+	KeyL
+	KeyM
+	KeyN
+	KeyO
+	KeyP
+	KeyQ
+	KeyR
+	KeyS
+	KeyT
+	KeyU
+	KeyV
+	KeyW
+	KeyX
+	KeyY
+	KeyZ
+	KeyF1
+	KeyF2
+	KeyF3
+	KeyF4
+	KeyF5
+	KeyF6
+	KeyF7
+	KeyF8
+	KeyF9
+	KeyF10
+	KeyF11
+	KeyF12
+	KeyApostrophe   // '
+	KeyComma        // ,
+	KeyMinus        // -
+	KeyPeriod       // .
+	KeySlash        // /
+	KeySemicolon    // ;
+	KeyEqual        // =
+	KeyLeftBracket  // [
+	KeyBackslash    // \ (this text inhibit multiline comment caused by backslash)
+	KeyRightBracket // ]
+	KeyGraveAccent  // `
+	KeyCapsLock
+	KeyScrollLock
+	KeyNumLock
+	KeyPrintScreen
+	KeyPause
+	KeyKeypad0
+	KeyKeypad1
+	KeyKeypad2
+	KeyKeypad3
+	KeyKeypad4
+	KeyKeypad5
+	KeyKeypad6
+	KeyKeypad7
+	KeyKeypad8
+	KeyKeypad9
+	KeyKeypadDecimal
+	KeyKeypadDivide
+	KeyKeypadMultiply
+	KeyKeypadSubtract
+	KeyKeypadAdd
+	KeyKeypadEnter
+	KeyKeypadEqual
+
+	// Gamepad (some of those are analog values, 0.0f to 1.0f)                              // NAVIGATION action
+	KeyGamepadStart       // Menu (Xbox)          + (Switch)   Start/Options (PS) // --
+	KeyGamepadBack        // View (Xbox)          - (Switch)   Share (PS)         // --
+	KeyGamepadFaceUp      // Y (Xbox)             X (Switch)   Triangle (PS)      // -> ImGuiNavInput_Input
+	KeyGamepadFaceDown    // A (Xbox)             B (Switch)   Cross (PS)         // -> ImGuiNavInput_Activate
+	KeyGamepadFaceLeft    // X (Xbox)             Y (Switch)   Square (PS)        // -> ImGuiNavInput_Menu
+	KeyGamepadFaceRight   // B (Xbox)             A (Switch)   Circle (PS)        // -> ImGuiNavInput_Cancel
+	KeyGamepadDpadUp      // D-pad Up                                             // -> ImGuiNavInput_DpadUp
+	KeyGamepadDpadDown    // D-pad Down                                           // -> ImGuiNavInput_DpadDown
+	KeyGamepadDpadLeft    // D-pad Left                                           // -> ImGuiNavInput_DpadLeft
+	KeyGamepadDpadRight   // D-pad Right                                          // -> ImGuiNavInput_DpadRight
+	KeyGamepadL1          // L Bumper (Xbox)      L (Switch)   L1 (PS)            // -> ImGuiNavInput_FocusPrev + ImGuiNavInput_TweakSlow
+	KeyGamepadR1          // R Bumper (Xbox)      R (Switch)   R1 (PS)            // -> ImGuiNavInput_FocusNext + ImGuiNavInput_TweakFast
+	KeyGamepadL2          // L Trigger (Xbox)     ZL (Switch)  L2 (PS) [Analog]
+	KeyGamepadR2          // R Trigger (Xbox)     ZR (Switch)  R2 (PS) [Analog]
+	KeyGamepadL3          // L Thumbstick (Xbox)  L3 (Switch)  L3 (PS)
+	KeyGamepadR3          // R Thumbstick (Xbox)  R3 (Switch)  R3 (PS)
+	KeyGamepadLStickUp    // [Analog]                                             // -> ImGuiNavInput_LStickUp
+	KeyGamepadLStickDown  // [Analog]                                             // -> ImGuiNavInput_LStickDown
+	KeyGamepadLStickLeft  // [Analog]                                             // -> ImGuiNavInput_LStickLeft
+	KeyGamepadLStickRight // [Analog]                                             // -> ImGuiNavInput_LStickRight
+	KeyGamepadRStickUp    // [Analog]
+	KeyGamepadRStickDown  // [Analog]
+	KeyGamepadRStickLeft  // [Analog]
+	KeyGamepadRStickRight // [Analog]
+
+	// Keyboard Modifiers
+	// - This is mirroring the data also written to io.KeyCtrl io.KeyShift io.KeyAlt io.KeySuper in a format allowing
+	//   them to be accessed via standard key API, allowing calls such as IsKeyPressed(), IsKeyReleased(), querying duration etc.
+	// - Code polling every keys (e.g. an interface to detect a key press for input mapping) might want to ignore those
+	//   and prefer using the real keys (e.g. KeyLeftCtrl KeyRightCtrl instead of KeyModCtrl).
+	// - In theory the value of keyboard modifiers should be roughly equivalent to a logical or of the equivalent left/right keys.
+	//   In practice: it's complicated; mods are often provided from different sources. Keyboard layout, IME, sticky keys and
+	//   backends tend to interfere and break that equivalence. The safer decision is to relay that ambiguity down to the end-user...
+	KeyModCtrl
+	KeyModShift
+	KeyModAlt
+	KeyModSuper
+
+	KeyCOUNT // No valid ImGuiKey is ever greater than this value
 )
 
-// KeyMap maps a key into the KeysDown array which represents your "native" keyboard state.
-func (io IO) KeyMap(imguiKey int, nativeKey int) {
-	C.iggIoKeyMap(io.handle, C.int(imguiKey), C.int(nativeKey))
-}
-
-// KeyCtrl sets the keyboard modifier control pressed.
-func (io IO) KeyCtrl(leftCtrl int, rightCtrl int) {
-	C.iggIoKeyCtrl(io.handle, C.int(leftCtrl), C.int(rightCtrl))
-}
-
-// KeyCtrlPressed get the keyboard modifier control pressed.
-func (io IO) KeyCtrlPressed() bool {
-	return C.iggIoKeyCtrlPressed(io.handle) != 0
-}
-
-// KeyShift sets the keyboard modifier shift pressed.
-func (io IO) KeyShift(leftShift int, rightShift int) {
-	C.iggIoKeyShift(io.handle, C.int(leftShift), C.int(rightShift))
-}
-
-// KeyShiftPressed get the keyboard modifier shif pressed.
-func (io IO) KeyShiftPressed() bool {
-	return C.iggIoKeyShiftPressed(io.handle) != 0
-}
-
-// KeyAlt sets the keyboard modifier alt pressed.
-func (io IO) KeyAlt(leftAlt int, rightAlt int) {
-	C.iggIoKeyAlt(io.handle, C.int(leftAlt), C.int(rightAlt))
-}
-
-// KeyAltPressed get the keyboard modifier alt pressed.
-func (io IO) KeyAltPressed() bool {
-	return C.iggIoKeyAltPressed(io.handle) != 0
-}
-
-// KeySuper sets the keyboard modifier super pressed.
-func (io IO) KeySuper(leftSuper int, rightSuper int) {
-	C.iggIoKeySuper(io.handle, C.int(leftSuper), C.int(rightSuper))
-}
-
-// KeySuperPressed get the keyboard modifier super pressed.
-func (io IO) KeySuperPressed() bool {
-	return C.iggIoKeySuperPressed(io.handle) != 0
+// AddKeyEvent queues a key event.
+func (io IO) AddKeyEvent(key Key, down bool) {
+	if down {
+		C.iggIoAddKeyEvent(io.handle, C.int(key), C.IggBool(1))
+	} else {
+		C.iggIoAddKeyEvent(io.handle, C.int(key), C.IggBool(0))
+	}
 }
 
 // AddInputCharacters adds a new character into InputCharacters[].
@@ -402,3 +494,19 @@ func iggIoSetClipboardText(handle C.IggIO, text *C.char) {
 	}
 	board.SetText(C.GoString(text))
 }
+
+/*
+IMGUI_API void  AddKeyEvent(ImGuiKey key, bool down);                   // Queue a new key down/up event. Key should be "translated" (as in, generally ImGuiKey_A matches the key end-user would use to emit an 'A' character)
+IMGUI_API void  AddKeyAnalogEvent(ImGuiKey key, bool down, float v);    // Queue a new key down/up event for analog values (e.g. ImGuiKey_Gamepad_ values). Dead-zones should be handled by the backend.
+IMGUI_API void  AddMousePosEvent(float x, float y);                     // Queue a mouse position update. Use -FLT_MAX,-FLT_MAX to signify no mouse (e.g. app not focused and not hovered)
+IMGUI_API void  AddMouseButtonEvent(int button, bool down);             // Queue a mouse button change
+IMGUI_API void  AddMouseWheelEvent(float wh_x, float wh_y);             // Queue a mouse wheel update
+IMGUI_API void  AddFocusEvent(bool focused);                            // Queue a gain/loss of focus for the application (generally based on OS/platform focus of your window)
+IMGUI_API void  AddInputCharacter(unsigned int c);                      // Queue a new character input
+IMGUI_API void  AddInputCharacterUTF16(ImWchar16 c);                    // Queue a new character input from an UTF-16 character, it can be a surrogate
+IMGUI_API void  AddInputCharactersUTF8(const char* str);                // Queue a new characters input from an UTF-8 string
+
+IMGUI_API void  ClearInputCharacters();                                 // [Internal] Clear the text input buffer manually
+IMGUI_API void  ClearInputKeys();                                       // [Internal] Release all keys
+IMGUI_API void  SetKeyEventNativeData(ImGuiKey key, int native_keycode, int native_scancode, int native_legacy_index = -1); // [Optional] Specify index for legacy <1.87 IsKeyXXX() functions with native indices + specify native keycode, scancode.
+*/
