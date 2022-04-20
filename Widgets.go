@@ -7,33 +7,7 @@ import (
 	"fmt"
 	"math"
 	"strings"
-	"sync"
 )
-
-var (
-	syncInts  []pntCgoInt
-	syncMutex sync.Mutex
-)
-
-// pntCgoInt struct `int` for sync
-type pntCgoInt struct {
-	pntC  *C.int
-	pntGo *int
-}
-
-// addSyncInt add pointer of `int` for sync
-func addSyncInt(f *C.int, t *int) {
-	syncMutex.Lock()
-	syncInts = append(syncInts, pntCgoInt{pntC: f, pntGo: t})
-	syncMutex.Unlock()
-}
-
-// UpdatePointers update values in pointers
-func UpdatePointers() {
-	for i := range syncInts {
-		*syncInts[i].pntGo = (int)(*syncInts[i].pntC)
-	}
-}
 
 // Text adds formatted text. See PushTextWrapPosV() or PushStyleColorV() for modifying the output.
 // Without any modified style stack, the text is unformatted.
@@ -240,12 +214,12 @@ func EndCombo() {
 // Combo is implementation of ImGui::Combo.
 //	id is UI identification
 //	value is position in list strings
-func Combo(id string, value *int, list []string) bool {
-	var position C.int = (C.int)(*value)
-	addSyncInt(&position, value) // add pointers C and Go for sync
+func Combo(id string, value *int32, list []string) bool {
+	valueArg, valueFin := wrapInt32(value)
+	defer valueFin()
 	return C.iggCombo(
 		C.CString(id),
-		&position,
+		valueArg,
 		C.CString(strings.Join(list, string(byte(0)))+string(byte(0))),
 		(C.int)(len(list)),
 	) != 0
