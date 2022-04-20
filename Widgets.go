@@ -28,6 +28,13 @@ func addSyncInt(f *C.int, t *int) {
 	m.Unlock()
 }
 
+// UpdatePointers update values in pointers
+func UpdatePointers() {
+	for i := range syncInts {
+		*syncInts.pntGo = (int)(*syncInts.pntC)
+	}
+}
+
 // Text adds formatted text. See PushTextWrapPosV() or PushStyleColorV() for modifying the output.
 // Without any modified style stack, the text is unformatted.
 func Text(text string) {
