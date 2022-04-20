@@ -6,7 +6,27 @@ import "C"
 import (
 	"fmt"
 	"math"
+	"strings"
+	"sync"
 )
+
+var (
+	syncInts  []pntCgoInt
+	syncMutex sync.Mutex
+)
+
+// pntCgoInt struct `int` for sync
+type pntCgoInt struct {
+	pntC  *C.int
+	pntGo *int
+}
+
+// addSyncInt add pointer of `int` for sync
+func addSyncInt(f *C.int, t *int) {
+	m.Lock()
+	syncInts = append(syncInts, pntCgoInt{pntC: f, pntGo: t})
+	m.Unlock()
+}
 
 // Text adds formatted text. See PushTextWrapPosV() or PushStyleColorV() for modifying the output.
 // Without any modified style stack, the text is unformatted.
@@ -208,6 +228,20 @@ func BeginCombo(label, previewValue string) bool {
 // EndCombo must be called if BeginComboV() returned true.
 func EndCombo() {
 	C.iggEndCombo()
+}
+
+// Combo is implementation of ImGui::Combo.
+//	id is UI identification
+//	value is position in list strings
+func Combo(id string, value *int, list []string, heightInItems int) bool {
+	var position C.int = (C.int) * value
+	addSyncInt(&position, value) // add pointers C and Go for sync
+	return C.iggCombo(
+		C.CString(id),
+		position,
+		C.CString(strings.Join(list, string(`\x000`))),
+		(C.int)(heightInItems),
+	)
 }
 
 // SliderFlags for DragFloat(), DragInt(), SliderFloat(), SliderInt() etc.
