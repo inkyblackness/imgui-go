@@ -23,15 +23,15 @@ type pntCgoInt struct {
 
 // addSyncInt add pointer of `int` for sync
 func addSyncInt(f *C.int, t *int) {
-	m.Lock()
+	syncMutex.Lock()
 	syncInts = append(syncInts, pntCgoInt{pntC: f, pntGo: t})
-	m.Unlock()
+	syncMutex.Unlock()
 }
 
 // UpdatePointers update values in pointers
 func UpdatePointers() {
 	for i := range syncInts {
-		*syncInts.pntGo = (int)(*syncInts.pntC)
+		*syncInts[i].pntGo = (int)(*syncInts[i].pntC)
 	}
 }
 
@@ -240,15 +240,15 @@ func EndCombo() {
 // Combo is implementation of ImGui::Combo.
 //	id is UI identification
 //	value is position in list strings
-func Combo(id string, value *int, list []string, heightInItems int) bool {
-	var position C.int = (C.int) * value
+func Combo(id string, value *int, list []string) bool {
+	var position C.int = (C.int)(*value)
 	addSyncInt(&position, value) // add pointers C and Go for sync
 	return C.iggCombo(
 		C.CString(id),
-		position,
-		C.CString(strings.Join(list, string(`\x000`))),
-		(C.int)(heightInItems),
-	)
+		&position,
+		C.CString(strings.Join(list, string(byte(0)))+string(byte(0))),
+		(C.int)(len(list)),
+	) != 0
 }
 
 // SliderFlags for DragFloat(), DragInt(), SliderFloat(), SliderInt() etc.

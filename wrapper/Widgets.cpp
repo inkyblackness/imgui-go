@@ -84,7 +84,7 @@ void iggEndCombo(void)
 
 IggBool iggCombo(const char* label, int* current_item, const char* items_separated_by_zeros, int height_in_items)
 {
-   ImGui::Combo(label, current_item, items_separated_by_zeros, height_in_items);
+   return ImGui::Combo(label, current_item, items_separated_by_zeros, height_in_items);
 }
 
 IggBool iggDragFloat(char const *label, float *value, float speed, float min, float max, char const *format, int flags)
