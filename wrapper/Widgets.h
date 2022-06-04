@@ -25,7 +25,7 @@ extern void iggProgressBar(float fraction, IggVec2 const *size, char const *over
 
 extern IggBool iggBeginCombo(char const *label, char const *previewValue, int flags);
 extern void iggEndCombo(void);
-extern IggBool iggCombo(const char* label, int* current_item, const char* items_separated_by_zeros, int height_in_items);
+extern IggBool iggCombo(char const *label, int *currentItem, char const *itemsSeparatedByZeros, int heightInItems);
 
 extern IggBool iggDragFloat(char const *label, float *value, float speed, float min, float max, char const *format, int flags);
 extern IggBool iggDragFloatN(char const *label, float *value, int n, float speed, float min, float max, char const *format, int flags);
