@@ -211,17 +211,21 @@ func EndCombo() {
 	C.iggEndCombo()
 }
 
-// Combo is implementation of ImGui::Combo.
-//	id is UI identification
-//	value is position in list strings
+// Combo calls ComboV(id, value, list, -1).
 func Combo(id string, value *int32, list []string) bool {
+	return ComboV(id, value, list, -1)
+}
+
+// ComboV is a helper over BeginCombo()/EndCombo() which are kept available for convenience purpose.
+// This is analogous to how ListBox are created.
+func ComboV(id string, value *int32, list []string, heightInItems int) bool {
 	valueArg, valueFin := wrapInt32(value)
 	defer valueFin()
 	return C.iggCombo(
 		C.CString(id),
 		valueArg,
 		C.CString(strings.Join(list, string(byte(0)))+string(byte(0))),
-		(C.int)(len(list)),
+		(C.int)(heightInItems),
 	) != 0
 }
 
