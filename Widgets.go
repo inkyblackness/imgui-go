@@ -6,6 +6,7 @@ import "C"
 import (
 	"fmt"
 	"math"
+	"strings"
 )
 
 // Text adds formatted text. See PushTextWrapPosV() or PushStyleColorV() for modifying the output.
@@ -208,6 +209,20 @@ func BeginCombo(label, previewValue string) bool {
 // EndCombo must be called if BeginComboV() returned true.
 func EndCombo() {
 	C.iggEndCombo()
+}
+
+// Combo is implementation of ImGui::Combo.
+//	id is UI identification
+//	value is position in list strings
+func Combo(id string, value *int32, list []string) bool {
+	valueArg, valueFin := wrapInt32(value)
+	defer valueFin()
+	return C.iggCombo(
+		C.CString(id),
+		valueArg,
+		C.CString(strings.Join(list, string(byte(0)))+string(byte(0))),
+		(C.int)(len(list)),
+	) != 0
 }
 
 // SliderFlags for DragFloat(), DragInt(), SliderFloat(), SliderInt() etc.
