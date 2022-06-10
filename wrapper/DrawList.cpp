@@ -150,6 +150,11 @@ IggDrawList iggGetWindowDrawList()
    return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetWindowDrawList()));
 }
 
+IggDrawList iggGetForegroundDrawList()
+{
+   return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetForegroundDrawList()));
+}
+
 IggDrawList iggGetBackgroundDrawList()
 {
    return static_cast<IggDrawList>(const_cast<ImDrawList *>(ImGui::GetBackgroundDrawList()));

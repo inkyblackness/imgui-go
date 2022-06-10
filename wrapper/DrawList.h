@@ -29,6 +29,7 @@ extern void iggPushClipRect(IggDrawList handle, IggVec2 const *min, IggVec2 cons
 extern void iggPopClipRect(IggDrawList handle);
 
 extern IggDrawList iggGetWindowDrawList();
+extern IggDrawList iggGetForegroundDrawList();
 extern IggDrawList iggGetBackgroundDrawList();
 
 #ifdef __cplusplus
