@@ -92,6 +92,11 @@ func WindowDrawList() DrawList {
 	return DrawList(C.iggGetWindowDrawList())
 }
 
+// ForegroundDrawList returns the DrawList for over all windows.
+func ForegroundDrawList() DrawList {
+	return DrawList(C.iggGetForegroundDrawList())
+}
+
 // BackgroundDrawList returns the DrawList for the background behind all windows.
 func BackgroundDrawList() DrawList {
 	return DrawList(C.iggGetBackgroundDrawList())
