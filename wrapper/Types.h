@@ -17,6 +17,7 @@ typedef void *IggDrawList;
 typedef void *IggFontAtlas;
 typedef void *IggFontConfig;
 typedef void *IggFont;
+typedef void *IggFontGlyph;
 typedef void *IggGlyphRanges;
 typedef void *IggGuiStyle;
 typedef void *IggInputTextCallbackData;
