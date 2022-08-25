@@ -83,6 +83,11 @@ IggBool iggIsWindowHovered(int flags)
    return ImGui::IsWindowHovered(flags) ? 1 : 0;
 }
 
+int iggGetKeyIndex(int key)
+{
+    return ImGui::GetKeyIndex(key);
+}
+
 IggBool iggIsKeyDown(int key)
 {
    return ImGui::IsKeyDown(key);

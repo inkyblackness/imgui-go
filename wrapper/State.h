@@ -27,6 +27,7 @@ extern IggBool iggIsWindowCollapsed();
 extern IggBool iggIsWindowFocused(int flags);
 extern IggBool iggIsWindowHovered(int flags);
 
+extern int iggGetKeyIndex(int key);
 extern IggBool iggIsKeyDown(int key);
 extern IggBool iggIsKeyPressed(int key, IggBool repeat);
 extern IggBool iggIsKeyReleased(int key);

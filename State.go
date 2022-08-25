@@ -169,6 +169,11 @@ func IsWindowHovered() bool {
 	return IsWindowHoveredV(HoveredFlagsNone)
 }
 
+// Returns the key index corresponding to an imgui key.
+func GetKeyIndex(key int) int {
+	return int(C.iggGetKeyIndex(C.int(key)))
+}
+
 // IsKeyDown returns true if the corresponding key is currently being held down.
 func IsKeyDown(key int) bool {
 	return C.iggIsKeyDown(C.int(key)) != 0
