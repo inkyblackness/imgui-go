@@ -141,8 +141,8 @@ void iggAddImageQuad(IggDrawList handle, IggTextureID textureID, IggVec2* p1, Ig
   Vec2Wrapper uv3Arg(uv3);
   Vec2Wrapper uv4Arg(uv4);
 
-  ImDrawList* list = reinterpret_cast<ImDrawList *>(handle);
-  list->AddImageQuad(reinterpret_cast<ImTextureID>(textureID), p1Arg*, p2Arg*, p3Arg*, p4Arg*, uv1Arg*, uv2Arg*, uv3Arg*, uv4Arg*, col);
+  ImDrawList *list = reinterpret_cast<ImDrawList *>(handle);
+  list->AddImageQuad(reinterpret_cast<ImTextureID>(textureID), *p1Arg, *p2Arg, *p3Arg, *p4Arg, *uv1Arg, *uv2Arg, *uv3Arg, *uv4Arg, col);
 }
 
 void iggPushClipRect(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, IggBool intersectWithCurrentClipRect)
