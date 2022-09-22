@@ -291,7 +291,17 @@ func (list DrawList) AddImageV(textureID TextureID, posMin Vec2, posMax Vec2, uv
 	C.iggAddImage(list.handle(), C.IggTextureID(textureID), posMinArg, posMaxArg, uvMinArg, uvMaxArg, C.IggPackedColor(tintCol))
 }
 
-func (list DrawList) AddImageQuad(textureID TextureID, p1 Vec2, p2 Vec2, p3 Vec2, p4 Vec2, uv1 Vec2, uv2 Vec2, uv3 Vec2, uv4 Vec2, tintCol PackedColor) {
+// AddImageQuad calls AddImageQuadV(textureID, p1, p2, p3, p4,
+// 		Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 0}, Vec2{X: 1, Y: 1}, Vec2{X: 0, Y: 1},
+//			Packed(color.White)).
+func (list DrawList) AddImageQuad(textureID TextureID, p1 Vec2, p2 Vec2, p3 Vec2, p4 Vec2) {
+	list.AddImageQuadV(textureID, p1, p2, p3, p4,
+		Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 0}, Vec2{X: 1, Y: 1}, Vec2{X: 0, Y: 1},
+		Packed(color.White))
+}
+
+// AddImageQuadV adds an image based on given texture ID, with four UV coordinates.
+func (list DrawList) AddImageQuadV(textureID TextureID, p1 Vec2, p2 Vec2, p3 Vec2, p4 Vec2, uv1 Vec2, uv2 Vec2, uv3 Vec2, uv4 Vec2, tintCol PackedColor) {
 	p1Arg, _ := p1.wrapped()
 	p2Arg, _ := p2.wrapped()
 	p3Arg, _ := p3.wrapped()
