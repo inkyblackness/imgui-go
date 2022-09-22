@@ -291,6 +291,28 @@ func (list DrawList) AddImageV(textureID TextureID, posMin Vec2, posMax Vec2, uv
 	C.iggAddImage(list.handle(), C.IggTextureID(textureID), posMinArg, posMaxArg, uvMinArg, uvMaxArg, C.IggPackedColor(tintCol))
 }
 
+// AddImageQuad calls AddImageQuadV(textureID, p1, p2, p3, p4,
+// 		Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 0}, Vec2{X: 1, Y: 1}, Vec2{X: 0, Y: 1},
+//			Packed(color.White)).
+func (list DrawList) AddImageQuad(textureID TextureID, p1 Vec2, p2 Vec2, p3 Vec2, p4 Vec2) {
+	list.AddImageQuadV(textureID, p1, p2, p3, p4,
+		Vec2{X: 0, Y: 0}, Vec2{X: 1, Y: 0}, Vec2{X: 1, Y: 1}, Vec2{X: 0, Y: 1},
+		Packed(color.White))
+}
+
+// AddImageQuadV adds an image based on given texture ID, with four UV coordinates.
+func (list DrawList) AddImageQuadV(textureID TextureID, p1 Vec2, p2 Vec2, p3 Vec2, p4 Vec2, uv1 Vec2, uv2 Vec2, uv3 Vec2, uv4 Vec2, tintCol PackedColor) {
+	p1Arg, _ := p1.wrapped()
+	p2Arg, _ := p2.wrapped()
+	p3Arg, _ := p3.wrapped()
+	p4Arg, _ := p4.wrapped()
+	uv1Arg, _ := uv1.wrapped()
+	uv2Arg, _ := uv2.wrapped()
+	uv3Arg, _ := uv3.wrapped()
+	uv4Arg, _ := uv4.wrapped()
+	C.iggAddImageQuad(list.handle(), C.IggTextureID(textureID), p1Arg, p2Arg, p3Arg, p4Arg, uv1Arg, uv2Arg, uv3Arg, uv4Arg, C.IggPackedColor(tintCol))
+}
+
 // PushClipRect performs render-level scissoring.
 // It calls PushClipRectV(min, max, false).
 func (list DrawList) PushClipRect(min, max Vec2) {

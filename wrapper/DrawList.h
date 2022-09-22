@@ -24,6 +24,7 @@ extern void iggAddTriangle(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2
 extern void iggAddTriangleFilled(IggDrawList handle, IggVec2 *p1, IggVec2 *p2, IggVec2 *p3, IggPackedColor col);
 extern void iggAddText(IggDrawList handle, IggVec2 const *pos, IggPackedColor col, const char *text, int length);
 extern void iggAddImage(IggDrawList handle, IggTextureID textureID, IggVec2* pMin, IggVec2* pMax, IggVec2* uvMin, IggVec2* uvMax, IggPackedColor col);
+extern void iggAddImageQuad(IggDrawList handle, IggTextureID textureID, IggVec2* p1, IggVec2* p2, IggVec2* p3, IggVec2* p4, IggVec2* uv1, IggVec2* uv2, IggVec2* uv3, IggVec2* uv4, IggPackedColor col);
 
 extern void iggPushClipRect(IggDrawList handle, IggVec2 const *min, IggVec2 const *max, IggBool intersectWithCurrentClipRect);
 extern void iggPopClipRect(IggDrawList handle);
