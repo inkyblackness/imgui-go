@@ -163,6 +163,11 @@ func (atlas FontAtlas) SetTextureID(id TextureID) {
 	C.iggFontAtlasSetTextureID(atlas.handle(), id.handle())
 }
 
+// TextureID returns the renderer-specific texture identifier for the font atlas.
+func (atlas FontAtlas) TextureID() TextureID {
+	return TextureID(C.iggFontAtlasGetTextureID(atlas.handle()))
+}
+
 // Build pixels data. This is called automatically for you by the TextureData*** functions.
 func (atlas FontAtlas) Build() bool {
 	return C.iggFontAtlasBuild(atlas.handle()) != 0
