@@ -163,7 +163,7 @@ func (atlas FontAtlas) SetTextureID(id TextureID) {
 	C.iggFontAtlasSetTextureID(atlas.handle(), id.handle())
 }
 
-func (atlas FontAtlas) GetTextureID() TextureID {
+func (atlas FontAtlas) TextureID() TextureID {
 	return TextureID(C.iggFontAtlasGetTextureID(atlas.handle()))
 }
 

@@ -170,7 +170,7 @@ func IsWindowHovered() bool {
 }
 
 // Returns the key index corresponding to an imgui key.
-func GetKeyIndex(key int) int {
+func KeyIndex(key int) int {
 	return int(C.iggGetKeyIndex(C.int(key)))
 }
 
