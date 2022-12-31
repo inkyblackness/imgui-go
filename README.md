@@ -4,11 +4,13 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/inkyblackness/imgui-go)](https://goreportcard.com/report/github.com/inkyblackness/imgui-go)
 [![Lint Status](https://github.com/inkyblackness/imgui-go/workflows/golangci-lint/badge.svg)](https://github.com/inkyblackness/imgui-go/actions)
 
-## Sunsetting announcement
-**This wrapper is about to be discontinued. Please consider using https://github.com/AllenDang/cimgui-go instead.
+## Discontinued
+**This repository is no longer maintained as per 2022-12-31.
+Please consider using https://github.com/AllenDang/cimgui-go instead.
 That project is an auto-generated wrapper and makes it easier to be at the latest version of *Dear ImGui*.**
 
-**This repository here, along with the examples, is planned to become read-only on 2022-12-31.**
+**You may also have a look at this fork https://github.com/eliasdaler/imgui-go , the owner intended to
+continue to support it.**
 
 ---
 
